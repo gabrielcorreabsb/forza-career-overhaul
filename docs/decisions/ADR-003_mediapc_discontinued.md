@@ -1,7 +1,7 @@
 # ADR-003 — Stop mirroring the install's `mediapc/`
 
 - **Status:** accepted 2026-10-30 (supersedes the earlier mirror step)
-- **Scope:** documented workflow; no script does this anymore
+- **Scope:** documented procedure; no script does this anymore
 
 ## Context
 
@@ -23,7 +23,7 @@ replacement — and the runtime copy is the CmsCache, not the install
 
 **Do not mirror `mediapc/`.** It was discontinued on 2026-10-30: the game does
 not read it. The CmsCache is the only write target, and the mirror step is
-removed from the documented workflow (PIPELINE golden rule 4).
+removed from the documented procedure (PIPELINE golden rule 4).
 
 ## Evidence
 

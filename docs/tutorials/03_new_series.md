@@ -26,7 +26,10 @@ fields are documented in `specs\README.md` — the required ones are:
 
 Event ids are never reused because the save marks completion by
 `EventDataId`; that is the "series already done" bug in `docs\F3_TEMPLATE.md`
-§1.1.
+§1.1. `_TEMPLATE.json` ships with `series.id` 20005 and event ids
+65897914/65897915: on a cache where any of them is taken, `build_series.py`
+stops with `ERROR: series id 20005 already in use` (or the same message for an
+event) — change the ids to free ones before building.
 
 ## 2. Build the kit
 
@@ -46,9 +49,13 @@ ladder/order invariant; it warns about always-denied cars and about an
 acceptlist with no cheap car (`specs\README.md`). It exits 3 when there are
 warnings, and it prints the `plan_lint` command for the next step.
 
-Expected output lines: `cache: … | snapshots: …`, `kit: …`, one block per
-snapshot (`series … -> ladder … | events …`, `XML entry SeriesId=…`,
-`.str + …`) and `plan: … (N targets)`.
+Expected output lines: `cache: <dir> | snapshots: <snap>, <snap>`, `kit: <dir>`,
+one block per snapshot (`<snap>: series <id> -> ladder <id> [<ids>] | events
+[<ids>]`, `XML entry SeriesId=...`, `override ... -> <event>` — one per event,
+`.str + IDS_...`) and a closing
+`plan: <path> (N targets) | M warning(s)` plus a `next:` line with the lint
+command. On `specs\_TEMPLATE.json` that is 8 targets and 1 warning (always-denied
+cars in the showroom acceptlist).
 
 ## 3. Lint and dry-run
 
@@ -60,7 +67,9 @@ python _tools\cache_edit.py --dry-run --plan patches\<kit>\plan.json --cache-dir
 The dry-run is not optional: the apply only accepts a clean dry-run from the
 last 30 minutes for the same plan, payloads and cache state, and it refuses
 while a `forza*` process runs (`docs\en\PIPELINE.md`). Exit code 3 means
-warnings only.
+warnings only. With `specs\_TEMPLATE.json` the dry-run reports
+`alvos avaliados: 10  (alterados: 8, ja corretos: 2, ignorados: 0)`: eight
+targets change and the two event overrides already match.
 
 ## 4. Apply on the copy
 

@@ -1,14 +1,15 @@
-# GT Mode — the common career (the basics)
+# Career basics — the common career
 
-> **Area: carreira comum.** What every ordinary series shares: how the career
+> **Area: common career.** What every ordinary series shares: how the career
 > is modelled, what each layer controls, how the AI is wired in vanilla, and
 > which tool changes what. The multi-class grids are in
 > [CUSTOM_RACE](CUSTOM_RACE.md); the 20004 package is in
 > [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md); the discovery log is in
-> [GT_CAFE](GT_CAFE.md).
+> [DISCOVERIES](DISCOVERIES.md).
 
-Named after Gran Turismo's career mode, the project's inspiration: a ladder of
-leagues you climb. Deeper background: [CONCEPTS](../en/CONCEPTS.md).
+**The design anchor is Forza Motorsport 4**: a ladder of leagues you climb, each
+with the car it asks for. This project rebuilds that shape inside the 2023
+career; deeper background in [CONCEPTS](../en/CONCEPTS.md).
 
 ## 1. The model
 

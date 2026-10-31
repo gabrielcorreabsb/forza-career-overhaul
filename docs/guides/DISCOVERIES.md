@@ -1,16 +1,27 @@
-# GT Café — discoveries, and what they unlock for the Career Overhaul
+# Discoveries — what we learned and what it unlocks
 
 > **Area: all three.** The running log of what we learned, with its evidence and
-> status, plus what each finding makes possible. Read the guide for your area
-> next: [GT_MODE](GT_MODE.md) (common career), [CUSTOM_RACE](CUSTOM_RACE.md)
-> (multi-class grids in any series), [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md)
-> (the series 20004 trackday).
+> status, plus what each finding makes possible. Read next the guide for your
+> area: [CAREER_BASICS](CAREER_BASICS.md) (common career),
+> [CUSTOM_RACE](CUSTOM_RACE.md) (multi-class grids in any series),
+> [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md) (the series 20004 trackday).
 
-Named after Gran Turismo's Café, where the menu books teach you one idea at a
-time. Status: **verified** (seen in game or reproduced by a script),
+Status labels: **verified** (seen in game or reproduced by a script),
 **inferred** (follows from a verified rule), **to test**. Numbers come from
 `python _tools\aifield_survey.py` and the *Test log* in
 [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
+
+## In short
+
+| # | finding | status | detail |
+|---|---|---|---|
+| 1 | The CmsCache is what the game reads at runtime; the install is only a seed | verified | §1 (D1) |
+| 2 | A blob can be rewritten in place: keep the name, update `Size` + `Checksum`, re-encrypt with the current payload as template (Strategy S) | verified | §1 (D2–D4) |
+| 3 | Content the cache never holds — the AI grid XML — can be edited in the install zip, if the zip, the install manifest and both snapshots move together | verified | §1 (D5) |
+| 4 | The AI grid is pinned by the `AIField` XML, not by the series' car list (`AISelectableCars` alone changes nothing) | verified | §1 (D9) |
+| 5 | Two grid modes: a **pool** whose difficulty follows the player's car, and a **fixed list** that pins the classes whatever the player drives | verified | §1 (D13, D18, D21) |
+| 6 | **209 of 711** cars appear in no acceptlist, and E (31/50) and D (50/106) are the worst served — the entry classes are the gap | verified (audit) | §2, [CAREER_AUDIT](../CAREER_AUDIT.md) |
+| 7 | Still open: a lap-time table per class, grids above 24 cars, and whether a fixed list reacts to the player's PI | to test | §3, [OPEN_QUESTIONS](../OPEN_QUESTIONS.md) |
 
 ## 1. Discoveries
 
@@ -65,8 +76,8 @@ time. Status: **verified** (seen in game or reproduced by a script),
 2. **Difficulty curve by design.** The frame band (`−50…−10` today) is the dial:
    a lower band for early leagues, up to `+10` for late ones, without changing
    cars. (D18, D25)
-3. **Gran-Turismo-style progression.** `build_series.py` plus per-series class
-   limits and acceptlists lets each league target one class of the official
+3. **FM4-style progression, built from data.** `build_series.py` plus per-series
+   class limits and acceptlists lets each league target one class of the official
    scale (D → X), with the AI matching it. (D8, D10, D11, D16)
 4. **Themed multi-class events.** Trackday, endurance and showcase events use a
    list with weights; the classes come from the cars. (D21, D22)
@@ -101,7 +112,7 @@ The grid work is closed for now (mc63 active). Left on the table:
 
 | topic | doc |
 |---|---|
-| model, ids, what to touch | [GT_MODE](GT_MODE.md) |
+| model, ids, what to touch | [CAREER_BASICS](CAREER_BASICS.md) |
 | modes, classes, band, recipe, protocol | [CUSTOM_RACE](CUSTOM_RACE.md) |
 | series 20004, kits, switching grids | [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md) |
 | raw survey numbers, per-run test log | [AIFIELD_GRIDS](../AIFIELD_GRIDS.md) |

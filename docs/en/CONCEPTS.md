@@ -2,8 +2,16 @@
 
 > 🌐 [Português](../pt-br/CONCEPTS.md) · **English**
 
-How Forza Motorsport (2023) stores its career, and how this project changes
-it.
+**The goal.** Bring the career of Forza Motorsport (2023) closer to the career
+structure of Forza Motorsport 4: a permanent event list with nothing timed
+(no FOMO), the right car for each event, a denser entry path at classes E and D,
+an AI field that races honestly and one-make series instead of manufacturer
+affinity. Forza Motorsport 4 is a design reference only; nothing from it is
+distributed here.
+
+This page explains how the game stores its career and how this project changes
+it, so the rest of the docs can assume the vocabulary. Every term is defined in
+the [glossary](../GLOSSARY.md); the short version is in §4.
 
 ## 1. Where the game reads content from
 
@@ -67,6 +75,9 @@ flowchart TD
 - Custom ranges: series ≥ 20000, events 65897900–65899999.
 
 ## 4. Glossary
+
+Short version of the terms used on this page. The full list, with a pointer to
+the page that proves each one, is in [GLOSSARY](../GLOSSARY.md).
 
 | term | meaning |
 |---|---|

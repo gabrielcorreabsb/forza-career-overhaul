@@ -310,10 +310,10 @@ errors, conclusion.
 
 ## Next
 
-Guides by area: [GT_MODE](guides/GT_MODE.md) (common career),
+Guides by area: [CAREER_BASICS](guides/CAREER_BASICS.md) (common career),
 [CUSTOM_RACE](guides/CUSTOM_RACE.md) (multi-class grids in any series),
 [CIRCUIT_EXPERIENCE](guides/CIRCUIT_EXPERIENCE.md) (trackday 20004) and the
-findings log [GT_CAFE](guides/GT_CAFE.md).
+findings log [DISCOVERIES](guides/DISCOVERIES.md).
 
 Next kits: `mc63` — an E→P pool with a wide `AIProgressionFrame` band and a
 200–998 window (`mc62` is taken by another experiment), then the behaviour

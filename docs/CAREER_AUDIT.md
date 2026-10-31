@@ -8,6 +8,13 @@ worth fixing.
 Everything is career (championship 500) unless stated. The audit never writes to
 the game: it reads the installed data and regenerates tables.
 
+Three numbers frame the whole project. **209 of 711 cars** appear in no
+acceptlist, and the two entry classes are the worst served (**E 31/50**,
+**D 50/106**) — while the events themselves sit mostly at the top of the scale
+(`TargetPI` 900 and 800 together are 245 of 627 events). A career shaped like
+Forza Motorsport 4 is the opposite: dense at the entry end, with the right car
+for each event. That distance is what this audit measures.
+
 ```powershell
 python _tools\audit_career.py          # rebuild the audit tables
 python _tools\audit_career.py --check  # non-zero if anything is stale

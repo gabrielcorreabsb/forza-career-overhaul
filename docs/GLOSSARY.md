@@ -4,6 +4,25 @@ Terms used across this doc set, in alphabetical order. Definitions are pointers,
 not evidence: the labelled claims, with their reproduction commands, live in the
 page named at the end of each entry.
 
+## At a glance
+
+| term | in one line |
+|---|---|
+| **acceptlist** | the hand-written list of cars a series will field |
+| **AIField** | the XML document that actually pins an AI grid, named per event |
+| **championship** | a root record; 500 is the career, 1 is Featured/Multiplayer |
+| **cup** | the level under the championship; it orders its ladders |
+| **event** | the leaf: one race slot with its track, laps, PI cap and art |
+| **kit** | a mod pack: the plan, its payloads and a note on scope (snapshot-bound) |
+| **ladder** | the level under a cup; it orders its series |
+| **payload** | the encrypted bytes of one logical file (AES-128-CBC over gzip) |
+| **plan** | the list of targets `cache_edit.py` applies |
+| **series** | the level under a ladder; it orders its events and owns the car filter |
+| **snapshot** | one version of the content as delivered by the server |
+| **spec** | `specs/<name>.json`, the declarative description of a new series |
+| **Strategy S** | keep the blob file name, update only `Size` + `Checksum` |
+| **template** | the current encrypted payload, passed to the oracle to keep its settings |
+
 ---
 
 **Acceptlist** — A hand-written list of cars a series will field, held in

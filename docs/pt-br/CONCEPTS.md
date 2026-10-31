@@ -2,8 +2,16 @@
 
 > 🌐 **Português** · [English](../en/CONCEPTS.md)
 
-Como o Forza Motorsport (2023) guarda a carreira e como este projeto a
-modifica.
+**O objetivo.** Aproximar a carreira do Forza Motorsport (2023) da estrutura da
+carreira do Forza Motorsport 4: uma lista de eventos permanente, sem nada com
+prazo (sem FOMO), o carro certo para cada evento, uma entrada mais densa nas
+classes E e D, um grid de IA que corre de forma honesta e séries monomarca no
+lugar de afinidade de fabricante. O Forza Motorsport 4 é só referência de
+design; nada dele é distribuído aqui.
+
+Esta página explica como o jogo guarda a carreira e como este projeto a
+modifica, para que os outros docs possam usar o vocabulário. Todo termo está
+definido no [glossário](../GLOSSARY.md); a versão curta fica no §4.
 
 ## 1. De onde o jogo lê o conteúdo
 
@@ -68,6 +76,9 @@ flowchart TD
 - Faixas custom: séries ≥ 20000, eventos 65897900–65899999.
 
 ## 4. Glossário
+
+Versão curta dos termos usados nesta página. A lista completa, com o ponteiro
+para a página que prova cada um, fica no [GLOSSARY](../GLOSSARY.md).
 
 | termo | significado |
 |---|---|

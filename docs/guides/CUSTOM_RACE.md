@@ -2,13 +2,14 @@
 
 > **Area: multiserie.** Everything about building an AI grid — pool, fixed
 > list, PI per class — that applies to **any** series, not just the trackday.
-> The ordinary-career basics are in [GT_MODE](GT_MODE.md); the series that uses
+> The ordinary-career basics are in [CAREER_BASICS](CAREER_BASICS.md); the series that uses
 > this today is in [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md); raw numbers and
 > the per-run test log are in [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
 
-Named after Gran Turismo's Custom Race, where you build the field yourself.
-Status labels: **verified** (seen in game or reproduced by a script),
-**inferred** (follows from a verified rule), **to test**.
+**FM4 equivalent:** a custom race where you build the field yourself — here it
+is the AI grid of a career series. Status labels: **verified** (seen in game or
+reproduced by a script), **inferred** (follows from a verified rule), **to
+test**.
 
 ## 1. What decides the grid
 

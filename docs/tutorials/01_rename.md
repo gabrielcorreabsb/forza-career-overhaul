@@ -127,6 +127,13 @@ python _tools\cache_edit.py --plan _work\kit_texto\plan.json --cache-dir _work\c
 Expected: lint `ok`, dry-run summary with one changed target per snapshot,
 `verificacao: OK`. Exit code 3 means warnings only.
 
+What a real run prints: `plan_lint` says
+`_work\kit_texto\plan.json: 0 erros, 0 avisos`; the dry-run ends with
+`lint profundo: ok (multiplayer intocado, Strategy S, Size/Checksum)` and
+`alvos avaliados: 2  (alterados: 2, ja corretos: 0, ignorados: 0)` (one target
+per snapshot); the apply ends with `verificacao: OK` and `blobs gravados: 2`.
+`ja corretos` would mean the entry is already in the desired state.
+
 ## 6. For real
 
 Game **closed**, drop `--cache-dir` and `--no-backup` (backup is ON by default;

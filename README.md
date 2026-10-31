@@ -3,9 +3,11 @@
 # Forza Career Overhaul
 
 Tools and documentation to **build your own career mod** for **Forza
-Motorsport (2023, Steam)**, inspired by Gran Turismo's league progression: rename,
-reorder and unlock the career, create new series from a spec, and build AI grids
-that are dynamic and multi-class. It works by editing the game's content cache
+Motorsport (2023, Steam)**, modelled on the career structure of **Forza
+Motorsport 4**: a permanent event list, the right car for each event, a denser
+entry-level career and a more honest AI. Rename, reorder and unlock the career,
+create new series from a spec, and build AI grids that are dynamic and
+multi-class. It works by editing the game's content cache
 (CMS) and one install archive, on **your** machine, with **your** copy of the game.
 Every change is reproducible and reversible (backup before every write, rollback,
 post-write verification).
@@ -24,11 +26,22 @@ post-write verification).
 - The maintainer's private research log, applied-kit history and frozen one-off
   generators. The method they produced is what is documented here.
 
+## What you get
+
+- **A career you can reshape**: rename and reorder cups, ladders and series, and
+  unlock what the game gates ([tutorials 01 and 02](docs/tutorials/01_rename.md)).
+- **New series from a short spec**, with the cars and events you choose
+  ([tutorial 03](docs/tutorials/03_new_series.md)).
+- **Multi-class AI grids** in any series
+  ([tutorial 04](docs/tutorials/04_ai_grid.md)).
+- **A clear map of what the game allows**: what we verified, what we still have
+  to test and where we are heading ([PROJECT_STATUS](docs/PROJECT_STATUS.md)).
+
 ## Prerequisites
 
 - Windows, the game launched at least once (it creates the CmsCache).
-- Python 3.10+ (`pip install -r requirements.txt`) and the .NET SDK named in the
-  `.csproj` files (currently .NET 10).
+- Python 3.10+ (`pip install -r requirements.txt`) and the **.NET 10 SDK** (both
+  oracle projects target `net10.0`).
 - The Forza Mod Tool v1.3.0 and the CMS key, kept locally and git-ignored.
 - Note: the cache oracle needs third-party files you must supply yourself, so a
   fresh clone cannot run `cache_edit.py` until you do
@@ -68,11 +81,10 @@ Everything is mapped in [docs/INDICE.md](docs/INDICE.md); the role of each scrip
 The findings (the CmsCache is what the game runs; AI grids are pinned by an `AIField`
 XML; the AI's PI follows the player through a progression band that can be widened to
 span D to P; real class scale; hidden caps on events) are in
-[GT_CAFE](docs/guides/GT_CAFE.md), with evidence and status. Guides by area:
-[GT_MODE](docs/guides/GT_MODE.md), [CUSTOM_RACE](docs/guides/CUSTOM_RACE.md),
+[DISCOVERIES](docs/guides/DISCOVERIES.md), with evidence and status. Where the
+project is heading: [PROJECT_STATUS](docs/PROJECT_STATUS.md). Guides by area:
+[CAREER_BASICS](docs/guides/CAREER_BASICS.md), [CUSTOM_RACE](docs/guides/CUSTOM_RACE.md),
 [CIRCUIT_EXPERIENCE](docs/guides/CIRCUIT_EXPERIENCE.md).
-Kit ids such as `mc58` that appear in the docs are experiment labels from the
-maintainer's lab; you do not need them.
 
 ## Contributing
 

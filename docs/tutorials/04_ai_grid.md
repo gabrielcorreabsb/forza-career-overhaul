@@ -17,6 +17,14 @@ its own tool:
 | `AISelectableCars.Acceptlist` | `BuildersCupScheduleDataV4.json` (CmsCache) | `cache_edit.py` (Strategy S) |
 | `AIField_117160001_Gen.xml` | group `cfa7698c`, **only in the install zip** | `install_edit.py` — `cache_edit.py` skips it (`[skip]`) |
 
+Unlike `cache_edit.py`, **`install_edit.py` has no sandbox**: it takes no
+`--cache-dir`, and a real apply rewrites the install zip, the install manifest,
+both `prod\` snapshots and `cache-manifest.json` of the **live** game. There is
+no way to rehearse a grid on a copy of the cache; the write-free steps are
+`build_aifield.py --check` and `install_edit.py --dry-run`, and the only test of
+the result is the game itself. The install path comes from `FM_INSTALL`
+(`docs\en\GETTING_STARTED.md` §2).
+
 The BCS alone does **not** change the grid (tested in game: still the donor's
 cars). The XML is what pins the field. That asymmetry is why the mc58 kit
 ships two plans: `plan.json` (complete intention) and `plan_bcs.json` (BCS only,
@@ -57,17 +65,28 @@ car's ladder or the whole survey: `python _tools\aifield_survey.py [--car <id>�
    manifest row points to an existing `AI_` file, and writes
    `patches\<name>\XML.AIField_117160001_Gen.enc`. For custom logic use
    `aifield.rewrite_template` / `aifield.rewrite_list` from `fmlib` directly.
+   `--check` prints the shape of the definition, e.g. for the shipped list:
+
+   ```
+   AI_ index: 541 cars (snapshot 20260923t185113xwyk)
+   trackday_list23: AIDrivatarList | 18 EligibleCars | 18 manifest rows | 23 slots
+   payload: 944 B (current entry 8768 B)
+   check only: nothing written
+   ```
 3. Review the roster against the catalogue and the vetoes
    (`aifield.validate` runs inside the build).
 4. Keep the definition with your notes (roster with class/PI, how to revert).
-5. Apply with the game **closed**:
+5. Apply with the game **closed** (no sandbox: this writes the real install):
    ```powershell
    python _tools\install_edit.py --dry-run --logical AIField_117160001_Gen.xml --payload patches\<kit>\XML.AIField_117160001_Gen.enc
    python _tools\install_edit.py --verify  --logical AIField_117160001_Gen.xml --payload patches\<kit>\XML.AIField_117160001_Gen.enc
    ```
-   It backs up to `_backup\install_<time>`; undo with `--restore` or by applying
-   the previous kit's payload. If the BCS part changed too, also run the usual
-   `plan_lint` → `cache_edit.py --dry-run` → `--verify` loop.
+   The dry-run lists exactly what the apply would write — the install zip, the
+   install manifest, both `prod\<snapshot>` files and `cache-manifest.json` — and
+   ends with `DRY-RUN: nada escrito (marcador valido por 30 min)`. It backs up to
+   `_backup\install_<time>`; undo with `--restore` or by applying the previous
+   kit's payload. If the BCS part changed too, also run the usual `plan_lint` →
+   `cache_edit.py --dry-run` → `--verify` loop.
 6. `python _tools\test_aifield.py` after touching `fmlib.aifield`.
 
 ## Verifying in game

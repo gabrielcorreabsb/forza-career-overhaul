@@ -2,9 +2,10 @@
 
 > **Area: trackday.** The one custom series this project ships today: a single
 > Nordschleife event with a multi-class AI grid. How the grids work in general
-> is in [CUSTOM_RACE](CUSTOM_RACE.md); the basics are in [GT_MODE](GT_MODE.md).
+> is in [CUSTOM_RACE](CUSTOM_RACE.md); the basics are in [CAREER_BASICS](CAREER_BASICS.md).
 
-Named after Gran Turismo's Circuit Experience: pick a circuit, drive it.
+**FM4 equivalent:** pick a circuit, drive it — here one career series, one
+circuit, any class.
 
 ## 1. What it is
 
@@ -77,7 +78,7 @@ Full per-run records: *Test log* in [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
 ## 6. Open for future optimization
 
 The package is **finished and playable** (mc63 active). What is left is tuning,
-listed in [GT_CAFE](GT_CAFE.md) § 3 and [CUSTOM_RACE](CUSTOM_RACE.md) § 9:
+listed in [DISCOVERIES](DISCOVERIES.md) § 3 and [CUSTOM_RACE](CUSTOM_RACE.md) § 9:
 
 - measure real lap times per listed class (pace looked right in play: the faster
   cars pull away from the slower ones, but no table was recorded);

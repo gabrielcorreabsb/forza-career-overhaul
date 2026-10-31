@@ -1,8 +1,8 @@
 <!-- docs_check: historical -->
 # Index: which doc to read for each task
 
-One-page map. Default reading order: `en/PIPELINE.md`, then the doc for your task.
-Overview and findings: [README](../README.md), then `guides/GT_CAFE.md`.
+One-page map. Default reading order: `en/GETTING_STARTED.md`, `en/CONCEPTS.md`, `en/PIPELINE.md`, then the doc for your task.
+Overview and findings: [README](../README.md), then `guides/DISCOVERIES.md`. Where the project is heading: `PROJECT_STATUS.md`.
 
 Bilingual pairs (`pt-br/<DOC>.md` and `en/<DOC>.md`, same file name) exist only for
 the essentials: `PIPELINE`, `GETTING_STARTED`, `CONCEPTS`. Every other doc is
@@ -17,8 +17,9 @@ English-only, a single file under `docs/`.
 | Create a new series, the why of each step | **`F3_TEMPLATE.md`** | canonical checklist: ids, series, ladder, events, overrides, selectable cars, `.str` |
 | Know the role of each script in `_tools/` | **[`../_tools/TOOLS.md`](../_tools/TOOLS.md)** | pipeline / generation / inventory / tests |
 | Know what is NOT in the repo (Forza Mod Tool, key) and how to get it | **`THIRD_PARTY.md`** | third-party material kept out of the repo; licenses in `../LICENSE`, `../LICENSE-DOCS.md`, `../NOTICE.md` |
-| See the findings and what they enable | **`guides/GT_CAFE.md`** | discovery log with status |
-| Common career: model, ids, what to touch with which tool | **`guides/GT_MODE.md`** | the basics, before touching any series |
+| See the findings and what they enable | **`guides/DISCOVERIES.md`** | discovery log with status |
+| See where the project is heading (what exists, what is next) | **`PROJECT_STATUS.md`** | goal, what works today, five findings, now / next / later, how to help |
+| Common career: model, ids, what to touch with which tool | **`guides/CAREER_BASICS.md`** | the basics, before touching any series |
 | Build a multi-class grid in any series | **`guides/CUSTOM_RACE.md`** | modes, class scale, PI band, recipe, test protocol |
 | A trackday series (worked example) | **`guides/CIRCUIT_EXPERIENCE.md`** | the specific package: ids, timeline, which XML is active |
 | Change the AI / grid / roster | **`AIFIELD_GRIDS.md`** | roster = BCS `AISelectableCars` **plus** the install-only `AIField` XML; `TargetPI` rule |

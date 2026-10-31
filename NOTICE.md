@@ -4,7 +4,9 @@
 **Forza Career Overhaul** is an independent, fan-made research project. It is
 **not affiliated with, endorsed by or sponsored by** Microsoft, Xbox Game
 Studios or Turn 10 Studios. *Forza*, *Forza Motorsport* and related names and
-marks are trademarks of Microsoft Corporation.
+marks are trademarks of Microsoft Corporation. Forza Motorsport 4 is cited only
+as a design reference for the career structure; nothing from it is included or
+distributed.
 
 ## What this repository does and does not contain
 

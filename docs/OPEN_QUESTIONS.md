@@ -1,8 +1,10 @@
 # Open questions
 
-Every claim in this doc set that is marked **hypothesis** has an entry below: the
-question, what is known, why it matters and the experiment that would settle it.
-Nothing here is a fact about the game; treat the whole page as work to do.
+These are the questions that controlled in-game tests will settle. Each one has
+what is already known, why the answer matters and a **concrete experiment** that
+decides it. Every claim in this doc set marked **hypothesis** has an entry
+below; nothing here is a fact about the game — treat the whole page as work to
+do.
 
 Scope is the career (championship 500) unless stated. Reproduction and survey
 commands are the ones named in the pages that raise each item.
