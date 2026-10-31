@@ -125,7 +125,7 @@ an exact class). Eligible = acceptlist ∩ class ≤ CR ∩ not vetoed.
 ## 6. F3 ids (do not reuse retired ones)
 
 > Source of truth: `ids.json` (live custom ids + kit metadata) and
-> `patches/ids_retired.json` (retired, hand-edited). `plan_lint` rejects a plan
+> `ids_retired.json` (in the `patches` folder) (retired, hand-edited). `plan_lint` rejects a plan
 > whose `series_id`/`event_id`/`cup_id`/`ladder_id` is retired. Custom
 > `EventDataId` range: **65897900–65899999** (vanilla uses higher ids). The
 > table below is historical.

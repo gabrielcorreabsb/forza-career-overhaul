@@ -63,7 +63,7 @@ flowchart TD
   `RacersCupMetaDataV4.json` and is never touched (`plan_lint` enforces it).
 - Invariants: `ladder.OrderData == ids of its series`, `OrderedEventIds ==
   events` and unique ids. The save marks completion by `EventDataId`, so
-  **event ids are never reused** (`patches/ids_retired.json`).
+  **event ids are never reused** (`ids_retired.json` (in the `patches` folder)).
 - Custom ranges: series ≥ 20000, events 65897900–65899999.
 
 ## 4. Glossary

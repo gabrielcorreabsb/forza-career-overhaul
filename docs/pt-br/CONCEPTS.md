@@ -64,7 +64,7 @@ flowchart TD
 - Invariantes: `ladder.OrderData == ids das suas séries`,
   `OrderedEventIds == eventos` e ids únicos. O save marca conclusão por
   `EventDataId`, então **ids de evento nunca são reutilizados**
-  (`patches/ids_retired.json`).
+  (`ids_retired.json` (na pasta `patches`)).
 - Faixas custom: séries ≥ 20000, eventos 65897900–65899999.
 
 ## 4. Glossário

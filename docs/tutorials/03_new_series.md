@@ -16,7 +16,7 @@ fields are documented in `specs\README.md` — the required ones are:
 | field | rule |
 |---|---|
 | `kit` | output folder name, `patches/<kit>/` |
-| `series.id` | ≥ 20000, never reused (`ids.json`, `patches\ids_retired.json`) |
+| `series.id` | ≥ 20000, never reused (`ids.json`, `ids_retired.json` in the `patches` folder) |
 | `series.name` | displayed pt-BR name (becomes a new `IDS_` key) |
 | `series.donor_series` | shell to clone, recommended 601 |
 | `placement.ladder` | existing ladder id, or `{id, donor, name, cup}` |

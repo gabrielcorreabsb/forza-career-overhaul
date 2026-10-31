@@ -35,7 +35,7 @@ python _tools\rollback_cache.py
 | Apply dies with `WinError 5` halfway | game was running; it locks the cache blobs | close the game, verify the cache, roll back, redo dry-run then apply |
 | Cache inconsistent / `cache_verify.py` reports divergences after an interrupted apply | partial write: blob replaced but `prod\<snapshot>` not updated (or the reverse) | `rollback_cache.py`, then a clean dry-run + apply; re-running the same plan may not converge the already-written entry |
 | New series does not appear in the cup, or the cup will not open | expired `StartEndDate.To`/`CloseTime`, `AIFileName` that does not exist, `ParentGeneratorId` with no data, id missing from the ladder `OrderData` | `9999-12-31 23:59:59.999` dates, donor events + AI from the same track, id at the end of `OrderData` |
-| Series shows as "already completed" right after being added | reused `EventDataId`: the save marks completion per event id | allocate fresh ids in 65897900–65899999; check `ids.json` and `patches/ids_retired.json` (mc50) |
+| Series shows as "already completed" right after being added | reused `EventDataId`: the save marks completion per event id | allocate fresh ids in 65897900–65899999; check `ids.json` and `ids_retired.json` (in the `patches` folder) (mc50) |
 | Series name is a vanilla name, or the art says another series ("CLASSIC ENDURANCE") | not a `.str` bug — poster/banner/intro were inherited from the donor series | neutral poster + `IntroVideoPath: ""` (mc48, mc32) |
 | Title shows a raw `IDS_…` string, or a plain-text title is ignored | `Name` must be an `IDS_` key; the key is missing from `LocStrings_pt-BR.str` | add `IDS_<md5("MC44|label")>` with `str_edit.py` (any length) |
 | "You do not own {0}" names a car you did not expect | without an owned eligible car the game names the **lowest CarId** in the acceptlist, not the cheapest; an empty/invalid list falls back to the MP4/4 (1670) | put a cheap car you own in the acceptlist; ban-check with `denylist.json` |
@@ -101,7 +101,7 @@ Three independent causes were confirmed (mc25, mc31, mc36):
 The player profile marks progress per `EventDataId`, so an event id reused from
 an older kit makes the new series look finished. Allocate ids from the custom
 range 65897900–65899999, check `ids.json` (live ids) and
-`patches/ids_retired.json` (retired), and let `plan_lint.py` reject retired ones
+`ids_retired.json` (in the `patches` folder) (retired), and let `plan_lint.py` reject retired ones
 (mc50 generated 65897910‑12 for series 20003).
 
 ## 4. Name and art

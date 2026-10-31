@@ -42,7 +42,7 @@ referência a partir dela no laboratório privado).
 ## Checks / Checagens
 
 `build_series.py` refuses ids already in use, retired ids
-(`patches/ids_retired.json`), or ids outside the custom ranges. It also refuses
+(`ids_retired.json` (in the `patches` folder)), or ids outside the custom ranges. It also refuses
 an `AIFileName` missing from the manifest and any ladder/order invariant that
 breaks. It warns about always-denied cars and about an acceptlist with no cheap
 car.
