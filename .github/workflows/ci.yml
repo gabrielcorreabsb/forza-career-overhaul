@@ -1,0 +1,26 @@
+name: ci
+
+# Needs neither the game nor the CMS key: only checks that the tools compile
+# and the docs are consistent.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tools compile
+        run: python -m compileall -q _tools
+      - name: Docs consistent
+        run: python _tools/docs_check.py
+      - name: No game data or secrets tracked
+        run: |
+          if git ls-files | grep -iE '\.(enc|dll|exe|str)$|^patches/|^_data/|cms_key|Forza-Mod-Tool'; then
+            echo "forbidden file tracked"; exit 1
+          fi

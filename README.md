@@ -27,7 +27,8 @@ post-write verification).
 ## Prerequisites
 
 - Windows, the game launched at least once (it creates the CmsCache).
-- Python 3.10+ with `pycryptodome`, and the .NET SDK named in the `.csproj` files.
+- Python 3.10+ (`pip install -r requirements.txt`) and the .NET SDK named in the
+  `.csproj` files (currently .NET 10).
 - The Forza Mod Tool v1.3.0 and the CMS key, kept locally and git-ignored.
 - Note: the cache oracle needs third-party files you must supply yourself, so a
   fresh clone cannot run `cache_edit.py` until you do
