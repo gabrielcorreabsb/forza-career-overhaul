@@ -1,0 +1,30 @@
+<!-- docs_check: historical -->
+# Index: which doc to read for each task
+
+One-page map. Default reading order: `en/PIPELINE.md`, then the doc for your task.
+Overview and findings: [README](../README.md), then `guides/GT_CAFE.md`.
+
+Bilingual pairs (`pt-br/<DOC>.md` and `en/<DOC>.md`, same file name) exist only for
+the essentials: `PIPELINE`, `GETTING_STARTED`, `CONCEPTS`. Every other doc is
+English-only, a single file under `docs/`.
+
+| task | doc | why |
+|---|---|---|
+| First time (15 min, on a copy of the cache) | **`en/GETTING_STARTED.md`** ([PT](pt-br/GETTING_STARTED.md)) | requirements, oracles, inventory, dry-run, series from a spec |
+| Understand the cache, Strategy S and the career model | **`en/CONCEPTS.md`** ([PT](pt-br/CONCEPTS.md)) | diagrams and glossary |
+| Apply/revert a mod on the CmsCache | **`en/PIPELINE.md`** ([PT](pt-br/PIPELINE.md)) | golden rules (game closed), `--dry-run` then `--verify`, rollback and verification |
+| Create a new series, the standard way | **[`../specs/README.md`](../specs/README.md)** + `build_series.py` | spec JSON to kit |
+| Create a new series, the why of each step | **`F3_TEMPLATE.md`** | canonical checklist: ids, series, ladder, events, overrides, selectable cars, `.str` |
+| Know the role of each script in `_tools/` | **[`../_tools/TOOLS.md`](../_tools/TOOLS.md)** | pipeline / generation / inventory / tests |
+| Know what is NOT in the repo (Forza Mod Tool, key) and how to get it | **`THIRD_PARTY.md`** | third-party material kept out of the repo; licenses in `../LICENSE`, `../LICENSE-DOCS.md`, `../NOTICE.md` |
+| See the findings and what they enable | **`guides/GT_CAFE.md`** | discovery log with status |
+| Common career: model, ids, what to touch with which tool | **`guides/GT_MODE.md`** | the basics, before touching any series |
+| Build a multi-class grid in any series | **`guides/CUSTOM_RACE.md`** | modes, class scale, PI band, recipe, test protocol |
+| A trackday series (worked example) | **`guides/CIRCUIT_EXPERIENCE.md`** | the specific package: ids, timeline, which XML is active |
+| Change the AI / grid / roster | **`AIFIELD_GRIDS.md`** | roster = BCS `AISelectableCars` **plus** the install-only `AIField` XML; `TargetPI` rule |
+| Rename a game text, step by step | **`tutorials/01_rename.md`** | `.str` via `str_edit.py` plus a `bytes` kit |
+| Reorder cups/ladders/series, step by step | **`tutorials/02_reorder.md`** | `LadderOrderData` / `OrderData` |
+| Create a new series, step by step | **`tutorials/03_new_series.md`** | spec, `build_series.py`, lint, dry-run, apply |
+| Change the AI grid, step by step | **`tutorials/04_ai_grid.md`** | roster summary; detail in `AIFIELD_GRIDS.md` |
+| Symptom to cause to fix | **`TROUBLESHOOTING.md`** | consolidated diagnostics |
+| Understand a project decision | **`decisions/ADR-001_strategy_s.md`**, `decisions/ADR-002_checksum_mapping.md`, `decisions/ADR-003_mediapc_discontinued.md`, `decisions/ADR-004_install_vs_runtime.md`, `decisions/ADR-005_cipher_template.md` | context, decision, consequences |

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>cmsoracle</AssemblyName>
+    <RootNamespace>cmsoracle</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FH6LocalCrypto.Runtime">
+      <HintPath>$(MSBuildThisFileDirectory)..\..\Forza-Mod-Tool-ForzaModToolV1.3.0\lib\FH6LocalCrypto.Runtime.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

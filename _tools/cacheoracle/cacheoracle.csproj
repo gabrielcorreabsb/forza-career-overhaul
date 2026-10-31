@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>cacheoracle</AssemblyName>
+    <RootNamespace>CacheOracle</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS8600;CS8602;CS8603;CS8618;CS0168;CS0219;CS0649;CS8981</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="TOOL\MotorsportGameDb.cs" />
+    <Compile Include="TOOL\MotorsportAssetContainer.cs" />
+    <Compile Include="TOOL\MotorsportCmsCacheContainer.cs" />
+    <Compile Include="TOOL\GameDbContainerFormat.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\fm2023-cms-cache-data.json" LogicalName="FH6LocalCryptoTool.fm2023-cms-cache-data.json" />
+    <EmbeddedResource Include="res\fm2023-cms-cache-mac.json" LogicalName="FH6LocalCryptoTool.fm2023-cms-cache-mac.json" />
+    <EmbeddedResource Include="res\fm2023-data.json" LogicalName="FH6LocalCryptoTool.fm2023-data.json" />
+    <EmbeddedResource Include="res\fm2023-mac.json" LogicalName="FH6LocalCryptoTool.fm2023-mac.json" />
+    <EmbeddedResource Include="res\fm2023-general-data.json" LogicalName="FH6LocalCryptoTool.fm2023-general-data.json" />
+    <EmbeddedResource Include="res\fm2023-general-mac.json" LogicalName="FH6LocalCryptoTool.fm2023-general-mac.json" />
+  </ItemGroup>
+</Project>

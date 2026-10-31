@@ -1,0 +1,26 @@
+{
+  "_doc": "Exemplo/regressao: reproduz byte a byte o BCS/XML/OVR/STR do kit mc55 (serie-treino 20004) a partir do estado pre-mc55. Challenges do mc55 nao fazem parte do build_series.",
+  "kit": "mc55_spec",
+  "title": "Serie-treino 20004 (Nordschleife, 1 volta)",
+  "series": {
+    "id": 20004,
+    "name": "ModCarrera Treino 1 [20004]",
+    "key_label": "Treino 1 [20004]",
+    "donor_series": 11470,
+    "always_open": false,
+    "clear_entry_criteria": false,
+    "deo": {"OpenPracticeInMinutes": 600}
+  },
+  "placement": {"ladder": 22},
+  "events": [
+    {
+      "id": 65897913,
+      "track": 32,
+      "practice_seconds": 36000,
+      "laps": 1,
+      "override": {"donor": 117160001, "class_restriction": 8, "target_pi": 999,
+                   "laps": 1, "pits": 0}
+    }
+  ],
+  "cars": {"acceptlist": "showroom", "class": "Any", "division": "Open"}
+}

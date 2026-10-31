@@ -1,0 +1,18 @@
+{
+  "targets": [
+    {
+      "logical": "BuildersCupScheduleDataV4.json",
+      "group": "14571097C5A44CF4154937B60E5F6DDE",
+      "op": "json",
+      "path": "Championships[0].ChampionshipCupData[1].ChampionshipLadder[0].OrderData",
+      "value": [570, 571, 572, 553, 600]
+    },
+    {
+      "logical": "LocStrings_pt-BR.str",
+      "group": "43EB86E7CF4CBDD6C48905D9A0211FBD",
+      "op": "bytes",
+      "file": "cache_edit_sample_locstrings_pt-BR.enc",
+      "snapshots": ["20260923t185113xwyk"]
+    }
+  ]
+}

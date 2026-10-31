@@ -1,0 +1,44 @@
+# Everything derived from the game is generated locally; never commit it
+_extract/
+_backup/
+_out/
+_work/
+_build/
+_data/
+patches/
+docs/inventario/
+
+# Third party / keys (see docs/THIRD_PARTY.md)
+Forza-Mod-Tool*/
+Forza-Mod-Tool*.zip
+_tools/fmtool/
+_tools/decomp/
+_tools/cacheoracle/TOOL/
+_tools/cacheoracle/res/
+cms_key.hex
+*.key
+*.pem
+.env
+.env.*
+
+# Per-snapshot plain-text copies of game files, test vectors
+*pkod
+*xwyk
+_tools/_t/
+
+# Build outputs
+bin/
+obj/
+__pycache__/
+*.pdb
+.vs/
+
+# Binaries and game data formats
+*.dll
+*.exe
+*.enc
+*.str
+*.sqlite
+*.slt
+
+Thumbs.db

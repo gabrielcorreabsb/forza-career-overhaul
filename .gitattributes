@@ -1,0 +1,8 @@
+# Binarios: nunca diff/merge textual nem conversao de EOL
+*.enc binary
+*.str binary
+*.gz binary
+*.dll binary
+
+# Hooks rodam em sh: CRLF quebra o shebang
+.githooks/* text eol=lf

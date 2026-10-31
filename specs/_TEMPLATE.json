@@ -1,0 +1,25 @@
+{
+  "_doc": "Copie para specs/<nome>.json e ajuste. Campos documentados em specs/README.md. Ids: series >= 20000, eventos 65897900-65899999, nunca reutilizar (patches/ids_retired.json, _data/ids.json). Pistas e doadores: docs/inventario/PISTAS.md. Carros: docs/inventario/CARROS.md.",
+  "kit": "mcNN",
+  "title": "Serie exemplo 20005",
+  "series": {
+    "id": 20005,
+    "name": "ModCarrera Exemplo [20005]",
+    "donor_series": 601,
+    "deo": {}
+  },
+  "placement": {
+    "ladder": {
+      "id": "auto",
+      "donor": 736,
+      "name": "Exemplo [ladder]",
+      "cup": 103
+    }
+  },
+  "events": [
+    {"id": 65897914, "track": 1631, "laps": 3},
+    {"id": 65897915, "track": 32, "laps": 1,
+     "override": {"class_restriction": 8, "target_pi": 999}}
+  ],
+  "cars": {"acceptlist": "showroom", "class": "Any", "division": "Open"}
+}
