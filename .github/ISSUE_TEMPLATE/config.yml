@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Getting started (15 minutes, on a copy of the cache)
+    url: https://github.com/gabrielcorreabsb/forza-career-overhaul/blob/main/docs/en/GETTING_STARTED.md
+    about: Requirements, setup and the first dry-run.
+  - name: Troubleshooting
+    url: https://github.com/gabrielcorreabsb/forza-career-overhaul/blob/main/docs/TROUBLESHOOTING.md
+    about: Symptom, cause, fix.

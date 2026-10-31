@@ -16,6 +16,19 @@ post-write verification).
 > repository contains **our own code and documentation only**. See
 > [NOTICE](NOTICE.md).
 
+## In three steps
+
+1. **Look**: build the two oracles and read your own career data, on a *copy* of
+   the cache ([GETTING_STARTED](docs/en/GETTING_STARTED.md), about 15 minutes).
+2. **Describe**: write a short JSON spec for the series or grid you want.
+3. **Apply**: `--dry-run`, then apply with `--verify`; undo with
+   `rollback_cache.py`. The game stays untouched until step 3 and needs to be
+   closed for it.
+
+Nothing here is a ready-made mod: everything is generated locally from the game
+you own. See [PROJECT_STATUS](docs/PROJECT_STATUS.md) for what works today and what
+comes next.
+
 ## What is NOT in this repository
 
 - No game files or game text, and no mod payloads. Nothing here is a ready-made
@@ -88,7 +101,7 @@ project is heading: [PROJECT_STATUS](docs/PROJECT_STATUS.md). Guides by area:
 
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md). Pull requests are welcome for tools and docs.
+See [CONTRIBUTING](CONTRIBUTING.md), the [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) and [SECURITY](SECURITY.md) (what never to post). History: [CHANGELOG](CHANGELOG.md). Pull requests are welcome for tools and docs.
 This repository is a filtered publication of a private lab, so accepted changes are
 ported there by the maintainer.
 
