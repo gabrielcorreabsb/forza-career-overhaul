@@ -22,8 +22,9 @@ See [THIRD_PARTY](docs/THIRD_PARTY.md).
   game-closed check, `--dry-run`/`--verify`, the plan linter): open an issue with
   the exact command and the last lines of output, without any of the material
   above. Describe the effect rather than attaching files.
-- A flaw you would rather not disclose publicly: open a minimal issue saying you
-  have a security report and ask for a private channel. Do not put details in it.
+- A flaw you would rather not disclose publicly: use **Security → Report a
+  vulnerability** on the repository page (GitHub private vulnerability reporting).
+  Only the maintainer sees it.
 
 ## Supported versions
 

@@ -13,5 +13,5 @@ Motorsport career for everyone who wants one.
   protections.
 
 Maintainers may edit, hide or close contributions that break these rules and may
-block repeat offenders. To report a conduct problem, open a minimal issue asking
-for a private channel, without details.
+block repeat offenders. To report a conduct problem privately, use **Security → Report a vulnerability**
+on the repository page and say it is a conduct report.
