@@ -100,7 +100,7 @@ Exit code **3** é normal: o aviso diz que a acceptlist "showroom" tem carros
 sempre vetados (o jogo os ignora). Exit code 1 com
 `ERROR: series id 20005 already in use` quer dizer que esse id já está em uso no
 seu cache — troque `series.id` (≥ 20000) e `events[].id` (65897900–65899999) por
-ids livres; o registro de ids (`ids.json`, `patches\ids_retired.json`) mostra o
+ids livres; o registro de ids (`ids.json`) mostra o
 que já está em uso.
 
 ## 5. Lint, dry-run e apply na cópia
@@ -154,7 +154,7 @@ guarda (o install fornece); não é erro.
 
 ## 6. Para valer (jogo FECHADO)
 
-Use o seu kit em `patches/` (ver [PIPELINE](PIPELINE.md)) e tire o `--cache-dir`
+Use o kit que você gerou (ver [PIPELINE](PIPELINE.md)) e tire o `--cache-dir`
 e o `--no-backup`:
 
 ```powershell
@@ -175,7 +175,7 @@ desfazer: `python _tools\rollback_cache.py`.
 | `jogo aberto (ForzaMotorsport.exe)` | feche o jogo por completo (só na escrita) |
 | `ERRO: jogo aberto (...)` vindo do `snapshot_cache.py` | idem: a cópia também recusa com o jogo rodando |
 | `cmsoracle.exe not found` | compile os oráculos (passo 2) |
-| `ERROR: series id 20005 already in use` | escolha ids livres (registro de ids: `ids.json`, `patches\ids_retired.json`) |
+| `ERROR: series id 20005 already in use` | escolha ids livres (registro de ids: `ids.json`) |
 | `WinError 5` ao escrever | jogo ou outro processo segurando os arquivos: feche e rode `rollback_cache.py` |
 | `verificacao: FALHOU` | não jogue: restaure com `rollback_cache.py` e abra uma issue com o plano |
 | série crasha ao clicar | falta a entrada no `BCSeriesSelectableCars.xml` (o `build_series` adiciona); ver [TROUBLESHOOTING](../TROUBLESHOOTING.md) (em inglês) |

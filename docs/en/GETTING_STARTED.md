@@ -98,7 +98,7 @@ Exit code **3** is normal: the warning says the showroom acceptlist contains
 always-denied cars (the game skips them). Exit code 1 with
 `ERROR: series id 20005 already in use` means that id is taken in your cache —
 change `series.id` (≥ 20000) and `events[].id` (65897900–65899999) to free ones;
-the id registry (`ids.json`, `patches\ids_retired.json`) lists what is taken.
+the id registry (`ids.json`) lists what is taken.
 
 ## 5. Lint, dry-run, then apply on the copy
 
@@ -151,7 +151,7 @@ supplies them); it is not an error.
 
 ## 6. For real (game CLOSED)
 
-Use your own kit in `patches/` (see [PIPELINE](PIPELINE.md)) and drop
+Use the kit you generated (see [PIPELINE](PIPELINE.md)) and drop
 `--cache-dir` and `--no-backup`:
 
 ```powershell
@@ -172,7 +172,7 @@ last clean dry-run for that exact plan is older than 30 minutes. To undo:
 | `jogo aberto (ForzaMotorsport.exe)` | close the game completely (writes only) |
 | `ERRO: jogo aberto (...)` from `snapshot_cache.py` | same: the copy also refuses while the game runs |
 | `cmsoracle.exe not found` | build the oracles (step 2) |
-| `ERROR: series id 20005 already in use` | pick free ids (id registry: `ids.json`, `patches\ids_retired.json`) |
+| `ERROR: series id 20005 already in use` | pick free ids (id registry: `ids.json`) |
 | `WinError 5` while writing | the game or another process holds the files: close it, then `rollback_cache.py` |
 | `verificacao: FALHOU` | do not play: restore with `rollback_cache.py` and open an issue with the plan |
 | series crashes when clicked | missing `BCSeriesSelectableCars.xml` entry; `build_series` adds it. See [TROUBLESHOOTING](../TROUBLESHOOTING.md) |
