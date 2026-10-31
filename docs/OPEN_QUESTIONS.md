@@ -194,11 +194,11 @@ difference tells which.
 
 ## 12. Why are cups 100 and 2 pinned first?
 
-**Question.** Cups 100 and 2 always come first on the cup screen, and no data
-list orders the cups. What decides their position?
+**Question.** Cups 100 and 2 always come first on the cup screen, while the
+other cups follow the cup array. What pins those two?
 
-**What we know.** **verified** — reordering the cup array does not move them;
-the order is code-side. **hypothesis** — they are the "intro" cups by id, or
+**What we know.** **verified** — reordering the cup array does not move them,
+but it does reorder every cup after them (`CAREER_MODEL.md` §1.3). **hypothesis** — they are the "intro" cups by id, or
 they are pinned by the build to guarantee a starting point.
 
 **Why it matters.** A custom cup can never be promoted to the first slot, which

@@ -127,16 +127,16 @@ Per-cup lap totals in this copy:
   converted without a lap-time table the data does not have.
   *How to reproduce:* the same command.
 
-- **observed** — Cup 99 alone is 787 of 1241 laps (63%) while the custom cup 103
-  is a single lap. Combined with §6.6 finding 1, two thirds of the career's lap
-  volume is behind an expired cup. *How to reproduce:* the same command; compare
-  the cup 99 total with the expired rows.
+- **observed** — Cup 99 alone is 787 of 1241 laps (63%) over its 20 ladders,
+  while the custom cup 103 is a single lap. Only one of those ladders is expired
+  (§6.6 finding 1), worth **19 laps (1.5%)**; the rest of cup 99 is reachable.
+  *How to reproduce:* the same command; sum the laps of the ladder-763 rows.
 
 ## 6.6 Findings
 
 | # | finding | status | why it matters |
 |---|---|---|---|
-| 1 | Ladder **763** and its **7 series** in cup 99 ("Open Class Tour") are expired at **2025-06-25** and should be hidden | **observed**, main finding | 63% of the career's laps and a whole cup are unreachable; the cup is absent from the cup screen in game |
+| 1 | Ladder **763** and its **7 series** in cup 99 ("Open Class Tour") are expired at **2025-06-25** | **verified** (data) | 19 laps (1.5%) unreachable; it is an older copy of ladder 764 ("Open Class Tour", live in cup 2), so the content itself is not lost. Cup 99 stays on the cup screen |
 | 2 | Two events carry `ClassRestriction` 5 (ceiling 800 / S) with `TargetPI` 900 | **verified** (data) | the two gates disagree; which one wins is untested (`OPEN_QUESTIONS.md`) |
 | 3 | `FeatureRace.Laps` disagrees with the event's `NumberOfRequiredLaps` on 600 of 627 events, while `TargetPI` agrees 627/627 | **observed**, unresolved | the race length may come from either copy; an experiment is proposed |
 | 4 | The **career** series record has no `SeriesRules` field (the Featured record does) | **verified** | rules shown by the UI for some series have no storage in the career schema |
@@ -161,8 +161,9 @@ Per-cup lap totals in this copy:
   (`CAREER_MODEL.md` §1.8).
 - It does not convert laps to minutes and does not rank cars by pace: no lap
   times are stored (`OPEN_QUESTIONS.md`).
-- It does not describe championship 1: multiplayer content is out of scope by
-  construction (`CAREER_MODEL.md` part 2).
+- It does not audit championship 1 series by series: the Featured/Multiplayer
+  side is described structurally in `CAREER_MODEL.md` part 2 and
+  `SCHEMA_REFERENCE.md` part 2, and it is never modified.
 
 ## See also
 

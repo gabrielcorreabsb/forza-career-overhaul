@@ -80,11 +80,12 @@ python _tools\audit_career.py   # career audit tables; --check fails if stale
 
 ## 1.3 Cup screen order
 
-- **verified** — The cup screen shows cups **100** and **2** first, then the
-  remaining cups in an order that does not come from a data list. Cup order is
-  therefore **code-side**, not data-side: editing cup order in the data does not
-  move those two. *How to reproduce:* permute the cup array and the visible cup
-  order stays as it was; only renaming/expiring a cup changes what appears.
+- **verified** — The cup screen shows cups **100** and **2** first (pinned
+  code-side), then the remaining cups **in the order of the cup array**. So the
+  rule is `[100, 2] + rest of the array`: the tail is permutable from the data,
+  the first two are not. *How to reproduce:* permute the cup array after the
+  first two entries, apply, and reload the cup screen; the tail follows the
+  array, cups 100 and 2 stay first.
 
 ## 1.4 Visibility gating
 
@@ -93,8 +94,11 @@ python _tools\audit_career.py   # career audit tables; --check fails if stale
   cup level. *How to reproduce:* `python _tools\audit_career.py`, then apply the
   same change and reload the cup screen.
 
-- **observed** — Emptying or expiring every series of a cup makes the whole cup
-  disappear from the screen (seen with the Open Class Tour, §1.9).
+- **verified** — Expiring every ladder/series chain of a cup makes the whole cup
+  disappear from the screen, and un-expiring one ladder plus one of its series
+  brings it back (seen with cup 102: its ladder and series were un-expired and
+  the cup reappeared). *How to reproduce:* set `CloseTime` of a cup's only
+  ladder and series to a sentinel date, apply, reload the cup screen.
 
 ## 1.5 Ids
 
@@ -173,11 +177,11 @@ python _tools\audit_career.py   # career audit tables; --check fails if stale
   **2025-06-25**; anything bounded by it is past its window.
   *How to reproduce:* the same command; the series in that bucket carry that date.
 
-- **observed** (audit finding) — In the live copy, ladder **763** and its **7
-  series** in cup **99** ("Open Class Tour") are still expired at 2025-06-25,
-  so they should be hidden. This is the main finding of `CAREER_AUDIT.md`.
-  *How to reproduce:* `python _tools\audit_career.py --check` flags it; the cup
-  is absent from the cup screen in game.
+- **verified** (audit finding) — In the live copy, ladder **763** and its **7
+  series** in cup **99** ("Open Class Tour") are still expired at 2025-06-25.
+  It is an older copy of ladder 764 (same name, live in cup 2); cup 99 itself
+  stays visible through its other ladders (§1.4).
+  *How to reproduce:* `python _tools\audit_career.py --check` flags it.
 
 ## 1.10 Series type
 
