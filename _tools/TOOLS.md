@@ -30,6 +30,7 @@ Role of each script. Everything here runs against **your** game install and cach
 | script | what it does |
 |---|---|
 | `inventory.py` | generates the inventories of your game; `--check` says whether they are stale |
+| `audit_career.py` | read-only audit of your game's career and Featured data; writes `docs/audit/*` and `docs/data/*`; `--check` says whether they are stale |
 | `cms_state.py` | install vs cache state snapshots |
 | `aifield_survey.py` | read-only survey of the vanilla AIFields and the `AI_<car>_<pi>` ladders (`--car <id>` shows one ladder) |
 
