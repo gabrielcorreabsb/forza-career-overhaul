@@ -35,17 +35,17 @@ acceptlist series typically sets its class requirement to any. Contrast
 **AIField** — The asset document that actually pins an AI grid, named per event
 override by `AIFileName`. Two kinds: `AIDrivatarTemplate` (a PI window plus a
 pool, filled to the slot count) and `AIDrivatarList` (an explicit car per slot).
-→ `AI_AND_GRIDS.md` §4.1–4.2
+→ `AI_GRIDS.md` §1–2
 
 **`AIProgressionFrame`** — One frame inside a field document's
 `DrivatarProgressionFrames` block, carrying a `PlayerPIRelativeToClass` value
 and a lower/upper offset. The pool is drawn relative to the player's car in the
 range of the active frame.
-→ `AI_AND_GRIDS.md` §4.5
+→ `AI_GRIDS.md` §5
 
 **`AI_<car>_<pi>`** — Naming pattern of the AI-only cars: a catalogue car with a
 PI suffix, one file per class step. 541 exist, 508 are usable in a field.
-→ `AI_AND_GRIDS.md` §4.3
+→ `AI_GRIDS.md` §3
 
 **Blocklist** — A series' deny list of cars, used together with a fixed class
 and no acceptlist. Mutually exclusive with the acceptlist mode in this data.
@@ -92,7 +92,7 @@ appears. It is a ceiling, not an allowed set.
 **`ContentManifest`** — The list inside a field document that maps the document's
 car entries to their AI car files. Rows pointing at a file that no longer exists
 break the field.
-→ `AI_AND_GRIDS.md` §4.2
+→ `AI_GRIDS.md` §2
 
 **Cup** — The level under the championship; it sequences its ladders through
 `cup.LadderOrderData`. 7 in the career (6 vanilla + 1 custom).
@@ -105,7 +105,7 @@ player/AI counts and the session defaults.
 
 **`EligibleCars`** — In a template document, the pool the PI window draws from.
 In a list document its role is unproven.
-→ `AI_AND_GRIDS.md` §4.2, `OPEN_QUESTIONS.md` 5
+→ `AI_GRIDS.md` §2, `OPEN_QUESTIONS.md` 5
 
 **`EventDataId`** — The event id. Custom events use 65897900–65899999; ids are
 opaque and are never reused.
@@ -129,7 +129,7 @@ only the player's locale needs the new entry.
 outside the group the career data belongs to (the AI field document is the known
 case). It needs an install-level writer, and a file verification or a new
 snapshot reverts it.
-→ `AI_AND_GRIDS.md` §4.1
+→ `AI_GRIDS.md` §1
 
 **Kit** — A mod pack: the intended changes plus their packaged payloads and a
 short note on scope and how to reapply. A kit is bound to the data snapshot it
@@ -146,7 +146,7 @@ display order.
 
 **`NumberOfDrivatars`** — The slot count a field document asks for. 23 in the
 productive documents, matching the 23 AI + 1 player ceiling.
-→ `AI_AND_GRIDS.md` §4.2
+→ `AI_GRIDS.md` §2
 
 **`NumberOfRequiredLaps`** — The lap count on the event record. Career events
 run 1–4 laps. It disagrees with the override's `FeatureRace.Laps` on 600 of 627
@@ -177,7 +177,7 @@ on this scale; use the class id.
 
 **`PlayerPIRelativeToClass`** — The lower/upper offset pair in a progression
 frame, applied to the player's car PI to define where the pool is drawn from.
-→ `AI_AND_GRIDS.md` §4.5
+→ `AI_GRIDS.md` §5
 
 **`PointSpread`** — The points-per-position table. One constant 24-value table
 on every event in this data.
@@ -231,9 +231,9 @@ editing one without the other leaves the series listing cars it will not accept.
 **Warm-up run** — The first race after a grid change, which is suspected to
 reuse the previous cars with recomputed PI, so the new roster only shows from
 the second run on.
-→ `AI_AND_GRIDS.md` §4.7, `OPEN_QUESTIONS.md` 7
+→ `AI_GRIDS.md` §5, `OPEN_QUESTIONS.md` 7
 
 ## See also
 
-`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_AND_GRIDS.md` ·
+`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_GRIDS.md` ·
 `DATA_REFERENCE.md` · `CAREER_AUDIT.md` · `OPEN_QUESTIONS.md`

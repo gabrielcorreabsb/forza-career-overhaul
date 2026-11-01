@@ -208,5 +208,5 @@ Underlying totals used by those tables:
 
 ## See also
 
-`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_AND_GRIDS.md` ·
+`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_GRIDS.md` ·
 `CAREER_AUDIT.md` · `GLOSSARY.md`

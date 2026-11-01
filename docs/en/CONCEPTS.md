@@ -11,7 +11,7 @@ distributed here.
 
 This page explains how the game stores its career and how this project changes
 it, so the rest of the docs can assume the vocabulary. Every term is defined in
-the [glossary](../GLOSSARY.md); the short version is in §4.
+the [glossary](../reference/GLOSSARY.md); the short version is in §4.
 
 ## 1. Where the game reads content from
 
@@ -77,7 +77,7 @@ flowchart TD
 ## 4. Glossary
 
 Short version of the terms used on this page. The full list, with a pointer to
-the page that proves each one, is in [GLOSSARY](../GLOSSARY.md).
+the page that proves each one, is in [GLOSSARY](../reference/GLOSSARY.md).
 
 | term | meaning |
 |---|---|

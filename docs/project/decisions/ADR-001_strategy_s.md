@@ -6,7 +6,7 @@
 ## Context
 
 In the CmsCache a blob file is named after the SHA-256 of its content
-(`<bucket>\<SHA256HEX>`, see [CONCEPTS](../en/CONCEPTS.md) §1). That name is
+(`<bucket>\<SHA256HEX>`, see [CONCEPTS](../../en/CONCEPTS.md) §1). That name is
 therefore a *content hash*, not a stable identifier: any edit to an entry inside
 the blob changes the blob's bytes and breaks the `name == sha256(content)`
 relation.
@@ -39,13 +39,13 @@ and every untouched entry inside the same blob stay byte-identical.
 
 - The game accepts a blob whose name no longer matches its content: every apply
   from the proof of concept onwards used Strategy S and loaded in-game. See the
-  [PIPELINE](../en/PIPELINE.md) table entry for `blob`.
+  [PIPELINE](../../en/PIPELINE.md) table entry for `blob`.
 - Keeping `Path`/`Id` is safe because `Id` is opaque; only `Size`/`Checksum`
   describe the payload (`Size` = encrypted payload length, `Checksum` = base64
   SHA-256 of the encrypted payload).
 - `cache_verify.py` walks every entry after each apply and reports `Size`,
   `Checksum`, blob↔manifest consistency and per-snapshot divergences; every
-  accepted apply ended with 0 errors ([PIPELINE](../en/PIPELINE.md)
+  accepted apply ended with 0 errors ([PIPELINE](../../en/PIPELINE.md)
   "Post-write verification").
 - `patches/ledger.jsonl` records each real apply, which is what made the
   "same-shape blobs, two snapshots" problem visible in the first place.

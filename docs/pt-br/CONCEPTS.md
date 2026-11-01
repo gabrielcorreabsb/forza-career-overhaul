@@ -11,7 +11,7 @@ design; nada dele é distribuído aqui.
 
 Esta página explica como o jogo guarda a carreira e como este projeto a
 modifica, para que os outros docs possam usar o vocabulário. Todo termo está
-definido no [glossário](../GLOSSARY.md); a versão curta fica no §4.
+definido no [glossário](../reference/GLOSSARY.md); a versão curta fica no §4.
 
 ## 1. De onde o jogo lê o conteúdo
 
@@ -78,7 +78,7 @@ flowchart TD
 ## 4. Glossário
 
 Versão curta dos termos usados nesta página. A lista completa, com o ponteiro
-para a página que prova cada um, fica no [GLOSSARY](../GLOSSARY.md).
+para a página que prova cada um, fica no [GLOSSARY](../reference/GLOSSARY.md).
 
 | termo | significado |
 |---|---|

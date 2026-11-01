@@ -17,14 +17,14 @@ Uma página, do plano ao cache verificado. Formatos e modelo de dados ficam no
 4. **Não espelhe `mediapc/`.** O jogo não lê `mediapc/`; a única fonte é o
    CmsCache (regra 2).
 5. **Nunca commitar** a chave AES do CMS, o Forza Mod Tool ou arquivos do jogo.
-   O repo é público; o `.gitignore` e o `docs/THIRD_PARTY.md` dizem o que fica
+   O repo é público; o `.gitignore` e o `docs/project/THIRD_PARTY.md` dizem o que fica
    só local.
 
 ## Pré-requisitos
 
 Python 3, o .NET 10 SDK e os oráculos compilados. Os oráculos também dependem do
 runtime e das tabelas do Forza-Mod-Tool v1.3.0, que você mantém localmente (fora
-do repo): veja [THIRD_PARTY](../THIRD_PARTY.md).
+do repo): veja [THIRD_PARTY](../project/THIRD_PARTY.md).
 
 ```powershell
 dotnet build _tools\cmsoracle\cmsoracle.csproj -c Release
@@ -106,7 +106,7 @@ muda só o que vai dentro do plano.
 
 - **Série nova:** caminho padrão = spec + `build_series.py` (`specs/README.md`);
   passo a passo no [tutorial 03](../tutorials/03_new_series.md). A receita e os
-  porquês estão no [F3_TEMPLATE](../F3_TEMPLATE.md): ids novos
+  porquês estão no [SERIES_CHECKLIST](../reference/SERIES_CHECKLIST.md): ids novos
   (`ChampionshipSeriesId` ≥ 20000, `EventDataId` 65897900–65899999, nunca
   reusar), série + `OrderData` do ladder, eventos + `BCEventOverrides`, entrada
   em `BCSeriesSelectableCars.xml` (sem ela o clique crasha) e chave `IDS_` nova
@@ -123,10 +123,10 @@ muda só o que vai dentro do plano.
   manifesto do install e as 2 snapshots de `prod\` + `cache-manifest.json`
   juntos — e, ao contrário do `cache_edit.py`, não tem sandbox
   (`--cache-dir`): um apply real toca o install real. Ver
-  [AIFIELD_GRIDS](../AIFIELD_GRIDS.md) e
+  [AI_GRIDS](../guides/AI_GRIDS.md) e
   [CUSTOM_RACE](../guides/CUSTOM_RACE.md).
 
-Sintomas e causas já vistas: [TROUBLESHOOTING](../TROUBLESHOOTING.md).
+Sintomas e causas já vistas: [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md).
 
 ## Verificação pós-escrita
 

@@ -3,7 +3,7 @@
 This page is a map, not the manual. The guide for this topic is
 [`guides/CUSTOM_RACE.md`](../guides/CUSTOM_RACE.md) (modes, class scale, recipe,
 test protocol). The model, the XML structure, the survey
-numbers and the per-car evidence live in `docs\AIFIELD_GRIDS.md`; read it before
+numbers and the per-car evidence live in `AI_GRIDS.md`; read it before
 touching a grid. The mc58 kit (23-car roster) is the worked example
 (maintainer's lab).
 
@@ -35,10 +35,10 @@ the one `cache_edit.py` applies).
 | mode | you get | PI of each AI car |
 |---|---|---|
 | `AIDrivatarTemplate` — **pool** | up to `NumberOfDrivatars` cars drawn from `EligibleCars` | the PI window (shared) |
-| `AIDrivatarList` — **fixed list** | exactly the cars you list, in order; repeat a car to weight it | its lowest `AI_` file (large speed gap between classes) |
+| `AIDrivatarList` — **fixed list** | a weighted random draw from the cars you list (not the slot order); repeat a car to weight it | its lowest `AI_` file (large speed gap between classes) |
 
 Both are documented, with vanilla counts and the open questions, in
-`AIFIELD_GRIDS.md` § *Pool vs fixed list*.
+`AI_GRIDS.md` §4.
 
 ## Before you build a roster
 
@@ -93,7 +93,7 @@ car's ladder or the whole survey: `python _tools\aifield_survey.py [--car <id>�
 
 Enter the series and read the grid: the AI cars should be the ones in your
 roster, and there should be no CMS error or empty career menu. For a pool, open
-the event several times and note whether the grid is re-drawn. Record each run in
-`AIFIELD_GRIDS.md` § *Test log*. If the field still shows the donor's cars, the
+the event several times and note whether the grid is re-drawn. Write each run down with your kit (player car and PI, the cars and PIs
+seen, CMS errors). If the field still shows the donor's cars, the
 install XML was reverted (Steam "verify files", new snapshot) — run
 `install_edit.py` again.

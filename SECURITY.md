@@ -14,7 +14,7 @@ stores no user data, so "security" here means two things.
 If you posted one by mistake in an issue or PR, edit it out and tell us in the
 same thread; we will remove the content from the history we control. If a key or
 tool leaks, it is the rights holders' material: we do not host or mirror it.
-See [THIRD_PARTY](docs/THIRD_PARTY.md).
+See [THIRD_PARTY](docs/project/THIRD_PARTY.md).
 
 ## Reporting a problem in the tools
 

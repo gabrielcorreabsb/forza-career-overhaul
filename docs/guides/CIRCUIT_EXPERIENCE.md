@@ -73,12 +73,12 @@ mc61 run 1, player Toyota GR86 '22 (PI 404, C): the AI grid held D (Nova '69,
 354), C (RX-7 462, S2000 405), B (WRX 507), A (M3 '10 657, 718 GTS 608, C8 678),
 S (GT-R NISMO 722, NSX 731, 911 GT3 '21 737, GT3 RS 23 783) and R (AMG GT 801).
 mc60 runs 2–3: a different set each time, always 10–50 PI below the player.
-Full per-run records: *Test log* in [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
+The model behind these runs: [AI_GRIDS](AI_GRIDS.md); the maintainer's lab keeps the per-run test log.
 
 ## 6. Open for future optimization
 
 The package is **finished and playable** (mc63 active). What is left is tuning,
-listed in [DISCOVERIES](DISCOVERIES.md) § 3 and [CUSTOM_RACE](CUSTOM_RACE.md) § 9:
+listed in [DISCOVERIES](../project/DISCOVERIES.md) § 3 and [CUSTOM_RACE](CUSTOM_RACE.md) § 9:
 
 - measure real lap times per listed class (pace looked right in play: the faster
   cars pull away from the slower ones, but no table was recorded);

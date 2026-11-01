@@ -1,6 +1,6 @@
 ﻿import os, json, zipfile, hashlib, base64, subprocess
 CACHE = os.path.join(os.environ["LOCALAPPDATA"], r"Microsoft.ForzaMotorsport\CmsCache")
-ROOT  = r"E:\Projetos\ForzaMods\carrer"
+ROOT  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ORACLE = os.path.join(ROOT, r"_tools\cacheoracle\bin\Release\net10.0\cacheoracle.exe")
 CMS_ORACLE = os.path.join(ROOT, r"_tools\cmsoracle\bin\Release\net10.0\cmsoracle.exe")
 W = os.path.join(ROOT, "_out", "verify"); os.makedirs(W, exist_ok=True)

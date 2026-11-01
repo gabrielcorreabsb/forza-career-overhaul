@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: ascii -*-
-"""aifield_survey.py - READ-ONLY survey behind docs/AIFIELD_GRIDS.md.
+"""aifield_survey.py - READ-ONLY survey behind docs/guides/AI_GRIDS.md.
 
 Counts the AIField_*.xml documents in the install zip (group CFA7698C) and the
 AI_<car>_<pi>.xml ladders of the live snapshot, so every number in the docs can

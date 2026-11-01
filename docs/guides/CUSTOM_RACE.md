@@ -3,8 +3,8 @@
 > **Area: multiserie.** Everything about building an AI grid — pool, fixed
 > list, PI per class — that applies to **any** series, not just the trackday.
 > The ordinary-career basics are in [CAREER_BASICS](CAREER_BASICS.md); the series that uses
-> this today is in [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md); raw numbers and
-> the per-run test log are in [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
+> this today is in [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md); the model, the
+> survey numbers and the build recipe are in [AI_GRIDS](AI_GRIDS.md).
 
 **FM4 equivalent:** a custom race where you build the field yourself — here it
 is the AI grid of a career series. Status labels: **verified** (seen in game or
@@ -103,7 +103,7 @@ run the tool again.
 Three runs per kit, ideally with player cars of different classes. Record per
 run: player car/PI, the 23 AI cars with their listed class/PI, repeats, whether
 the grid changed, grid size, CMS errors, and the first-lap pace of a few cars.
-Add the entry to the *Test log* in [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
+Keep the record with your kit (the maintainer's lab keeps the per-run test log the same way).
 
 ## 9. Open questions and future optimization
 

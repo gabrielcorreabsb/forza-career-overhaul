@@ -1,111 +1,131 @@
 <!-- docs_check: historical -->
 <!-- Public README. Source: publish/public/README.md in the private lab; validated by publish.py in the export. -->
-# Forza Career Overhaul
+<p align="center">
+  <img src="assets/project_logo.svg" alt="Career Overhaul for Forza Motorsport" width="620">
+</p>
 
-Tools and documentation to **build your own career mod** for **Forza
-Motorsport (2023, Steam)**, modelled on the career structure of **Forza
-Motorsport 4**: a permanent event list, the right car for each event, a denser
-entry-level career and a more honest AI. Rename, reorder and unlock the career,
-create new series from a spec, and build AI grids that are dynamic and
-multi-class. It works by editing the game's content cache
-(CMS) and one install archive, on **your** machine, with **your** copy of the game.
-Every change is reproducible and reversible (backup before every write, rollback,
-post-write verification).
+<p align="center">
+  <b>Build your own career mod for Forza Motorsport (2023, Steam)</b><br>
+  modelled on the career of Forza Motorsport 4 — generated on your machine, from the game you own
+</p>
 
-> Independent fan project, not affiliated with Microsoft or Turn 10. This
-> repository contains **our own code and documentation only**. See
-> [NOTICE](NOTICE.md).
+<p align="center">
+  <a href="docs/en/GETTING_STARTED.md">Get started</a> ·
+  <a href="docs/reference/MODDING_SURFACE.md">What can be changed</a> ·
+  <a href="docs/project/PROJECT_STATUS.md">Project status</a> ·
+  <a href="docs/INDICE.md">All docs</a> ·
+  <a href="docs/pt-br/GETTING_STARTED.md">Português</a>
+</p>
 
-## In three steps
+---
 
-1. **Look**: build the two oracles and read your own career data, on a *copy* of
-   the cache ([GETTING_STARTED](docs/en/GETTING_STARTED.md), about 15 minutes).
-2. **Describe**: write a short JSON spec for the series or grid you want.
-3. **Apply**: `--dry-run`, then apply with `--verify`; undo with
-   `rollback_cache.py`. The game stays untouched until step 3 and needs to be
-   closed for it.
+## What this is
 
-Nothing here is a ready-made mod: everything is generated locally from the game
-you own. See [PROJECT_STATUS](docs/PROJECT_STATUS.md) for what works today and what
-comes next.
+Tools and documentation to reshape the career of Forza Motorsport (2023): a
+**permanent event list**, the **right car for each event**, a denser **entry
+path** at classes E and D, a **race weekend** where practice sets the grid, and
+**multi-class AI grids** that race honestly. Rename, reorder and unlock the
+career, create new series from a short JSON spec, and build AI grids.
 
-## What is NOT in this repository
+Everything works by editing the game's content cache (and, for AI grids, one
+install archive) **on your machine**, with your copy of the game. Every change
+is reproducible and reversible: lint, mandatory dry-run, automatic backup,
+post-write verification and rollback.
 
-- No game files or game text, and no mod payloads. Nothing here is a ready-made
-  mod you can drop in: you generate your own from the game you own.
-- No CMS key and none of the [Forza Mod Tool](https://github.com/HTTPJXRDN/Forza-Mod-Tool)
-  (it declares no license, so we do not redistribute any of it). You obtain both
-  yourself: [THIRD_PARTY](docs/THIRD_PARTY.md).
-- The maintainer's private research log, applied-kit history and frozen one-off
-  generators. The method they produced is what is documented here.
+> Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
+> brand. This repository contains **our own code and documentation only** — no
+> game files, no game text, no mod payloads. See [NOTICE](NOTICE.md).
 
-## What you get
+## At a glance
 
-- **A career you can reshape**: rename and reorder cups, ladders and series, and
-  unlock what the game gates ([tutorials 01 and 02](docs/tutorials/01_rename.md)).
-- **New series from a short spec**, with the cars and events you choose
-  ([tutorial 03](docs/tutorials/03_new_series.md)).
-- **Multi-class AI grids** in any series
-  ([tutorial 04](docs/tutorials/04_ai_grid.md)).
-- **A clear map of what the game allows**: what we verified, what we still have
-  to test and where we are heading ([PROJECT_STATUS](docs/PROJECT_STATUS.md)).
+| you want to… | status | start here |
+|---|---|---|
+| rename, reorder or unlock cups, ladders and series | verified in game | [tutorial 01](docs/tutorials/01_rename.md) · [tutorial 02](docs/tutorials/02_reorder.md) |
+| create a new series from a spec | verified in game | [tutorial 03](docs/tutorials/03_new_series.md) · [SERIES_CHECKLIST](docs/reference/SERIES_CHECKLIST.md) |
+| build a multi-class AI grid that follows the player | verified in game | [tutorial 04](docs/tutorials/04_ai_grid.md) · [AI_GRIDS](docs/guides/AI_GRIDS.md) |
+| let practice set the starting grid | verified in game | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
+| change weather, time of day, tyres or fuel per event | mapped, to test | [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
+| know what is career-only, global or out of reach | mapped | [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 
-## Prerequisites
+## Start in three steps
 
-- Windows, the game launched at least once (it creates the CmsCache).
-- Python 3.10+ (`pip install -r requirements.txt`) and the **.NET 10 SDK** (both
-  oracle projects target `net10.0`).
-- The Forza Mod Tool v1.3.0 and the CMS key, kept locally and git-ignored.
-- Note: the cache oracle needs third-party files you must supply yourself, so a
-  fresh clone cannot run `cache_edit.py` until you do
-  ([THIRD_PARTY](docs/THIRD_PARTY.md)).
+1. **Look** — build the two oracles and read your own career data on a *copy*
+   of the cache: [GETTING_STARTED](docs/en/GETTING_STARTED.md) (about 15
+   minutes, never touches the game).
+2. **Describe** — write a short JSON spec for the series or grid you want
+   ([specs/README.md](specs/README.md), [specs/_TEMPLATE.json](specs/_TEMPLATE.json)).
+3. **Apply** — `--dry-run`, then apply with `--verify` with the game closed;
+   undo with `rollback_cache.py` ([PIPELINE](docs/en/PIPELINE.md)).
+
+```powershell
+python _tools\inventory.py                                   # your own game data, read-only
+python _tools\build_series.py --spec specs\<name>.json       # spec -> kit
+python _tools\cache_edit.py --dry-run --plan patches\<kit>\plan.json
+python _tools\cache_edit.py --plan patches\<kit>\plan.json --verify
+python _tools\rollback_cache.py                              # undo the last apply
+```
+
+### Prerequisites
+
+- Windows, with the game launched at least once (it creates the CmsCache).
+- Python 3.10+ (`pip install -r requirements.txt`) and the .NET 10 SDK (the two
+  oracles target `net10.0`).
+- The CMS key and the third-party files the cache oracle needs, obtained by you
+  and kept git-ignored: [THIRD_PARTY](docs/project/THIRD_PARTY.md). A fresh clone
+  cannot run `cache_edit.py` until you supply them.
+
+## Documentation
+
+| folder | what is inside |
+|---|---|
+| [`docs/en/`](docs/en/GETTING_STARTED.md) · [`docs/pt-br/`](docs/pt-br/GETTING_STARTED.md) | **Start**: getting started, concepts (cache, Strategy S, career model), the apply pipeline |
+| [`docs/tutorials/`](docs/tutorials/01_rename.md) | **Step by step**: rename, reorder, new series, AI grid |
+| [`docs/guides/`](docs/guides/CAREER_BASICS.md) | **By goal**: career basics, AI grids, custom multi-class races, a worked trackday series, troubleshooting |
+| [`docs/reference/`](docs/reference/MODDING_SURFACE.md) | **The format**: what can be modded, career model, race system, cars and PI, field-by-field schema, data reference, series checklist, glossary |
+| [`docs/data/`](docs/data/ENUMS.md) | **Tables** generated from your game: cars, tracks, classes and enum values |
+| [`docs/project/`](docs/project/PROJECT_STATUS.md) | **The project**: status and roadmap, discoveries, open questions, career audit, decision records, third-party material |
+
+The full map, by task: [docs/INDICE.md](docs/INDICE.md). The role of each
+script: [_tools/TOOLS.md](_tools/TOOLS.md).
 
 ## Golden rules
 
-1. **Game CLOSED** before any cache write. The game locks the files; a write
+1. **Game closed** before any cache write. The game locks the files; a write
    while it is open leaves the cache inconsistent.
-2. The runtime source is the **CmsCache** under
-   `%LOCALAPPDATA%\Microsoft.ForzaMotorsport\CmsCache\`, not the install folder.
+2. The runtime source is the **CmsCache**
+   (`%LOCALAPPDATA%\Microsoft.ForzaMotorsport\CmsCache\`), not the install
+   folder.
 3. Always `--dry-run` first, then apply with `--verify`. Every apply backs up
-   first. Tools refuse to run if you skip these.
-4. Never commit the key, the Forza Mod Tool or copies of game files.
+   first; the tools refuse to run if you skip these.
+4. Never commit the key, third-party tools or copies of game files.
+5. Nothing here changes online play: the project only touches what the career
+   reads. Global switches, physics and the account economy are out of scope.
 
 Modding violates the game's Terms of Use and may get you banned from online
 features. Use it at your own risk.
 
-## Create your own mod
+## What is not in this repository
 
-1. Read [GETTING_STARTED](docs/en/GETTING_STARTED.md) (15 minutes, on a **copy**
-   of the cache), then [CONCEPTS](docs/en/CONCEPTS.md) and [PIPELINE](docs/en/PIPELINE.md).
-   Portuguese versions are in `docs/pt-br/`.
-2. Generate your inventories from your own game: `python _tools\inventory.py`.
-3. Write a series spec (`specs/README.md`, start from `specs/_TEMPLATE.json`) and run
-   `python _tools\build_series.py --spec specs\<name>.json` to produce your kit.
-4. Apply it: `python _tools\cache_edit.py --dry-run --plan patches\<kit>\plan.json`, then
-   the same without `--dry-run` and with `--verify`. Undo with `python _tools\rollback_cache.py`.
-5. AI grids live in the install: see the AI grid tutorial and
-   [AIFIELD_GRIDS](docs/AIFIELD_GRIDS.md), applied with `_tools\install_edit.py`.
-
-Everything is mapped in [docs/INDICE.md](docs/INDICE.md); the role of each script is in
-[_tools/TOOLS.md](_tools/TOOLS.md).
-
-## What we learned
-
-The findings (the CmsCache is what the game runs; AI grids are pinned by an `AIField`
-XML; the AI's PI follows the player through a progression band that can be widened to
-span D to P; real class scale; hidden caps on events) are in
-[DISCOVERIES](docs/guides/DISCOVERIES.md), with evidence and status. Where the
-project is heading: [PROJECT_STATUS](docs/PROJECT_STATUS.md). Guides by area:
-[CAREER_BASICS](docs/guides/CAREER_BASICS.md), [CUSTOM_RACE](docs/guides/CUSTOM_RACE.md),
-[CIRCUIT_EXPERIENCE](docs/guides/CIRCUIT_EXPERIENCE.md).
+- Game files, game text or mod payloads: you generate your own kits from the
+  game you own.
+- The CMS key and any part of the
+  [Forza Mod Tool](https://github.com/HTTPJXRDN/Forza-Mod-Tool) (it declares no
+  license, so nothing of it is redistributed): [THIRD_PARTY](docs/project/THIRD_PARTY.md).
+- The maintainer's private research log, applied-kit history and one-off
+  generators. The method they produced is what is documented here.
 
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md), the [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) and [SECURITY](SECURITY.md) (what never to post). History: [CHANGELOG](CHANGELOG.md). Pull requests are welcome for tools and docs.
-This repository is a filtered publication of a private lab, so accepted changes are
-ported there by the maintainer.
+Run the pipeline on a copy and report what breaks, build a series nobody tried,
+or settle an [open question](docs/project/OPEN_QUESTIONS.md) — each names the
+experiment that decides it. See [CONTRIBUTING](CONTRIBUTING.md), the
+[CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) and [SECURITY](SECURITY.md) (what never to
+post). History: [CHANGELOG](CHANGELOG.md).
+
+This repository is a filtered publication of a private lab; accepted changes
+are ported there by the maintainer.
 
 ## License
 
 Code: [MIT](LICENSE). Documentation: [CC BY 4.0](LICENSE-DOCS.md). Third-party
-material is not covered and not distributed: [THIRD_PARTY](docs/THIRD_PARTY.md).
+material is not covered and not distributed: [THIRD_PARTY](docs/project/THIRD_PARTY.md).

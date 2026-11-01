@@ -5,7 +5,7 @@
 Cross-checks the raw career data - decrypted through inventory.load_live /
 dec_json, never through _data/ - against the generated inventories, and writes:
 
-  docs/audit/series.csv        one row per championship-500 series with every
+  docs/audit/SERIES_TABLE.md   one row per championship-500 series with every
                                variable kept by the raw BCS (raw OrderData,
                                gates, expiry, PI band, AI roster, laps, grid,
                                practice), not the normalized career.json order
@@ -23,8 +23,9 @@ dec_json, never through _data/ - against the generated inventories, and writes:
                                portability column; plus BCS-vs-_data drift
   docs/data/CARS.md            PUBLIC, English: car list (usable/denied/swap)
   docs/data/TRACKS.md          PUBLIC, English: track layouts + event counts
+  docs/data/ENUMS.md           PUBLIC, English: car classes + enum values seen
 
-`docs/SCHEMA_REFERENCE.md` is a prose doc owned by the docs agent: this script
+`docs/reference/SCHEMA_REFERENCE.md` is a prose doc owned by the docs agent: this script
 never writes, overwrites or checks it.
 
 READ-ONLY: never writes to the game cache, the install, _data/ or patches/.
@@ -60,6 +61,7 @@ import inventory  # noqa: E402  (reuse load_live/dec_json: same sources/rules)
 from cms_crypto import cms_decrypt  # noqa: E402
 from str_edit import StrTable  # noqa: E402
 from fmlib import bcs as fbcs  # noqa: E402
+from fmlib import mdtable  # noqa: E402
 from fmlib import cars as fcars  # noqa: E402
 from fmlib import ids as fids  # noqa: E402
 from fmlib import strs as fstrs  # noqa: E402
@@ -1328,7 +1330,7 @@ def series_rules_facts(model, ctx):
 
 # --------------------------------------------------------------------------- #
 # rendering: docs/audit/SCHEMA_OBSERVED.md (private)
-#            (docs/SCHEMA_REFERENCE.md is a prose doc owned by the docs agent -
+#            (docs/reference/SCHEMA_REFERENCE.md is a prose doc owned by the docs agent -
 #             this script never writes or checks it)
 # --------------------------------------------------------------------------- #
 def md_table_catalog(tab):
@@ -1760,12 +1762,13 @@ def series_rows(model, ctx, res):
 
 
 def csv_text(rows):
-    buf = io.StringIO()
-    writer = csv.DictWriter(buf, fieldnames=CSV_COLS, lineterminator="\n")
-    writer.writeheader()
-    for row in rows:
-        writer.writerow(row)
-    return buf.getvalue()
+    """A tabela por serie como .md (o repo guarda tabelas em .md, nunca .csv)."""
+    lines = ["# Series table", "",
+             "> Gerado por audit_career.py - nao editar. Uma linha por serie "
+             "do championship 500.", ""]
+    lines += mdtable.table(CSV_COLS, [[row.get(c, "") for c in CSV_COLS]
+                                      for row in rows])
+    return "\n".join(lines) + "\n"
 
 
 # --------------------------------------------------------------------------- #
@@ -1776,7 +1779,7 @@ def md_series(model, ctx, res, rows):
     L += ["Championship %d (carreira) apenas. Championship 1 (multiplayer/"
           "Featured) nao vive neste arquivo: catalogo de campos, contagens e "
           "portabilidade em `SCHEMA_OBSERVED.md`. Contagens vanilla x custom e "
-          "divergencias: `CUPS.md`. Planilha completa: `series.csv`."
+          "divergencias: `CUPS.md`. Tabela completa: `SERIES_TABLE.md`."
           % CHAMPIONSHIP_CAREER, "",
           "Colunas do CSV alem de identidade: `car_class`/`pi_min`/`pi_max` + "
           "`car_list_type`/`car_list_n` (`SelectableCars`: `Acceptlist` = so "
@@ -2083,6 +2086,87 @@ def md_tracks_public(model, ctx):
 
 
 # --------------------------------------------------------------------------- #
+# rendering: docs/data/ENUMS.md (PUBLIC, English)
+# --------------------------------------------------------------------------- #
+# Enum-typed fields worth knowing when writing a spec or a plan. Only the
+# identifiers and how often each appears are published; no strings, no values.
+ENUM_KEYS = ("GameMode", "AIDifficulty", "DamageDifficulty",
+             "QualificationLimitType", "SeriesType", "TireCompoundGroupType",
+             "TireSubCompoundType", "MaxPlayers", "CarDivisionId",
+             "AmountType")
+ENUM_XML_ATTRS = ("BlackOrWhitelistType", "SeverityType", "TireCompound",
+                  "Ownership", "Tuning", "Upgrades")
+# Game class scale (verified in game, see docs/guides/AI_GRIDS.md section 3).
+CLASS_BANDS = {0: "0-300", 1: "301-400", 2: "401-500", 3: "501-600",
+               4: "601-700", 5: "701-800", 6: "801-900", 7: "901-998",
+               8: "999"}
+
+
+def _walk_enums(node, where, out):
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k in ENUM_KEYS and isinstance(v, str) and v \
+                    and re.match(r"^[A-Za-z][A-Za-z0-9_]*$", v):
+                out[(k, v)][where] += 1
+            else:
+                _walk_enums(v, where, out)
+    elif isinstance(node, list):
+        for v in node:
+            _walk_enums(v, where, out)
+
+
+def md_enums_public(ctx):
+    out = collections.defaultdict(collections.Counter)
+    sources = []
+    if ctx.get("bcs"):
+        _walk_enums(ctx["bcs"], "career", out)
+        sources.append("career schedule")
+    if ctx.get("override_list"):
+        _walk_enums(ctx["override_list"], "career overrides", out)
+        sources.append("career overrides")
+    fser = [s["raw"] for s in (ctx.get("featured") or {}).get("series") or []
+            if s.get("raw")]
+    if fser:
+        _walk_enums(fser, "Featured", out)
+        sources.append("Featured series")
+    if ctx.get("flags"):
+        _walk_enums(ctx["flags"], "client flags", out)
+        sources.append("client feature flags")
+    if ctx.get("xml_text"):
+        for attr in ENUM_XML_ATTRS:
+            for v in re.findall(r'%s="([A-Za-z][A-Za-z0-9_]*)"' % attr,
+                                ctx["xml_text"]):
+                out[(attr, v)]["car registry"] += 1
+        sources.append("car registry")
+    cols = ["career", "career overrides", "Featured", "client flags",
+            "car registry"]
+    L = md_header("Enums and classes", ctx, public=True)
+    L += ["> Which identifiers each enum-typed field takes in your own game "
+          "data, and how often. Use them when writing a spec or a plan; a "
+          "value that never appears here is untested.",
+          "> Read from: %s." % (", ".join(sources) or "nothing (offline)"),
+          "> Reproduce: `python _tools/inventory.py` then "
+          "`python _tools/audit_career.py`.", "",
+          "## Car classes", "",
+          "| CarClassId | class | game PI band |",
+          "|---:|:-:|---|"]
+    for cid in sorted(CLASSES):
+        L.append("| %d | %s | %s |" % (cid, CLASSES[cid],
+                                       CLASS_BANDS.get(cid, "?")))
+    L += ["", "## Enum fields", "",
+          "Counts are occurrences per source (`-` = not present there).", "",
+          "| field | value | " + " | ".join(cols) + " |",
+          "|---|---|" + "---:|" * len(cols)]
+    for (field, value) in sorted(out, key=lambda kv: (kv[0].lower(),
+                                                      kv[1].lower())):
+        c = out[(field, value)]
+        L.append("| `%s` | `%s` | %s |" % (
+            field, value,
+            " | ".join(str(c[k]) if c[k] else "-" for k in cols)))
+    return L
+
+
+# --------------------------------------------------------------------------- #
 # context (live cache, offline fallback) and main
 # --------------------------------------------------------------------------- #
 DATA_FILES = ("career", "ladders", "tracks", "track_events", "posters",
@@ -2154,6 +2238,8 @@ def build_ctx(args):
             ctx["deny_raw"] = list(deny.get("DeniedCars") or [])
         ctx["featured"] = load_featured(payloads)
         ctx["ftue"] = load_ftue(payloads)
+        ctx["flags"] = payload_json(payloads,
+                                    "ClientFeatureFlagConfiguration.json")
         if XML_LOGICAL in payloads:
             try:
                 raw_xml = cms_decrypt(payloads[XML_LOGICAL]).decode("utf-8-sig")
@@ -2190,7 +2276,7 @@ def build_ctx(args):
 def render(ctx, counts, diverg, res, rows, tables):
     model = ctx["model"]
     files = collections.OrderedDict()
-    files[os.path.relpath(os.path.join(AUDIT_DIR, "series.csv"), ROOT)] = \
+    files[os.path.relpath(os.path.join(AUDIT_DIR, "SERIES_TABLE.md"), ROOT)] = \
         csv_text(rows)
     files[os.path.relpath(os.path.join(AUDIT_DIR, "SERIES.md"), ROOT)] = \
         "\n".join(md_series(model, ctx, res, rows)) + "\n"
@@ -2203,7 +2289,9 @@ def render(ctx, counts, diverg, res, rows, tables):
         "\n".join(md_cars_public(ctx["cars"], ctx)) + "\n"
     files[os.path.relpath(os.path.join(PUBLIC_DIR, "TRACKS.md"), ROOT)] = \
         "\n".join(md_tracks_public(model, ctx)) + "\n"
-    # docs/SCHEMA_REFERENCE.md is a prose doc of the docs agent: never written,
+    files[os.path.relpath(os.path.join(PUBLIC_DIR, "ENUMS.md"), ROOT)] = \
+        "\n".join(md_enums_public(ctx)) + "\n"
+    # docs/reference/SCHEMA_REFERENCE.md is a prose doc of the docs agent: never written,
     # never checked here.
     return files
 

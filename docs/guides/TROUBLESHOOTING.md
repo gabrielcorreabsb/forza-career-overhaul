@@ -4,9 +4,9 @@ Symptom → cause → fix for the failures already seen while building career
 mods. This page is a router: every entry points to the doc that explains the
 reasoning, so read that one before changing anything.
 
-Canonical references: [PIPELINE](en/PIPELINE.md) (apply rules and guards),
-[CONCEPTS](en/CONCEPTS.md) (glossary), `F3_TEMPLATE.md` (new-series
-checklist), `AIFIELD_GRIDS.md` (AI roster). Evidence logs are kept in the
+Canonical references: [PIPELINE](../en/PIPELINE.md) (apply rules and guards),
+[CONCEPTS](../en/CONCEPTS.md) (glossary), `SERIES_CHECKLIST.md` (new-series
+checklist), `AI_GRIDS.md` (AI roster). Evidence logs are kept in the
 maintainer's lab.
 
 ## 0. Before diagnosing
@@ -40,7 +40,7 @@ python _tools\rollback_cache.py
 | Title shows a raw `IDS_…` string, or a plain-text title is ignored | `Name` must be an `IDS_` key; the key is missing from `LocStrings_pt-BR.str` | add `IDS_<md5("MC44|label")>` with `str_edit.py` (any length) |
 | "You do not own {0}" names a car you did not expect | without an owned eligible car the game names the **lowest CarId** in the acceptlist, not the cheapest; an empty/invalid list falls back to the MP4/4 (1670) | put a cheap car you own in the acceptlist; ban-check with `denylist.json` |
 | No eligible car at all, though the list looks right | acceptlist larger than the vanilla maximum (23 entries; one block had 682) — the selection layer drops/truncates it | reduce the acceptlist to ≤23 ids in the BCS **and** the XML, on both snapshots |
-| AI grid uses the donor's cars | `AISelectableCars` empty in the BCS, and the field is really pinned by `AIField_117160001_Gen.xml`, which is not in the CmsCache | set `AISelectableCars` **and** write the XML with `install_edit.py` — see `AIFIELD_GRIDS.md` |
+| AI grid uses the donor's cars | `AISelectableCars` empty in the BCS, and the field is really pinned by `AIField_117160001_Gen.xml`, which is not in the CmsCache | set `AISelectableCars` **and** write the XML with `install_edit.py` — see `AI_GRIDS.md` |
 | `install_edit.py` dies with `WinError 5` writing the zip | the install denies DELETE to the user, so a rename-over (`os.replace`) fails | current `install_edit.py` rewrites the file in place; make sure the game is closed and re-run |
 | AI grid went back to the old cars after it worked | Steam "verify files" or a new server snapshot restored the install zip / manifests | re-run `install_edit.py` with the kit's payload |
 | Career menu empty or CMS error after an install edit | zip/manifest/prod checksums out of step, or a payload the game rejects | `install_edit.py --restore _backup\install_<time>`, then re-run `cache_verify.py` |
@@ -59,7 +59,7 @@ The career screen builds its car-selection widget from
 you click it. The vanilla series 11520 had the same gap. Fix = clone the block
 of a working series, keep the acceptlist mirrored with
 `SelectableCars.BlockOrAcceptlist`, and increment `ArrayLength` (mc40; steps in
-`F3_TEMPLATE.md` §1 item 6).
+`SERIES_CHECKLIST.md` §1 item 6).
 
 ### 2.2 `WinError 5` during an apply
 
@@ -78,7 +78,7 @@ The first time this happened the apply left the old snapshot's blob written but
 its `prod\` manifest untouched. Re-running the plan skipped that blob as
 "identical" and did not converge the manifest, so a repair pass was needed by
 hand. Treat any interrupted apply as "cache state unknown" and start from the
-backup. See [PIPELINE](en/PIPELINE.md) golden rule 1.
+backup. See [PIPELINE](../en/PIPELINE.md) golden rule 1.
 
 ## 3. The series exists but is invisible or unplayable
 
@@ -121,7 +121,7 @@ entry is usually art, not text.
 
 ## 5. Car eligibility and the suggested car
 
-Confirmed rules (mc49/mc51/mc52, `F3_TEMPLATE.md` §4):
+Confirmed rules (mc49/mc51/mc52, `SERIES_CHECKLIST.md` §4):
 
 - The series requires an **owned** eligible car. Without one, the message
   `IDS_BuildersCup_MissingCarForRewardShowcase` names the car with the **lowest
@@ -147,7 +147,7 @@ BCS change, and why the mc58 kit carries two plans (`plan.json` with the
 intention, `plan_bcs.json` with what `cache_edit.py` can actually write); the XML
 is written by `install_edit.py`. Rules for
 car eligibility, `TargetPI` mapping and `AI_<car>_<pi>.xml` coverage are in
-`AIFIELD_GRIDS.md`. Do not duplicate them here.
+`AI_GRIDS.md`. Do not duplicate them here.
 
 ## 7. Guard refusals
 

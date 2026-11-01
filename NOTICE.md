@@ -18,7 +18,7 @@ distributed.
 - It contains **no third-party binaries, no decompiled third-party code and no
   encryption keys**. The CMS AES key and the Forza Mod Tool material must be
   obtained by you, from the original source, for your own use. See
-  [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md).
+  [docs/project/THIRD_PARTY.md](docs/project/THIRD_PARTY.md).
 - It contains **no mod payloads**: kits are generated on your machine, from
   your own copy of the game, and are git-ignored. The game data they derive
   from belongs to its rights holders.

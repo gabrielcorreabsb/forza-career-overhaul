@@ -4,7 +4,7 @@ How the single-player career of Forza Motorsport (FM8) is assembled from data:
 three championships in three documents, four nested levels, id rules, text
 keys, gates and expiry.
 Read this first; per-field detail is in `RACE_SYSTEM.md`, the car/PI layer in
-`CARS_AND_PI.md`, the AI layer in `AI_AND_GRIDS.md` and the numbers in
+`CARS_AND_PI.md`, the AI layer in `AI_GRIDS.md` and the numbers in
 `DATA_REFERENCE.md`.
 
 ## Scope and evidence
@@ -243,7 +243,7 @@ content — not the reverse.
 | `SeriesRules` enum | not viable | the career series record has no such field (verified, §1.11) |
 | `Challenges` block | not viable | the career series record has no such field (verified) |
 | `CarRestrictionNames` on the event | not viable | the career gates cars by `SelectableCars` + `TargetPI`, never by name (verified) |
-| AI field pinned by an `AIField` document | partial | the roster document lives outside the career data and is named per override, so it needs the same install-level writer (verified, `AI_AND_GRIDS.md`) |
+| AI field pinned by an `AIField` document | partial | the roster document lives outside the career data and is named per override, so it needs the same install-level writer (verified, `AI_GRIDS.md`) |
 | Featured rewards and progression surface | not viable | the reward/progression surface belongs to the Featured build; moving a series into the career tree does not bring it along (hypothesis) |
 | gates that reference Featured ladders | not viable | requirement ids would point into a tree the career does not contain (hypothesis, follows from §1.8) |
 
@@ -256,7 +256,7 @@ partial or not viable are hypotheses about the Featured build and are listed in
 
 - `RACE_SYSTEM.md` — event/override fields, laps, practice, classes, series defaults.
 - `CARS_AND_PI.md` — class scale, acceptlists, coverage, disposal.
-- `AI_AND_GRIDS.md` — the two AI roster targets.
+- `AI_GRIDS.md` — the two AI roster targets.
 - `DATA_REFERENCE.md` — field counts, id ranges, derived tables.
 - `CAREER_AUDIT.md` — the audit findings, including the expired-cup find.
 - `GLOSSARY.md` — every term used above.

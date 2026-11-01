@@ -6,7 +6,7 @@ labels: bug
 
 **Never attach** game files, `.enc` payloads, inventories generated from your
 game, the CMS key or anything from the Forza Mod Tool. Paste short text output
-instead. See docs/THIRD_PARTY.md.
+instead. See docs/project/THIRD_PARTY.md.
 
 **Command you ran** (exact):
 

@@ -2,14 +2,14 @@
 
 > **Area: all three.** The running log of what we learned, with its evidence and
 > status, plus what each finding makes possible. Read next the guide for your
-> area: [CAREER_BASICS](CAREER_BASICS.md) (common career),
-> [CUSTOM_RACE](CUSTOM_RACE.md) (multi-class grids in any series),
-> [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md) (the series 20004 trackday).
+> area: [CAREER_BASICS](../guides/CAREER_BASICS.md) (common career),
+> [CUSTOM_RACE](../guides/CUSTOM_RACE.md) (multi-class grids in any series),
+> [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) (the series 20004 trackday).
 
 Status labels: **verified** (seen in game or reproduced by a script),
 **inferred** (follows from a verified rule), **to test**. Numbers come from
-`python _tools\aifield_survey.py` and the *Test log* in
-[AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
+`python _tools\aifield_survey.py` and the in-game runs summarised in
+[AI_GRIDS](../guides/AI_GRIDS.md) (the per-run log stays in the maintainer's lab).
 
 ## In short
 
@@ -20,8 +20,8 @@ Status labels: **verified** (seen in game or reproduced by a script),
 | 3 | Content the cache never holds — the AI grid XML — can be edited in the install zip, if the zip, the install manifest and both snapshots move together | verified | §1 (D5) |
 | 4 | The AI grid is pinned by the `AIField` XML, not by the series' car list (`AISelectableCars` alone changes nothing) | verified | §1 (D9) |
 | 5 | Two grid modes: a **pool** whose difficulty follows the player's car, and a **fixed list** that pins the classes whatever the player drives | verified | §1 (D13, D18, D21) |
-| 6 | **209 of 711** cars appear in no acceptlist, and E (31/50) and D (50/106) are the worst served — the entry classes are the gap | verified (audit) | §2, [CAREER_AUDIT](../CAREER_AUDIT.md) |
-| 7 | Still open: a lap-time table per class, grids above 24 cars, and whether a fixed list reacts to the player's PI | to test | §3, [OPEN_QUESTIONS](../OPEN_QUESTIONS.md) |
+| 6 | **209 of 711** cars appear in no acceptlist, and E (31/50) and D (50/106) are the worst served — the entry classes are the gap | verified (audit) | §2, [CAREER_AUDIT](CAREER_AUDIT.md) |
+| 7 | Still open: a lap-time table per class, grids above 24 cars, and whether a fixed list reacts to the player's PI | to test | §3, [OPEN_QUESTIONS](OPEN_QUESTIONS.md) |
 
 ## 1. Discoveries
 
@@ -29,10 +29,10 @@ Status labels: **verified** (seen in game or reproduced by a script),
 
 | # | finding | status | evidence | unlocks |
 |---|---|---|---|---|
-| D1 | The CmsCache is the runtime source; the install is only a seed | verified | [ADR-004](../decisions/ADR-004_install_vs_runtime.md) | edit one copy, with a small blast radius |
-| D2 | Strategy S: keep the blob name, update only `Size`+`Checksum` | verified | [ADR-001](../decisions/ADR-001_strategy_s.md) | in-place edits the game accepts |
-| D3 | Entries are matched by `Checksum`, never by name/mtime (two snapshots) | verified | [ADR-002](../decisions/ADR-002_checksum_mapping.md) | kits that hit the right blob |
-| D4 | Re-encrypt with the **current** payload as template | verified | [ADR-005](../decisions/ADR-005_cipher_template.md) | untouched entries stay byte-identical |
+| D1 | The CmsCache is the runtime source; the install is only a seed | verified | [ADR-004](decisions/ADR-004_install_vs_runtime.md) | edit one copy, with a small blast radius |
+| D2 | Strategy S: keep the blob name, update only `Size`+`Checksum` | verified | [ADR-001](decisions/ADR-001_strategy_s.md) | in-place edits the game accepts |
+| D3 | Entries are matched by `Checksum`, never by name/mtime (two snapshots) | verified | [ADR-002](decisions/ADR-002_checksum_mapping.md) | kits that hit the right blob |
+| D4 | Re-encrypt with the **current** payload as template | verified | [ADR-005](decisions/ADR-005_cipher_template.md) | untouched entries stay byte-identical |
 | D5 | Groups the cache never holds (the AIField XML) can be edited in the install zip, if the **zip, install manifest, both `prod\` files and `cache-manifest.json`** move together | verified | mc58 XML; `install_edit.py` | any install-only content: AI grids, and likely others |
 | D6 | The install denies DELETE to the user, so renames fail with `WinError 5`; rewriting in place works | verified | `install_edit.py` first apply | the tool needs no admin rights |
 | D7 | Steam "verify files" or a new snapshot undoes install edits | inferred | design of the install | re-run the tool; kits stay versioned |
@@ -46,6 +46,10 @@ Status labels: **verified** (seen in game or reproduced by a script),
 | D10 | Acceptlist ≤ 23; suggested car = lowest CarId | verified | mc49–mc52 | predictable "you do not own" prompts |
 | D11 | New series need fresh ids (≥ 20000 / 65897900–65899999) and a `BCSeriesSelectableCars` block | verified | F3 | safe custom series with `build_series.py` |
 | D12 | Poster/banner/intro come from the donor series | verified | lab diagnostics | proper art per series |
+| D28 | Race length comes from the **override**, not the event (both directions) | verified | bench series, 2 runs | write laps once, in the right field |
+| D29 | The cap a player sees comes from the **event's** `TargetPI`; the override's class restriction did not apply | verified | bench series, before/after raising the event value | open or close a series by one value |
+| D30 | **Qualifying through practice**: limited practice laps + the series' qualification options make the practice lap times set the starting grid (no separate qualifying session) | verified | bench series | a race weekend without new screens |
+| D31 | The client reads its **feature flags** from the cache; one flag removed the Challenge the Grid wager screen that the cup data could not | verified | one flag, n=1 | screens and modes switched by one value |
 
 ### AI and grids
 
@@ -66,6 +70,7 @@ Status labels: **verified** (seen in game or reproduced by a script),
 | D25 | A wide `AIProgressionFrame` band (−350…+250) and a 300–980 step-20 window are accepted; the PI follows the player: C 404 → 310–637 (4 classes), A 678 → 345–908 (7), S 701 → 368–931 (7), no pile-up at the floor, 23 distinct cars from the 56-car pool | verified (3 runs, 3 classes) | mc63 runs 1–3 | PI dynamic **and** diverse; difficulty dial per series |
 | D25b | Grids above 24 cars | to test | no vanilla precedent | bigger fields |
 | D27 | The listed PI is the target, not the tune loaded (M-AMG GT '20 listed D 310, lowest file 775; Porsche 962C listed B 535, lowest 936) | observed | mc63 runs 1 and 3 | the car, not the label, sets the pace (see D26); a lap-time table is still to record |
+| D32 | No Featured, Rivals or Meetup generator cites a career AI field document; the career's race generators share no id with Featured | verified (data) | lab survey | career-only grid and session edits |
 | D26 | With the vanilla flags (`EnableDifficultyCatchUp/SlowDown` = `True`) the pace is **not** flattened: faster cars pull away from slower ones | observed (user report, mc63) | in-game play, no lap table | no flag change needed; real class gaps |
 
 ## 2. How this helps the Career Overhaul
@@ -112,8 +117,9 @@ The grid work is closed for now (mc63 active). Left on the table:
 
 | topic | doc |
 |---|---|
-| model, ids, what to touch | [CAREER_BASICS](CAREER_BASICS.md) |
-| modes, classes, band, recipe, protocol | [CUSTOM_RACE](CUSTOM_RACE.md) |
-| series 20004, kits, switching grids | [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md) |
-| raw survey numbers, per-run test log | [AIFIELD_GRIDS](../AIFIELD_GRIDS.md) |
-| symptom → cause → fix | [TROUBLESHOOTING](../TROUBLESHOOTING.md) |
+| model, ids, what to touch | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
+| modes, classes, band, recipe, protocol | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| series 20004, kits, switching grids | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
+| AI grid model, survey numbers, how to build | [AI_GRIDS](../guides/AI_GRIDS.md) |
+| what can be modded, where, with which tool | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
+| symptom → cause → fix | [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md) |

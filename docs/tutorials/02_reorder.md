@@ -54,7 +54,7 @@ ships, the second cup (`ChampionshipCupData[1]`, cup id 2) has the ladders
 Notes on the plan format:
 
 - The path index (`ChampionshipCupData[1]`) is per snapshot — the old snapshot
-  has different content (`docs\F3_TEMPLATE.md` §1.10), so verify each snapshot
+  has different content (`SERIES_CHECKLIST.md` §1.10), so verify each snapshot
   separately instead of copying indexes blindly (check the `cup id=` the index
   lands on, not just the position).
 - One target per snapshot: `plan_lint` rejects a duplicated

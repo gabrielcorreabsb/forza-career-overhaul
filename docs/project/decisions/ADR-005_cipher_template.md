@@ -59,7 +59,7 @@ byte-identical, so its results must be treated as a bigger diff.
 
 - **Build the oracles first.** `dotnet build` of `_tools\cmsoracle\` and
   `_tools\cacheoracle\` is a prerequisite, not an optimization; both rely on
-  the Forza Mod Tool material you keep locally (see `docs/THIRD_PARTY.md`).
+  the Forza Mod Tool material you keep locally (see `docs/project/THIRD_PARTY.md`).
 - **Templates are per snapshot.** Each snapshot has its own current payload
   (`BuildersCupScheduleDataV4.json` is `Size=60736` live vs `46864` old), so a
   kit carries one `.enc` payload per snapshot and never reuses the other

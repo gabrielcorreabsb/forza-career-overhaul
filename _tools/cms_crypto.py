@@ -10,7 +10,7 @@ from Crypto.Cipher import AES
 
 def _load_cms_key():
     """The CMS AES-128 key is NOT stored in this repo. Take it from the Forza
-    Mod Tool (see docs/THIRD_PARTY.md) and either export FM_CMS_KEY (32 hex
+    Mod Tool (see docs/project/THIRD_PARTY.md) and either export FM_CMS_KEY (32 hex
     chars) or put the hex in _tools/fmtool/cms_key.hex (git-ignored)."""
     hexkey = os.environ.get("FM_CMS_KEY", "").strip()
     if not hexkey:
@@ -26,7 +26,7 @@ def _load_cms_key():
     if len(key) != 16:
         raise RuntimeError(
             "CMS AES key not found. Set FM_CMS_KEY or create "
-            "_tools/fmtool/cms_key.hex (32 hex chars) - see docs/THIRD_PARTY.md")
+            "_tools/fmtool/cms_key.hex (32 hex chars) - see docs/project/THIRD_PARTY.md")
     return key
 
 
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     import sys
     s = _deobf_strings()
     print("chave CMS (string[37]):", s.get(37))
-    src = r"E:\Projetos\ForzaMods\carrer\_extract\cms_14571097"
+    src = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "_extract", "cms_14571097")
     for name in ["SeriesFormat.json", "ChampionshipSeriesObjectivesData_1.json", "Overrides.json"]:
         p = os.path.join(src, name)
         if not os.path.exists(p):

@@ -44,7 +44,7 @@ the cache never materialized. Concretely:
   unlock, new series 20003, trackday 20004) was applied to the cache only.
 - The AI-field file shows the other side of the same coin: its content group is
   never materialized in the cache, so the game reads it from the install zip and
-  `cache_edit.py` cannot reach it (`AIFIELD_GRIDS.md`).
+  `cache_edit.py` cannot reach it (`AI_GRIDS.md`).
 
 ## Consequences
 
@@ -76,4 +76,4 @@ This does not reopen the decision: the CmsCache stays the edit target for
 everything that lives there. Two practical notes: the install denies DELETE to
 the user (so the tool rewrites files in place instead of renaming over them),
 and Steam "verify files" or a new snapshot reverts the change — re-run the
-tool. See `AIFIELD_GRIDS.md` and `docs/en/PIPELINE.md`.
+tool. See `AI_GRIDS.md` and `docs/en/PIPELINE.md`.

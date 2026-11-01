@@ -22,7 +22,7 @@ Role of each script. Everything here runs against **your** game install and cach
 | `build_aifield.py` | AI grid payload from a definition in `specs/aifield/` (pool or list), built on a vanilla template of your install; hand it to `install_edit.py` |
 | `fmlib/` | shared library: `cache`, `crypto`, `bcs`, `carsxml`, `overrides`, `strs`, `cars`, `ids`, `kit`, `aifield` |
 | `str_edit.py` | `.str` codec (byte-identical round-trip; `IDS_` keys of any length) |
-| `cms_crypto.py` | Python CMS codec; the key comes from `FM_CMS_KEY` or a local `cms_key.hex` (never versioned; see `docs/THIRD_PARTY.md`) |
+| `cms_crypto.py` | Python CMS codec; the key comes from `FM_CMS_KEY` or a local `cms_key.hex` (never versioned; see `docs/project/THIRD_PARTY.md`) |
 | `cmsoracle/`, `cacheoracle/` | .NET oracles (`dotnet build <x>.csproj -c Release`); the cache oracle needs third-party files you supply |
 
 ## 3. Inventory and checks

@@ -73,7 +73,7 @@ convention `IDS_<md5("MC44|<label>")>` — `fmlib.strs.key_for` generates it and
 **(b) Rewrite an existing value in place.** `--set` replaces the value; every
 reference to that key changes at once, so only do it when that is what you
 want. Values that vanilla content uses are better left alone
-(`docs\F3_TEMPLATE.md` §1.8).
+(`SERIES_CHECKLIST.md` §1.8).
 
 ```powershell
 python _tools\str_edit.py edit _work\str\LocStrings_pt-BR.20260923t185113xwyk.str `

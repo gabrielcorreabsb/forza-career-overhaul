@@ -4,7 +4,7 @@ Goal: add one career series with `build_series.py`, prove it on a copy of the
 cache, then apply it for real and test it in game.
 
 Canonical references: `specs\README.md` (every spec field + the checks the
-builder runs); `docs\F3_TEMPLATE.md` (why each piece exists — ids, series
+builder runs); `SERIES_CHECKLIST.md` (why each piece exists — ids, series
 shell, events, overrides, car registration, name, art);
 `docs\en\GETTING_STARTED.md` §5 (the same loop on a copy).
 
@@ -25,7 +25,7 @@ fields are documented in `specs\README.md` — the required ones are:
 | `cars.acceptlist` | `"showroom"` (682 cars) or an explicit list of ids |
 
 Event ids are never reused because the save marks completion by
-`EventDataId`; that is the "series already done" bug in `docs\F3_TEMPLATE.md`
+`EventDataId`; that is the "series already done" bug in `SERIES_CHECKLIST.md`
 §1.1. `_TEMPLATE.json` ships with `series.id` 20005 and event ids
 65897914/65897915: on a cache where any of them is taken, `build_series.py`
 stops with `ERROR: series id 20005 already in use` (or the same message for an
@@ -108,18 +108,18 @@ Commit the kit together with its generator and the refreshed data.
 
 The series must, in this order: **appear** in the career → **open** → **enter
 the track with an eligible car** → **complete** → **pay the prize**
-(`docs\F3_TEMPLATE.md` §1.11).
+(`SERIES_CHECKLIST.md` §1.11).
 
 If it does not:
 
 | symptom | first thing to check |
 |---|---|
-| crash with `0xe06d7363` when clicking | missing `BCSeriesSelectableCars.xml` entry (`docs\F3_TEMPLATE.md` §1.6) |
-| the game suggests buying an unexpected car | acceptlist has no cheap car / a denied car — rule in `docs\F3_TEMPLATE.md` §4 |
+| crash with `0xe06d7363` when clicking | missing `BCSeriesSelectableCars.xml` entry (`SERIES_CHECKLIST.md` §1.6) |
+| the game suggests buying an unexpected car | acceptlist has no cheap car / a denied car — rule in `SERIES_CHECKLIST.md` §4 |
 | series looks already completed | reused `EventDataId` |
 | series is gone after a server update | kit is snapshot-bound: rebuild from the new snapshot |
 
-Symptoms and causes already diagnosed are collected in [TROUBLESHOOTING](../TROUBLESHOOTING.md).
+Symptoms and causes already diagnosed are collected in [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md).
 
 ## 7. Rolling back
 

@@ -19,7 +19,7 @@ of this repository's tools; `<...>` marks the values that depend on your machine
 - The [Forza Mod Tool](https://github.com/HTTPJXRDN/Forza-Mod-Tool) v1.3.0 and
   the CMS key. They are **not** in this repository: you download the tool
   yourself and put it, with the key, in the git-ignored paths named in
-  [THIRD_PARTY](../THIRD_PARTY.md) (that page also says why nothing of it is
+  [THIRD_PARTY](../project/THIRD_PARTY.md) (that page also says why nothing of it is
   distributed here).
 - A PowerShell terminal at the repo root.
 
@@ -34,7 +34,7 @@ git config core.hooksPath .githooks          # pre-commit guards
 What you should see: two `Build succeeded` blocks ending with
 `... -> _tools\cmsoracle\bin\Release\net10.0\cmsoracle.exe` and the same for
 `cacheoracle.exe`. If the build stops on a missing reference, the third-party
-files of [THIRD_PARTY](../THIRD_PARTY.md) are not in place yet — the cache
+files of [THIRD_PARTY](../project/THIRD_PARTY.md) are not in place yet — the cache
 oracle cannot be built without them.
 
 **Where the game is.** The tools find the game install at
@@ -175,4 +175,4 @@ last clean dry-run for that exact plan is older than 30 minutes. To undo:
 | `ERROR: series id 20005 already in use` | pick free ids (id registry: `ids.json`) |
 | `WinError 5` while writing | the game or another process holds the files: close it, then `rollback_cache.py` |
 | `verificacao: FALHOU` | do not play: restore with `rollback_cache.py` and open an issue with the plan |
-| series crashes when clicked | missing `BCSeriesSelectableCars.xml` entry; `build_series` adds it. See [TROUBLESHOOTING](../TROUBLESHOOTING.md) |
+| series crashes when clicked | missing `BCSeriesSelectableCars.xml` entry; `build_series` adds it. See [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md) |

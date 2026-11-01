@@ -39,7 +39,7 @@ Corollaries:
 - The first version of the ModCarrera 1 generator matched by name and wrote the
   **old** snapshot's blob, so the edit landed on the snapshot the game does not
   read. The fix was the checksum lookup described in
-  [PIPELINE](../en/PIPELINE.md) ("`cache_edit.py` resolves snapshot→blob by the
+  [PIPELINE](../../en/PIPELINE.md) ("`cache_edit.py` resolves snapshot→blob by the
   entries' Checksum in the manifest, never by name or mtime").
 - The PIPELINE golden rules carry the same rule, because re-learning it
   cost a full diagnostic cycle.

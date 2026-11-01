@@ -223,5 +223,5 @@ See `DATA_REFERENCE.md` for the derived table's columns.
 
 ## See also
 
-`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `AI_AND_GRIDS.md` ·
+`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `AI_GRIDS.md` ·
 `DATA_REFERENCE.md` · `CAREER_AUDIT.md` · `GLOSSARY.md`

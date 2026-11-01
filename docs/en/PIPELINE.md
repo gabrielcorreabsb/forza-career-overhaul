@@ -17,13 +17,13 @@ One page, from a plan to a verified cache. Formats and the data model live in
 4. **Do not mirror `mediapc/`.** The game does not read it; the CmsCache is the
    only source (rule 2).
 5. **Never commit the CMS AES key, the Forza Mod Tool or game files.** The repo
-   is public; `.gitignore` and `docs/THIRD_PARTY.md` say what stays local.
+   is public; `.gitignore` and `docs/project/THIRD_PARTY.md` say what stays local.
 
 ## Prerequisites
 
 Python 3, the .NET 10 SDK, and the compiled oracles. The oracles also need the
 Forza-Mod-Tool v1.3.0 runtime and tables, which you keep locally (not in the
-repo): see [THIRD_PARTY](../THIRD_PARTY.md).
+repo): see [THIRD_PARTY](../project/THIRD_PARTY.md).
 
 ```powershell
 dotnet build _tools\cmsoracle\cmsoracle.csproj -c Release
@@ -106,7 +106,7 @@ Nothing here changes the loop above (plan → `--dry-run` → apply with
 - **New series:** the default path is a spec plus `build_series.py`
   (`specs/README.md`); step-by-step in
   [tutorial 03](../tutorials/03_new_series.md); the recipe and its reasons are
-  in [F3_TEMPLATE](../F3_TEMPLATE.md): new ids (`ChampionshipSeriesId` ≥ 20000,
+  in [SERIES_CHECKLIST](../reference/SERIES_CHECKLIST.md): new ids (`ChampionshipSeriesId` ≥ 20000,
   `EventDataId` 65897900–65899999, never reused), the series plus the ladder
   `OrderData`, events plus `BCEventOverrides`, an entry in
   `BCSeriesSelectableCars.xml` (without it, clicking the series crashes), and a
@@ -122,11 +122,11 @@ Nothing here changes the loop above (plan → `--dry-run` → apply with
   `--restore`). It rewrites the zip, the install manifest and the two `prod\`
   snapshots + `cache-manifest.json` together — and unlike `cache_edit.py` it has
   no sandbox (`--cache-dir`): a real apply touches the real install. See
-  [AIFIELD_GRIDS](../AIFIELD_GRIDS.md) and
+  [AI_GRIDS](../guides/AI_GRIDS.md) and
   [CUSTOM_RACE](../guides/CUSTOM_RACE.md).
 
 Symptoms and causes already diagnosed are in
-[TROUBLESHOOTING](../TROUBLESHOOTING.md).
+[TROUBLESHOOTING](../guides/TROUBLESHOOTING.md).
 
 ## Post-write verification
 

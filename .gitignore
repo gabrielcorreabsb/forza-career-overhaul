@@ -8,7 +8,7 @@ _data/
 patches/
 docs/inventario/
 
-# Third party / keys (see docs/THIRD_PARTY.md)
+# Third party / keys (see docs/project/THIRD_PARTY.md)
 Forza-Mod-Tool*/
 Forza-Mod-Tool*.zip
 _tools/fmtool/

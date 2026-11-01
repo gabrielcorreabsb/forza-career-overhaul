@@ -5,7 +5,7 @@
 > which tool changes what. The multi-class grids are in
 > [CUSTOM_RACE](CUSTOM_RACE.md); the 20004 package is in
 > [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md); the discovery log is in
-> [DISCOVERIES](DISCOVERIES.md).
+> [DISCOVERIES](../project/DISCOVERIES.md).
 
 **The design anchor is Forza Motorsport 4**: a ladder of leagues you climb, each
 with the car it asks for. This project rebuilds that shape inside the 2023
@@ -67,7 +67,7 @@ and the BCS + overrides, excluding series 20004):
 - The AI target PI follows the **player's** PI, 10–50 below it: the common
   frame set is `−40…+10 / −40…0 / −50…−10` (146 files), and the last frame
   gave exactly that in three runs on our series. Details and evidence:
-  [AIFIELD_GRIDS](../AIFIELD_GRIDS.md).
+  [AI_GRIDS](AI_GRIDS.md).
 
 Consequence for an ordinary series: you pick the *kind* of field (pool or list)
 and the cars; the difficulty comes from the player's own car.
@@ -78,15 +78,15 @@ and the cars; the difficulty comes from the player's own car.
 |---|---|---|
 | rename a series/cup/ladder | `str_edit.py` + `bytes` kit | [tutorial 01](../tutorials/01_rename.md) |
 | reorder or unlock | permute `LadderOrderData`/`OrderData`; flip unlock flags | [tutorial 02](../tutorials/02_reorder.md) |
-| new series | spec + `build_series.py` | [tutorial 03](../tutorials/03_new_series.md), [F3_TEMPLATE](../F3_TEMPLATE.md) |
-| lift an event's PI/class cap | kit on the event's `TargetPI` (mc59 is the model) | [AIFIELD_GRIDS](../AIFIELD_GRIDS.md) |
+| new series | spec + `build_series.py` | [tutorial 03](../tutorials/03_new_series.md), [SERIES_CHECKLIST](../reference/SERIES_CHECKLIST.md) |
+| lift an event's PI/class cap | kit on the event's `TargetPI` (mc59 is the model) | [AI_GRIDS](AI_GRIDS.md) |
 | change who the AI is | `AIField` via `fmlib.aifield` + `install_edit.py` | [CUSTOM_RACE](CUSTOM_RACE.md) |
 | apply or undo anything | `cache_edit.py` (CmsCache) / `install_edit.py` (install) | [PIPELINE](../en/PIPELINE.md) |
 
 ## 6. Before touching a series
 
 1. Which copy does the game read? CmsCache for everything that lives there;
-   the install only for groups the cache never holds ([ADR-004](../decisions/ADR-004_install_vs_runtime.md)).
+   the install only for groups the cache never holds ([ADR-004](../project/decisions/ADR-004_install_vs_runtime.md)).
 2. Is the target's content group in the cache? If not, `cache_edit.py` skips it.
 3. Kits are **snapshot-bound**: a new server snapshot means regenerating.
 4. Game **closed** before any write; `--dry-run` first, `--verify` after.

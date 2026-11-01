@@ -30,10 +30,13 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOTS = ("_tools/", "docs/", "patches/", "specs/", "_data/", ".claude/",
+         "archive/",
          ".githooks/")
 SKIP_PREFIX = ("_work/", "_out/", "_backup/", "_extract/", "_build/")
 SKIP_DOCS = ("docs/inventario/", "docs/archive/")
-BARE_DIRS = ("", "docs", "docs/pt-br", "docs/en", "_tools", "_tools/probes",
+BARE_DIRS = ("", "docs", "docs/pt-br", "docs/en", "_tools", "archive/tools",
+             "archive/tools/probes", "docs/archive", "docs/guides",
+             "docs/reference", "docs/project", "docs/project/decisions",
              "patches", "specs")
 # placeholders, faixas (mc30..mc53) e prefixos (TASK_, task-)
 PLACEHOLDER = re.compile(r"[*<>…{}]|NN|_x\b|\bx\.|\.\.|[_-]$")

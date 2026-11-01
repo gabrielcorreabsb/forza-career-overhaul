@@ -147,7 +147,7 @@ Per-cup lap totals in this copy:
 | 2 | Two events carry `ClassRestriction` 5 (ceiling 800 / S) with `TargetPI` 900 | **verified** (data) | the two gates disagree; which one wins is untested (`OPEN_QUESTIONS.md`) |
 | 3 | `FeatureRace.Laps` disagrees with the event's `NumberOfRequiredLaps` on 600 of 627 events, while `TargetPI` agrees 627/627 | **observed**, unresolved | the race length may come from either copy; an experiment is proposed |
 | 4 | The **career** series record has no `SeriesRules` field (the Featured record does) | **verified** | rules shown by the UI for some series have no storage in the career schema |
-| 5 | The career-side AI selectable-cars list is empty on 82 series and populated on 96, yet changing it does not move the grid | **verified** (data) / **observed** (A/B) | it is not the field that pins a field; the AI field document is (`AI_AND_GRIDS.md`) |
+| 5 | The career-side AI selectable-cars list is empty on 82 series and populated on 96, yet changing it does not move the grid | **verified** (data) / **observed** (A/B) | it is not the field that pins a field; the AI field document is (`AI_GRIDS.md`) |
 | 6 | 32 deny rules cover 45 always-denied ids, of which 32 are still listed in vanilla acceptlists | **verified** | a listed car can still be vetoed; the list alone is not the eligibility answer |
 | 7 | `PointSpread` is one constant 24-value table on every event | **observed** | a template artefact: no event varies its points shape |
 
@@ -174,5 +174,5 @@ Per-cup lap totals in this copy:
 
 ## See also
 
-`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_AND_GRIDS.md` ·
+`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_GRIDS.md` ·
 `DATA_REFERENCE.md` · `GLOSSARY.md`

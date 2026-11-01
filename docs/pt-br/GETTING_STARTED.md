@@ -20,7 +20,7 @@ máquina.
 - O [Forza Mod Tool](https://github.com/HTTPJXRDN/Forza-Mod-Tool) v1.3.0 e a
   chave do CMS. Eles **não** estão neste repositório: você baixa a ferramenta e
   coloca ela e a chave nos caminhos ignorados pelo git indicados em
-  [THIRD_PARTY](../THIRD_PARTY.md) (aquela página também explica por que nada
+  [THIRD_PARTY](../project/THIRD_PARTY.md) (aquela página também explica por que nada
   dela é distribuído aqui).
 - Terminal PowerShell na raiz do repo.
 
@@ -35,7 +35,7 @@ git config core.hooksPath .githooks          # travas de pre-commit
 O que você deve ver: dois blocos `Build succeeded` terminando em
 `... -> _tools\cmsoracle\bin\Release\net10.0\cmsoracle.exe` e o mesmo para o
 `cacheoracle.exe`. Se o build parar numa referência ausente, os arquivos de
-terceiros do [THIRD_PARTY](../THIRD_PARTY.md) ainda não estão no lugar — o
+terceiros do [THIRD_PARTY](../project/THIRD_PARTY.md) ainda não estão no lugar — o
 oráculo do cache não compila sem eles.
 
 **Onde está o jogo.** As ferramentas procuram o install em
@@ -178,4 +178,4 @@ desfazer: `python _tools\rollback_cache.py`.
 | `ERROR: series id 20005 already in use` | escolha ids livres (registro de ids: `ids.json`) |
 | `WinError 5` ao escrever | jogo ou outro processo segurando os arquivos: feche e rode `rollback_cache.py` |
 | `verificacao: FALHOU` | não jogue: restaure com `rollback_cache.py` e abra uma issue com o plano |
-| série crasha ao clicar | falta a entrada no `BCSeriesSelectableCars.xml` (o `build_series` adiciona); ver [TROUBLESHOOTING](../TROUBLESHOOTING.md) (em inglês) |
+| série crasha ao clicar | falta a entrada no `BCSeriesSelectableCars.xml` (o `build_series` adiciona); ver [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md) (em inglês) |

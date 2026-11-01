@@ -116,15 +116,11 @@ tree.
   *How to reproduce:* `python _tools\audit_career.py` — it counts
   agreeing and disagreeing pairs for both fields.
 
-- **hypothesis** — The event record wins, i.e. `NumberOfRequiredLaps` is what
-  the race runs. The override block then carries a leftover template value.
-  This reading is unproven; the experiment that settles it is written up in
-  `OPEN_QUESTIONS.md` (set one event's two lap counts to clearly different
-  values, race it, count the laps).
-
-- **observed** — In game the career races match the short lengths of the event
-  record (1–4 laps), never the longer values found in some overrides.
-  *How to reproduce:* race any 3-lap career event and count the laps.
+- **verified** — **The override wins.** A bench series set one event to
+  2 laps in the event record and 8 in the override, and another to the reverse;
+  the HUD showed 8 and 2 laps. Write race length into `FeatureRace.Laps`
+  (`build_series.py` does); the event's `NumberOfRequiredLaps` alone is inert.
+  *How to reproduce:* the same two-event test (`OPEN_QUESTIONS.md` item 2).
 
 ## 2.4 Practice
 
@@ -153,10 +149,21 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
 
 ## 2.5 Qualifying
 
-- **verified** — Qualifying is uniform across all 178 series: unlimited time,
-  no session length, disabled flag false. There is no variation to tune here.
-  *How to reproduce:* `python _tools\audit_career.py` — one
-  distinct tuple for all series.
+- **verified** — In the vanilla career, qualifying is uniform across all
+  series: unlimited, no lap limit, not one-shot. *How to reproduce:*
+  `python _tools\audit_career.py` — one distinct tuple for all series.
+
+- **verified** — **Practice can set the grid.** A bench series with the
+  series' `QualificationOptions` set to a limited number of laps (the shape the
+  Featured series use) plus `QualifyingSkipLapEnabled` and
+  `PracticeSkipLapEnabled` showed a practice limited to those laps, and the
+  starting grid followed the practice lap times. There is no separate
+  "Qualifying" session; the practice is the qualifying. Decline the Challenge the
+  Grid wager when testing — choosing a start position overrides the result (the
+  wager screen can be switched off by a client flag, see
+  [MODDING_SURFACE](MODDING_SURFACE.md)).
+
+- **hypothesis** — `IsOneShot` turns it into a single timed lap; not tested.
 
 ## 2.6 Pit stops
 
@@ -277,7 +284,7 @@ from one series record in the career data (same loader).
 - **verified** — A race holds at most **23 AI + 1 player = 24 cars**. No event
   in the data asks for more, and the AI field documents top out at 23 slots.
   *How to reproduce:* `python _tools\audit_career.py`, and the AI
-  survey in `AI_AND_GRIDS.md`.
+  survey in `AI_GRIDS.md`.
 
 ## 2.15 Duration
 
@@ -290,5 +297,5 @@ from one series record in the career data (same loader).
 
 ## See also
 
-`CAREER_MODEL.md` · `CARS_AND_PI.md` · `AI_AND_GRIDS.md` ·
+`CAREER_MODEL.md` · `CARS_AND_PI.md` · `AI_GRIDS.md` ·
 `DATA_REFERENCE.md` · `CAREER_AUDIT.md` · `GLOSSARY.md`

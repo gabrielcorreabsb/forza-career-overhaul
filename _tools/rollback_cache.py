@@ -4,7 +4,7 @@ import shutil
 import sys
 import time
 
-ROOT = r"E:\Projetos\ForzaMods\carrer"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BACKUP_ROOT = os.path.join(ROOT, "_backup")
 CACHE = os.path.join(os.environ["LOCALAPPDATA"], "Microsoft.ForzaMotorsport", "CmsCache")
 

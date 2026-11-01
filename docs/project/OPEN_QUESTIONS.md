@@ -30,23 +30,18 @@ silently inherits one from a donor it no longer resembles.
 the same track, change nothing else, and record the start of each. That isolates
 the generator from the track.
 
-## 2. Which lap count wins — the event's or the override's?
+## 2. Which lap count wins — the event's or the override's? — **answered**
 
 **Question.** `NumberOfRequiredLaps` and `FeatureRace.Laps` disagree on 600 of
 627 events. Which one does the race run?
 
-**What we know.** **observed** — the disagreement is real and specific to laps;
-`TargetPI` agrees on 627/627, so overrides are not simply stale. **observed** —
-career races feel like the short 1–4 lap lengths of the event record.
-**hypothesis** — the event record wins.
+**Answer.** **verified** — **the override wins, in both directions.** A bench
+series ran the same track twice: event 2 laps / override 8 laps raced 8 laps on
+the HUD, and event 8 / override 2 raced 2. Write race length into the override
+(`build_series.py` does).
 
-**Why it matters.** Every new event or rebalanced lap count has to be written
-into the field that matters; if it is the override, half the lap edits done so
-far are inert.
-
-**Test.** Pick one event. Set `NumberOfRequiredLaps` to 2 and
-`FeatureRace.Laps` to 8, apply, run it and count the laps. Then invert the two
-values and run it again. One run settles it.
+**Why it mattered.** Every new event or rebalanced lap count has to be written
+into the field that matters; edits to the event's lap count alone are inert.
 
 ## 3. How are series rules wired in the career?
 
@@ -252,6 +247,35 @@ values are build-side constants.
 
 ---
 
+## 15. Which client flags are career-only, and which are read at all?
+
+**Question.** The client flag document (`SCHEMA_REFERENCE.md` Part 3) has about
+400 switches. Which of them does the client actually read from the cache, and
+which affect only the career rather than Featured/Multiplayer too?
+
+**What we know.** **verified** — one flag, `EnableBuildersCupChallengeTheGrid`,
+is read from the cache and removes the wager screen when turned off.
+**observed** (data) — per-mode lists inside the flags (tire type, fuel scale)
+are keyed by `GameMode`, so an item for `BuildersCup` reaches only the career;
+the championship-objectives switch is shared with Featured, so it is not
+career-only. The full map of what is career-only, global or closed is in
+[MODDING_SURFACE](../reference/MODDING_SURFACE.md).
+**hypothesis** — flags named for career systems (championship objectives,
+Builders Cup tire overrides, affinity) are equally live and career-scoped; the
+qualifying, affinity and tire-compound pillars judged out of reach may reopen
+through them.
+
+**Why it matters.** A proven flag is the cheapest change the project can make:
+one value, no new ids, trivial rollback. A flag that also changes online play
+must not be touched.
+
+**Test.** One flag per change, career-scoped names first: flip it, check the
+career screen it names, then open one Featured/Multiplayer event to confirm
+nothing changed there. A flag with no visible effect after a restart is recorded
+as not read.
+
+---
+
 ## Tracked hypotheses without a numbered item
 
 These are raised in the pages but are smaller than the numbered items above; each
@@ -261,6 +285,6 @@ is a belief, not a finding.
 |---|---|---|
 | A reorder must permute the object array *and* the order list; contradicting them is unsafe | `CAREER_MODEL.md` §1.2 | permute only the list, apply, and check which screens follow which order |
 | The zeroed PI/cost/power/weight series fields are dead, and gating is done by `TargetPI` + acceptlist | `CAREER_MODEL.md` §1.11 | set one of them to a non-zero value and see whether anything changes |
-| In the two events where `ClassRestriction` (800/S) and `TargetPI` (900) disagree, `TargetPI` wins | `RACE_SYSTEM.md` §2.10 | enter a 850-PI car in one of them; acceptance means `TargetPI` wins |
+| ~~In the two events where `ClassRestriction` (800/S) and `TargetPI` (900) disagree, `TargetPI` wins~~ — **settled**: the event's `TargetPI` governs the cap shown and the cars accepted (a bench event showed the event's value, and an S car entered once the event's `TargetPI` was raised); the override's class restriction did not apply | `RACE_SYSTEM.md` §2.10 | — |
 | Featured/Multiplayer content can be ported into the career tree for schema-level mechanisms only (the reward/progression surface does not come along) | `CAREER_MODEL.md` part 2 | port one Featured series into a career ladder and compare what the series screen offers |
-| The `PlayerPIRelativeToClass` numeric key is a class index | `AI_AND_GRIDS.md` §4.5 | same test as item 4 |
+| The `PlayerPIRelativeToClass` numeric key is a class index | `AI_GRIDS.md` §5 | same test as item 4 |

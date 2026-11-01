@@ -11,6 +11,8 @@ dumps — only names, purpose and defaults.
 2. **Championship 1 — Featured / Multiplayer.** A different document with its
    own shape: no cups and no ladders, series grouped into rotating collections.
    62 series, 4348 events. Never modified by this project.
+3. **Client feature flags** — the switches the client reads before it uses
+   either data set (Part 3).
 
 A third championship, **22**, holds the one-session intro (FTUE) content and is
 mentioned only where it explains a difference.
@@ -73,7 +75,7 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 | `StartEndDate` | `From` / `To` bounds of the same window | sentinel pair |
 | `OpenPracticeLimitationTime` | practice minutes at cup level | 10 |
 | `EntryCriteria` | gate block (name, min level, required ladders/series/events + counts) | all empty |
-| `ChallengeTheGridData` | challenge-the-grid setup (race wagers) | one fixed block |
+| `ChallengeTheGridData` | challenge-the-grid setup (race wagers); the screen itself is gated by a client flag (Part 3) | one fixed block |
 | `RewardVirtualTrophy` | trophy awarded for completing the cup | one fixed block |
 | `ChampionshipLadder` | the cup's ladder objects | 1 per cup |
 | `LadderOrderData` | ids of those ladders, in display order | mirrors the array |
@@ -144,7 +146,7 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 
 - **verified** — `AISelectableCars` is **not** dead but is also not what pins a
   grid: it is empty on 82 series and populated on 96, and filling it on a series
-  that had it empty changed nothing in game (`AI_AND_GRIDS.md`).
+  that had it empty changed nothing in game (`AI_GRIDS.md`).
   *How to reproduce:* the roster column of the audit; then the A/B test.
 
 ## 1.5 `SelectableCars` — 38 fields
@@ -424,7 +426,42 @@ keys (32 of 1086).
   `PlaylistCycleLengthCopyTicks` and the `IsEvergreen` shortcut), which the
   career schema has no slot for.
 
-## 3. Traps worth knowing
+---
+
+# Part 3 — Client feature flags
+
+## 3.1 Where they live
+
+The client reads a flag document, `ClientFeatureFlagConfiguration.json`, from
+the CMS cache (not from the install; the install keeps only an opaque copy). It
+holds about 400 named settings in some 55 blocks named
+`FeatureFlagConfig.<System>Config` (for example `AIConfig`,
+`ChampionshipObjectivesConfig`, `FuelAndTireWearEstimateConfig`,
+`NewFeaturesConfig`): booleans named `Enable<Feature>`, tuning numbers, and a
+few per-game-mode lists keyed by `GameMode` (`BuildersCup` is the career). Like every CMS payload it is
+encrypted and re-applied with the same size/checksum model as the schedule.
+
+## 3.2 What is proven
+
+- **verified** — Turning `EnableBuildersCupChallengeTheGrid` off removes the
+  challenge-the-grid (wager) screen from the career. Removing the wagers or the
+  whole `ChallengeTheGridData` block from a cup did **not** remove it: the
+  screen is gated by the flag, the cup block only feeds it.
+- **verified** — The server does not overwrite the cached flag document within
+  a session: the change held in game.
+- **hypothesis** — Other flags behave the same way (one flag tested so far;
+  see `OPEN_QUESTIONS.md` item 15).
+
+## 3.3 Scope rule
+
+A flag is a *global* switch. Prefer flags whose name scopes them to the career
+(`BuildersCup`, championship objectives, career-only screens) or entries of a
+per-game-mode list whose `GameMode` is `BuildersCup`. Flags shared with
+Featured/Multiplayer (every `AIConfig.*` setting, even the ones with `Career`
+in the name, and generic tire/fuel or AI switches) change online play too and are out of scope for this project unless a test proves they
+are career-only.
+
+## 4. Traps worth knowing
 
 | trap | why it bites |
 |---|---|
@@ -434,8 +471,9 @@ keys (32 of 1086).
 | `ClassRestriction` is never `-1` | true in the career, false outside it (207 records) |
 | the career event is the whole event schema | the Featured event has 14 fields, a different set |
 | `SeriesRules` is missing from the schema | it is missing from the *career* series only; Featured has it |
+| deleting `ChallengeTheGridData` hides the wager screen | it does not; the client flag `EnableBuildersCupChallengeTheGrid` does (§3.2) |
 
 ## See also
 
-`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_AND_GRIDS.md` ·
+`CAREER_MODEL.md` · `RACE_SYSTEM.md` · `CARS_AND_PI.md` · `AI_GRIDS.md` ·
 `DATA_REFERENCE.md` · `CAREER_AUDIT.md` · `GLOSSARY.md` · `OPEN_QUESTIONS.md`
