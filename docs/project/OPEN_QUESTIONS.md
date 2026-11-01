@@ -276,6 +276,58 @@ as not read.
 
 ---
 
+## 16. Where does the human's fixed starting slot come from?
+
+**Question.** The starting grid splits in two rules: the practice session orders
+the **AI**, and the **human** gets a start position that is a constant per event
+when the start-position wager screen is off — his own practice time does not move
+it. Which data computes that slot, and why does it not change with the session?
+
+**What we know.** **observed** — the AI half is the practice session: the AI's
+practice classification came back as the race grid order, one entry after
+another (a single swap, from a tied time), in a run on the plain baseline, and
+again with the wager screen switched back on. **observed** — the human half is
+not the practice: the same slot with the best practice time of the session and
+with no timed lap at all, and a different slot in another layout while the
+start-position wager was active, for different cars. **verified** — with the
+wager screen switched back on (one client flag), the screen **suggests a start
+position of its own** and the slot the player picks on it is the slot he starts
+from: a pick away from the suggestion was honoured in full, with the AI still on
+the practice order (n=1). So the wager is a real control of the player's slot,
+and the constant slot is the state of the screen-off path.
+**verified** (data) — neither the event record nor the override of that event
+carries a start-position or seed field, the AI field document only holds the
+drivatar template (a PI window and a count, no position or seed), and the
+session generator's grid-ordering shape changes neither the player's slot nor the
+order the AI comes out in (a qualifying-order generator with a real human
+cluster slot was run against the estimated-order one).
+
+**Refuted.** ~~The slot he gets with the screen off is the wager's suggested slot
+applied without the UI.~~ With the screen on, the suggestion was not the slot of
+the screen-off state, so the constant slot has another source. The wager block
+(a projected race-time delta, an overtake time and a following-car time, i.e. the
+inputs of a projected start position) is still the likely input of the
+**suggestion**; it is no longer the explanation for the constant.
+
+**Open.** (i) Where the fixed slot of the screen-off state comes from. (ii)
+Whether the wager's suggestion follows the player's practice time — the one
+sample had the player with no timed practice lap, so the suggestion could not be
+compared against a fast lap.
+
+**Why it matters.** A mod that reorders a field or builds a race weekend has to
+know whether the human's slot is data it can set or a constant it has to accept;
+the wager is now a usable lever, and its suggestion is a candidate for a real
+qualifying result.
+
+**Test.** (i) With the screen off, change one term of the cup's wager block and
+check whether the constant slot moves; compare against a second event with a
+different block. (ii) With the screen on, run the same event twice, once with a
+fast practice lap and once without one, and read the suggested slot both times.
+
+Whichever holds decides whether the slot is a lever or a constant.
+
+---
+
 ## Tracked hypotheses without a numbered item
 
 These are raised in the pages but are smaller than the numbered items above; each

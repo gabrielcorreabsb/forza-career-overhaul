@@ -153,15 +153,53 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
   series: unlimited, no lap limit, not one-shot. *How to reproduce:*
   `python _tools\audit_career.py` — one distinct tuple for all series.
 
-- **verified** — **Practice can set the grid.** A bench series with the
-  series' `QualificationOptions` set to a limited number of laps (the shape the
-  Featured series use) plus `QualifyingSkipLapEnabled` and
-  `PracticeSkipLapEnabled` showed a practice limited to those laps, and the
-  starting grid followed the practice lap times. There is no separate
-  "Qualifying" session; the practice is the qualifying. Decline the Challenge the
-  Grid wager when testing — choosing a start position overrides the result (the
-  wager screen can be switched off by a client flag, see
-  [MODDING_SURFACE](MODDING_SURFACE.md)).
+- **observed** — **Practice sets the AI's grid order, not the player's slot.** A
+  bench series with the series' `QualificationOptions` set to a limited number of
+  laps (the shape the Featured series use) plus `QualifyingSkipLapEnabled` and
+  `PracticeSkipLapEnabled` gives a practice limited to those laps, and there is
+  no separate "Qualifying" session — the practice is the only countdown. The race
+  grid then reproduced the **practice classification of the AI**: the AI that set
+  the quickest practice time lined up first and the rest followed in order (a
+  single swap, from a tied time). Two runs on the live cache, one of them with
+  the start-position wager screen switched back on, and the AI order was the
+  practice order both times. The **player** did not follow it: with the wager
+  screen off (one client flag, see [MODDING_SURFACE](MODDING_SURFACE.md)) he kept
+  the same slot with the best practice time of the session and with no timed lap
+  at all, so practice orders the AI and does not place the human.
+  *How to reproduce:* run the same career event twice, once with a fast practice
+  lap and once without completing a timed lap, and compare the practice
+  classification with the race grid.
+
+- **verified** — **The start-position wager sets the player's slot.** With the
+  wager screen switched back on, the screen **suggests a start position of its
+  own** — a computed slot, not the constant the screen-off state gives — and the
+  slot the player picks on it is the slot he starts from: a control pick away
+  from the suggestion was honoured in full, while the AI kept the practice order.
+  So the player's slot is a real control (n=1). Whether the constant slot seen
+  with the screen off is a fallback of this same path or another source is still
+  open ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 16).
+  *How to reproduce:* one client flag brings the screen back
+  ([MODDING_SURFACE](MODDING_SURFACE.md)); on the same career event, note the
+  suggested slot, then pick a different one and watch the start.
+
+- **verified** — In vanilla, the grid ordering of the session generators splits
+  in two shapes that always travel together: an estimated grid
+  (`GridOrderingType=EstimatedLapTime` with `ClusterHumansAtIndex=-1`) or a
+  qualifying grid (`GridOrderingType=Qualifying` with the human cluster index
+  set to a real slot). No vanilla generator mixes the qualifying ordering with
+  the "no cluster" value; the only exception is a handful of generators that
+  randomise the grid. *How to reproduce:* read every `GameOptions_*` pair in the
+  cache — those are the shapes that appear on the career generators. Both shapes
+  were run in game on the same career event and neither moved the player's slot,
+  and the qualifying-order run reproduced the same AI order as the estimated
+  one, so this shape is not the lever.
+
+- **hypothesis** — The **value** the wager suggests comes from the cup's
+  challenge-the-grid block (a projected race-time delta, an overtake time and a
+  following-car time, i.e. the inputs of a projected start position). Whether the
+  suggestion follows the player's practice time, and what governs the fallback
+  slot of the screen-off state, are the two open halves. Not tested: it needs one
+  term of that block changed, then the suggested slot read again.
 
 - **hypothesis** — `IsOneShot` turns it into a single timed lap; not tested.
 

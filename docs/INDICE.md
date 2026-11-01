@@ -6,7 +6,7 @@ One-page map, grouped like the folders. Default reading order:
 [PIPELINE](en/PIPELINE.md) → the doc for your task. Overview: [README](../README.md).
 
 Bilingual pairs (`pt-br/<DOC>.md` and `en/<DOC>.md`, same file name) exist only
-for the essentials: `PIPELINE`, `GETTING_STARTED`, `CONCEPTS`. Every other doc is
+for the essentials: `PIPELINE`, `GETTING_STARTED`, `CONCEPTS`, `MOD_TOOLKIT`. Every other doc is
 English-only.
 
 ## Start
@@ -16,6 +16,7 @@ English-only.
 | First time (15 min, on a copy of the cache) | **[en/GETTING_STARTED](en/GETTING_STARTED.md)** ([PT](pt-br/GETTING_STARTED.md)) | requirements, oracles, inventory, dry-run, series from a spec |
 | Understand the cache, Strategy S and the career model | **[en/CONCEPTS](en/CONCEPTS.md)** ([PT](pt-br/CONCEPTS.md)) | diagrams and glossary |
 | Apply or revert a mod on the CmsCache | **[en/PIPELINE](en/PIPELINE.md)** ([PT](pt-br/PIPELINE.md)) | golden rules (game closed), `--dry-run` then `--verify`, rollback and verification |
+| See what the mod can do today and how sure we are | **[en/MOD_TOOLKIT](en/MOD_TOOLKIT.md)** ([PT](pt-br/MOD_TOOLKIT.md)) | levers by pillar, recipes, what is closed |
 
 ## Tutorials (step by step)
 

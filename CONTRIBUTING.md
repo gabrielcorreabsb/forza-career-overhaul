@@ -13,7 +13,7 @@ Thanks for helping. Short version:
   such content are closed and the content is not merged. See [THIRD_PARTY](docs/project/THIRD_PARTY.md).
 - **Safety rules stay on:** do not weaken `--dry-run`/`--verify` requirements, the
   game-closed check or the plan linter to make something pass; fix the cause or open an issue.
-- **Docs:** English only, except `PIPELINE`, `GETTING_STARTED` and `CONCEPTS`, which exist as
+- **Docs:** English only, except `PIPELINE`, `GETTING_STARTED`, `CONCEPTS` and `MOD_TOOLKIT`, which exist as
   `docs/en/` and `docs/pt-br/` pairs and must be changed together. Run
   `python _tools\docs_check.py` (it must end with 0 errors).
 - **Style:** match the surrounding code (stdlib Python, `fmlib` for shared helpers). Commit
