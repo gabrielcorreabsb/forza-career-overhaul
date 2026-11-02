@@ -407,6 +407,37 @@ key, how much we know. **verified** = seen in game or reproduced by a script;
 Order of the next bench tests, one key per test: pit stops (with laps), then
 weather and time of day, then `ParentGeneratorId`.
 
+## 2.17 Session generator options — what a generator brings with `ParentGeneratorId`
+
+An override points at a **session generator** (§2.13): two XML files, one for the
+race and one for practice and qualifying. Everything below comes with the generator
+and is shared by every event that points at it, so a generator is edited only when
+no other mode uses it. States as in §2.16.
+
+| option (inside the generator) | what it is | state | note |
+|---|---|---|---|
+| `Buckets/Bucket` (`Name`, `MaxPlayers`) | the online mode's player group; the career has one | observed | the name is a label of the original online series |
+| `Bucket/CarRestrictions` (same 38 fields as the series' `SelectableCars`) | the car filter of that group | **observed (n=1 pair)** | a strict class-R bucket refused a class C car the series allowed and accepted a class R one |
+| `CarRestrictions@SeverityType` (`Strict`, `Warning`) | how hard the filter is | hypothesis | a `Warning` bucket (class A, PI 700) accepted a class C car |
+| `CarRestrictions@BlackOrWhitelistType` | the list type (`Whitelist` on 176 series, `Blacklist` on 9) | open | how a class works under `Blacklist` is not known |
+| `RaceRegulationsId` → regulations table | penalty rules: a ghost after leaving the leader's lap, off-track monitor, collision monitor, wrong way, disqualification | observed (parameters read); effect in game: hypothesis | the career uses 0 (none); the online series use 103 |
+| `_321Type`, `StartingGridOptions@StartType` | the start | observed | the event override's `_321Type` beats it (§2.8) |
+| `GridOrderingType`, `ClusterHumansAtIndex` | the AI order and the human's slot | **observed** | only rank order moves the human, and the index acts as a cut: first at 0, 2 and 5, last at 11 and 23; qualifying order gives a fixed 7th (D43) |
+| `GroupByBucket` | grid grouped by group | open | one group in the career |
+| `MaxAIPlayers` | size of the AI field | **ignored** | the AI document decides (§2.16, D38) |
+| `EndConditionOptions` (laps, time) | how an online race ends | open | the career uses the override's `Laps` |
+| `TimeOfDay*`, `WeatherForecast*`, `TireFrictionWearScalar`, `DamageDifficulty` | conditions | observed | the override's keys (§2.16) take precedence where they exist |
+
+**What comes with a generator for free:** the group, its car restriction, the
+regulation, the grid ordering, the start type and the wear. **What does not:**
+`MaxAIPlayers` (the AI document decides), the series-level group list and rules
+reference (the career ignores them), and real matchmaking.
+
+**To reproduce an online event in the career:** point the override at its generator,
+give the series cars of the class its group asks for with a matching cap, and pick an
+AI document of that class. An AI document with an empty driver list is not a way to
+run it solo: the practice ran, the race crashed.
+
 ## See also
 
 `CAREER_MODEL.md` · `CARS_AND_PI.md` · `AI_GRIDS.md` ·
