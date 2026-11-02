@@ -34,6 +34,7 @@ English-only.
 | Common career: model, ids, what to touch with which tool | **[guides/CAREER_BASICS](guides/CAREER_BASICS.md)** | the basics, before touching any series |
 | AI: roster targets, pool or list, PI band, building a grid | **[guides/AI_GRIDS](guides/AI_GRIDS.md)** | the series' AI list **plus** the install-only `AIField` document; `build_aifield.py` |
 | A multi-class grid in any series | **[guides/CUSTOM_RACE](guides/CUSTOM_RACE.md)** | modes, class scale, PI band, recipe, test protocol |
+| What the career mod is, its stages and the series that already run | **[guides/CAREER_MOD](guides/CAREER_MOD.md)** | the vision (FM4 × GT4), stage table, worked examples |
 | A trackday series, worked example | **[guides/CIRCUIT_EXPERIENCE](guides/CIRCUIT_EXPERIENCE.md)** | ids, timeline, which document is active |
 | Symptom → cause → fix | **[guides/TROUBLESHOOTING](guides/TROUBLESHOOTING.md)** | consolidated diagnostics |
 

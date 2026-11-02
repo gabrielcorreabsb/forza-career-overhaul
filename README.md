@@ -5,12 +5,13 @@
 </p>
 
 <p align="center">
-  <b>Build your own career mod for Forza Motorsport (2023, Steam)</b><br>
-  modelled on the career of Forza Motorsport 4 — generated on your machine, from the game you own
+  <b>A career mod for Forza Motorsport (2023, Steam), in the making</b><br>
+  Forza Motorsport 4 meets Gran Turismo 4 — and the tools to build it on your machine, from the game you own
 </p>
 
 <p align="center">
-  <a href="docs/en/GETTING_STARTED.md">Get started</a> ·
+  <a href="docs/guides/CAREER_MOD.md">The career mod</a> ·
+  <a href="docs/en/GETTING_STARTED.md">Build your own</a> ·
   <a href="docs/reference/MODDING_SURFACE.md">What can be changed</a> ·
   <a href="docs/project/PROJECT_STATUS.md">Project status</a> ·
   <a href="docs/INDICE.md">All docs</a> ·
@@ -21,7 +22,15 @@
 
 ## What this is
 
-Tools and documentation to reshape the career of Forza Motorsport (2023): a
+**The career mod.** The goal is a career that takes the best of two games: the
+**permanent event list**, the right car for each event and one-make series of
+**Forza Motorsport 4**, and the **climb from the entry classes** of **Gran Turismo
+4**, with short cheap races in ordinary cars first. It is built piece by piece, and
+each piece is tested in game before it counts. Where it stands, stage by stage, is
+below; the full picture is in [CAREER_MOD](docs/guides/CAREER_MOD.md). Nothing is
+distributed ready to install: you generate your own changes with the tools here.
+
+**The toolkit.** Tools and documentation to reshape the career of Forza Motorsport (2023): a
 **permanent event list**, the **right car for each event**, a denser **entry
 path** at classes E and D, a **race weekend** where practice sets the grid, and
 **multi-class AI grids** that race honestly. Rename, reorder and unlock the
@@ -50,6 +59,23 @@ What we found and how it changes what you play:
 > Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
 > brand. This repository contains **our own code and documentation only** — no
 > game files, no game text, no mod payloads. See [NOTICE](NOTICE.md).
+
+## The career mod: where we are
+
+| stage | what the player gets | state |
+|---|---|---|
+| Own place in the career | a cup and ladder of our own; renamed, reordered, unlocked | verified in game |
+| Spec races | 23 AI of one model against you | verified in game |
+| Trackday | pick a circuit, any class, rolling start | verified in game |
+| Start type per event | standing or rolling, chosen event by event | verified in game |
+| Honest multi-class AI | a pool that follows your PI, or a fixed list D to R | verified in game |
+| Race weekend | practice orders the AI's grid; the wager places you | observed |
+| Entry ladder (E and D) | short series for the cars the career never lists | planned |
+| One-make and period series | one manufacturer, decade or country | planned |
+| Longer races, weather per event | wear, fuel, pit window, forecasts | to test |
+
+Series that already run, with what each proves:
+[CAREER_MOD](docs/guides/CAREER_MOD.md) §3.
 
 ## At a glance
 
@@ -176,7 +202,7 @@ python _tools\rollback_cache.py                              # undo the last app
 |---|---|
 | [`docs/en/`](docs/en/GETTING_STARTED.md) · [`docs/pt-br/`](docs/pt-br/GETTING_STARTED.md) | **Start**: getting started, concepts (cache, Strategy S, career model), the apply pipeline |
 | [`docs/tutorials/`](docs/tutorials/01_rename.md) | **Step by step**: rename, reorder, new series, AI grid |
-| [`docs/guides/`](docs/guides/CAREER_BASICS.md) | **By goal**: career basics, AI grids, custom multi-class races, a worked trackday series, troubleshooting |
+| [`docs/guides/`](docs/guides/CAREER_MOD.md) | **By goal**: the career mod, career basics, AI grids, custom multi-class races, a worked trackday series, troubleshooting |
 | [`docs/reference/`](docs/reference/MODDING_SURFACE.md) | **The format**: what can be modded, career model, race system, cars and PI, field-by-field schema, data reference, series checklist, glossary |
 | [`docs/data/`](docs/data/ENUMS.md) | **Tables** generated from your game: cars, tracks, classes and enum values |
 | [`docs/project/`](docs/project/PROJECT_STATUS.md) | **The project**: status and roadmap, discoveries, open questions, career audit, decision records, third-party material |

@@ -2,6 +2,9 @@
 
 ## 1. Goal
 
+The career we are assembling, stage by stage, is described in
+[CAREER_MOD](../guides/CAREER_MOD.md); this page tracks the state and the plan.
+
 Bring the career of Forza Motorsport (2023) closer to the career of Forza
 Motorsport 4: a **permanent event list** where nothing expires and no car is
 missed for being late, the **right car for each event** instead of a handful of

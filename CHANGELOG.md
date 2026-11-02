@@ -6,6 +6,12 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **New [CAREER_MOD](docs/guides/CAREER_MOD.md)** and a README reframed around
+  it: the career mod we are building (Forza Motorsport 4 × Gran Turismo 4), its
+  stages with their state, and the series that already run as worked examples.
+  The toolkit becomes the second level ("build your own"). Documentation only:
+  nothing new is distributed.
+
 - **README now explains the findings in play terms**: who you race against
   (pool vs fixed list, custom single-car rosters, how far the AI sits from
   you), how an event starts (no real qualifying, practice and the wager, start
