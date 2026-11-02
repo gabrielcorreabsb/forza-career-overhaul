@@ -36,8 +36,11 @@ piece is tested in game before it counts.
 | **Start type per event** | a standing or a rolling start, chosen event by event | verified in game |
 | **Honest multi-class AI** | a pool that follows your PI, or a fixed list from D to R | verified in game |
 | **Race weekend** | practice orders the AI's grid; the start-position wager places you | observed (no separate qualifying exists in the career) |
+| **Start slot per event** | the generator places you first or last, whatever your lap | observed (one run per setting) |
+| **Start last and overtake** | a forced start at the back of the grid | observed (one run, to repeat) |
+| **Racers Cup rules in the career** | a class-restricted event with its own regulation, for the cars of that class | observed (class bucket enforced; regulation not yet recorded) |
 | **One-make and period series** | one manufacturer, one decade, one country | planned, viable |
-| **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | to test |
+| **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | a mandatory stop is enforced on the AI (observed, one run); wear and fuel to test |
 | **Weather and time of day per event** | a set forecast per event | to test |
 | **Prize cars, the end of car level, manufacturer affinity** | — | not possible: they live in the game's account and server |
 

@@ -397,7 +397,7 @@ key, how much we know. **verified** = seen in game or reproduced by a script;
 | `FeatureRace.TimeOfDayTimeScale`, `TimeOfDayTimeScaleOverride` | clock speed during the race | hypothesis | the series also has a `TimeScale` default (§2.9); which wins is untested |
 | `FeatureRace._321Type` | standing (`Full`) or rolling (`Rolling`) start | **verified** (n=1) | beats the shared generator (§2.8); present on about a third of the overrides |
 | `PracticeAndQualifying.*` | the same five weather/time keys for practice and qualifying | hypothesis | no key here adds a qualifying session (§2.5) |
-| `AIFileName` | the AI field document that sets the grid | **verified** | pins the grid, not the series' car list ([AI_GRIDS](../guides/AI_GRIDS.md)) |
+| `AIFileName` | the AI field document that sets the grid | **verified** | pins the grid, not the series' car list ([AI_GRIDS](../guides/AI_GRIDS.md)); a document with an empty driver list ran the practice with no AI but **crashed the race** (observed, n=1) |
 | `TargetPI` | performance cap | **verified** | when it differs from the event record's copy, the event's wins (§2.2, §2.11) |
 | `ClassRestriction` | class ceiling | hypothesis | may cap the class on its own, independent of `TargetPI` (§2.2, §2.10) |
 | `Track` | the track of the slot | observed | must equal the event's track; one id repeated per track variant (§2.2) |

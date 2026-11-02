@@ -77,7 +77,7 @@ flag, open one Featured or multiplayer event to confirm nothing moved.
 | recipe | works today? | how |
 |---|---|---|
 | **Honest qualifying** | ✅ manual | keep the wager screen on; the AI already follows practice; read your place in the practice table and pick that slot |
-| **GT-style start** (start last and overtake everyone) | ✅ incentive · ⛔ forced | pick the last slot on the screen and make it pay the most with a custom bonus curve (being tested) |
+| **GT-style start** (start last and overtake everyone) | ✅ incentive · ✅ forced (observed, n=1) | a session generator set to rank order with a high start index put the player last even with a fast lap; to repeat |
 | **Trackday** | ✅ | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | **Multiclass grid in any series** | ✅ | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
 | **Automatic qualifying for the human** | ⛔ | no data lever found so far |

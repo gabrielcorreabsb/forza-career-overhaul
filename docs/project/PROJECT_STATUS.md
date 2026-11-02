@@ -51,6 +51,19 @@ payloads, generated on your machine by the public tools.
    and D (50/106) are the worst served, while 245 of 627 events sit at
    `TargetPI` 900 or 800.
 
+6. **A session generator decides the human's start slot.** With rank order,
+   a start index acts as a cut: below it the player starts first, above it
+   last, whatever his lap; with qualifying order the slot is a fixed 7th. The
+   wager screen's pick is overridden (observed, one run per setting).
+7. **The generator's car restriction is enforced.** A Racers Cup generator with
+   a strict class-R bucket refused a class C car the series allowed and
+   accepted a class R one (observed).
+8. **A mandatory pit stop is enforced on the AI too.** On a 2-lap race many AI
+   cars were disqualified for not stopping; on 4 laps all of them stopped
+   (observed).
+9. **A race needs AI.** An empty AI document ran the practice but crashed the
+   race (observed, one run).
+
 Full log, with the evidence and a status for each finding:
 [DISCOVERIES](DISCOVERIES.md).
 

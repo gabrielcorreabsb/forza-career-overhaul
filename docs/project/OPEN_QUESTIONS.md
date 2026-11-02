@@ -346,6 +346,8 @@ options **can** set the human's slot and **override the wager's pick**. Not
 explained: index 2 was expected to give 3rd, not 1st. Next: repeat with a fast
 lap and with a slow lap, then other index values (0, 5, 11, 23).
 
+**Grid bench (fourth round, observed, n=1 per series).** Six generators, one field each, same event design. With `AIDriverRank`: index **0, 2, 5 → 1st**; index **11, 23 → 24th**, and the 24th held with a fast practice lap. With `Qualifying` and index 2 the slot was **already fixed from the start of practice (7th)**, so the qualifying shapes give the old constant slot and only `AIDriverRank` moves the human. So the index is not a position: it behaves as a cut, with the turn between 5 and 11. One reading is that the index is compared with the AI's driver rank (all 23 ranks lying between 6 and 11); then indices 6–10 should give intermediate slots. Next: indices 7, 8 and 9. The `Qualifying` slot is the same **7th** with the best lap, with a slow lap or none, with index 2 and with index 10 (Racers Cup generator, class R car, another track), and it matched the old oval constant: a fixed value of that path, not computed from the lap, the index, the class or the track. The ordering by estimated lap time gave **13th** in another series, so the constant depends on the ordering shape. Hypothesis to test: the 7th and 13th are fractions of the 24-car field (about a quarter and a half); a roster of 8 cars (the one document with 7 drivatars) would then start 3rd and 5th rather than 7th.
+
 **Why it matters.** A mod that reorders a field or builds a race weekend has to
 know whether the human's slot is data it can set or a constant it has to accept.
 Today it is a constant it can only **override by the player's own pick** on the

@@ -80,7 +80,7 @@ nada mudou.
 | receita | funciona hoje? | como |
 |---|---|---|
 | **Qualify honesto** | ✅ manual | deixe a tela de aposta ligada; a IA já segue o treino; veja sua posição na tabela do treino e escolha essa vaga |
-| **Largada estilo GT** (largar em último e ultrapassar todo mundo) | ✅ incentivo · ⛔ forçada | escolha a última vaga na tela e faça ela pagar mais com uma curva de bônus própria (em teste) |
+| **Largada estilo GT** (largar em último e ultrapassar todo mundo) | ✅ incentivo · ✅ forçada (observed, n=1) | um gerador de sessão em ordem por rank com índice de largada alto pôs o jogador em último mesmo com volta rápida; a repetir |
 | **Trackday** | ✅ | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | **Grid multiclasse em qualquer série** | ✅ | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
 | **Qualify automático para o humano** | ⛔ | nenhuma alavanca de dados encontrada até agora |
