@@ -52,7 +52,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | voltas de treino limitadas → sessão cronometrada (**não existe sessão de qualify separada** na carreira) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
 | trackday: sem treino, largada lançada, uma volta | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | sessão de uma volta | 🧪 | hypothesis | — |
-| tipo de largada (parada ou lançada): definido pelo gerador de sessão, **não** pela flag de largada lançada da série; um valor no override pode vencer (em teste) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
+| tipo de largada (parada ou lançada): definido pelo gerador de sessão, **não** pela flag de largada lançada da série; um valor no override do evento vence, então é escolha por evento (um par testado) | ✅ | verified | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
 | pneu padrão, escala de combustível e desgaste de pneu da carreira | 🧪 | hypothesis | — |
 
 ### Grid e posição de largada

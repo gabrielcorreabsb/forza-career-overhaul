@@ -251,17 +251,27 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
   attribute (`_321Type`, values `Full`, `Rolling`, and `Restart` on the practice
   template), and about a third of the career overrides carry the same attribute
   inside the race block (`FeatureRace._321Type`), disagreeing with the generator
-  in about 30 cases — so the override value is probably what wins (not tested).
+  in about 30 cases. In the audited table 373 of the 1086 records carry it (219
+  `Rolling`, 154 `Full`). Which one wins is settled in the next bullet.
   Two bench series show the generator at work: the one whose generator says
   `Rolling` starts with a rolling lap; the one whose generator says `Full`
   starts standing **even with the series' slot-car-start flag switched on**. So
   that flag does not make the start rolling. *How to reproduce:* read
   `_321Type` in the race template of the event's generator, then run the event
   and watch the start.
-- **hypothesis** — Adding `_321Type = Rolling` to the override's race block
-  gives a rolling start without touching the (shared) generator; test pending.
-  A cloned event inherits the start from its generator, which is why it can
-  behave unlike its new neighbours.
+- **verified** (n=1) — **`FeatureRace._321Type` in the override beats the
+  shared generator.** Two bench series were built identical in everything (same
+  track, laps, class cap, PI cap, AI field, same shared generator) except one
+  key: the override of one carries `_321Type = "Rolling"`, the other has none.
+  The one with the key started **rolling**; its twin, on the same generator,
+  started **standing**. So the start type is a choice **per event**: add the key
+  to one override and the shared generator never needs touching. One pair, one
+  run each; repeat it on another track before treating it as a rule.
+  *How to reproduce:* clone an event, insert `_321Type = "Rolling"` into the
+  clone's `FeatureRace` block right after `WeatherForecast` (the spelling and
+  position vanilla overrides use), leave the twin alone, and watch both starts.
+  A cloned event that does **not** carry the key inherits the start from its
+  generator, which is why it can behave unlike its new neighbours.
 
 ## 2.9 Series defaults — 15 fields
 
@@ -361,6 +371,32 @@ from one series record in the career data (same loader).
   `python _tools\audit_career.py`.
   Estimating minutes would need a lap-time table the data does not have — see
   `OPEN_QUESTIONS.md`.
+
+## 2.16 Per-event levers — what each override key can change
+
+The override (§2.2) is the one record you can edit to change a single event
+without touching a generator that other events share. This table says, key by
+key, how much we know. **verified** = seen in game or reproduced by a script;
+**observed** = the data shows it, no controlled test; **hypothesis** = untested.
+
+| key (inside the override) | what it controls | state | note |
+|---|---|---|---|
+| `FeatureRace.Laps` | race length | **verified** | beats the event's `NumberOfRequiredLaps` (§2.3) |
+| `FeatureRace.Pits` | mandatory pit stops | observed | 0 on 1058 slots, 1 on 20, 2 on 8 (§2.6); the effect of changing it is untested |
+| `FeatureRace.WeatherForecast` | weather forecast id | observed | 11932 on almost every slot; "inherit the track's weather" is a hypothesis (§2.7) |
+| `FeatureRace.TimeOfDayHour`, `TimeOfDayMinute` | start time of day | hypothesis | values are in the data; no test moved them |
+| `FeatureRace.TimeOfDayTimeScale`, `TimeOfDayTimeScaleOverride` | clock speed during the race | hypothesis | the series also has a `TimeScale` default (§2.9); which wins is untested |
+| `FeatureRace._321Type` | standing (`Full`) or rolling (`Rolling`) start | **verified** (n=1) | beats the shared generator (§2.8); present on about a third of the overrides |
+| `PracticeAndQualifying.*` | the same five weather/time keys for practice and qualifying | hypothesis | no key here adds a qualifying session (§2.5) |
+| `AIFileName` | the AI field document that sets the grid | **verified** | pins the grid, not the series' car list ([AI_GRIDS](../guides/AI_GRIDS.md)) |
+| `TargetPI` | performance cap | **verified** | when it differs from the event record's copy, the event's wins (§2.2, §2.11) |
+| `ClassRestriction` | class ceiling | hypothesis | may cap the class on its own, independent of `TargetPI` (§2.2, §2.10) |
+| `Track` | the track of the slot | observed | must equal the event's track; one id repeated per track variant (§2.2) |
+| `ParentGeneratorId` | which generator template the slot was cloned from | **verified** (breaks) · hypothesis (gains) | pointing at another track's template breaks the cup (§2.13); that the template also carries the regulation, tuning and qualifying options is a hypothesis, tested by repointing one event |
+| `Enabled` | whether the override applies | hypothesis | no test switched it off |
+
+Order of the next bench tests, one key per test: pit stops (with laps), then
+weather and time of day, then `ParentGeneratorId`.
 
 ## See also
 

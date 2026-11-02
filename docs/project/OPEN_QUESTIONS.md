@@ -14,7 +14,7 @@ commands are the ones named in the pages that raise each item.
 ## 1. Where is the start type stored?
 
 **Question.** Rolling and standing starts are visible in game; where does the game
-read the start type from? — **mostly answered**
+read the start type from? — **answered** (one pair; repeat on another track)
 
 **What we know.** **observed** — the session generator's race template carries a
 start-type attribute (`Full` = standing, `Rolling`), and about a third of the
@@ -24,15 +24,17 @@ a `Rolling` generator started with a rolling lap; a second bench series on a
 was on** — so that flag is not the lever (one run each, user reports). A custom
 event cloned from a Nordschleife donor started rolling, consistent with an
 inherited generator.
-**hypothesis** — the override's value wins over the generator's (they disagree in
-about 30 overrides); a one-field test on a bench event is queued.
+**verified** (n=1) — the override's value wins over the generator's (they
+disagree in about 30 overrides). A twin pair on the same `Full` generator,
+identical but for `FeatureRace._321Type = "Rolling"` in one override: the one with
+the key started rolling, the other standing.
 
-**Why it matters.** A new event can pick its start type by its generator (shared,
-so side effects) or, if the hypothesis holds, by one override field.
+**Why it matters.** A new event picks its start type by one override field; the
+shared generator never needs touching.
 
-**Test.** On a bench event with a `Full` generator, add the start-type attribute
-`Rolling` to its override's race block only, and watch the start. If it rolls, the
-override wins and the shared generator never needs touching.
+**What is left.** One pair, one run each: repeat it on a second track, and try
+`Full` on an event whose generator says `Rolling`. Details and the other
+override keys: [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 and §2.16.
 
 ## 2. Which lap count wins — the event's or the override's? — **answered**
 

@@ -269,7 +269,7 @@ One or more override records per event, matched by `ID` == `EventDataId`.
 | `Type` | race type discriminator | `BCSharedEventData` (all) |
 
 Nested keys: `FeatureRace` = `WeatherForecast`, `Laps`, `Pits`,
-`TimeOfDayHour`, `TimeOfDayMinute`, `_321Type` (373 of 1086),
+`TimeOfDayHour`, `TimeOfDayMinute`, `_321Type` (373 of 1086: `Rolling` 219, `Full` 154),
 `TimeOfDayTimeScale`, `TimeOfDayTimeScaleOverride`; `PracticeAndQualifying` =
 `WeatherForecast`, `TimeOfDayHour`, `TimeOfDayMinute`, plus the two time-scale
 keys (32 of 1086).

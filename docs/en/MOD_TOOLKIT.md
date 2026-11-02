@@ -50,7 +50,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | limited practice laps → a timed session (there is **no separate qualifying session** in the career) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
 | trackday: no practice, rolling start, one lap | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | one-lap session | 🧪 | hypothesis | — |
-| start type (standing or rolling): set by the session generator, **not** by the series' slot-car-start flag; an override-level value may win (being tested) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
+| start type (standing or rolling): set by the session generator, **not** by the series' slot-car-start flag; a value in the event's override wins, so it is a choice per event (one pair tested) | ✅ | verified | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
 | default tyre compound, fuel scale and tyre wear for the career | 🧪 | hypothesis | — |
 
 ### Grid and start position
