@@ -21,7 +21,7 @@ referência a partir dela no laboratório privado).
 | `kit` | ✓ | kit folder name (`patches/<kit>`) / nome da pasta do kit |
 | `title`, `scope`, `requires` | | text for the kit's notes file / texto do the kit's notes file |
 | `series.id` | ✓ | new id ≥ 20000, never reused / id novo ≥ 20000, nunca reutilizado |
-| `series.name` | ✓ | displayed pt-BR name / nome exibido em pt-BR |
+| `series.name` | ✓ | displayed name; for a test series use `Test: <what is tested> [<id>]`, in English / nome exibido; série de teste: `Test: <o que testa> [<id>]`, em inglês |
 | `series.key_label` | | label for the `IDS_` key (default: `name`) / rótulo da chave `IDS_` |
 | `series.donor_series` | ✓ | series shell to clone (recommended 601) / série-casca clonada (recomendado 601) |
 | `series.donor_xml_series` | | donor entry in `BCSeriesSelectableCars.xml` (default: `donor_series`) |

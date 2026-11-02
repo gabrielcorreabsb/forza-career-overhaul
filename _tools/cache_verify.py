@@ -1,31 +1,50 @@
-﻿import os, json, zipfile, hashlib, base64, subprocess
-CACHE = os.path.join(os.environ["LOCALAPPDATA"], r"Microsoft.ForzaMotorsport\CmsCache")
+﻿import os, sys, json, zipfile, hashlib, base64, subprocess, argparse
+ap = argparse.ArgumentParser(prog="cache_verify.py")
+ap.add_argument("--cache-dir", default=None,
+                help="CmsCache a conferir (default: o vivo)")
+ARGS = ap.parse_args()
+CACHE = os.path.abspath(ARGS.cache_dir) if ARGS.cache_dir else \
+    os.path.join(os.environ["LOCALAPPDATA"], r"Microsoft.ForzaMotorsport\CmsCache")
 ROOT  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ORACLE = os.path.join(ROOT, r"_tools\cacheoracle\bin\Release\net10.0\cacheoracle.exe")
 CMS_ORACLE = os.path.join(ROOT, r"_tools\cmsoracle\bin\Release\net10.0\cmsoracle.exe")
 W = os.path.join(ROOT, "_out", "verify"); os.makedirs(W, exist_ok=True)
+ERRORS = []
 def b64sha(b): return base64.b64encode(hashlib.sha256(b).digest()).decode()
 def run(exe,a):
     r=subprocess.run([exe]+a,capture_output=True,text=True)
     if r.returncode!=0: raise RuntimeError(r.stdout+r.stderr)
+print("cache:", CACHE)
 cm = os.path.join(CACHE,"cache-manifest.json")
 p = os.path.join(W,"cm.json")
-run(ORACLE,["dec",cm,p])
-man = json.load(open(p,encoding="utf-8"))
+try:
+    run(ORACLE,["dec",cm,p])
+    man = json.load(open(p,encoding="utf-8"))
+except Exception as exc:  # noqa: BLE001
+    print("cache-manifest: FALHOU (%s)" % exc)
+    print("erros: 1")
+    sys.exit(1)
 print("cache-manifest: OK, entries =", len(man["Files"]))
 ok=True
 for f in man["Files"]:
     fp = os.path.join(CACHE, f["Path"])
     if not os.path.exists(fp):
-        print("  FALTA:", f["Path"]); ok=False; continue
+        print("  FALTA:", f["Path"]); ok=False; ERRORS.append("falta "+f["Path"]); continue
     data=open(fp,"rb").read()
-    if len(data)!=f["Size"]: print("  SIZE!=:", f["Path"], len(data), f["Size"]); ok=False
-    if b64sha(data)!=f["Checksum"]: print("  CHECKSUM!=:", f["Path"]); ok=False
+    if len(data)!=f["Size"]:
+        print("  SIZE!=:", f["Path"], len(data), f["Size"]); ok=False
+        ERRORS.append("size "+f["Path"])
+    if b64sha(data)!=f["Checksum"]:
+        print("  CHECKSUM!=:", f["Path"]); ok=False
+        ERRORS.append("checksum "+f["Path"])
     bn=os.path.basename(f["Path"])
     if len(bn)==64 and all(c in "0123456789ABCDEF" for c in bn):
         h=hashlib.sha256(data).hexdigest().upper()
         print(("  blob %s  nome==hash? %s" % (bn[:12], "SIM" if h==bn else "NAO (renomeado in-place)")))
-for snap in ["20260923t185113xwyk","20251124t234605pkod"]:
+prod_dir = os.path.join(CACHE, "prod")
+snaps = sorted(n for n in os.listdir(prod_dir)
+               if os.path.isfile(os.path.join(prod_dir, n)))
+for snap in snaps:
     pp=os.path.join(CACHE,"prod",snap)
     prod=json.load(open(pp,encoding="utf-8"))
     pf={x["Path"]:x for x in prod["Files"]}
@@ -37,3 +56,5 @@ for snap in ["20260923t185113xwyk","20251124t234605pkod"]:
     for n in ("LocStrings_pt-BR.str","BuildersCupScheduleDataV4.json"):
         e=pf[n]; print(f"   {n}: Size={e['Size']} Checksum={e['Checksum'][:20]}...")
 print("consistencia do cache-manifest:", "OK" if ok else "FALHOU")
+print("erros:", len(ERRORS))
+sys.exit(0 if ok else 1)

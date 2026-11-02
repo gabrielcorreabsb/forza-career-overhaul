@@ -333,12 +333,40 @@ after the delta did not, not tested. (iv) Whether the suggestion scales with the
 field size — the field-size field of the series is ignored, so the question could
 not be asked that way.
 
+**New (third round, observed, n=3 on one event).** A *different* generator
+value moved the slot. With the event pointed at a generator whose grid options
+were `GridOrderingType = AIDriverRank` and `ClusterHumansAtIndex = 2` (the
+earlier shape tests only compared `Qualifying` and the estimated order), with
+the wager screen on: the player picked the **12th** slot and started **1st**;
+on a second run he picked the **24th** and was pulled to **1st** again, and after restarting the series he started **1st** a third time. His
+practice lap (1:08.661) was one of the two slowest of the 24, and the AI came out
+in an order that does **not** follow lap time (the best lap of the list sat at
+18th) — consistent with an AI order by driver rank. So the generator's grid
+options **can** set the human's slot and **override the wager's pick**. Not
+explained: index 2 was expected to give 3rd, not 1st. Next: repeat with a fast
+lap and with a slow lap, then other index values (0, 5, 11, 23).
+
 **Why it matters.** A mod that reorders a field or builds a race weekend has to
 know whether the human's slot is data it can set or a constant it has to accept.
 Today it is a constant it can only **override by the player's own pick** on the
 wager screen: the practical route to a qualifying is to switch the screen on and
 choose the slot the lap deserves, or to accept the fixed slot with the screen
 off.
+
+---
+
+## 17. Why does the AI leave the track at the same corners?
+
+**Question.** On the bench series the AI cars repeatedly run off the track at the
+same corners. Is it the grid's car (PI window against the tune), the track donor's AI
+document, the difficulty, or a track-level AI tuning table? — **open**
+
+**What we know.** **observed** (user report, 02/11) — it repeats at the same corners
+across runs. Which series, car and corner is not recorded yet.
+
+**Test.** After the current bench is closed: note series, track, corner and the AI
+document for two or three corners; compare the same corner on a vanilla series and on
+one with a different AI document.
 
 ---
 

@@ -224,6 +224,15 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
   8. The counts are per override slot rather than per event, which is why they
   do not add up to 627. *How to reproduce:* `python _tools\audit_career.py`.
 
+- **observed** — **`Pits = 1` is enforced on the AI.** Two bench races, identical
+  but for the length: on **2 laps** many AI cars were disqualified for not making
+  the mandatory stop; on **4 laps** all 24 cars stopped (22 once, 2 twice) and the
+  field finished normally. One run each, and no 4-lap control with `Pits 0`, so
+  stops caused by tire wear are not ruled out. Practical rule: give a mandatory
+  stop enough laps to fit it. *How to reproduce:* clone one event with `Pits 1`
+  and 2 laps, another with `Pits 1` and 4 laps, run both and read the result
+  table (the stops column and the disqualifications).
+
 ## 2.7 Weather
 
 - **verified** — A single value, **11932**, dominates the weather field; it is a
@@ -382,7 +391,7 @@ key, how much we know. **verified** = seen in game or reproduced by a script;
 | key (inside the override) | what it controls | state | note |
 |---|---|---|---|
 | `FeatureRace.Laps` | race length | **verified** | beats the event's `NumberOfRequiredLaps` (§2.3) |
-| `FeatureRace.Pits` | mandatory pit stops | observed | 0 on 1058 slots, 1 on 20, 2 on 8 (§2.6); the effect of changing it is untested |
+| `FeatureRace.Pits` | mandatory pit stops | observed (n=1) | enforced on the AI: 2 laps disqualified many, 4 laps all stopped (§2.6); player penalty and HUD not yet recorded |
 | `FeatureRace.WeatherForecast` | weather forecast id | observed | 11932 on almost every slot; "inherit the track's weather" is a hypothesis (§2.7) |
 | `FeatureRace.TimeOfDayHour`, `TimeOfDayMinute` | start time of day | hypothesis | values are in the data; no test moved them |
 | `FeatureRace.TimeOfDayTimeScale`, `TimeOfDayTimeScaleOverride` | clock speed during the race | hypothesis | the series also has a `TimeScale` default (§2.9); which wins is untested |
