@@ -33,7 +33,8 @@ ROOTS = ("_tools/", "docs/", "patches/", "specs/", "_data/", ".claude/",
          "archive/",
          ".githooks/")
 SKIP_PREFIX = ("_work/", "_out/", "_backup/", "_extract/", "_build/")
-SKIP_DOCS = ("docs/inventario/", "docs/archive/")
+SKIP_DOCS = ("docs/inventario/", "docs/archive/", "okf/",
+             "publish/public/okf/")  # okf/: links na raiz do bundle
 BARE_DIRS = ("", "docs", "docs/pt-br", "docs/en", "_tools", "archive/tools",
              "archive/tools/probes", "docs/archive", "docs/guides",
              "docs/reference", "docs/project", "docs/project/decisions",

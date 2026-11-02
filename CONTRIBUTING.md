@@ -16,6 +16,8 @@ Thanks for helping. Short version:
 - **Docs:** English only, except `PIPELINE`, `GETTING_STARTED`, `CONCEPTS` and `MOD_TOOLKIT`, which exist as
   `docs/en/` and `docs/pt-br/` pairs and must be changed together. Run
   `python _tools\docs_check.py` (it must end with 0 errors).
+- **`okf/` is generated** (the agent-navigation bundle): do not edit it in a pull
+  request. Change the doc or the script it describes; the maintainer regenerates the bundle.
 - **Style:** match the surrounding code (stdlib Python, `fmlib` for shared helpers). Commit
   messages: `feat:`, `fix:`, `docs:`, `chore:`.
 - **License:** by contributing you agree your code is MIT and your docs CC BY 4.0.

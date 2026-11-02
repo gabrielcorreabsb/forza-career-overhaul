@@ -210,6 +210,12 @@ python _tools\rollback_cache.py                              # undo the last app
 The full map, by task: [docs/INDICE.md](docs/INDICE.md). The role of each
 script: [_tools/TOOLS.md](_tools/TOOLS.md).
 
+**For AI agents:** start at [okf/index.md](okf/index.md), an
+[Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf)
+bundle of the rules, tools, specs and docs, with one index per folder so you can
+descend one level at a time instead of loading everything. It is generated; do
+not edit it by hand.
+
 ## Golden rules
 
 1. **Game closed** before any cache write. The game locks the files; a write
