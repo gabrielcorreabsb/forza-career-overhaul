@@ -14,11 +14,16 @@ only your own game and the CMS key (no kit, no private payload).
      nothing else changes; a vanilla 5-frame block re-renders exactly
   5. manifest rule: rebuilt manifests equal the vanilla ones (incl. the extra
      row at an off-grid maximum such as 850-999) for most vanilla templates
+  6. every definition in specs/aifield builds from its vanilla donor and is
+     deterministic
+  7. document metadata: difficulty / rubber banding / behavior flags rewrite
+     only their own attributes (the vanilla values come back byte-identical)
 
   python _tools\\test_aifield.py
 """
 
 import os
+import re
 import sys
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
@@ -155,6 +160,54 @@ def main():
         check(ok, "%s builds from %s" % (d["name"], d["template"]))
         check(build_aifield.build_text(d, tpl, by_car) == txt,
               "%s build is deterministic" % d["name"])
+
+    # 7. document metadata: difficulty / rubber banding / behavior
+    check(st["difficulty"] and st["rubber"] in ("True", "False"),
+          "template metadata parses (difficulty %s, rubber %s)"
+          % (st["difficulty"], st["rubber"]))
+    inv = {v: k for k, v in aifield.BEHAVIOR_KEYS.items()}
+    own = {s: {inv[a]: (v == "True") for a, v in f.items() if a in inv}
+           for s, f in st["behavior"].items()}
+    check(len(own) == 2 and all(own.values()),
+          "template behavior parses both sessions: %s" % sorted(own))
+    check(aifield.rewrite_template(mc58, st["elig"], by_car,
+                                   difficulty=st["difficulty"],
+                                   rubber_banding=st["rubber"] == "True",
+                                   behavior=own) == mc58,
+          "difficulty/rubber/behavior rewritten with their own values "
+          "reproduce 115560000 byte for byte")
+    off = {"FeaturedRace": {"SlowDown": False, "CatchUp": False,
+                            "Proximity": False, "PosDifficultySpread": False}}
+    meta = aifield.rewrite_template(mc58, st["elig"], by_car,
+                                    difficulty="Expert", rubber_banding=False,
+                                    behavior=off)
+    m = aifield.parse(meta)
+    check(m["difficulty"] == "Expert" and m["rubber"] == "False",
+          "difficulty Expert and rubber banding off are written")
+    fr = m["behavior"]["FeaturedRace"]
+    check(all(fr[a] == "False" for a in ("EnableDifficultySlowDown",
+                                         "EnableDifficultyCatchUp",
+                                         "EnableDifficultyProximity",
+                                         "EnablePosDifficultySpread")),
+          "the FeaturedRace elastic flags are off: %s" % fr)
+    check(m["behavior"]["PracticeAndQualification"]
+          == st["behavior"]["PracticeAndQualification"],
+          "PracticeAndQualification keeps the template flags")
+
+    def neutral(t):
+        t = re.sub(r'(AIDifficulty=")[^"]*(")', r"\1?\2", t)
+        t = re.sub(r'(AIRubberBandingEnabled=")[^"]*(")', r"\1?\2", t)
+        for a in aifield.BEHAVIOR_KEYS.values():
+            t = re.sub(r'(%s=")[^"]*(")' % a, r"\1?\2", t)
+        return t
+    check(neutral(meta) == neutral(mc58),
+          "only difficulty/rubber/behavior attributes changed")
+    try:
+        aifield.set_behavior(mc58, {"FeaturedRace": {"Bogus": False}})
+    except FmError:
+        check(True, "set_behavior rejects an unknown key")
+    else:
+        check(False, "set_behavior rejects an unknown key")
     print("test_aifield: OK")
 
 

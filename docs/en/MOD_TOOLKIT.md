@@ -35,6 +35,10 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 |---|---|---|---|
 | roster that follows the player's PI, or a fixed multiclass list | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md), [tutorial 04](../tutorials/04_ai_grid.md) |
 | pools larger than the grid (a different field every race) and wide PI bands | ✅ | verified | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| **custom roster** in an existing, unused AI roster document (for example 23 cars of one model); one roster per document, shared by every event that points to it | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §6 |
+| a **brand-new** AI roster file (a new entry the server does not know) | ⛔ | observed | the game went offline when the event was opened |
+| how far the AI sits from the player (picked by the player's PI against the document's PI floor; the event's performance cap does not limit the AI) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
+| roster-document behaviour flags (catch-up, slow-down…) against the series ones: which wins | 🧪 | hypothesis | — |
 | grids above 24 cars | 🧪 | to test | — |
 | AI rubber banding in the career generators | already off | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | AI catch-up and slow-down in the race and in practice | 🧪 | hypothesis | — |
@@ -46,6 +50,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | limited practice laps → a timed session (there is **no separate qualifying session** in the career) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
 | trackday: no practice, rolling start, one lap | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | one-lap session | 🧪 | hypothesis | — |
+| start type (standing or rolling): set by the session generator, **not** by the series' slot-car-start flag; an override-level value may win (being tested) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
 | default tyre compound, fuel scale and tyre wear for the career | 🧪 | hypothesis | — |
 
 ### Grid and start position
@@ -92,6 +97,14 @@ flag, open one Featured or multiplayer event to confirm nothing moved.
   bonus scale nor the AI grid.
 - **Manual grid ordering flag**: its name belongs to multiplayer/freeplay lobby code;
   it is global and was not touched.
+- **Series and event fields tried for a real Qualifying or a different AI**, all
+  with no effect in the career: a wider-window AI roster for the event (the AI stayed
+  capped at about class D), a smaller series field size (the grid stayed at 24), a
+  series-level rules reference (the Featured series carry it, the career ignores it)
+  and the practice limit type `Disabled` (practice stayed limited). The client has a
+  Qualification activity of its own, but no career field we could reach selects it.
+- **The suggested slot** did not follow a best lap about six seconds ahead of the
+  field or the class of the car either.
 
 ## 4. Next
 

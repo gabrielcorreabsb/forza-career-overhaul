@@ -194,12 +194,27 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
   and the qualifying-order run reproduced the same AI order as the estimated
   one, so this shape is not the lever.
 
-- **hypothesis** — The **value** the wager suggests comes from the cup's
-  challenge-the-grid block (a projected race-time delta, an overtake time and a
-  following-car time, i.e. the inputs of a projected start position). Whether the
-  suggestion follows the player's practice time, and what governs the fallback
-  slot of the screen-off state, are the two open halves. Not tested: it needs one
-  term of that block changed, then the suggested slot read again.
+- **observed** — **The suggested slot is a constant, not a computation on
+  anything the data exposes.** On a 24-car grid the screen suggested the middle
+  slot (12th) in every run: with the player's practice time the best of the
+  session by about six seconds, with no timed lap at all, with cars of two
+  different classes, with the payout table cut to one row, and with the block's
+  projected race-time delta multiplied by ten. The screen-off state starts from
+  another constant slot (7th on the oval used for the tests). Small samples
+  (one to three runs each), but nothing moved either number.
+
+- **observed** — **A real qualifying exists in the client, not in the career
+  data.** The client has an event *activity* type named Qualification (separate
+  from the eight session types, which have no such member), with its own track
+  cinematic ("return to the pits"), a qualifying report and a provisional-grid
+  screen, and a Qualify entry in the pre-race menu next to Practice. Which
+  activity a career event runs as is not exposed by any field we could find.
+  Tried and **found to have no effect on the career**: the grid-ordering shape of
+  the session generator, the practice limit type (`Disabled` was ignored and the
+  practice stayed limited), a series-level `SeriesRules` reference (the Featured
+  series carry one, the career schema does not), the field size of the series and
+  the AI roster document. The Featured championship's series data uses the same
+  per-event override keys as the career, so the difference is not in them.
 
 - **hypothesis** — `IsOneShot` turns it into a single timed lap; not tested.
 
@@ -222,17 +237,31 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
 
 ## 2.8 Start type
 
-- **verified** — Neither the event record nor the override has a start-type
-  field (§2.1), and only **2 series** carry any slot-car-start flag.
+- **verified** — The event record has no start-type field (§2.1) and only **2
+  series** carry any slot-car-start flag; the override's race block carries an
+  optional start-type attribute (see below).
   *How to reproduce:* `python _tools\audit_career.py`.
 
 - **observed** — A custom event built from a Nordschleife donor started
   **rolling** in game, although the event data says nothing about a start type.
   *How to reproduce:* run that event and watch the start.
 
-- **hypothesis** — The start type is inherited from the donor/generator
-  (`ParentGeneratorId`) or from the track, not from the copied event fields.
-  This is why a cloned event can behave unlike its new neighbours.
+- **observed** — **The start type is a field of the session generator, not of
+  the series flag.** The race-session generator template carries a start-type
+  attribute (`_321Type`, values `Full`, `Rolling`, and `Restart` on the practice
+  template), and about a third of the career overrides carry the same attribute
+  inside the race block (`FeatureRace._321Type`), disagreeing with the generator
+  in about 30 cases — so the override value is probably what wins (not tested).
+  Two bench series show the generator at work: the one whose generator says
+  `Rolling` starts with a rolling lap; the one whose generator says `Full`
+  starts standing **even with the series' slot-car-start flag switched on**. So
+  that flag does not make the start rolling. *How to reproduce:* read
+  `_321Type` in the race template of the event's generator, then run the event
+  and watch the start.
+- **hypothesis** — Adding `_321Type = Rolling` to the override's race block
+  gives a rolling start without touching the (shared) generator; test pending.
+  A cloned event inherits the start from its generator, which is why it can
+  behave unlike its new neighbours.
 
 ## 2.9 Series defaults — 15 fields
 

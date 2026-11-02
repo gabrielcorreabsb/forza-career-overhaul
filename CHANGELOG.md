@@ -6,6 +6,12 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **README now explains the findings in play terms**: who you race against
+  (pool vs fixed list, custom single-car rosters, how far the AI sits from
+  you), how an event starts (no real qualifying, practice and the wager, start
+  type) and the limits. New rows in "At a glance". Evidence stays in
+  [DISCOVERIES](docs/project/DISCOVERIES.md) D34–D41.
+
 - **Docs restructured by purpose**: `docs/guides/` (by goal), `docs/reference/`
   (the format), `docs/project/` (status, discoveries, open questions,
   decisions) and `docs/data/` (generated tables). New README with the project

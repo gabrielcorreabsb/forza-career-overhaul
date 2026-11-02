@@ -1,0 +1,38 @@
+{
+  "name": "mirror_brz22",
+  "description": "Mirror grid for the C class: a single-car pool (Subaru BRZ '22, id 3735) filling all 23 slots, PI window 400..500 in steps of 10, a narrow -10..+10 band around the player at both window ends, difficulty Expert, rubber banding off and the race elastic flags (slow down / catch up / proximity / position spread) off. Target document: AIField_659050001_Gen.xml (the survey's idle pick) does NOT exist in the two snapshot manifests of the cache, so install_edit.py refuses it; the destination here is AIField_101020003_Gen.xml - present in both snapshots, named by exactly one dead BCSharedEventData (101020003, in no series, no GameOptions_* generator) and by nothing else in the live cache. Same window as the target (400..500/10), Expert, 23 slots.",
+  "logical": "AIField_101020003_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    3735
+  ],
+  "window": [
+    400,
+    500,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

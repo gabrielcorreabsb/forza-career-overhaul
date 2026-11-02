@@ -111,6 +111,13 @@ and a `BehaviorSettings` block (catch-up, slow-down and proximity flags).
   car's lowest file approximates its stock PI. Take classes from this scale,
   not from other PI columns of the derived car tables
   ([CARS_AND_PI](../reference/CARS_AND_PI.md)).
+- **observed** (reinforced) — On a roster with window 400–600 and a player at
+  about 406, 5 of 13 AI cars showed a PI of 400–412 with a **B** class badge while
+  the others showed C: the badge follows the car's real class, the number is the
+  target. 17 of that roster's 21 cars have a lowest AI tune above 412 (most of
+  them class B, up to the 570s), and with the window floor at 400 they load that
+  lowest tune — so they are faster than their listed PI. A roster that fits a
+  class needs cars whose lowest tune is at or below the window floor.
 - **observed** — The PI shown on the grid is the **target**, not the tune
   loaded: a car whose ladder starts far above the listed PI can be listed low,
   and its pace seemed to follow the listed class. No lap-time table yet.
@@ -139,8 +146,17 @@ the player's PI.
   (`MinimumPI..MaximumPI`) and the car's ladder clamp it. The vanilla bands are
   **−40..+10**, **−40..0** and **−50..−10**: the field is always at or slightly
   below the player, in the player's class. Three runs matched the last frame.
-- **hypothesis** — What the key measures is unknown; set all three frames equal
-  in any experiment.
+- **observed** (3 runs, two roster documents) — **The frame is picked by the
+  player's PI minus the document's `MinimumPI`**: the frame whose key is the
+  highest one not above that difference. A player at 404 on a document with
+  minimum 320 (difference 84, frame 80, band −50..−10) met a field of about
+  354–394; a player at 406 on a document with minimum 400 (difference 6, frame 0,
+  band −30..+10, clamped at the window floor) met a field of 400–412. The
+  event's own `TargetPI` (300 in the second case) did **not** cap the AI. So the
+  field's distance from the player is chosen by the document's band table, and
+  to keep the AI in the player's class a document needs a window that starts at
+  or below the player's PI and a frame with a narrow band around zero. Still
+  worth setting all three frames equal in any experiment that isolates the band.
 - **verified** (3 runs) — A wide band of **−350..+250** spreads the field over
   4–7 classes and still follows the player at both ends:
 
@@ -176,6 +192,37 @@ per driver, not per car (the same car appeared at several PIs).
    `install_edit.py --restore <backup>`.
 5. The library behind it is `_tools/fmlib/aifield.py`;
    `_tools/test_aifield.py` proves it rebuilds a vanilla document byte for byte.
+
+## 6b. A one-model roster for a series (spec race)
+
+Proven in game with two series: a grid of 23 Subaru BRZ '22 (class C) and a grid
+of 23 Porsche 911 GT3 RS '23 (class S), each series on its own document. One
+roster per document; any number of events can share a document.
+
+1. **Pick the car** and check it has AI tune files:
+   `python _tools\aifield_survey.py --car <id>`. A car with none cannot be an AI
+   car (the Toyota GR86 '22 has none; its twin, the Subaru BRZ '22, has 22).
+2. **Pick the destination document.** It must be an existing roster document
+   that no reachable series uses: not cited by any override (`AIFileName`) and not
+   cited by any session generator (`AIFieldFile`) in the live cache, and present in
+   **both** cache snapshots (the install tool requires it). A **brand-new file name
+   does not work**: the game went offline when an event pointed at one, because the
+   entry is unknown to the server. Re-read the usage after every new server
+   snapshot, since a revived event could start using the document.
+3. **Describe it** (`specs/aifield/<name>.json`, mode `pool`, one car): a window
+   whose floor is at or just below the car's lowest tune (so the label matches the
+   tune), a narrow band around the player (−10…+10 gave a spread; try 0…0), and
+   optionally the document's own flags through the spec keys `difficulty`,
+   `rubber_banding` and `behavior` (per session type: slow-down, catch-up,
+   proximity, position spread, slot-car start).
+4. **Check, build and apply** as in §6.
+5. **Point the event at the document**: the override's `AIFileName` (a one-field
+   cache edit). Read the lobby: every car is the model, and the class badge
+   matches the PI. Treat the first race after a change as a warm-up.
+
+Caveats: Steam "verify files" reverts the document; a band wider than zero makes
+the AI cars differ in pace even though they are the same model; whether the
+document's flags or the series' flags win is untested.
 
 ## 7. Composition rules that held
 

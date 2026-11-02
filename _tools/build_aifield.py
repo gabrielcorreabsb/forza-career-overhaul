@@ -24,6 +24,12 @@ Definition (JSON, see specs/aifield/):
  list:
   lineup       car per slot (repeats weight a car)
   eligible     EligibleCars (optional; default = distinct cars of the lineup)
+ both:
+  difficulty      root AIDifficulty (optional; e.g. "Expert")
+  rubber_banding  root AIRubberBandingEnabled (optional; true/false)
+  behavior        {SessionType: {SlowDown/CatchUp/Proximity/
+                  PosDifficultySpread/SlotCarRaceStart: true/false}}
+                  (optional; omitted = the template's own flags)
 
 Usage:
   python _tools\\build_aifield.py --def specs\\aifield\\trackday_pool56.json
@@ -68,7 +74,33 @@ def load_def(path):
         check(d.get("lineup"), "definition: list needs 'lineup'")
     ids = d.get("roster") or d.get("lineup")
     check(all(isinstance(c, int) for c in ids), "definition: car ids must be integers")
+    _check_meta(d)
     return d
+
+
+def _check_meta(d):
+    """Optional document metadata: difficulty / rubber_banding / behavior."""
+    if d.get("difficulty") is not None:
+        check(isinstance(d["difficulty"], str) and d["difficulty"],
+              "definition: difficulty must be a non-empty string")
+    if d.get("rubber_banding") is not None:
+        check(isinstance(d["rubber_banding"], bool),
+              "definition: rubber_banding must be true/false")
+    beh = d.get("behavior")
+    if beh is None:
+        return
+    check(isinstance(beh, dict) and beh,
+          "definition: behavior must be an object keyed by SessionType")
+    for session, flags in beh.items():
+        check(isinstance(flags, dict) and flags,
+              "definition: behavior[%r] must be a non-empty object" % session)
+        for key, val in flags.items():
+            check(key in aifield.BEHAVIOR_KEYS,
+                  "definition: behavior[%r] has unknown key %r (use %s)"
+                  % (session, key, sorted(aifield.BEHAVIOR_KEYS)))
+            check(isinstance(val, bool),
+                  "definition: behavior[%r][%r] must be true/false"
+                  % (session, key))
 
 
 def build_text(d, template_text, by_car):
@@ -87,7 +119,10 @@ def build_text(d, template_text, by_car):
         slots = d.get("slots")
         return aifield.rewrite_template(template_text, roster, by_car,
                                         window=tuple(d["window"]),
-                                        drivatars=slots, frames=frames)
+                                        drivatars=slots, frames=frames,
+                                        difficulty=d.get("difficulty"),
+                                        rubber_banding=d.get("rubber_banding"),
+                                        behavior=d.get("behavior"))
     check(st["mode"] == "AIDrivatarList",
           "template %s is %s; list mode needs a list-mode document"
           % (d["template"], st["mode"]))
@@ -99,6 +134,27 @@ def build_text(d, template_text, by_car):
     check(not errs, "lineup rejected: %s" % errs)
     eligible = d.get("eligible") or list(dict.fromkeys(lineup))
     return aifield.rewrite_list(template_text, lineup, by_car, eligible=eligible)
+
+
+def _check_written_meta(d, st):
+    """The document really carries the metadata the definition asked for."""
+    if d.get("difficulty") is not None:
+        check(st["difficulty"] == d["difficulty"],
+              "difficulty not written (%r)" % st["difficulty"])
+    if d.get("rubber_banding") is not None:
+        check((st["rubber"] == "True") == d["rubber_banding"],
+              "rubber_banding not written (%r)" % st["rubber"])
+    for session, flags in (d.get("behavior") or {}).items():
+        for key, val in flags.items():
+            got = st["behavior"].get(session, {}).get(aifield.BEHAVIOR_KEYS[key])
+            check(got == ("True" if val else "False"),
+                  "behavior %s.%s not written (%r)" % (session, key, got))
+    if d.get("difficulty") or d.get("rubber_banding") is not None or d.get("behavior"):
+        print("  meta: difficulty=%s rubber=%s behavior=%s"
+              % (st["difficulty"], st["rubber"],
+                 "; ".join("%s=%s" % (s, {k: v for k, v in sorted(f.items())
+                                          if k in aifield.BEHAVIOR_KEYS.values()})
+                           for s, f in sorted(st["behavior"].items()))))
 
 
 def build(d, out_dir, write=True):
@@ -118,6 +174,18 @@ def build(d, out_dir, write=True):
              len(st["drivatars"]) // (2 if d["mode"] == "list" else 1),
              " | window %s..%s/%s" % (st["cfg"]["MinimumPI"], st["cfg"]["MaximumPI"],
                                       st["cfg"]["PIStep"]) if d["mode"] == "pool" else ""))
+    _check_written_meta(d, st)
+    if d["mode"] == "pool":
+        for car, (low, used) in aifield.coverage(
+                d["roster"], by_car, tuple(d["window"])).items():
+            pis = by_car[car]
+            check(all(pis[0] <= p <= pis[-1] for p in used),
+                  "coverage of car %d left the AI_ catalogue" % car)
+            print("  coverage %d: %d AI_ files %d..%d | window %d..%d/%d -> "
+                  "files %d..%d (%d step(s))"
+                  % (car, len(pis), pis[0], pis[-1], d["window"][0],
+                     d["window"][1], d["window"][2], min(used), max(used),
+                     len(used)))
     cur, _t, _n = aifield.read_entry(d["logical"])
     enc = aifield.encrypt_for_install(text, cur, os.path.join(WORK, d["name"]))
     check(crypto.decrypt(enc) == text.encode("utf-8"), "payload round-trip diverged")

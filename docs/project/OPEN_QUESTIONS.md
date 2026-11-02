@@ -13,22 +13,26 @@ commands are the ones named in the pages that raise each item.
 
 ## 1. Where is the start type stored?
 
-**Question.** Rolling and standing starts are visible in game, but no field in
-the event record or the override carries a start type (`RACE_SYSTEM.md` §2.1).
-Where does the game read it from?
+**Question.** Rolling and standing starts are visible in game; where does the game
+read the start type from? — **mostly answered**
 
-**What we know.** **verified** — there is no start-type field in the event or
-override schema, and only 2 series carry a slot-car-start flag. **observed** — a
-custom event built from a Nordschleife donor starts rolling. **hypothesis** — the
-start comes from the generator template (`ParentGeneratorId`), the track, or the
-series flag, in that order of likelihood.
+**What we know.** **observed** — the session generator's race template carries a
+start-type attribute (`Full` = standing, `Rolling`), and about a third of the
+career overrides carry the same attribute in their race block. A bench series on
+a `Rolling` generator started with a rolling lap; a second bench series on a
+`Full` generator started standing **although its series flag for a slot-car start
+was on** — so that flag is not the lever (one run each, user reports). A custom
+event cloned from a Nordschleife donor started rolling, consistent with an
+inherited generator.
+**hypothesis** — the override's value wins over the generator's (they disagree in
+about 30 overrides); a one-field test on a bench event is queued.
 
-**Why it matters.** A new event cannot choose its start type, and a cloned event
-silently inherits one from a donor it no longer resembles.
+**Why it matters.** A new event can pick its start type by its generator (shared,
+so side effects) or, if the hypothesis holds, by one override field.
 
-**Test.** Build three events from three donors with different start behaviour on
-the same track, change nothing else, and record the start of each. That isolates
-the generator from the track.
+**Test.** On a bench event with a `Full` generator, add the start-type attribute
+`Rolling` to its override's race block only, and watch the start. If it rolls, the
+override wins and the shared generator never needs touching.
 
 ## 2. Which lap count wins — the event's or the override's? — **answered**
 
@@ -306,25 +310,33 @@ cluster slot was run against the estimated-order one).
 applied without the UI.~~ With the screen on, the suggestion was not the slot of
 the screen-off state, so the constant slot has another source. The wager block
 (a projected race-time delta, an overtake time and a following-car time, i.e. the
-inputs of a projected start position) is still the likely input of the
-**suggestion**; it is no longer the explanation for the constant.
+inputs of a projected start position) was the likely input of the
+**suggestion**; the tests below point the other way.
 
-**Open.** (i) Where the fixed slot of the screen-off state comes from. (ii)
-Whether the wager's suggestion follows the player's practice time — the one
-sample had the player with no timed practice lap, so the suggestion could not be
-compared against a fast lap.
+**Answered (second round of tests).** (ii) The suggestion does **not** follow the
+player's practice time: with the best lap of the session by about six seconds it
+was the same slot as with no timed lap, and the same with cars of two classes, so
+it follows neither the lap nor the car. The projected race-time delta ×10 and a
+payout table cut to one row did not move it either. On a 24-car grid it is the
+**middle slot (12th)**; the screen-off state is another constant (7th on the
+test oval). Four further one-field tests meant to reach a real Qualifying
+(generator grid shape, practice limit type `Disabled`, a series-level rules
+reference, series field size) had no effect in the career, so no data lever for
+the slot or for a Qualifying session is known (DISCOVERIES D33). Small samples.
+
+**Still open.** (i) Where the fixed slot of the screen-off state comes from
+(a client constant is the likeliest reading). (iii) Whether the wager's other two
+terms (overtake time, following-car time) move the suggestion — judged unlikely
+after the delta did not, not tested. (iv) Whether the suggestion scales with the
+field size — the field-size field of the series is ignored, so the question could
+not be asked that way.
 
 **Why it matters.** A mod that reorders a field or builds a race weekend has to
-know whether the human's slot is data it can set or a constant it has to accept;
-the wager is now a usable lever, and its suggestion is a candidate for a real
-qualifying result.
-
-**Test.** (i) With the screen off, change one term of the cup's wager block and
-check whether the constant slot moves; compare against a second event with a
-different block. (ii) With the screen on, run the same event twice, once with a
-fast practice lap and once without one, and read the suggested slot both times.
-
-Whichever holds decides whether the slot is a lever or a constant.
+know whether the human's slot is data it can set or a constant it has to accept.
+Today it is a constant it can only **override by the player's own pick** on the
+wager screen: the practical route to a qualifying is to switch the screen on and
+choose the slot the lap deserves, or to accept the fixed slot with the screen
+off.
 
 ---
 

@@ -1,0 +1,38 @@
+{
+  "name": "mirror_gt3rs23",
+  "description": "Mirror grid for the S class: a single-car pool (Porsche 911 GT3 RS '23, id 3781) filling all 23 slots, PI window 740..800 in steps of 10, a narrow -10..+10 band around the player at both window ends, difficulty Expert, rubber banding off and the race elastic flags (slow down / catch up / proximity / position spread) off. Target document: AIField_101020002_Gen.xml - present in both snapshot manifests of the cache, named by exactly one dead BCSharedEventData (101020002, in no series, no GameOptions_* generator) and by nothing else in the live cache; the BRZ '22 mirror uses 101020003, so the two rosters stay on separate documents. The 3781 ladder is 746..898 (16 AI_ files), so every window step 740..800 has a file of its own.",
+  "logical": "AIField_101020002_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    3781
+  ],
+  "window": [
+    740,
+    800,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

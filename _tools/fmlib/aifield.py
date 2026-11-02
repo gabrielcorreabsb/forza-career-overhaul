@@ -6,6 +6,12 @@ Two document modes exist in vanilla (646 files):
 Both carry a ContentManifest of AI_<car>_<pi> files. The documents are
 CRLF text; every function works on blocks and leaves the rest byte-identical.
 
+The root attributes AIDifficulty / AIRubberBandingEnabled and the
+BehaviorSettings flags are inherited from the template by default; they can be
+rewritten with `rewrite_template(difficulty=..., rubber_banding=...,
+behavior=...)`, which touches only those attributes (a document rewritten with
+its own values comes back byte-identical).
+
 The XML is not in the CmsCache, so the cipher template is the CURRENT payload
 of the entry inside the install zip (see install_edit.py to apply it).
 """
@@ -31,6 +37,15 @@ CM_TAIL = "  </ContentManifest>" + CRLF
 FR_HEAD = "    <DrivatarProgressionFrames>" + CRLF
 FR_TAIL = "    </DrivatarProgressionFrames>" + CRLF
 AI_FILE = re.compile(r"^AI_(\d+)_(\d+)\.xml$")
+RBS = re.compile(r"<RaceBehaviorSettings\b[^>]*?/>", re.S)
+# key accepted in a `behavior` definition -> attribute of RaceBehaviorSettings
+BEHAVIOR_KEYS = {
+    "SlowDown": "EnableDifficultySlowDown",
+    "CatchUp": "EnableDifficultyCatchUp",
+    "Proximity": "EnableDifficultyProximity",
+    "PosDifficultySpread": "EnablePosDifficultySpread",
+    "SlotCarRaceStart": "EnableSlotCarRaceStart",
+}
 
 
 def zip_path(install=None):
@@ -79,6 +94,14 @@ def parse(text):
         raise FmError("AIField: unparsed ContentManifest entries")
     cfg_m = re.search(r"<AIDrivatarConfiguration([^>]*)>", text)
     cfg = dict(re.findall(r'(\w+)="([^"]*)"', cfg_m.group(1))) if cfg_m else {}
+    difficulty = re.search(r'AIDifficulty="([^"]*)"', text)
+    rubber = re.search(r'AIRubberBandingEnabled="([^"]*)"', text)
+    behavior = {}
+    for m in RBS.finditer(text):
+        attrs = dict(re.findall(r'(\w+)="([^"]*)"', m.group(0)))
+        session = attrs.pop("SessionType", None)
+        if session:
+            behavior[session] = attrs
     drivatars = [int(v) for v in re.findall(
         r'<AIDrivatar\s+PlayerId="\d+"\s+Car="(-?\d+)"', text)]
     f0, f1 = text.find(FR_HEAD), text.find(FR_TAIL)
@@ -94,7 +117,10 @@ def parse(text):
     return {"mode": mode_of(text), "elig": elig, "cm": cm, "cfg": cfg,
             "drivatars": drivatars, "elig_span": (i0, i1),
             "cm_span": (c0, c1), "frames": frames,
-            "frames_span": frames_span}
+            "frames_span": frames_span,
+            "difficulty": difficulty.group(1) if difficulty else None,
+            "rubber": rubber.group(1) if rubber else None,
+            "behavior": behavior}
 
 
 # -------------------------------------------------------------- rendering --
@@ -174,10 +200,16 @@ def manifest_rows(roster, by_car, window=None):
 
 
 def rewrite_template(text, roster, by_car, window=None, drivatars=None,
-                     frames=None):
+                     frames=None, difficulty=None, rubber_banding=None,
+                     behavior=None):
     """Template-mode document with a new EligibleCars/ContentManifest and,
-    optionally, a new PI window, slot count (`drivatars`) and progression
-    frames (`frames` = [(PlayerPIRelativeToClass, lower, upper), ...])."""
+    optionally, a new PI window, slot count (`drivatars`), progression
+    frames (`frames` = [(PlayerPIRelativeToClass, lower, upper), ...]) and the
+    metadata the template would otherwise impose: root `difficulty`
+    (e.g. "Expert"), root `rubber_banding` (bool) and `behavior`
+    ({SessionType: {SlowDown/CatchUp/Proximity/PosDifficultySpread/
+    SlotCarRaceStart: bool}}) - see set_behavior. Every argument left as None
+    means "keep the template value", so the output is unchanged."""
     st = parse(text)
     if st["mode"] != "AIDrivatarTemplate":
         raise FmError("rewrite_template: document is %s" % st["mode"])
@@ -201,6 +233,57 @@ def rewrite_template(text, roster, by_car, window=None, drivatars=None,
         if span is None:
             raise FmError("AIField: no DrivatarProgressionFrames block")
         out = out[:span[0]] + render_frames(frames) + out[span[1]:]
+    if difficulty is not None:
+        out = _set_attr(out, "AIDifficulty", difficulty)
+    if rubber_banding is not None:
+        out = _set_attr(out, "AIRubberBandingEnabled",
+                        "True" if rubber_banding else "False")
+    if behavior is not None:
+        out = set_behavior(out, behavior)
+    return out
+
+
+def _set_attr(text, name, value, count=1):
+    """Replaces the value of the first `count` `name="..."` occurrences."""
+    out, n = re.subn(r'(%s=")[^"]*(")' % name, r"\g<1>%s\2" % value,
+                     text, count=count)
+    if n != count:
+        raise FmError("AIField: attribute %s not found" % name)
+    return out
+
+
+def behavior_span(text, session):
+    """(start, end) of the `<RaceBehaviorSettings .../>` of `session`."""
+    for m in RBS.finditer(text):
+        if re.search(r'SessionType="%s"' % re.escape(session), m.group(0)):
+            return m.span()
+    raise FmError("AIField: no RaceBehaviorSettings for %r" % session)
+
+
+def set_behavior(text, behavior):
+    """`behavior` = {SessionType: {SlowDown: False, ...}} (keys of
+    BEHAVIOR_KEYS). Only the named attributes change; the rest of the document,
+    including the other session, stays byte-identical."""
+    out = text
+    for session, flags in behavior.items():
+        if not isinstance(flags, dict) or not flags:
+            raise FmError("AIField: behavior[%r] is empty" % session)
+        i0, i1 = behavior_span(out, session)
+        block = out[i0:i1]
+        for key, val in flags.items():
+            attr = BEHAVIOR_KEYS.get(key)
+            if attr is None:
+                raise FmError("AIField: behavior key %r (use %s)"
+                              % (key, sorted(BEHAVIOR_KEYS)))
+            if not isinstance(val, bool):
+                raise FmError("AIField: behavior[%r][%r] must be true/false"
+                              % (session, key))
+            block, n = re.subn(r'%s="[^"]*"' % attr,
+                               '%s="%s"' % (attr, "True" if val else "False"),
+                               block, count=1)
+            if n != 1:
+                raise FmError("AIField: %s has no %s" % (session, attr))
+        out = out[:i0] + block + out[i1:]
     return out
 
 

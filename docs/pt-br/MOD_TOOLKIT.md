@@ -37,6 +37,10 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 |---|---|---|---|
 | roster que acompanha o PI do jogador, ou lista fixa multiclasse | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md), [tutorial 04](../tutorials/04_ai_grid.md) |
 | pool maior que o grid (campo diferente a cada corrida) e faixas largas de PI | ✅ | verified | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| **roster próprio** num documento de roster existente e sem uso (por exemplo 23 carros de um só modelo); um roster por documento, compartilhado por todo evento que aponte para ele | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §6 |
+| um arquivo de roster de IA **totalmente novo** (entrada nova que o servidor não conhece) | ⛔ | observed | o jogo ficou offline ao abrir o evento |
+| a distância da IA ao jogador (escolhida pelo PI do jogador contra o piso de PI do documento; o teto de desempenho do evento não limita a IA) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
+| flags de comportamento do documento de roster (catch-up, slow-down…) contra as da série: qual vence | 🧪 | hypothesis | — |
 | grids acima de 24 carros | 🧪 | a testar | — |
 | elástico (rubber banding) da IA nos geradores da carreira | já desligado | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | catch-up e slow-down da IA na corrida e no treino | 🧪 | hypothesis | — |
@@ -48,6 +52,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | voltas de treino limitadas → sessão cronometrada (**não existe sessão de qualify separada** na carreira) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
 | trackday: sem treino, largada lançada, uma volta | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | sessão de uma volta | 🧪 | hypothesis | — |
+| tipo de largada (parada ou lançada): definido pelo gerador de sessão, **não** pela flag de largada lançada da série; um valor no override pode vencer (em teste) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
 | pneu padrão, escala de combustível e desgaste de pneu da carreira | 🧪 | hypothesis | — |
 
 ### Grid e posição de largada
@@ -93,6 +98,15 @@ nada mudou.
   tela ligada, a sugestão é diferente da constante escondida.
 - **O termo de tempo projetado do bloco de aposta** não mexeu na sugestão, na
   escala do bônus nem no grid da IA.
+- **Campos de série e de evento testados para um Qualifying de verdade ou outra IA**,
+  todos sem efeito na carreira: um roster de IA com janela de PI maior para o evento
+  (a IA continuou limitada a cerca de classe D), um tamanho de campo menor na série (o
+  grid continuou com 24), uma referência de regras no nível da série (o Featured tem,
+  a carreira ignora) e o tipo de limite de treino `Disabled` (o treino continuou
+  limitado). O cliente tem uma atividade de Qualification própria, mas nenhum campo da
+  carreira que alcançamos a seleciona.
+- **A vaga sugerida** também não acompanhou uma volta cerca de seis segundos à frente
+  do grid nem a classe do carro.
 - **Flag de ordenação manual de grid**: o nome pertence ao código de lobby de
   multiplayer/freeplay; é global e não foi tocada.
 
