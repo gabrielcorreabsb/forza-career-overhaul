@@ -52,6 +52,10 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | voltas de treino limitadas → sessão cronometrada (**não existe sessão de qualify separada** na carreira) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
 | trackday: sem treino, largada lançada, uma volta | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | sessão de uma volta | 🧪 | hypothesis | — |
+| **voltas de treino por evento**: o `NumberOfRequiredLaps` do evento as define, separado das voltas da corrida (1 e 5 voltas de treino testadas com corrida de 2; 0 deixa sem voltas contadas e ainda deixa correr) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.4 |
+| clima e hora no override do evento valem **só na corrida**; o treino mantém o próprio bloco (chuva pesada e largada à noite testadas) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.16 |
+| pit obrigatório: `Pits` 1 exige a parada, `Pits` 0 não | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.6 |
+| "sem treino" zerando o orçamento de treino | ⛔ | observed | só o Trackday reproduz; duas outras séries mantiveram o treino |
 | tipo de largada (parada ou lançada): definido pelo gerador de sessão, **não** pela flag de largada lançada da série; um valor no override do evento vence, então é escolha por evento (um par testado) | ✅ | verified | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
 | pneu padrão, escala de combustível e desgaste de pneu da carreira | 🧪 | hypothesis | — |
 
@@ -61,7 +65,10 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | o grid da **IA** segue a classificação do treino | ✅ | observed |
 | a vaga do **humano** é a escolhida na tela de aposta de posição, quando ela está ligada | ✅ | verified |
 | ligar ou desligar a tela de aposta (uma flag do cliente) | ✅ | verified |
-| a vaga do humano com a tela desligada é uma constante por evento | observed | origem desconhecida |
+| **onde o humano larga é decidido pelo formato de grid do gerador de sessão** (a vaga escolhida na tela só vale quando o gerador não impõe nenhuma) | ✅ | observed | [ADR-006](../project/decisions/ADR-006_grid_start_shapes.md) |
+| ordem por tempo estimado, sem índice de largada: a **vaga escolhida é obedecida** (escolheu 12ª, largou em 12º) | ✅ | observed | largada livre |
+| ordem por rank com índice 0 a 5: **primeiro**; índice 6 ou mais: **último** (24º de 24, 8º de 8); sem vaga intermediária, e a escolha não é obedecida | ✅ | observed | largada estilo GT |
+| ordem de qualify: um **valor no meio do grid que varia** com o campo, o documento de IA e o carro (3º de 8, 5º de 12 e 16, 7º de 24); a escolha não é obedecida | ⛔ | observed | documentado, não usado |
 | a vaga que a tela sugere | ⛔ constante | não acompanha o tempo de treino do jogador, a tabela de aposta nem o termo de tempo projetado |
 | quantas vagas a tela lista | ⛔ não é dado | o cache não muda isso |
 | o **bônus pago por vaga** (tabela de aposta do cup) | 🧪 | a tela lê a tabela; uma curva própria e o crédito no fim da corrida estão em teste |
@@ -80,19 +87,18 @@ nada mudou.
 | receita | funciona hoje? | como |
 |---|---|---|
 | **Qualify honesto** | ✅ manual | deixe a tela de aposta ligada; a IA já segue o treino; veja sua posição na tabela do treino e escolha essa vaga |
-| **Largada estilo GT** (largar em último e ultrapassar todo mundo) | ✅ incentivo · ✅ forçada (observed, n=1) | um gerador de sessão em ordem por rank com índice de largada alto pôs o jogador em último mesmo com volta rápida; a repetir |
+| **Largada estilo GT** (largar em último e ultrapassar todo mundo) | ✅ forçada (observed, várias séries) | um gerador de sessão em ordem por rank com índice de largada 23 põe o jogador em **último** seja qual for a volta de treino, em grids de 8 e de 24 carros; o projeto fixa esse formato ([ADR-006](../project/decisions/ADR-006_grid_start_shapes.md)) |
+| **Largada livre** (escolher a sua vaga) | ✅ | um gerador com ordem por tempo estimado e sem índice de largada; a escolha da tela é obedecida |
+| **Treino curto** (1 a 5 voltas) | ✅ | defina o `NumberOfRequiredLaps` do evento, separado das voltas da corrida |
 | **Trackday** | ✅ | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | **Grid multiclasse em qualquer série** | ✅ | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
 | **Qualify automático para o humano** | ⛔ | nenhuma alavanca de dados encontrada até agora |
 
 ## 3. Fechado — por favor, não repetir
 
-- **Formato de ordenação de grid dos geradores de sessão.** O formato de qualify
-  (com vaga de agrupamento dos humanos) não mudou nem a vaga do humano nem a ordem
-  da IA. Os geradores Featured e multiplayer usam esse formato e não têm carros de
-  IA; os da carreira usam o formato por tempo estimado e não compartilham gerador
-  com o Featured. Leitura provável: o multiplayer faz qualify porque todos os carros
-  são humanos e se agrupam pelo tempo, e a carreira ignora essa configuração.
+- **"O formato de grid do gerador não mexe no humano"** foi uma leitura inicial e hoje está errada: testes posteriores mostraram que o
+  formato por rank com o seu índice e o formato de qualify decidem onde o humano larga (veja a tabela de grid). Os geradores Featured e
+  multiplayer continuam usando o formato de qualify, e os da carreira o de tempo estimado.
 - **Remover o bloco de aposta** não tira a tela; só a flag do cliente tira.
 - **"A vaga fixa é a sugestão da aposta aplicada escondida"** está refutado: com a
   tela ligada, a sugestão é diferente da constante escondida.
@@ -105,6 +111,10 @@ nada mudou.
   a carreira ignora) e o tipo de limite de treino `Disabled` (o treino continuou
   limitado). O cliente tem uma atividade de Qualification própria, mas nenhum campo da
   carreira que alcançamos a seleciona.
+- **O regulamento 103 num gerador da carreira** não teve efeito visível: sem fantasma, sem penalidade de saída de pista nem de
+  contramão; a colisão já era punida sem regulamento.
+- **A duração do treino pela série ou pelo gerador** (limites de 1, 3 e 6 voltas testados) não mudou o treino; as voltas exigidas do
+  evento mudam.
 - **A vaga sugerida** também não acompanhou uma volta cerca de seis segundos à frente
   do grid nem a classe do carro.
 - **Flag de ordenação manual de grid**: o nome pertence ao código de lobby de
@@ -112,8 +122,7 @@ nada mudou.
 
 ## 4. Próximos passos
 
-Uma curva de bônus própria em um cup (conferindo o crédito depois da corrida), mais
-uma busca só de leitura no install por uma fonte de dados da vaga do humano e, em
-seguida, a sessão de uma volta, o controle do catch-up da IA e as flags de pneu e
-combustível, uma mudança por vez, cada uma revertida antes da próxima. Veja
-[OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md).
+A economia da carreira: escalar uma célula de pagamento (pista × classe) e conferir se o crédito de uma série acompanha, depois uma curva de bônus
+próprio num cup só dele, com e sem a tela de aposta (veja [ECONOMY_MAP](../reference/ECONOMY_MAP.md)); a flag de pular o treino já cumprido; e a
+leitura de por que o orçamento de treino em zero só remove o treino no Trackday. Uma mudança por vez, cada uma revertida antes da próxima.
+Veja [OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md).

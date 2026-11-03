@@ -15,6 +15,9 @@ Three layers multiply into the post-race payout:
   `FreePlay`, `Rivals`). The `BuildersCup` entry is the career one - the
   only piece of the payout with career scope. Nothing here takes a series
   or event id: the base varies by track x class, not by series.
+  In the live data the `BuildersCup` base is nearly flat across tracks (a few
+  tenths per class); one track pays roughly ten times the rest, which widens
+  the observed range of the table.
 - **Scalar tables** (`CreditScalars.json`): named multipliers for AI
   difficulty, race regulations, collision mode, damage difficulty,
   rewinds, skipped practice/qualifying laps and finish position (one

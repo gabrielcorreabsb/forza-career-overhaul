@@ -119,10 +119,17 @@ tree.
 - **verified** — **The override wins.** A bench series set one event to
   2 laps in the event record and 8 in the override, and another to the reverse;
   the HUD showed 8 and 2 laps. Write race length into `FeatureRace.Laps`
-  (`build_series.py` does); the event's `NumberOfRequiredLaps` alone is inert.
+  (`build_series.py` does); the event's `NumberOfRequiredLaps` alone does not change the race, but it
+  sets the **practice** length (see §2.4).
   *How to reproduce:* the same two-event test (`OPEN_QUESTIONS.md` item 2).
 
 ## 2.4 Practice
+
+- **observed** — **The practice lap count is the event's `NumberOfRequiredLaps`.** Events with 2, 3 and 4 required laps
+  showed 2, 3 and 4 practice laps (a vanilla event with 3 required laps and an 8-lap race showed 3 and 8). The
+  qualification options of the series and of the generator (`NumLimitedLaps`, 3, 6 and 1 tried) did not change it.
+  Vanilla events carry 1 to 4 required laps, independent of the race laps. *How to reproduce:* open the event and
+  compare the practice laps with the event's `NumberOfRequiredLaps` and the override's `Laps`.
 
 - **verified** — `OpenPracticeLimitationTimeInSeconds` over all events:
 
@@ -420,13 +427,25 @@ no other mode uses it. States as in §2.16.
 | `Bucket/CarRestrictions` (same 38 fields as the series' `SelectableCars`) | the car filter of that group | **observed (n=1 pair)** | a strict class-R bucket refused a class C car the series allowed and accepted a class R one |
 | `CarRestrictions@SeverityType` (`Strict`, `Warning`) | how hard the filter is | hypothesis | a `Warning` bucket (class A, PI 700) accepted a class C car |
 | `CarRestrictions@BlackOrWhitelistType` | the list type (`Whitelist` on 176 series, `Blacklist` on 9) | open | how a class works under `Blacklist` is not known |
-| `RaceRegulationsId` → regulations table | penalty rules: a ghost after leaving the leader's lap, off-track monitor, collision monitor, wrong way, disqualification | observed (parameters read); effect in game: hypothesis | the career uses 0 (none); the online series use 103 |
+| `RaceRegulationsId` → regulations table | penalty rules: a ghost after leaving the leader's lap, off-track monitor, collision monitor, wrong way, disqualification | observed (parameters read); **no visible effect in the career** (D51) | the career uses 0 (none); the online series use 103; putting 103 on a career generator showed no ghost, no off-track or wrong-way penalty, and collisions were punished with 0 as well |
 | `_321Type`, `StartingGridOptions@StartType` | the start | observed | the event override's `_321Type` beats it (§2.8) |
 | `GridOrderingType`, `ClusterHumansAtIndex` | the AI order and the human's slot | **observed** | only rank order moves the human, and the index acts as a cut: first at 0, 2 and 5, last at 7, 8, 11 and 23, with no middle slot (D46); qualifying order gives a share of the field, 7th of 24 and 3rd of 8 (D47) |
 | `GroupByBucket` | grid grouped by group | open | one group in the career |
 | `MaxAIPlayers` | size of the AI field | **ignored** | the AI document decides (§2.16, D38) |
 | `EndConditionOptions` (laps, time) | how an online race ends | open | the career uses the override's `Laps` |
 | `TimeOfDay*`, `WeatherForecast*`, `TireFrictionWearScalar`, `DamageDifficulty` | conditions | observed | the override's keys (§2.16) take precedence where they exist; in the event override, `FeatureRace` weather and hour act on the race only and `PracticeAndQualifying` holds the practice's own (D48) |
+
+### Which grid behaviour each generator shape gives (observed, n=1 per row)
+
+| `GridOrderingType` | `ClusterHumansAtIndex` | where the human starts | is the wager-screen pick obeyed? | used by this project |
+|---|---|---|---|---|
+| `EstimatedLapTime` | -1 | the slot picked on the wager screen (picked 12th, started 12th) | **yes** | **free start** (the original generators 4684 and 12000-style events) |
+| `AIDriverRank` | 0 to 5 | 1st | no | not used |
+| `AIDriverRank` | **23** (6 or more behaves the same) | **last** (24th of 24, 8th of 8) | no | **GT-style start** (start last and climb): the chosen shape |
+| `Qualifying` | 2 | a mid-grid slot that varies with the field and the car (3rd to 7th; 7th with 24 cars, 3rd with 8, 5th with 12 and with 16, 4th with a faster car) | no (picked 12th and 16th, started 5th) | **documented, not used**: a mid-grid slot is not a fixed value and depends on the AI document and the car |
+
+Decision (project policy): the career uses two start shapes, the **free start** and the **GT-style start with index 23**.
+`Qualifying` stays documented as an option for a classification-style start but no series of the final career uses it.
 
 **What comes with a generator for free:** the group, its car restriction, the
 regulation, the grid ordering, the start type and the wear. **What does not:**

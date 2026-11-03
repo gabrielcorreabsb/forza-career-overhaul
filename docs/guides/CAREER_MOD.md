@@ -36,12 +36,13 @@ piece is tested in game before it counts.
 | **Start type per event** | a standing or a rolling start, chosen event by event | verified in game |
 | **Honest multi-class AI** | a pool that follows your PI, or a fixed list from D to R | verified in game |
 | **Race weekend** | practice orders the AI's grid; the start-position wager places you | observed (no separate qualifying exists in the career) |
-| **Start slot per event** | the generator places you first or last, whatever your lap | observed (one run per setting) |
-| **Start last and overtake** | a forced start at the back of the grid | observed (one run, to repeat) |
-| **Racers Cup rules in the career** | a class-restricted event with its own regulation, for the cars of that class | observed (class bucket enforced; regulation not yet recorded) |
+| **Start slot per event** | a free pick of your slot, or the generator places you last, whatever your lap | observed (several series; rank order with an index of 6 or more gives last) |
+| **Start last and overtake** | a forced start at the back of the grid, in fields of 8 and 24 cars | observed (several series; fixed at index 23, [ADR-006](../project/decisions/ADR-006_grid_start_shapes.md)) |
+| **Racers Cup rules in the career** | a class-restricted event; its regulation showed no visible effect in the career | observed (class bucket enforced; regulation ineffective) |
 | **One-make and period series** | one manufacturer, one decade, one country | planned, viable |
-| **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | a mandatory stop is enforced on the AI (observed, one run); wear and fuel to test |
-| **Weather and time of day per event** | a set forecast per event | to test |
+| **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | a mandatory stop is a per-event switch (observed); wear and fuel to test |
+| **Weather and time of day per event** | a set forecast and start hour for the race (heavy rain, a night start) | observed (race only; the practice keeps its own) |
+| **Practice length per event** | 1 to 5 practice laps, apart from the race laps | observed |
 | **Prize cars, the end of car level, manufacturer affinity** | — | not possible: they live in the game's account and server |
 
 ## 3. Examples that already run
@@ -95,7 +96,7 @@ that turns one on. See [RACE_SYSTEM](../reference/RACE_SYSTEM.md) and
 ## 5. What is next
 
 The next stages, in the order we expect to reach them: the entry ladder at E and D,
-one-make and period series, longer races with a pit window, and weather per event.
+one-make and period series, longer races with wear and fuel, and the career economy.
 The list with its reasons lives in [PROJECT_STATUS](../project/PROJECT_STATUS.md)
 §4.
 

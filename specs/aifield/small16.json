@@ -1,0 +1,47 @@
+{
+  "name": "small16",
+  "description": "TASK_battery4 4D (mc137): 15 AI slots (16 cars with the player) on the same pool and layout as AIField_80420000_Gen.xml (7 AI slots, 8 cars, class A PI 620-677) - the only difference to the 20054 document is the number of drivatars, so the 20058 x 20054 pair isolates the field size. Destination: AIField_109310003_Gen.xml, the twin of the document used by small12: present in both snapshot manifests, named only by the dead BCSharedEventData 109310003 (0 of the career events, 0 GameOptions_* generators, no other JSON), so nothing reachable uses it. Window and frames are the 80420000 ones (700..800/10, frame 100 = -40..0), difficulty Expert, rubber banding off and the race elastic flags as in the source document.",
+  "logical": "AIField_109310003_Gen.xml",
+  "template": "AIField_80420000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    1081,
+    297,
+    348,
+    1202,
+    263,
+    2162,
+    2133
+  ],
+  "window": [
+    700,
+    800,
+    10
+  ],
+  "slots": 15,
+  "frames": [
+    [
+      100,
+      -40,
+      0
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": true,
+      "CatchUp": true,
+      "Proximity": true,
+      "PosDifficultySpread": true,
+      "SlotCarRaceStart": false
+    },
+    "PracticeAndQualification": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": true,
+      "PosDifficultySpread": true,
+      "SlotCarRaceStart": false
+    }
+  }
+}

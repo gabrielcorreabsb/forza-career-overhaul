@@ -69,10 +69,16 @@ What we found and how it changes what you play:
 | Trackday | pick a circuit, any class, rolling start | verified in game |
 | Start type per event | standing or rolling, chosen event by event | verified in game |
 | Honest multi-class AI | a pool that follows your PI, or a fixed list D to R | verified in game |
-| Race weekend | practice orders the AI's grid; the wager places you | observed |
+| Race weekend | practice orders the AI's grid; the generator decides where you start | observed |
+| Start slot per event | a free pick of your slot, or a forced start at the back of the grid | observed |
+| Practice length per event | 1 to 5 practice laps, apart from the race laps | observed |
 | Entry ladder (E and D) | short series for the cars the career never lists | planned |
 | One-make and period series | one manufacturer, decade or country | planned |
-| Longer races, weather per event | wear, fuel, pit window, forecasts | to test |
+| Weather and time of day per event | a set forecast and start hour for the race (heavy rain, a night start) | observed |
+| Mandatory pit stop | demanded of the AI and of you when the event asks for it | observed |
+| Small and mid-size fields | races with 8, 12 and 16 cars run | observed |
+| How the career pays | payout, bonus and prizes mapped; no per-series payout field | mapped |
+| Wear, fuel, tyre compound | the career's own wear, fuel and compound | to test |
 
 Series that already run, with what each proves:
 [CAREER_MOD](docs/guides/CAREER_MOD.md) §3.
@@ -88,7 +94,11 @@ Series that already run, with what each proves:
 | race against 23 cars of one model (spec races) | verified in game | [AI_GRIDS](docs/guides/AI_GRIDS.md) §6 |
 | point an event at a different AI roster | verified in game (one run) | [DISCOVERIES](docs/project/DISCOVERIES.md) D37 |
 | choose a standing or rolling start | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) §2.8 |
-| change weather, time of day, tyres or fuel per event | mapped, to test | [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
+| choose where you start: a free pick, or last on the grid | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) §2.17 · [ADR-006](docs/project/decisions/ADR-006_grid_start_shapes.md) |
+| set the practice length of an event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) §2.4 |
+| change weather and time of day for the race | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) §2.16 |
+| understand how the career pays credits and prizes | mapped | [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) |
+| change tyres or fuel per event | mapped, to test | [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 | know what is career-only, global or out of reach | mapped | [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 
 ## What we have found, and what it changes when you play
@@ -139,15 +149,30 @@ evidence and the status of each finding (verified, observed, to test) are in
 - **There is no real qualifying in the career.** The client has a qualifying
   activity, but no career data field turns it on; four separate one-field tests
   changed nothing.
-- **Practice can stand in for it.** Limited practice laps give a timed session,
-  and the race grid then lines the **AI** up in practice order. Your own slot
-  comes from the *Challenge the Grid* wager screen when it is on, and from a
-  fixed constant that ignores your lap when it is off.
+- **Practice orders the AI.** The race grid lines the **AI** up in practice order.
+- **Where you start is decided by the session generator's grid shape**, not by the series. With an estimated-lap-time order and no start
+  index, the slot you pick on the *Challenge the Grid* wager screen is obeyed. With rank order, an index of 0 to 5 puts you first and an
+  index of 6 or more puts you **last** (24th of 24, 8th of 8), with no middle slot and whatever your lap. A qualifying order gives a
+  mid-grid value that moves with the field, the AI roster and your car. The project uses the first two
+  ([ADR-006](docs/project/decisions/ADR-006_grid_start_shapes.md)).
+- **Practice length is the event's `NumberOfRequiredLaps`**, kept apart from the race laps: 1 and 5 practice laps ran with a 2-lap race,
+  and the series' own lap limits do nothing. Setting the practice budget to zero removed the practice only in the Trackday.
+- **Weather and time of day apply to the race only.** Heavy rain and a night start ran; the practice keeps its own settings.
+- **A mandatory pit stop is a per-event switch** (`Pits`): on, it is demanded; off, the race ends without one.
+- **Small fields run.** Races with 8, 12 and 16 cars started and finished.
 - **Standing or rolling start** is decided by the session generator, not by the
   series' slot-car-start flag.
 - **Race length comes from the event override**, and the **cap you see comes
   from the event's `TargetPI`**: one number opens or closes a series to higher
   classes (a cap of 700 held a series at A until it was raised).
+
+### How the career pays
+
+- **The payout is a base per track and car class, multiplied by global scalars** (AI difficulty, damage, rewinds, finish position).
+  Only the base has a career-only table. There is no payout field for a single series.
+- **Prizes come from each vanilla series' own challenges**; a brand-new series has none, so a prize car cannot be attached to a new series.
+- **The wager bonus table lives on the cup**, so it applies to every series of that cup.
+- Details and the cheapest tests: [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md).
 
 ### Who can enter, and the career's shape
 
@@ -166,6 +191,7 @@ evidence and the status of each finding (verified, observed, to test) are in
   the tools again (the kits are reproducible).
 - A new CMS file with an invented id is rejected by the game. Custom content
   needs an existing slot.
+- A regulation of the online series put on a career generator showed no visible effect.
 - Findings marked *observed* rest on one or two runs. If your result differs,
   open an issue with the numbers: see [CONTRIBUTING](CONTRIBUTING.md).
 

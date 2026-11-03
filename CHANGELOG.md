@@ -6,6 +6,19 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **Test batteries 3 and 4: where you start, how long you practise, weather, small fields.** New findings (evidence in
+  [DISCOVERIES](docs/project/DISCOVERIES.md) D46–D53): the session generator's grid shape decides where you start (a free pick, first,
+  or last; the project fixes a free start and a start at the back, [ADR-006](docs/project/decisions/ADR-006_grid_start_shapes.md));
+  practice laps are the event's required laps, apart from the race laps; weather and time of day apply to the race only; races with 8,
+  12 and 16 cars run; a mandatory stop is a per-event switch. Not found: a regulation of the online series on a career generator had
+  no visible effect, and a zero practice budget removed the practice only in the Trackday.
+- **New [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)**: how the career pays credits and prizes (base per track and class, global scalars,
+  the wager bonus per cup, prizes tied to vanilla series), and which pieces a series kit can reach.
+- **Client flags surveyed** (read-only): 417 settings in 53 blocks, 12 of them career-named; the wager-screen flag is one global switch,
+  with no series or cup scope ([SCHEMA_REFERENCE](docs/reference/SCHEMA_REFERENCE.md) Part 3).
+- **Updated [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md)** (English and Portuguese), [CAREER_MOD](docs/guides/CAREER_MOD.md), the README and
+  the open questions with the above. Documentation only: nothing new is distributed.
+
 - **New [CAREER_MOD](docs/guides/CAREER_MOD.md)** and a README reframed around
   it: the career mod we are building (Forza Motorsport 4 × Gran Turismo 4), its
   stages with their state, and the series that already run as worked examples.

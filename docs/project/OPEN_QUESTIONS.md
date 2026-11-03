@@ -195,6 +195,10 @@ the same track, apply, and compare the sessions. If 11932 matches the track and
 the other value does not, it is a real index or a sentinel — the direction of the
 difference tells which.
 
+**Update (03/11/2026).** Part answered. **observed** — an event override carrying another forecast id changed the weather of the race only
+(heavy rain on an oval; the practice kept its own forecast), so the field is a real forecast id, not a placeholder. What 11932 itself
+means is still untested.
+
 ## 12. Why are cups 100 and 2 pinned first?
 
 **Question.** Cups 100 and 2 always come first on the cup screen, while the
@@ -356,6 +360,11 @@ choose the slot the lap deserves, or to accept the fixed slot with the screen
 off.
 
 ---
+
+**Update (03/11/2026).** Answered in part. **observed** — the slot comes from the **session generator's grid shape** and its start index
+(D46, D47): estimated-lap-time order obeys the slot picked on the screen; rank order puts the human first up to index 5 and last from
+index 6; qualifying order gives a mid-grid value that moves with the field, the AI roster and the car. The earlier reading that the
+generator shape moves neither the slot nor the AI order was too narrow. Decision: [ADR-006](decisions/ADR-006_grid_start_shapes.md).
 
 ## 17. Why does the AI leave the track at the same corners?
 
