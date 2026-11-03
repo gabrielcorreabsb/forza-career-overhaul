@@ -43,6 +43,7 @@ English-only.
 | task | doc | why |
 |---|---|---|
 | Know what can be modded, where the game reads it, with which tool | **[reference/MODDING_SURFACE](reference/MODDING_SURFACE.md)** | per area: layer, format, tool, scope (career / global), status |
+| Know how career payout, prizes and levels fit together | **[reference/ECONOMY_MAP](reference/ECONOMY_MAP.md)** | payout layers, prize catalog, what a series kit can and cannot move |
 | The career tree, ids, ordering, gates | **[reference/CAREER_MODEL](reference/CAREER_MODEL.md)** | cup, ladder, series, event; Builders Cup vs Featured |
 | How one event/race is defined | **[reference/RACE_SYSTEM](reference/RACE_SYSTEM.md)** | laps (the override wins), practice that sets the grid, start, overrides |
 | Cars, classes, PI and which cars a series accepts | **[reference/CARS_AND_PI](reference/CARS_AND_PI.md)** | classes, PI bands, acceptlist, usable/denied/swap |

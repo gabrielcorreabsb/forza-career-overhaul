@@ -449,8 +449,41 @@ encrypted and re-applied with the same size/checksum model as the schedule.
   screen is gated by the flag, the cup block only feeds it.
 - **verified** — The server does not overwrite the cached flag document within
   a session: the change held in game.
-- **hypothesis** — Other flags behave the same way (one flag tested so far;
-  see `OPEN_QUESTIONS.md` item 15).
+- **verified** — `EnableBuildersCupChallengeTheGrid` is **one boolean for the
+  whole client** (`NewFeaturesConfig`), with no per-series scope. Despite the
+  name it is read by every career series, vanilla ones included, while it is off.
+  Whether it also reaches Featured/Multiplayer events is **not verified**: it
+  needs one online event opened with the flag off.
+- **observed** — The wager screen, when on, is what lets the player pick the
+  starting slot; with it off the slot comes from the session generator
+  (a fixed value, or the AI-rank cut described in the race-system reference).
+- **hypothesis** — Other flags behave the same way (one flag tested so far).
+  A read-only survey has classified every flag (summary table below); each
+  career or layout-touching flag carries one proposed single-value test.
+
+**Survey summary.** A read-only walk of the flag document counted **417**
+settings in **53** `FeatureFlagConfig.*` blocks (8 blocks empty), classified by
+name and structure:
+
+| class | count | meaning |
+|---|---|---|
+| career | 12 | named for the career (`BuildersCup`, `Career`, championship objectives) or the `BuildersCup` entry of a per-game-mode list |
+| shared | 115 | one switch or table that also reaches Featured/Multiplayer — includes every `AIConfig.*` setting, even the ones with `Career` in the name |
+| closed | 119 | account, server, matchmaking, economy, progression or Featured-only screens — never touched for the career |
+| unknown | 171 | menu, HUD or cosmetic switches with no career link in name or structure |
+
+What the map says:
+
+- No flag takes a series or event id: every flag is one value for the whole
+  client, so a test is always one change plus a control check that a
+  Featured/Multiplayer event is unchanged.
+- The only per-mode separator found is the `BuildersCup` entry of the fuel
+  scale list; the tire-type per-mode list carries no career entry, so the
+  career is unreachable through it today.
+- First candidates are the career-named toggles (championship objectives,
+  career practice skip), the qualifying wait, the `BuildersCup` fuel entry
+  and the pit-stop minimum — each with one value to flip, one career screen
+  to watch and one online event as control.
 
 ## 3.3 Scope rule
 

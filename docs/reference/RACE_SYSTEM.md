@@ -422,11 +422,11 @@ no other mode uses it. States as in §2.16.
 | `CarRestrictions@BlackOrWhitelistType` | the list type (`Whitelist` on 176 series, `Blacklist` on 9) | open | how a class works under `Blacklist` is not known |
 | `RaceRegulationsId` → regulations table | penalty rules: a ghost after leaving the leader's lap, off-track monitor, collision monitor, wrong way, disqualification | observed (parameters read); effect in game: hypothesis | the career uses 0 (none); the online series use 103 |
 | `_321Type`, `StartingGridOptions@StartType` | the start | observed | the event override's `_321Type` beats it (§2.8) |
-| `GridOrderingType`, `ClusterHumansAtIndex` | the AI order and the human's slot | **observed** | only rank order moves the human, and the index acts as a cut: first at 0, 2 and 5, last at 11 and 23; qualifying order gives a fixed 7th (D43) |
+| `GridOrderingType`, `ClusterHumansAtIndex` | the AI order and the human's slot | **observed** | only rank order moves the human, and the index acts as a cut: first at 0, 2 and 5, last at 7, 8, 11 and 23, with no middle slot (D46); qualifying order gives a share of the field, 7th of 24 and 3rd of 8 (D47) |
 | `GroupByBucket` | grid grouped by group | open | one group in the career |
 | `MaxAIPlayers` | size of the AI field | **ignored** | the AI document decides (§2.16, D38) |
 | `EndConditionOptions` (laps, time) | how an online race ends | open | the career uses the override's `Laps` |
-| `TimeOfDay*`, `WeatherForecast*`, `TireFrictionWearScalar`, `DamageDifficulty` | conditions | observed | the override's keys (§2.16) take precedence where they exist |
+| `TimeOfDay*`, `WeatherForecast*`, `TireFrictionWearScalar`, `DamageDifficulty` | conditions | observed | the override's keys (§2.16) take precedence where they exist; in the event override, `FeatureRace` weather and hour act on the race only and `PracticeAndQualifying` holds the practice's own (D48) |
 
 **What comes with a generator for free:** the group, its car restriction, the
 regulation, the grid ordering, the start type and the wear. **What does not:**

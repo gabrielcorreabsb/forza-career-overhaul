@@ -48,7 +48,14 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 | series defaults: damage, wear, time-of-day scale, drafting, dynamic track | same | JSON | `cache_edit` | career | **hypothesis** (bench kit built, no result yet) |
 | entry gates (driver level, required ladders/series/events) | `EntryCriteria` at cup, ladder and series level | JSON | count fields: `cache_edit`; required lists: new schema | career | **hypothesis** |
 | build phase, intro video, first-car select, series type | series fields in the schedule | JSON | `cache_edit` | career | **hypothesis** (bench kits built, results pending) |
-| per-event generator (session options) | `GameOptions_<gen>_{FeaturedRace,PracticeAndQualification}.xml` via the override's `ParentGeneratorId` | XML | `cache_edit` (if the generator has a cache blob) or `install_edit` | career: the career generators share no id with the Featured overrides | **hypothesis**; every generator used by a career event has a local copy (most in the cache, a few only in install-cms) |
+| per-event generator (session options) | `GameOptions_<gen>_{FeaturedRace,PracticeAndQualification}.xml` via the override's `ParentGeneratorId` | XML | `cache_edit` (if the generator has a cache blob) or `install_edit` | career: the career generators share no id with the Featured overrides | **observed**: it decides the human's grid slot, the car-class filter and the start; every generator used by a career event has a local copy (most in the cache, a few only in install-cms). Option list: [RACE_SYSTEM](RACE_SYSTEM.md) 2.17 |
+| human's grid slot | generator `GridOrderingType` + `ClusterHumansAtIndex` | XML | `cache_edit` on a generator no other mode uses | career | **observed** (n=1 per series): with `AIDriverRank` the index acts as a cut (0, 2, 5 → first; 7, 8, 11, 23 → last, with no middle slot); with `Qualifying` the slot is a share of the field (7th of 24, 3rd of 8). The series' own fields cannot move it |
+| car-class filter of an event | generator `Buckets/Bucket/CarRestrictions` | XML | pick a generator with the class you want (`ParentGeneratorId`) | career | **observed** (n=1 pair): a strict class-R generator refused a class C car the series allowed |
+| penalty rules (ghost, off-track, collision, wrong way) | generator `RaceRegulationsId` → regulations table | XML + JSON | generator choice | career | **hypothesis**: parameters read, no in-game effect tested yet |
+| mandatory pit stop | event override `FeatureRace.Pits` | JSON | `build_series.py` (`pits`) | career | **observed**: the AI is required to stop; with `Pits` 0 no stop is demanded and a race can be finished without one |
+| race weather and hour | event override `FeatureRace.WeatherForecast`, `TimeOfDayHour` | JSON | cache_edit after `build_series.py` | career | **observed** (n=1): they change the race only; the practice keeps the `PracticeAndQualifying` block |
+| practice length | not the series' `NumLimitedLaps` | — | — | career | **observed**: 3 and 6 both gave 2 laps; the source is open (generator candidate) |
+| AI document with no drivers | `AIField_<id>_Gen.xml` with an empty driver list | XML | `install_edit` | career | **closed** as a way to run solo: practice runs, the race crashes |
 | series objectives | `ChampionshipSeriesObjectivesData_<SeriesId>.json` | JSON | **no tool**: career series have no document, and `cache_edit` cannot add a new logical entry | career + Featured (the enabling flag is shared) | **closed** until the tool exists |
 | Challenge the Grid wagers | `ChallengeTheGridData` at cup level + a client flag | JSON | `cache_edit` | career | **verified**: the screen is driven by the client flag (section 11); the cup data only changes multipliers |
 
@@ -73,6 +80,15 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 | prize packs, unlock rules, level rewards, bonuses, forzathon | `media\base\prizes\`, `media\base\unlocks\`, tunables | encrypted container | **closed** | account / server-side | **closed** |
 | affinity level rewards, legacy level config | `media\base\gametunablesettings\` (readable) | XML/JSON | file swap (no tool) | account | **hypothesis**; prefer the cache copy where one exists |
 | upgrade tables, PI wizard tables | gamedb | SQLite (read-only) | **closed** | global | read-only reference |
+
+Surveyed (`reference/ECONOMY_MAP.md`): race payout is **global with one
+exception** - every scalar table (`CreditScalars.json`, rule-preset
+`CreditScalar`) applies to all modes, and the only career-scoped piece
+is the `BuildersCup` entry of the track-x-class base table
+(`CarCreditScalingTable.json`). Prizes are challenges pointing at
+`Rewards.json` ids (all references resolve); custom series have no
+challenge file, so a new series inherits payout but gets no prize of its
+own. Car/driver progression is account-global, out of series-kit reach.
 
 ## 6. UI and text
 
