@@ -48,6 +48,8 @@ python _tools\rollback_cache.py
 | Apply refuses: lint failure | `plan_lint.py` rejected the plan (multiplayer touched, Strategy S/Checksum, retired id) | fix the plan, then `python _tools\plan_lint.py --plan patches\<kit>\plan.json` |
 | Nothing changes in game after a successful apply | an install path or `mediapc/` was edited instead of the CmsCache | edit only `%LOCALAPPDATA%\Microsoft.ForzaMotorsport\CmsCache\` |
 | Every target diverges while the kit used to work | the server shipped a new snapshot; kits are snapshot-bound | regenerate the kit from the current cache |
+| The practice has more or fewer laps than I set, or setting the practice budget to 0 left the practice | practice laps come from the event's `NumberOfRequiredLaps`, not from the series' or the generator's lap limits; the zero budget removed the practice only in the Trackday | set `NumberOfRequiredLaps` on the event and keep the race length in the override's `Laps` |
+| I start last (or first) and the wager screen's pick is ignored | the session generator decides the slot: rank order with a start index of 6 or more puts you last, 0 to 5 first; a qualifying order gives a mid-grid value | for a free pick use an estimated-lap-time generator with no start index ([RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.17) |
 
 ## 2. Crashes and locked files
 

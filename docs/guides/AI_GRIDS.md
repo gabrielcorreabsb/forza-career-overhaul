@@ -229,6 +229,9 @@ document's flags or the series' flags win is untested.
 - **verified** — Every validated grid used cars from the catalogue, no denied
   car, an `AI_` file for every car, at most one car per make per class, a mix
   of eras, and 23 slots.
+- **observed** — Small fields run. Rosters of 7, 11 and 15 drivatars (8, 12 and 16 cars with the player) started and finished races, built
+  from the same pool of seven class A cars with the same PI window. Where the player starts in such a field depends on the session
+  generator ([RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.17), not on the roster size alone.
 - **untested** — Nothing has produced a field above 24 cars in total; there is
   no precedent for a larger grid ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md)).
 

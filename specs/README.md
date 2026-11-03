@@ -33,7 +33,7 @@ referência a partir dela no laboratório privado).
 | `events[].id` | ✓ | 65897900–65899999, never reused / nunca reutilizado |
 | `events[].track` | ✓ | `SerialTrackId` (see the `PISTAS` inventory page) |
 | `events[].donor_event` | | event to clone (default: donor series' event on the same track, else the first on the track) |
-| `events[].laps`, `practice_seconds`, `name`, `set` | | event field overrides / ajustes do evento |
+| `events[].laps`, `practice_seconds`, `name`, `set` | | event field overrides / ajustes do evento; `laps` is written to both the event's `NumberOfRequiredLaps` (the **practice** laps) and the override's race `Laps`, so a different practice length needs a step after the build |
 | `events[].override` | | `{donor, class_restriction, target_pi, laps, pits}`; `donor` defaults to the first vanilla override on the track with AI |
 | `cars.acceptlist` | ✓ | `"showroom"` (682 cars) or a list of car ids / ou lista de ids |
 | `cars.class`, `cars.division` | | default `"Any"`, `"Open"` |

@@ -234,7 +234,7 @@ Two blocks, `FeaturedRace` and `PracticeAndQualification`, each with
 | `Description` | description, as an `IDS_` key | one shared key (522) |
 | `TrackId` | track identity, GUID form | derived from `SerialTrackId` |
 | `SerialTrackId` | track identity, integer form | must match `TrackId` |
-| `NumberOfRequiredLaps` | race length in laps | 1 (298), 3 (281), 2 (46), 4 (2) |
+| `NumberOfRequiredLaps` | **practice laps** of the event (the race length comes from the override's `FeatureRace.Laps`) | 1 (298), 3 (281), 2 (46), 4 (2) |
 | `OpenPracticeLimitationTimeInSeconds` | practice budget; 0 removes practice | 600 (316) |
 | `TargetPI` | performance cap for the field | 900 (125), 800 (120), 700 (72) |
 | `PointSpread` | points-per-position table | one constant 24-value table |
@@ -245,6 +245,11 @@ Two blocks, `FeaturedRace` and `PracticeAndQualification`, each with
 | `TrackRibbonImagePath` | ribbon art | one shared GAME: path |
 | `TrackEnvironmentImagePath` | environment art | 29 distinct paths |
 | `TrackLoadingScreenImagePath` | loading art | 8 distinct paths |
+
+- **observed** — `NumberOfRequiredLaps` sets the **practice** length, apart from the race length. Events with 2, 3 and 4 required laps
+  showed 2, 3 and 4 practice laps (a vanilla event with 3 required laps and an 8-lap race showed 3 practice laps and 8 race laps), and the
+  series' and the generator's lap limits did not change it. *How to reproduce:* open an event and compare its practice laps with this
+  field and with the override's `Laps`.
 
 - **verified** — The career event has no start-type field, no weather field and
   no pit field: laps, practice and PI are the only race-shape controls here.

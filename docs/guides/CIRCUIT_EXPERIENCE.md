@@ -14,7 +14,7 @@ circuit, any class.
 | series | **20004** "ModCarrera Treino 1", clone of vanilla series 11470 |
 | placement | cup **103** "7. Trackday", ladder **761** "Trackday Nordschleife" |
 | event | **65897913**, Nürburgring Nordschleife; rolling start, 1 lap, no pits |
-| practice | none (`OpenPracticeLimitationTimeInSeconds = 0`, works in game) |
+| practice | none (`OpenPracticeLimitationTimeInSeconds = 0`, works in game). The same 0 on other series did **not** remove the practice (observed in two series), so the Trackday relies on more than that field |
 | event limits | `ClassRestriction 8`, `TargetPI 999` — any class up to X999 |
 | player cars | 23-car acceptlist (kit mc56); an S car at PI 701 was accepted |
 | AI | `AIField_117160001_Gen.xml` (install-only), 23 AI + the player = 24 cars |

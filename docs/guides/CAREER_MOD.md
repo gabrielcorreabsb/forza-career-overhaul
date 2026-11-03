@@ -80,6 +80,12 @@ game has no separate qualifying screen in the career, and we found no data field
 that turns one on. See [RACE_SYSTEM](../reference/RACE_SYSTEM.md) and
 [DISCOVERIES](../project/DISCOVERIES.md) D30 and D33.
 
+### Start slot, practice length and weather (bench series)
+One field at a time on copies of the same event: where you start follows the session generator's grid shape (a free pick, first, or
+last, whatever your lap); the practice has its own lap count, apart from the race; weather and time of day set for the race leave the
+practice alone; and fields of 8, 12 and 16 cars run. See [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.4 and §2.17,
+[ADR-006](../project/decisions/ADR-006_grid_start_shapes.md) and D46–D53 in [DISCOVERIES](../project/DISCOVERIES.md).
+
 ## 4. What shapes the design
 
 - **The career is top-heavy.** 209 of 711 cars are in no event, and 245 of 627

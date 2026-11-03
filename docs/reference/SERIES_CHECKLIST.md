@@ -95,7 +95,8 @@ Type: "BCSharedEventData"}`, cloned from the donor.
 Two rules verified in game decide which copy of a value counts:
 
 - **Race length comes from the override** (`FeatureRace.Laps`), in both
-  directions; the event's `NumberOfRequiredLaps` is not what the race runs.
+  directions; the event's `NumberOfRequiredLaps` is not what the race runs. That field sets the **practice** laps instead
+  (observed): a spec writes one number into both, so give the practice a different number with a step after the build.
 - **The cap a player sees comes from the event's `TargetPI`**; the override's
   `ClassRestriction` did not apply. To open or close a series to a class,
   change the event's `TargetPI`.
