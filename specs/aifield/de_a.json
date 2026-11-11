@@ -1,0 +1,56 @@
+{
+  "name": "de_a",
+  "description": "German grids by PI class, part 3 of 4: the A band. A closed 19-car pool (BMW, Audi, Porsche, Mercedes-AMG) drawn into 23 slots, PI window 650..700 in steps of 10, a narrow -10..+10 band around the player at both window ends, difficulty Expert, rubber banding off and the race elastic flags (slow down / catch up / proximity / position spread) off. Target document: AIField_109330003_Gen.xml - in the live manifest with a local blob, named by exactly one override record (109330003) that no series event uses and by no GameOptions_* generator; the install zip and the cache blob hold the same bytes there. Every car of the roster has an AI_ ladder whose lowest file sits at or below the window floor (650), so no car is forced to run faster than the PI it is listed at. Two Caymans land in different specs on purpose: 2529 (Cayman GT4) is here, 2293 (Cayman GTS) is in de_b.",
+  "logical": "AIField_109330003_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    2133,
+    3264,
+    3318,
+    2741,
+    3645,
+    3644,
+    3064,
+    263,
+    3453,
+    3286,
+    2018,
+    1598,
+    3584,
+    2529,
+    3583,
+    2180,
+    1117,
+    3123,
+    3250
+  ],
+  "window": [
+    650,
+    700,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "porsche_a",
+  "description": "G20: AI grid of 4 chosen Porsche A-class models (911 GT3 '07, 911 CS '19, Cayman, Panamera '17) over 23 slots, PI window 650..700 in steps of 10, a narrow -10..+10 band around the player in 3 identical frames, difficulty Expert, rubber banding off and the race elastic flags off. All 4 are inside the de_a roster (their lowest AI tunes sit at or below the window floor 650). Target document: AIField_80200002_Gen.xml - byte-identical to AIField_80200001_Gen.xml (group keeper, series 571), freed by repointing override 80200002 at the keeper in the same kit.",
+  "logical": "AIField_80200002_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    263,
+    3123,
+    2529,
+    2741
+  ],
+  "window": [
+    650,
+    700,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

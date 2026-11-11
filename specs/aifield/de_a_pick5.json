@@ -1,0 +1,47 @@
+{
+  "name": "de_a_pick5",
+  "description": "G18: AI grid of 5 chosen A-class models (Audi R8 5.2, BMW M4 '21, Porsche 911 CS '19, Audi RS 7 '21, BMW i8 '15) repeated over 23 slots, PI window 650..700 in steps of 10, a narrow -10..+10 band around the player in 3 identical frames, difficulty Expert, rubber banding off and the race elastic flags off. All 5 are inside the de_a roster. Target document: AIField_101020002_Gen.xml - in the manifest with a vanilla local blob, named by exactly one override record (101020002) that no series event uses and by no GameOptions_* generator (D36). Control: the mc280 20126 series (19-car de_a pool).",
+  "logical": "AIField_101020002_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    1117,
+    3645,
+    3123,
+    3584,
+    2133
+  ],
+  "window": [
+    650,
+    700,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

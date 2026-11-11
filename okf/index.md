@@ -9,7 +9,7 @@ Start with the rules: breaking them can corrupt the cache.
 
 - [Golden rules](/rules/index.md) — 6 rules about editing the cache safely
 - [Tools](/tools/index.md) — 20 pipeline scripts and tests, by role
-- [Specs](/specs/index.md) — 6 declarative inputs for the generators
-- [Docs](/docs/index.md) — 40 documents (guides, project status, data)
+- [Specs](/specs/index.md) — 15 declarative inputs for the generators
+- [Docs](/docs/index.md) — 43 documents (guides, project status, data)
 
 Real entry points: `README.md`, `docs/en/PIPELINE.md` (how to apply a mod), `docs/INDICE.md` (full doc list), `CONTRIBUTING.md`.

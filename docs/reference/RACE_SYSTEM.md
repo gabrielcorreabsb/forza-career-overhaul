@@ -231,6 +231,11 @@ The six buckets cover 626 of 627 events; one event carries a value outside them.
   8. The counts are per override slot rather than per event, which is why they
   do not add up to 627. *How to reproduce:* `python _tools\audit_career.py`.
 
+- **observed** — **The generator's `NumQuickStops` also demands a stop, and it wins over the override's `Pits` 0** (D54). A series with `Pits` 0
+  on a generator whose race options carry `NumQuickStops` 1 still forced the player into the pits; a series on a generator with 0 did not.
+  Generators cloned from the first bench one all carry 1. *How to reproduce:* read `NumQuickStops` in the generator's race XML and race a
+  series with `Pits` 0 on it. To remove a stop, set both the override's `Pits` and the generator's `NumQuickStops` to 0.
+
 - **observed** — **`Pits = 1` is enforced on the AI.** Two bench races, identical
   but for the length: on **2 laps** many AI cars were disqualified for not making
   the mandatory stop; on **4 laps** all 24 cars stopped (22 once, 2 twice) and the
@@ -431,6 +436,7 @@ no other mode uses it. States as in §2.16.
 | `_321Type`, `StartingGridOptions@StartType` | the start | observed | the event override's `_321Type` beats it (§2.8) |
 | `GridOrderingType`, `ClusterHumansAtIndex` | the AI order and the human's slot | **observed** | only rank order moves the human, and the index acts as a cut: first at 0, 2 and 5, last at 7, 8, 11 and 23, with no middle slot (D46); qualifying order gives a share of the field, 7th of 24 and 3rd of 8 (D47) |
 | `GroupByBucket` | grid grouped by group | open | one group in the career |
+| `NumQuickStops` (race options) | mandatory stops demanded by the generator | observed | wins over the override's `Pits` 0 (D54); 0 on most generators, 1 on the benches cloned from the first one |
 | `MaxAIPlayers` | size of the AI field | **ignored** | the AI document decides (§2.16, D38) |
 | `EndConditionOptions` (laps, time) | how an online race ends | open | the career uses the override's `Laps` |
 | `TimeOfDay*`, `WeatherForecast*`, `TireFrictionWearScalar`, `DamageDifficulty` | conditions | observed | the override's keys (§2.16) take precedence where they exist; in the event override, `FeatureRace` weather and hour act on the race only and `PracticeAndQualifying` holds the practice's own (D48) |

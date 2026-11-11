@@ -6,6 +6,25 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **Phase 0.3 — an own season** (findings D60–D67 in [DISCOVERIES](docs/project/DISCOVERIES.md)): the game reads the AI roster
+  from the **cache**, so AI grids are written with `cache_edit.py` (`build_aifield.py --cache-plan`); a series with **several events**
+  runs in sequence and accumulates points; one roster per class keeps the AI in the player's class; a closed pool of chosen models gives
+  a grid of only those models, while a series' own car list does not filter the roster; a vanilla roster document with an identical copy
+  can be **freed** and reused as a pool of ours. A first season of our own (a cup, three groups that unlock in order) is in game.
+  The game's PI scale (C 500 … R 900) is not the catalogue's PI column.
+- **Phase 0.2 — rewards**: prizes belong to the server. Edited challenge conditions mark the row completed but nothing is paid, and
+  payout rates and bonuses in the install's tunable files changed nothing; live vanilla challenges do count races run in our series.
+  [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) §5.
+- **New [PROGRESS](docs/en/PROGRESS.md)** (English and Portuguese): the project's timeline by phase. The README is shorter and points
+  to it. Documentation only: nothing new is distributed.
+
+- **Economy tests (status so far: the cache's payout tables only changed the interface; the session generator's mandatory stop changed the credits paid)**: the credits come as parcels (practice, race finish, VIP, difficulty, rule set); the career base cell of a track and car class
+  and the cup's wager table, edited one at a time, changed what the screens showed but **not** the credits paid, and the start slot did not
+  either. A mandatory stop demanded by the session generator lowered the credits in a one-field check (550 against 800 for the race parcel, same
+  series and finish). Updated
+  [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md), [DISCOVERIES](docs/project/DISCOVERIES.md) D55–D58, [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md)
+  and [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md).
+
 - **Test batteries 3 and 4: where you start, how long you practise, weather, small fields.** New findings (evidence in
   [DISCOVERIES](docs/project/DISCOVERIES.md) D46–D53): the session generator's grid shape decides where you start (a free pick, first,
   or last; the project fixes a free start and a start at the back, [ADR-006](docs/project/decisions/ADR-006_grid_start_shapes.md));

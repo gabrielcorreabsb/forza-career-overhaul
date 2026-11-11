@@ -9,6 +9,7 @@ ladder.OrderData; invariant: ladder.OrderData == ids of its series.
 import copy
 
 from .core import ALWAYS_OPEN, CHAMPIONSHIP_CAREER, FmError
+from .ids import SERIES_MIN
 
 LOGICAL = "BuildersCupScheduleDataV4.json"
 
@@ -164,3 +165,103 @@ def clone_cup(donor, cup_id, name_key):
 def append_ladder(cup, ladder):
     cup["ChampionshipLadder"].append(ladder)
     cup["LadderOrderData"].append(ladder["ChampionshipLadderId"])
+
+
+# --------------------------------------------------------------------------- #
+# removals (round base): never a vanilla node
+# --------------------------------------------------------------------------- #
+def remove_series(bcs, series_id):
+    """Removes a custom series (and its OrderData entry); returns the series
+    object. Vanilla series (< SERIES_MIN) are refused."""
+    if series_id < SERIES_MIN:
+        raise FmError("refusing to remove vanilla series %d (< %d)"
+                      % (series_id, SERIES_MIN))
+    for cup in cups(bcs):
+        for lad in cup.get("ChampionshipLadder", []):
+            hit = [s for s in lad["ChampionshipSeriesData"]
+                   if s["ChampionshipSeriesId"] == series_id]
+            if not hit:
+                continue
+            if len(hit) > 1:
+                raise FmError("series %d appears %d times in ladder %d"
+                              % (series_id, len(hit),
+                                 lad["ChampionshipLadderId"]))
+            lad["ChampionshipSeriesData"] = [
+                s for s in lad["ChampionshipSeriesData"]
+                if s["ChampionshipSeriesId"] != series_id]
+            lad["OrderData"] = [i for i in lad["OrderData"]
+                                if i != series_id]
+            return hit[0]
+    raise FmError("series %d not found" % series_id)
+
+
+def remove_ladder(bcs, ladder_id):
+    """Removes a ladder (and its LadderOrderData entry); returns the ladder.
+    A ladder holding a vanilla series is refused."""
+    for cup in cups(bcs):
+        hit = [l for l in cup.get("ChampionshipLadder", [])
+               if l["ChampionshipLadderId"] == ladder_id]
+        if not hit:
+            continue
+        if len(hit) > 1:
+            raise FmError("ladder %d appears %d times in cup %d"
+                          % (ladder_id, len(hit), cup["ChampionshipCupId"]))
+        lad = hit[0]
+        vanilla = sorted(s["ChampionshipSeriesId"]
+                         for s in lad["ChampionshipSeriesData"]
+                         if s["ChampionshipSeriesId"] < SERIES_MIN)
+        if vanilla:
+            raise FmError("refusing to remove ladder %d: it holds vanilla "
+                          "series %s" % (ladder_id, vanilla))
+        cup["ChampionshipLadder"] = [l for l in cup["ChampionshipLadder"]
+                                     if l["ChampionshipLadderId"] != ladder_id]
+        cup["LadderOrderData"] = [i for i in cup.get("LadderOrderData", [])
+                                  if i != ladder_id]
+        return lad
+    raise FmError("ladder %d not found" % ladder_id)
+
+
+def remove_cup(bcs, cup_id):
+    """Removes a cup; returns it. A cup holding a vanilla series is refused."""
+    cup = find_cup(bcs, cup_id)
+    if cup is None:
+        raise FmError("cup %d not found" % cup_id)
+    vanilla = sorted(s["ChampionshipSeriesId"]
+                     for lad in cup.get("ChampionshipLadder", [])
+                     for s in lad["ChampionshipSeriesData"]
+                     if s["ChampionshipSeriesId"] < SERIES_MIN)
+    if vanilla:
+        raise FmError("refusing to remove cup %d: it holds vanilla series %s"
+                      % (cup_id, vanilla))
+    cups(bcs).remove(cup)
+    return cup
+
+
+REF_LISTS = ("RequiredLadders", "RequiredSeries", "RequiredEvents")
+
+
+def dangling_refs(bcs, removed_ids):
+    """[(path, id)] where a gate/onboarding pointer still names a removed id.
+
+    check_invariants does not look at EntryCriteria or career.OnboardingSeries,
+    so a round that removes a series must refuse when one of them still points
+    at it (refuse, never strip silently)."""
+    removed = set(removed_ids)
+    hits = []
+
+    def walk(obj, path):
+        if isinstance(obj, dict):
+            for key, value in obj.items():
+                sub = "%s.%s" % (path, key) if path else key
+                if key in REF_LISTS and isinstance(value, list):
+                    hits.extend((sub, i) for i in value if i in removed)
+                elif key == "OnboardingSeries" and value in removed:
+                    hits.append((sub, value))
+                else:
+                    walk(value, sub)
+        elif isinstance(obj, list):
+            for i, value in enumerate(obj):
+                walk(value, "%s[%d]" % (path, i))
+
+    walk(bcs, "")
+    return hits

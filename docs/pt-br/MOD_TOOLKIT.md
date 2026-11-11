@@ -22,15 +22,27 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | árvore cup → ladder → série → evento: ordem, nomes, arte (reuso da arte existente) | ✅ | verified | [tutorial 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
 | séries novas, com ids próprios | ✅ | verified | `build_series.py` |
 | nomes e descrições (chaves de texto novas, de qualquer tamanho) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
-| carro livre × carro travado por série; tela de escolha do primeiro carro | 🧪 | hypothesis | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
+| tela de escolha do primeiro carro | 🧪 | hypothesis | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
+| série de exibição de prêmio (um tipo de série para dirigir um carro de prêmio): **exige o carro do prêmio na garagem** para entrar; não entrega o carro | ⛔ | verified | — |
+
+### Prêmios e progressão
+| alavanca | status | evidência | ferramenta / guia |
+|---|---|---|---|
+| abrir uma série (nossa ou vanilla) só depois de concluir outra série ou um grupo inteiro | ✅ | verified | critérios de entrada da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)) |
+| uma **série com vários eventos** (2 a 8 no jogo vanilla): os eventos rodam em sequência, os pontos da série somam por piloto, a série termina no último evento e cada corrida paga o mesmo | ✅ | verified | a lista de eventos da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
+| pagamento que cresce com o tamanho da corrida (voltas, distância) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
+| bônus de colocação ao concluir uma série (troféu mais créditos pela posição final), (nos dados do jogo vale para toda série; **não pagou** ao vencer uma série nova nossa, até agora) | 🧪 | hypothesis | em aberto |
+| corridas nas nossas séries contam para os desafios vanilla ativos do Centro de Desafios (um mensal "5 corridas em carro dos anos 2020" pagou 75.000 créditos) | ✅ | observed | escolher carros e pistas que batam com os desafios ativos |
+| prêmio próprio: editar a condição, o prêmio ou o objetivo por série de um desafio | ⛔ | observed | a linha mostra **concluído**, mas nada é pago; quem entrega o prêmio é o servidor, pela lista de desafios dele |
 
 ### Evento
 | alavanca | status | evidência | ferramenta / guia |
 |---|---|---|---|
 | pista e número de voltas por evento (vale o override do evento) | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
 | teto de desempenho por evento (vale o valor do evento, não o do override) | ✅ | verified | [DISCOVERIES](../project/DISCOVERIES.md) |
+| os tetos usam a escala de PI **do jogo** (C 500, B 600, A 700, S 800, R 900); a coluna PI do catálogo não é essa escala | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | elegibilidade de carros por lista de aceitos | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
-| limites numéricos de carro (PI, ano, potência, peso) | 🧪 | hypothesis | — |
+| limites numéricos de carro: o PI é inerte e a lista de aceitos vence (ano, potência e peso sem teste) | ⛔ | observed | — |
 
 ### Roster e comportamento da IA
 | alavanca | status | evidência | ferramenta / guia |
@@ -38,12 +50,17 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | roster que acompanha o PI do jogador, ou lista fixa multiclasse | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md), [tutorial 04](../tutorials/04_ai_grid.md) |
 | pool maior que o grid (campo diferente a cada corrida) e faixas largas de PI | ✅ | verified | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
 | **roster próprio** num documento de roster existente e sem uso (por exemplo 23 carros de um só modelo); um roster por documento, compartilhado por todo evento que aponte para ele | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §6 |
-| um arquivo de roster de IA **totalmente novo** (entrada nova que o servidor não conhece) | ⛔ | observed | o jogo ficou offline ao abrir o evento |
+| **roster próprio pelo cache**: o documento de roster é reescrito com `cache_edit.py` e o jogo lê a cópia do cache; por classe, por marca, ou um pool com todos os carros de uma marca | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §1, §6c |
+| o PI da IA fica preso ao teto da janela do roster quando o carro do jogador está acima; uma série de classe precisa de janela com teto igual ao teto da classe | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
+| um **pool fechado de modelos escolhidos** no documento de roster dá um grid só desses modelos, bem distribuído (5 modelos de classe A, 23 vagas, PI 658–677) | ✅ | verified | [DISCOVERIES](../project/DISCOVERIES.md) D65 |
+| a lista de carros da própria série como **filtro** do documento de roster | ⛔ | verified | D66: a lista não filtra; escreva o pool no documento |
+| **liberar um documento de roster vanilla**: um evento cujo documento tem cópia idêntica pode ser apontado para a cópia (mesmo grid), e o documento liberado vira pool nosso; 313 são liberáveis | ✅ | verified | D67 |
+| um arquivo de roster de IA **totalmente novo** (entrada nova que o servidor não conhece) | ⛔ | observed | o jogo ficou offline ao abrir o evento; os documentos liberados acima são o caminho alternativo |
 | a distância da IA ao jogador (escolhida pelo PI do jogador contra o piso de PI do documento; o teto de desempenho do evento não limita a IA) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
 | flags de comportamento do documento de roster (catch-up, slow-down…) contra as da série: qual vence | 🧪 | hypothesis | — |
 | grids acima de 24 carros | 🧪 | a testar | — |
 | elástico (rubber banding) da IA nos geradores da carreira | já desligado | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
-| catch-up e slow-down da IA na corrida e no treino | 🧪 | hypothesis | — |
+| catch-up e slow-down da IA desligados na corrida: a IA ficou melhor, e os dois desligados são o padrão da carreira (relato do jogador, sem medição de voltas) | ✅ | observed | [DISCOVERIES](../project/DISCOVERIES.md) D59 |
 | ajustes globais da IA que também atingem o multiplayer | ⛔ | — | não mexemos sem conversar |
 
 ### Sessão: treino e qualify
@@ -53,8 +70,8 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | trackday: sem treino, largada lançada, uma volta | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
 | sessão de uma volta | 🧪 | hypothesis | — |
 | **voltas de treino por evento**: o `NumberOfRequiredLaps` do evento as define, separado das voltas da corrida (1 e 5 voltas de treino testadas com corrida de 2; 0 deixa sem voltas contadas e ainda deixa correr) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.4 |
-| clima e hora no override do evento valem **só na corrida**; o treino mantém o próprio bloco (chuva pesada e largada à noite testadas) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.16 |
-| pit obrigatório: `Pits` 1 exige a parada, `Pits` 0 não | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.6 |
+| clima e hora no override do evento valem **só na corrida**; o treino mantém o próprio bloco (chuva pesada e largada à noite testadas); apontar para outro forecast funciona, editar o conteúdo de um forecast segue sem prova | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.16 |
+| pit obrigatório: `Pits` 1 exige a parada; `Pits` 0 só a remove se o `NumQuickStops` do gerador também for 0 (um gerador com 1 ainda obrigou a parada) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.6 |
 | "sem treino" zerando o orçamento de treino | ⛔ | observed | só o Trackday reproduz; duas outras séries mantiveram o treino |
 | tipo de largada (parada ou lançada): definido pelo gerador de sessão, **não** pela flag de largada lançada da série; um valor no override do evento vence, então é escolha por evento (um par testado) | ✅ | verified | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 |
 | pneu padrão, escala de combustível e desgaste de pneu da carreira | 🧪 | hypothesis | — |
@@ -71,9 +88,9 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | ordem de qualify: um **valor no meio do grid que varia** com o campo, o documento de IA e o carro (3º de 8, 5º de 12 e 16, 7º de 24); a escolha não é obedecida | ⛔ | observed | documentado, não usado |
 | a vaga que a tela sugere | ⛔ constante | não acompanha o tempo de treino do jogador, a tabela de aposta nem o termo de tempo projetado |
 | quantas vagas a tela lista | ⛔ não é dado | o cache não muda isso |
-| o **bônus pago por vaga** (tabela de aposta do cup) | 🧪 | a tela lê a tabela; uma curva própria e o crédito no fim da corrida estão em teste |
+| o **bônus pago por vaga** (tabela de aposta do cup) | ⛔ | até agora só a interface muda: uma tabela em 10,0 em todas as vagas não mudou nada nos créditos pagos no fim da corrida (observed) |
 
-A tabela de bônus pertence a um **cup**, então vale para todas as séries desse cup.
+A tabela de bônus pertence a um **cup**, mas só muda o que a tela mostra, não os créditos pagos. A célula de pagamento base de uma pista e classe de carro se comporta do mesmo jeito (veja [ECONOMY_MAP](../reference/ECONOMY_MAP.md)).
 
 ### Flags do cliente
 O cliente lê suas feature flags do cache (verified). Listas por modo (tipo de pneu,
@@ -117,12 +134,16 @@ nada mudou.
   evento mudam.
 - **A vaga sugerida** também não acompanhou uma volta cerca de seis segundos à frente
   do grid nem a classe do carro.
+- **Prêmio próprio por desafio (quatro testes):** ligar os objetivos por série, apontar um desafio para uma série nossa, trocar a condição
+  de um desafio (voltas, pista, divisão de carro) e abrir uma exibição de prêmio. O cliente lê as condições editadas e marca a linha como
+  concluída, mas nenhum carro ou crédito chega e a conclusão pode sumir ao reabrir o jogo. Só os desafios ativos, sem edição, pagam.
+- **Um campo numa série de bancada, sem efeito nos créditos pagos:** o modificador de pagamento e o preset de overrides do gerador, e a
+  dificuldade de IA da série. A escolha de dificuldade do próprio jogador pode mascarar a última (hipótese).
 - **Flag de ordenação manual de grid**: o nome pertence ao código de lobby de
   multiplayer/freeplay; é global e não foi tocada.
 
 ## 4. Próximos passos
 
-A economia da carreira: escalar uma célula de pagamento (pista × classe) e conferir se o crédito de uma série acompanha, depois uma curva de bônus
-próprio num cup só dele, com e sem a tela de aposta (veja [ECONOMY_MAP](../reference/ECONOMY_MAP.md)); a flag de pular o treino já cumprido; e a
-leitura de por que o orçamento de treino em zero só remove o treino no Trackday. Uma mudança por vez, cada uma revertida antes da próxima.
-Veja [OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md).
+Prêmios respondidos: a carreira recompensa o jogador com o que o jogo já paga (tamanho da corrida, bônus de colocação, desafios vanilla
+ativos) e com desbloqueio por progressão; prêmio próprio está fechado (veja [ECONOMY_MAP](../reference/ECONOMY_MAP.md)). Em seguida vem uma
+primeira série jogável e depois uma temporada, montadas com as alavancas acima. Uma mudança por vez, cada uma revertida antes da próxima. Veja [OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md).

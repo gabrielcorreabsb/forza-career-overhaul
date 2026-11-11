@@ -17,6 +17,20 @@ git-ignored paths.
   rights are reserved by its author. That is why none of its binaries, sources
   or resources are copied here. Please respect the author's terms.
 
+## ForzaTech Studio (optional, reference and viewer)
+
+- Project: [D3FEKT/ForzaTechStudio](https://github.com/D3FEKT/ForzaTechStudio),
+  MIT license. It covers assets such as `.swatchbin`, `.str` and `.fxb`. It does
+  not edit career data or decrypt CMS content.
+- Its docs are a starting point for formats; what we confirmed for this game is
+  in [SWATCHBIN](../reference/SWATCHBIN.md). We state those facts in our own
+  words and copy none of its code.
+- Its repository also carries native DLLs that the MIT license does not cover.
+  `xcompress64.dll` is Microsoft's and not redistributable, and the origin of
+  `xg.dll` and `granny2_x64.dll` is unchecked. Keep them local and never commit
+  them. The optional method 21 reader loads `xcompress64.dll` from the
+  `XCOMPRESS_DLL` variable or from a local copy under `_external/`.
+
 ## What you need locally
 
 Local layout (every path below is git-ignored):
@@ -56,6 +70,7 @@ just the key and a local game install.
 `.gitignore` blocks them. If one shows up staged, stop:
 
 ```text
+_external/
 Forza-Mod-Tool*/            _tools/fmtool/        _tools/decomp/
 _tools/cacheoracle/TOOL/    _tools/cacheoracle/res/
 cms_key.hex  *.key  .env  *.dll

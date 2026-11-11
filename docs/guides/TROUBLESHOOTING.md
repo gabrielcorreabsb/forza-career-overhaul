@@ -40,7 +40,7 @@ python _tools\rollback_cache.py
 | Title shows a raw `IDS_…` string, or a plain-text title is ignored | `Name` must be an `IDS_` key; the key is missing from `LocStrings_pt-BR.str` | add `IDS_<md5("MC44|label")>` with `str_edit.py` (any length) |
 | "You do not own {0}" names a car you did not expect | without an owned eligible car the game names the **lowest CarId** in the acceptlist, not the cheapest; an empty/invalid list falls back to the MP4/4 (1670) | put a cheap car you own in the acceptlist; ban-check with `denylist.json` |
 | No eligible car at all, though the list looks right | acceptlist larger than the vanilla maximum (23 entries; one block had 682) — the selection layer drops/truncates it | reduce the acceptlist to ≤23 ids in the BCS **and** the XML, on both snapshots |
-| AI grid uses the donor's cars | `AISelectableCars` empty in the BCS, and the field is really pinned by `AIField_117160001_Gen.xml`, which is not in the CmsCache | set `AISelectableCars` **and** write the XML with `install_edit.py` — see `AI_GRIDS.md` |
+| AI grid uses the donor's cars | `AISelectableCars` empty in the BCS, and the field is really pinned by `AIField_117160001_Gen.xml` (a series list never filters it, D66) | write the XML: `build_aifield.py --cache-plan` + `cache_edit.py` (or `install_edit.py` on a cache that lacks the group) — see `AI_GRIDS.md` |
 | `install_edit.py` dies with `WinError 5` writing the zip | the install denies DELETE to the user, so a rename-over (`os.replace`) fails | current `install_edit.py` rewrites the file in place; make sure the game is closed and re-run |
 | AI grid went back to the old cars after it worked | Steam "verify files" or a new server snapshot restored the install zip / manifests | re-run `install_edit.py` with the kit's payload |
 | Career menu empty or CMS error after an install edit | zip/manifest/prod checksums out of step, or a payload the game rejects | `install_edit.py --restore _backup\install_<time>`, then re-run `cache_verify.py` |
@@ -50,6 +50,7 @@ python _tools\rollback_cache.py
 | Every target diverges while the kit used to work | the server shipped a new snapshot; kits are snapshot-bound | regenerate the kit from the current cache |
 | The practice has more or fewer laps than I set, or setting the practice budget to 0 left the practice | practice laps come from the event's `NumberOfRequiredLaps`, not from the series' or the generator's lap limits; the zero budget removed the practice only in the Trackday | set `NumberOfRequiredLaps` on the event and keep the race length in the override's `Laps` |
 | I start last (or first) and the wager screen's pick is ignored | the session generator decides the slot: rank order with a start index of 6 or more puts you last, 0 to 5 first; a qualifying order gives a mid-grid value | for a free pick use an estimated-lap-time generator with no start index ([RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.17) |
+| The game forces a pit stop although the override says `Pits` 0 | the session generator's race options carry `NumQuickStops` 1, which wins over the override | set `NumQuickStops` to 0 in the generator's race XML (only on a generator no other mode uses), or point the event at a generator with 0 ([RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.6) |
 
 ## 2. Crashes and locked files
 
@@ -118,8 +119,9 @@ entry is usually art, not text.
   series. They are **not** localized: a pt-BR game can show "CLASSIC ENDURANCE"
   while the localized title is correct (lab diagnostics). Fix by pointing
   `ImagePath`/`BannerImagePath` at a neutral existing poster (mc48) and setting
-  `IntroVideoPath: ""` (precedent mc32). Own art means repacking a
-  `.swatchbin`, which is deferred.
+  `IntroVideoPath: ""` (precedent mc32). Own art means writing a `.swatchbin`
+  into a method 21 archive; the format is known, but no write has been tested:
+  [SWATCHBIN](../reference/SWATCHBIN.md).
 
 ## 5. Car eligibility and the suggested car
 
@@ -147,7 +149,9 @@ the CmsCache — the game reads it from the install zip, and `cache_edit.py`
 skips it. That is why the AI still looked like the donor's classics after the
 BCS change, and why the mc58 kit carries two plans (`plan.json` with the
 intention, `plan_bcs.json` with what `cache_edit.py` can actually write); the XML
-is written by `install_edit.py`. Rules for
+is written by `install_edit.py`. **Update (10/11/2026):** on the cache of the clean snapshot of 08/11 the group is
+in the CmsCache and the game reads that copy, so the XML is written with `cache_edit.py`
+([AI_GRIDS](AI_GRIDS.md) §1). Rules for
 car eligibility, `TargetPI` mapping and `AI_<car>_<pi>.xml` coverage are in
 `AI_GRIDS.md`. Do not duplicate them here.
 

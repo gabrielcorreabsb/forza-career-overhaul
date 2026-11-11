@@ -17,7 +17,7 @@ circuit, any class.
 | practice | none (`OpenPracticeLimitationTimeInSeconds = 0`, works in game). The same 0 on other series did **not** remove the practice (observed in two series), so the Trackday relies on more than that field |
 | event limits | `ClassRestriction 8`, `TargetPI 999` — any class up to X999 |
 | player cars | 23-car acceptlist (kit mc56); an S car at PI 701 was accepted |
-| AI | `AIField_117160001_Gen.xml` (install-only), 23 AI + the player = 24 cars |
+| AI | `AIField_117160001_Gen.xml` (install zip when this was built; the cache holds it now, see [AI_GRIDS](AI_GRIDS.md) §1), 23 AI + the player = 24 cars |
 
 ## 2. Kit timeline (all applied; `patches/<kit>/NOTA.md` has the detail)
 

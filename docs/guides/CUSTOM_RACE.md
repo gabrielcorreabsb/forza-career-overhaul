@@ -21,7 +21,7 @@ Two places hold the AI roster; only one wins.
 | `AIField_<n>_Gen.xml`, named by the event override's `AIFileName` | **pins the field** *(verified)* |
 
 The XML lives in content group `CFA7698C`, which the CmsCache never holds, so it
-is edited inside the install zip with `install_edit.py` (see §7).
+is edited inside the install zip with `install_edit.py` (see §7); with the cache that holds the roster group (since 08/11/2026) use `build_aifield.py --cache-plan` and `cache_edit.py` instead ([AI_GRIDS](AI_GRIDS.md) §1).
 
 ## 2. The two modes
 

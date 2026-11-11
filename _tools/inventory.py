@@ -17,7 +17,7 @@ Sources:
 
 Outputs (_data/): ladders, tracks, posters, divisions, track_events, denylist,
 cars, divisions_full, career (new), ids (new), kits_state (new), _meta (new).
-Outputs (docs/inventario/): CARROS, PISTAS, CARREIRA, POSTERS, ESTADO (.md).
+Outputs (docs/inventario/): CARROS, PISTAS, CARREIRA, POSTERS, ESTADO, KITS (.md).
 
 Usage:
   python _tools\\inventory.py                       # live cache, write all
@@ -331,7 +331,12 @@ def md_cars(cars, deny, meta):
     L = md_header("Carros / Cars (%d)" % len(cars), meta)
     L += ["Tag: `VETADO`/`DENIED` = negado sempre (CarDenyLists) - "
           "`SWAP` = motor/engine swap, sem listing / no listing.", "",
-          "| id | carro / car | classe / class | PI | ano / year | preco / price | tag |",
+          "**PI do catalogo / catalogue PI is NOT the game's PI.** Escala do jogo / "
+          "game scale: E 0-300, D 301-400, C 401-500, B 501-600, A 601-700, "
+          "S 701-800, R 801-900, P 901-998, X 999. Use a classe e, para um numero "
+          "por carro, `aifield_survey.py --car <id>` (menor arquivo de IA) / "
+          "use the class and the lowest AI tune.", "",
+          "| id | carro / car | classe / class | PI cat. (nao e o do jogo / not game PI) | ano / year | preco / price | tag |",
           "|---:|---|:-:|---:|---:|---:|---|"]
     for c in sorted(cars, key=lambda c: (c["class"], c["price"], c["id"])):
         tag = "VETADO/DENIED" if c["id"] in vet else (
@@ -411,6 +416,32 @@ def md_state(kstate, ledger, meta):
     return L
 
 
+def load_kit_status():
+    """Class of each kit (patches/kit_status.json); {} when the file is absent."""
+    data = read_json(os.path.join(PATCHES, "kit_status.json"), {}) or {}
+    return data.get("kits", {})
+
+
+def md_kits(status, kstate, meta):
+    L = md_header("Kits por classe / Kits by class", meta)
+    L += ["Fonte / source: `patches/kit_status.json`. `core` = receita que a "
+          "carreira usa / recipe the career builds on - `evidence` = achado ou "
+          "etapa util / useful finding or step - `legacy` = negativo, "
+          "inconclusivo ou abandonado / negative, inconclusive or dropped - "
+          "`never_played` = sem resultado no jogo / no in-game result.", ""]
+    for cls in ("core", "evidence", "legacy", "never_played"):
+        rows = [(k, v) for k, v in status.items() if v.get("class") == cls]
+        L += ["## %s (%d)" % (cls, len(rows)), "",
+              "| kit | motivo / basis |", "|---|---|"]
+        L += ["| %s | %s |" % (k, v.get("basis", "")) for k, v in rows]
+        L.append("")
+    missing = sorted(k for k in kstate if k not in status)
+    if missing:
+        L += ["## sem classe / no class (%d)" % len(missing), "",
+              ", ".join(missing), ""]
+    return L[:-1]
+
+
 # --------------------------------------------------------------------------- #
 # main
 # --------------------------------------------------------------------------- #
@@ -467,7 +498,8 @@ def main(argv=None):
         ("PISTAS.md", md_tracks(tracks, tev, meta)),
         ("CARREIRA.md", md_career(career, meta)),
         ("POSTERS.md", md_posters(posters, meta)),
-        ("ESTADO.md", md_state(kstate, ledger, meta))])
+        ("ESTADO.md", md_state(kstate, ledger, meta)),
+        ("KITS.md", md_kits(load_kit_status(), kstate, meta))])
 
     stale = []
     for name, obj in data.items():

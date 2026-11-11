@@ -35,6 +35,14 @@ declared class band, with X a single value at the top.
 - **verified** — X is not a band but the value 999: there is no room above it.
   *How to reproduce:* the same command.
 
+- **verified** (10/11/2026) — The table above is the **game's** PI scale: an event's
+  `TargetPI`, an AI roster window and the PI shown in a lobby use it, so the caps of a
+  series are the class ceilings (C 500, B 600, A 700, S 800, R 900). The `PI` column of
+  the catalogue inventory is **not** on this scale (a class-C car lists 549 there while
+  its lowest AI tune is 459); use the class and, for a per-car number, the lowest AI tune.
+  *How to reproduce:* `python _tools\inventory.py` (catalogue PI) against
+  `python _tools\aifield_survey.py --car <id>` (tune ladder).
+
 ## 3.2 Catalogue
 
 - **verified** — The catalogue holds **711 cars**:

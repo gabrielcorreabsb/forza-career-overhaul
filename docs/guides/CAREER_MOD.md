@@ -30,6 +30,10 @@ piece is tested in game before it counts.
 | stage | what the player gets | state |
 |---|---|---|
 | **Own place in the career** | a cup and ladder of our own; renamed, reordered, unlocked content | verified in game |
+| **Series with several events** | a series of several races, points adding up, done after the last event | verified in game ([DISCOVERIES](../project/DISCOVERIES.md) D62) |
+| **AI per class or per make** | a roster per class keeps the AI in your class; a closed pool of chosen models gives a grid of only those models | verified in game (D64, D65) |
+| **Progression gates** | a series or a whole group opens only after another is done | verified in game |
+| **A first own season** | a cup of our own with groups that unlock in order ("German Ovals", 6 series) | in game; first group played ([PROGRESS](../en/PROGRESS.md)) |
 | **Entry ladder (E and D)** | four to six short series for the cars the career never lists (E: 31 of 50 cars used, D: 50 of 106) | planned, viable |
 | **Spec races** | everyone in the same car: 23 AI of one model against you | verified in game |
 | **Trackday** | pick a circuit, any class, no practice, a rolling start | verified in game |
@@ -86,6 +90,12 @@ last, whatever your lap); the practice has its own lap count, apart from the rac
 practice alone; and fields of 8, 12 and 16 cars run. See [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.4 and §2.17,
 [ADR-006](../project/decisions/ADR-006_grid_start_shapes.md) and D46–D53 in [DISCOVERIES](../project/DISCOVERIES.md).
 
+### A first season (cup of our own, "German Ovals")
+Six series in three groups, in a cup of its own: the cup shows in the career, the second group stays locked until
+the first is done, and the AI is German only, inside the player's class (one roster per class, caps on the game's
+PI scale). A 3-event series ran in sequence with accumulated points, and a closed pool of five chosen models gave a
+grid of only those models. See [PROGRESS](../en/PROGRESS.md) and D60–D67 in [DISCOVERIES](../project/DISCOVERIES.md).
+
 ## 4. What shapes the design
 
 - **The career is top-heavy.** 209 of 711 cars are in no event, and 245 of 627
@@ -94,8 +104,9 @@ practice alone; and fields of 8, 12 and 16 cars run. See [RACE_SYSTEM](../refere
 - **The AI is set by its roster document, not by the series.** Which cars you race,
   and how far from your PI, are decided in one XML ([AI_GRIDS](AI_GRIDS.md)).
 - **Some things cannot be changed.** A brand-new CMS file is rejected (the game
-  goes offline), so custom content reuses existing slots. Prizes, physics and the
-  account economy stay out of reach and out of scope.
+  goes offline), so custom content reuses existing slots: a vanilla AI document with an identical copy can be
+  freed and reused as a pool of ours (D67). Prizes, physics and the account economy stay out of reach and out of
+  scope: the server grants prizes and credits against its own challenges.
 - **Every claim carries a label**: verified, observed or to test. Findings that
   rest on one or two runs say so.
 

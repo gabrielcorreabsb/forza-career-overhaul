@@ -43,3 +43,29 @@ def next_free(kind, used, start, stop):
         if i not in used and i not in ret:
             return i
     raise FmError("no free %s id in [%d, %d)" % (kind, start, stop))
+
+
+RETIRED_ORDER = ("_doc", "series", "events", "cups", "ladders")
+
+
+def retire(kind, values):
+    """Appends ids to patches/ids_retired.json (sorted, idempotent).
+    Returns the ids actually added (empty when everything was retired)."""
+    if kind not in RETIRED_ORDER[1:]:
+        raise FmError("unknown id kind %r (expected one of %s)"
+                      % (kind, list(RETIRED_ORDER[1:])))
+    path = os.path.join(PATCHES, "ids_retired.json")
+    data = retired() if os.path.isfile(path) else {}
+    current = set(data.get(kind, []))
+    wanted = set(int(v) for v in values)
+    added = sorted(wanted - current)
+    if not added:
+        return []
+    data[kind] = sorted(current | wanted)
+    ordered = dict((k, data[k]) for k in RETIRED_ORDER if k in data)
+    for k in sorted(data):
+        ordered.setdefault(k, data[k])
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(ordered, fh, ensure_ascii=False, indent=1)
+        fh.write("\n")
+    return added

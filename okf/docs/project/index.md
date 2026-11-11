@@ -12,3 +12,4 @@ Documents under docs/project/.
 - [ADR-003 — Stop mirroring the install's mediapc/](/docs/project/decisions/adr_003_mediapc_discontinued.md) — Forza Horizon 6 loads loose modified files from MediaPC\stripped, so the
 - [ADR-004 — The runtime source is the CmsCache, not the install](/docs/project/decisions/adr_004_install_vs_runtime.md) — The game ships a CMS in the install (media\pcfamily\cms\: a plaintext manifest,
 - [ADR-005 — Encrypt with the current payload as template (oracle, not Python)](/docs/project/decisions/adr_005_cipher_template.md) — re-encrypted
+- [ADR-006 — Career grid start: free start and GT-style start (index 23)](/docs/project/decisions/adr_006_grid_start_shapes.md) — The human's grid slot comes from the session generator, not from the series

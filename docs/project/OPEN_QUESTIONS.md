@@ -393,3 +393,22 @@ is a belief, not a finding.
 | ~~In the two events where `ClassRestriction` (800/S) and `TargetPI` (900) disagree, `TargetPI` wins~~ — **settled**: the event's `TargetPI` governs the cap shown and the cars accepted (a bench event showed the event's value, and an S car entered once the event's `TargetPI` was raised); the override's class restriction did not apply | `RACE_SYSTEM.md` §2.10 | — |
 | Featured/Multiplayer content can be ported into the career tree for schema-level mechanisms only (the reward/progression surface does not come along) | `CAREER_MODEL.md` part 2 | port one Featured series into a career ladder and compare what the series screen offers |
 | The `PlayerPIRelativeToClass` numeric key is a class index | `AI_GRIDS.md` §5 | same test as item 4 |
+
+## 18. Where do the paid credits come from?
+
+**Question.** The post-race credits did not follow two edits of the cache's tables (the career base cell of a track and car class, and the
+cup's wager table), although the pre-race screen showed new numbers for the first. What sets the credits that are paid?
+
+**What we know.** **observed** — the credits come as parcels (practice, finish, VIP equal to the base parcels, difficulty and rule set on a
+top-3 finish); the start slot did not change them. **observed** — a mandatory stop demanded by the session generator lowered the finish
+parcel (800 to 550) and the difficulty parcel (350 to 250) in a one-field check in both directions (D58). So some session options reach the
+paid credits; the cache's payout tables do not.
+
+**observed** (flag_bonus, 04/11) — the wager table does not pay with the screen off either: on 20061 (start P24, wager screen off, a low
+bonus multiplier) the credit stayed at 2,100, as it did with the screen on and the bonus off. With the screen on and the cup 103 bonus at
+10.0 (20059, 03/11 and 04/11) the screen showed the new multiplier and the credit was still 2,100. Not tested: screen off with 10.0.
+
+**Why it matters.** It decides whether a series can have an economy of its own. The generator's options are the lead.
+
+**Test.** Read which other options differ between a generator that paid 800 and one that paid 550, and change them one at a time on the same
+series; only with a discussion first, one global scalar of `CreditScalars.json` with a Featured control.

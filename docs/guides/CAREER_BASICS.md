@@ -34,7 +34,7 @@ Championship 1 is multiplayer and is never touched.
 | `BCEventOverrides.json` | race rules per event: laps, weather, `ClassRestriction`, `TargetPI`, `AIFileName`, `ParentGeneratorId` |
 | `BCSeriesSelectableCars.xml` | which cars the player may bring (acceptlist) |
 | `LocStrings_pt-BR.str` | every displayed name (`IDS_<hash>` keys; new keys of any length work) |
-| `AIField_<n>_Gen.xml` (**install zip only**) | who the AI drivers are and their PI — see [CUSTOM_RACE](CUSTOM_RACE.md) |
+| `AIField_<n>_Gen.xml` (cache; the game reads it from there) | who the AI drivers are and their PI — see [CUSTOM_RACE](CUSTOM_RACE.md) |
 
 Two things that hide real caps (both bit this project):
 
@@ -52,6 +52,12 @@ Two things that hide real caps (both bit this project):
 - New ids: `ChampionshipSeriesId` ≥ 20000, `EventDataId` 65897900–65899999,
   **never reused** (a reused event id shows as "already completed").
 - A new series needs its `BCSeriesSelectableCars.xml` block (`ArrayLength` + 1).
+- **A series may have several events** (140 of 176 vanilla series have 2–8): one override per event with
+  `ID` = the event id, and `OrderedEventIds` in the order of the event array. Verified with a 3-event series of
+  ours: events run in sequence, points add up per driver, the series is done after the last event, every race pays
+  the same ([DISCOVERIES](../project/DISCOVERIES.md) D62).
+- A series (or a whole group) can be **gated** on another through its entry criteria; a group stays locked until
+  the previous one is done (verified).
 - Poster, banner and intro are inherited from the donor series — replace them.
 
 ## 4. How the vanilla AI is wired
@@ -80,7 +86,7 @@ and the cars; the difficulty comes from the player's own car.
 | reorder or unlock | permute `LadderOrderData`/`OrderData`; flip unlock flags | [tutorial 02](../tutorials/02_reorder.md) |
 | new series | spec + `build_series.py` | [tutorial 03](../tutorials/03_new_series.md), [SERIES_CHECKLIST](../reference/SERIES_CHECKLIST.md) |
 | lift an event's PI/class cap | kit on the event's `TargetPI` (mc59 is the model) | [AI_GRIDS](AI_GRIDS.md) |
-| change who the AI is | `AIField` via `fmlib.aifield` + `install_edit.py` | [CUSTOM_RACE](CUSTOM_RACE.md) |
+| change who the AI is | `AIField` via `fmlib.aifield` + `cache_edit.py` (`build_aifield.py --cache-plan`) | [CUSTOM_RACE](CUSTOM_RACE.md) |
 | apply or undo anything | `cache_edit.py` (CmsCache) / `install_edit.py` (install) | [PIPELINE](../en/PIPELINE.md) |
 
 ## 6. Before touching a series

@@ -31,6 +31,9 @@ Gerado por `{generator}`{spec_line}. Snapshots: {snaps}.
 ## Requer
 {requires}
 
+## Para que serve (kit de teste)
+{purpose}
+
 ## Aplicar (jogo FECHADO)
 ```powershell
 python _tools\\plan_lint.py --plan patches\\{kit}\\plan.json
@@ -90,15 +93,31 @@ class Kit:
         return path
 
     def write_nota(self, title, generator, scope, requires="-", spec=None,
-                   overwrite=False):
+                   overwrite=False, purpose=None):
+        """purpose = (question, mask, min_condition, refutes): fills the
+        "Para que serve" bullets (required for round kits)."""
         path = os.path.join(self.dir, "NOTA.md")
         if os.path.exists(path) and not overwrite:
             return path
+        bullets = ("- Item da carreira atendido:",
+                   "- Quem pode mascarar o efeito (jogador, override, "
+                   "gerador, servidor):",
+                   "- Condicao minima para ver o efeito:",
+                   "- Resultado que refuta a hipotese:")
+        if purpose is None:
+            purpose_block = "\n".join(bullets)
+        else:
+            if len(purpose) != len(bullets) or \
+                    not all(isinstance(v, str) and v.strip() for v in purpose):
+                raise FmError("write_nota: purpose needs the 4 non-empty "
+                              "fields (question, mask, min_condition, refutes)")
+            purpose_block = "\n".join("%s %s" % (b, v)
+                                      for b, v in zip(bullets, purpose))
         txt = NOTA_TEMPLATE.format(
             kit=self.name, title=title, generator=generator,
             spec_line=(" a partir de `%s`" % spec) if spec else "",
             snaps=", ".join(sorted({t["snapshots"][0] for t in self.targets})),
-            scope=scope, requires=requires)
+            scope=scope, requires=requires, purpose=purpose_block)
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(txt)
         return path

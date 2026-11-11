@@ -1,0 +1,47 @@
+{
+  "name": "de_s",
+  "description": "German grids by PI class, part 4 of 4: the S band. A closed 10-car pool (Porsche, Mercedes-AMG, Audi, BMW) drawn into 23 slots, PI window 750..800 in steps of 10, a narrow -10..+10 band around the player at both window ends, difficulty Expert, rubber banding off and the race elastic flags (slow down / catch up / proximity / position spread) off. Target document: AIField_109350001_Gen.xml - in the live manifest with a local blob, named by exactly one override record (109350001) that no series event uses and by no GameOptions_* generator; the install zip and the cache blob hold the same bytes there. Every car of the roster has an AI_ ladder whose lowest file sits at or below the window floor (750), so no car is forced to run faster than the PI it is listed at. The two BMW Motorsport historics here (2112, 2103) are period racers, not pre-1960 road cars, and both have their own short AI_ ladders.",
+  "logical": "AIField_109350001_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    2654,
+    3667,
+    2473,
+    292,
+    3072,
+    2112,
+    1539,
+    2103,
+    3781,
+    641
+  ],
+  "window": [
+    750,
+    800,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

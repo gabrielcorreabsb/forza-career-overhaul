@@ -9,6 +9,16 @@ writes the .enc ready for install_edit.py.
 
 Read-only on the cache and on the install. Output: <out>/XML.<logical>.enc.
 
+Cache route (--cache-plan): the SAME document is also delivered through the
+CmsCache, where the entry lives in a blob. That payload can differ from the
+install zip entry, so the cipher template is the CURRENT cache-blob payload of
+the live snapshot (resolved by Checksum, as in inventory.load_live), never the
+install one. Output, next to the install payload:
+  <out>/CACHE.<logical>.enc  payload encrypted with the cache blob as template
+  <out>/plan.json            cache_edit.py plan (one op="bytes" target) whose
+                             "file" is CACHE.<logical>.enc and "snapshots" are
+                             the snapshots that resolve to that blob payload
+
 Definition (JSON, see specs/aifield/):
   name         label, also the default output folder patches/<name>/
   logical      install entry to replace, e.g. AIField_117160001_Gen.xml
@@ -34,9 +44,13 @@ Definition (JSON, see specs/aifield/):
 Usage:
   python _tools\\build_aifield.py --def specs\\aifield\\trackday_pool56.json
   python _tools\\build_aifield.py --def <file> --check     # build + validate, write nothing
-Then, game closed:
+  python _tools\\build_aifield.py --def <file> --cache-plan  # + cache route
+Then, install route, game closed:
   python _tools\\install_edit.py --dry-run --logical <logical> --payload <the .enc>
   python _tools\\install_edit.py --verify  --logical <logical> --payload <the .enc>
+Or, cache route (--cache-plan), game closed:
+  python _tools\\cache_edit.py --dry-run --plan <out>\\plan.json
+  python _tools\\cache_edit.py --plan <out>\\plan.json --verify
 """
 
 import argparse
@@ -49,7 +63,10 @@ sys.path.insert(0, TOOLS)
 
 from fmlib import aifield, crypto                       # noqa: E402
 from fmlib.cache import Cache                           # noqa: E402
-from fmlib.core import PATCHES, WORK, FmError           # noqa: E402
+from fmlib.core import PATCHES, WORK, FmError, b64sha  # noqa: E402
+import inventory    # noqa: E402  (load_live: checksum-resolved cache blobs)
+
+CACHE_PLAN = "plan.json"
 
 
 def check(cond, msg):
@@ -157,8 +174,55 @@ def _check_written_meta(d, st):
                            for s, f in sorted(st["behavior"].items()))))
 
 
-def build(d, out_dir, write=True):
-    cache = Cache()
+def build_cache_plan(d, text, cache):
+    """Cache route: payload + cache_edit plan for the SAME document.
+
+    Cipher template = the CURRENT payload of `d["logical"]` inside the cache
+    blob of the live snapshot (resolved by Checksum through
+    inventory.load_live), never the install zip entry: the two can differ.
+    Returns dict(enc, name, plan, snapshot, template).
+    """
+    logical = d["logical"]
+    snaps, snap, _ck, prod, payloads = inventory.load_live(cache.dir)
+    check(logical in payloads,
+          "%s has no Checksum-matching payload in the cache blobs of snapshot "
+          "%s (install-only content: there is no cache payload to use as "
+          "cipher template)" % (logical, snap))
+    template = payloads[logical]
+    ck = b64sha(template)
+    group = None
+    for g in prod.get("ContentGroups", []):
+        if logical in g.get("FileNames", []):
+            group = g["GroupName"]
+            break
+    check(group, "%s is in no ContentGroup of snapshot %s"
+          % (logical, snap))
+    old_mode = aifield.mode_of(crypto.decrypt(template).decode("utf-8"))
+    new_mode = aifield.parse(text)["mode"]
+    check(old_mode == new_mode,
+          "cache entry %s is %s, the new document is %s"
+          % (logical, old_mode, new_mode))
+    enc = crypto.encrypt(text.encode("utf-8"), template,
+                         os.path.join(WORK, d["name"]), tag="cache")
+    check(crypto.decrypt(enc) == text.encode("utf-8"),
+          "cache payload round-trip diverged")
+    snaps_hit = [s for s in snaps
+                 if any(f["Path"] == logical and f["Checksum"] == ck
+                        for f in cache.prod(s).get("Files", []))]
+    check(snaps_hit, "the blob payload of %s resolves to no snapshot" % logical)
+    name = "CACHE." + logical[:-4] + ".enc"
+    plan = {"targets": [{"logical": logical, "group": group, "op": "bytes",
+                         "file": name, "snapshots": snaps_hit}]}
+    print("cache template: live blob payload of %s (%d B, snapshot %s)"
+          % (logical, len(template), snap))
+    print("  group %s | snapshots %s" % (group, ", ".join(snaps_hit)))
+    print("  payload: %d B (cache template %d B)" % (len(enc), len(template)))
+    return {"enc": enc, "name": name, "plan": plan, "snapshot": snap,
+            "template": template}
+
+
+def build(d, out_dir, write=True, cache_plan=False, cache_dir=None):
+    cache = Cache(cache_dir)
     by_car = aifield.ai_files(aifield.manifest_files(cache))
     print("AI_ index: %d cars (snapshot %s)" % (len(by_car), cache.live))
     _e, tpl, _n = aifield.read_entry(d["template"])
@@ -190,7 +254,15 @@ def build(d, out_dir, write=True):
     enc = aifield.encrypt_for_install(text, cur, os.path.join(WORK, d["name"]))
     check(crypto.decrypt(enc) == text.encode("utf-8"), "payload round-trip diverged")
     print("payload: %d B (current entry %d B)" % (len(enc), len(cur)))
+    cplan = build_cache_plan(d, text, cache) if cache_plan else None
+    if cplan is not None:
+        print("  blob vs install template: %s"
+              % ("same" if cplan["template"] == cur
+                 else "differs (the install carries another edit)"))
     if not write:
+        if cplan is not None:
+            print("  plan (check only, not written): %s"
+                  % json.dumps(cplan["plan"]))
         print("check only: nothing written")
         return None
     os.makedirs(out_dir, exist_ok=True)
@@ -198,11 +270,24 @@ def build(d, out_dir, write=True):
     with open(path, "wb") as fh:
         fh.write(enc)
     print("wrote " + path)
-    print("next (game CLOSED):")
+    print("next (install route, game CLOSED):")
     print("  python _tools\\install_edit.py --dry-run --logical %s --payload %s"
           % (d["logical"], path))
     print("  python _tools\\install_edit.py --verify  --logical %s --payload %s"
           % (d["logical"], path))
+    if cplan is not None:
+        cpath = os.path.join(out_dir, cplan["name"])
+        with open(cpath, "wb") as fh:
+            fh.write(cplan["enc"])
+        print("wrote " + cpath)
+        ppath = os.path.join(out_dir, CACHE_PLAN)
+        with open(ppath, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(cplan["plan"], fh, indent=2)
+            fh.write("\n")
+        print("wrote " + ppath)
+        print("next (cache route, game CLOSED):")
+        print("  python _tools\\cache_edit.py --dry-run --plan %s" % ppath)
+        print("  python _tools\\cache_edit.py --plan %s --verify" % ppath)
     return path
 
 
@@ -212,10 +297,21 @@ def main(argv=None):
     ap.add_argument("--out", help="output folder (default patches/<name>)")
     ap.add_argument("--check", action="store_true",
                     help="build and validate, write nothing")
+    ap.add_argument("--cache-plan", action="store_true",
+                    help="also emit the cache route for the same document: "
+                         "<out>/CACHE.<logical>.enc, encrypted with the CURRENT "
+                         "cache-blob payload of the live snapshot as template, "
+                         "plus <out>/plan.json for cache_edit.py; the install "
+                         "payload <out>/XML.<logical>.enc is still written")
+    ap.add_argument("--cache-dir", default=None,
+                    help="cache read by --cache-plan (default: the live "
+                         "CmsCache)")
     a = ap.parse_args(argv)
     try:
         d = load_def(a.defn)
-        build(d, a.out or os.path.join(PATCHES, d["name"]), write=not a.check)
+        build(d, a.out or os.path.join(PATCHES, d["name"]),
+              write=not a.check, cache_plan=a.cache_plan,
+              cache_dir=a.cache_dir)
     except FmError as exc:
         print("FAIL: %s" % exc)
         return 1

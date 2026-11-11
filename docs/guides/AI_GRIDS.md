@@ -37,6 +37,12 @@ test protocol: [CUSTOM_RACE](CUSTOM_RACE.md).
   `cache_edit.py` skips them; `install_edit.py` writes them and keeps the
   install and cache manifests consistent. Steam's "verify files" or a new server
   snapshot reverts the write; repeat it.
+- **verified** (10/11/2026) — **Superseded route.** Since the clean-cache reset of 08/11
+  the cache holds this group too (all 627 documents) and the game reads the **cache**
+  copy. Build the payload with `build_aifield.py --cache-plan` (it also writes a plan for
+  `cache_edit.py`, with the cache payload as the cipher template) and apply it with
+  `cache_edit.py`; the install zip no longer decides the grid, and Steam's "verify files"
+  does not undo it. The statement above holds only for a cache that lacks the group.
 - **verified** — No Featured, Rivals or Meetup generator cites a career AI
   field document, so editing a career grid changes only the career. A few
   documents are named by more than one career series: check which series use
@@ -169,6 +175,16 @@ the player's PI.
 No pile-up at the PI floor: the draw is restricted to band ∩ window. The PI is
 per driver, not per car (the same car appeared at several PIs).
 
+- **observed** (10/11/2026, 4 series, one player car near 800) — When the player's PI
+  is above the window, the AI is **clamped at the window ceiling**: windows 490–570,
+  570–640, 650–720 and 750–830 gave an AI at 570, 640, 720 and 809. A series meant for
+  one class therefore needs a window whose ceiling is the class ceiling (C 500, B 600,
+  A 700, S 800, R 900, the game's PI scale in §3); a higher ceiling puts the AI one
+  class above the player.
+- **observed** (10/11/2026) — One pool of every German car with a tune file (95 cars,
+  window 300–900, band −350…+250) gave a grid of German cars only, PI 463–885, with
+  classes C to R in one start. PI is per driver, not per car (a Golf R appeared at 885,
+  class R).
 - **hypothesis** — The first race after a grid change reuses the previous
   grid's cars with a recomputed PI ("warm-up run"); the new roster shows from
   the second race on. Seen in 2–3 cases, never logged on purpose.
@@ -223,6 +239,42 @@ roster per document; any number of events can share a document.
 Caveats: Steam "verify files" reverts the document; a band wider than zero makes
 the AI cars differ in pace even though they are the same model; whether the
 document's flags or the series' flags win is untested.
+
+## 6c. A roster per class or per make (the German example)
+
+- **verified** (10/11/2026) — The roster comes from the document the override names, not
+  from the track: the four oval donor documents all list the same eight American muscle
+  cars, so any series that borrows one of them gets those cars whatever the player drives.
+- **verified** — Vanilla documents already exist per make and class: BMW (window 500–700 and
+  600–800), Audi (600–700, 600–800), Porsche (600–800, 700–900) and mixed German ones
+  (600–800, 650–800, 700–800). None starts below 500, so a class-C German field needs a
+  document of our own.
+- **verified** (data) — 103 of 134 German cars have AI tune files and can fill a roster;
+  31 (for example the Golf R32, the M5 '03, the Taycan) have none and never can, though
+  they stay legal as the player's car. Lowest tune per class for German cars: C 9 cars
+  (437–488), B 17, A 30, S 23, R 6, P 6.
+- **recipe** — one document per class, mode `pool`, only cars with a tune file, a window
+  whose **floor is at least the highest lowest-tune of the list** (otherwise some cars
+  are faster than their listed PI) and whose **ceiling is the class ceiling**, a band of
+  −10…+10 and the elastic flags off. Specs: `specs/aifield/de_c.json`, `de_b.json`,
+  `de_a.json`, `de_s.json` (and `de_all.json`, the open pool). Give each series the cap
+  and class of its class and a car list to match (the series' `SelectableCars`), so the
+  player is inside the class the AI is in.
+
+## 6d. Chosen models, and freeing a vanilla document
+
+- **verified** (G18, D65) — A pool document with **5 hand-picked class-A models** (window 650–700, band
+  −10…+10) filled 23 slots with only those 5 cars, 4–5 of each, PI 658–677, class A against a player at 668.
+  The slot count spreads the models evenly, so a one-make or themed field needs no weights.
+- **verified** (G19, D66) — A series' `AISelectableCars` is **not a filter** for the roster document: a series
+  pointing at a 19-model document with a list of 5 still drew from the whole pool (7 of 11 AI rows outside the
+  5). Write the models into the document itself.
+- **verified** (G20, D67) — Documents cannot be invented (§6b), but a vanilla one can be **freed**: when a
+  document has a byte-identical copy, repoint the override's `AIFileName` of the event that uses it to the
+  copy (the event keeps its vanilla grid) and rewrite the freed document as a pool of your own. A series
+  pointing at it then drew 23 AI slots of only the 4 models written (PI 658–677); the online side stayed
+  intact. 313 such copies exist in the snapshot tested, which is the stock of own pools.
+  In a championship the player does not pick the event: to read a middle event, reorder `OrderedEventIds`.
 
 ## 7. Composition rules that held
 

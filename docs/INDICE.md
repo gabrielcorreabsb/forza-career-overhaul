@@ -6,7 +6,7 @@ One-page map, grouped like the folders. Default reading order:
 [PIPELINE](en/PIPELINE.md) → the doc for your task. Overview: [README](../README.md).
 
 Bilingual pairs (`pt-br/<DOC>.md` and `en/<DOC>.md`, same file name) exist only
-for the essentials: `PIPELINE`, `GETTING_STARTED`, `CONCEPTS`, `MOD_TOOLKIT`. Every other doc is
+for the essentials: `PIPELINE`, `GETTING_STARTED`, `CONCEPTS`, `MOD_TOOLKIT`, `PROGRESS`. Every other doc is
 English-only.
 
 ## Start
@@ -17,6 +17,7 @@ English-only.
 | Understand the cache, Strategy S and the career model | **[en/CONCEPTS](en/CONCEPTS.md)** ([PT](pt-br/CONCEPTS.md)) | diagrams and glossary |
 | Apply or revert a mod on the CmsCache | **[en/PIPELINE](en/PIPELINE.md)** ([PT](pt-br/PIPELINE.md)) | golden rules (game closed), `--dry-run` then `--verify`, rollback and verification |
 | See what the mod can do today and how sure we are | **[en/MOD_TOOLKIT](en/MOD_TOOLKIT.md)** ([PT](pt-br/MOD_TOOLKIT.md)) | levers by pillar, recipes, what is closed |
+| See how the project has progressed, phase by phase | **[en/PROGRESS](en/PROGRESS.md)** ([PT](pt-br/PROGRESS.md)) | timeline (v0.1 → phase 0.3), findings of the own season, what is next |
 
 ## Tutorials (step by step)
 
@@ -32,7 +33,7 @@ English-only.
 | task | doc | why |
 |---|---|---|
 | Common career: model, ids, what to touch with which tool | **[guides/CAREER_BASICS](guides/CAREER_BASICS.md)** | the basics, before touching any series |
-| AI: roster targets, pool or list, PI band, building a grid | **[guides/AI_GRIDS](guides/AI_GRIDS.md)** | the series' AI list **plus** the install-only `AIField` document; `build_aifield.py` |
+| AI: roster targets, pool or list, PI band, building a grid | **[guides/AI_GRIDS](guides/AI_GRIDS.md)** | the series' AI list **plus** the `AIField` roster document (read from the cache); `build_aifield.py` |
 | A multi-class grid in any series | **[guides/CUSTOM_RACE](guides/CUSTOM_RACE.md)** | modes, class scale, PI band, recipe, test protocol |
 | What the career mod is, its stages and the series that already run | **[guides/CAREER_MOD](guides/CAREER_MOD.md)** | the vision (FM4 × GT4), stage table, worked examples |
 | A trackday series, worked example | **[guides/CIRCUIT_EXPERIENCE](guides/CIRCUIT_EXPERIENCE.md)** | ids, timeline, which document is active |
@@ -50,6 +51,7 @@ English-only.
 | Look up a field of a career/Featured record | **[reference/SCHEMA_REFERENCE](reference/SCHEMA_REFERENCE.md)** | field-by-field catalogue, defaults, evidence labels |
 | Files, counts, id ranges and derived tables | **[reference/DATA_REFERENCE](reference/DATA_REFERENCE.md)** | tree, record sizes, identity rules |
 | A new series — the why of each step | **[reference/SERIES_CHECKLIST](reference/SERIES_CHECKLIST.md)** | ids, series, ladder, events, overrides, car registry, `.str`; the standard path is [`../specs/README.md`](../specs/README.md) + `build_series.py` |
+| The format of series art (poster, banner) | **[reference/SWATCHBIN](reference/SWATCHBIN.md)** | `.swatchbin` layout, counts, what own art still needs |
 | Terms | **[reference/GLOSSARY](reference/GLOSSARY.md)** | vocabulary |
 
 ## Data (tables generated from your game)

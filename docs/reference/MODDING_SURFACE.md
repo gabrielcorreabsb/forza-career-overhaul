@@ -52,19 +52,19 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 | human's grid slot | generator `GridOrderingType` + `ClusterHumansAtIndex` | XML | `cache_edit` on a generator no other mode uses | career | **observed** (n=1 per series): with `AIDriverRank` the index acts as a cut (0, 2, 5 → first; 6, 7, 8, 11, 23 → last, with no middle slot); with `Qualifying` a mid-grid value that varies with the field, the AI document and the car (7th of 24, 3rd of 8, 5th of 12 and of 16); the project uses index 23 and does not use `Qualifying` (ADR-006). The series' own fields cannot move it |
 | car-class filter of an event | generator `Buckets/Bucket/CarRestrictions` | XML | pick a generator with the class you want (`ParentGeneratorId`) | career | **observed** (n=1 pair): a strict class-R generator refused a class C car the series allowed |
 | penalty rules (ghost, off-track, collision, wrong way) | generator `RaceRegulationsId` → regulations table | XML + JSON | generator choice | career | **observed**: regulation 103 on a career generator showed no visible effect (collisions were already punished with 0) |
-| mandatory pit stop | event override `FeatureRace.Pits` | JSON | `build_series.py` (`pits`) | career | **observed**: the AI is required to stop; with `Pits` 0 no stop is demanded and a race can be finished without one |
+| mandatory pit stop | event override `FeatureRace.Pits` **and** the generator's `NumQuickStops` | JSON + XML | `build_series.py` (`pits`); `cache_edit` on a generator no other mode uses | career | **observed**: the AI is required to stop; `Pits` 0 removes the stop only when the generator's `NumQuickStops` is 0 (a generator with 1 still forced a stop, D54) |
 | race weather and hour | event override `FeatureRace.WeatherForecast`, `TimeOfDayHour` | JSON | cache_edit after `build_series.py` | career | **observed** (n=1): they change the race only; the practice keeps the `PracticeAndQualifying` block |
 | practice laps | the event's `NumberOfRequiredLaps` (the race laps stay in `FeatureRace.Laps`) | JSON | `cache_edit` (`build_series.py` writes both with one number today) | career | **observed**: events with 2, 3 and 4 required laps showed 2, 3 and 4 practice laps; the series' and the generator's lap limits did not act |
 | AI document with no drivers | `AIField_<id>_Gen.xml` with an empty driver list | XML | `install_edit` | career | **closed** as a way to run solo: practice runs, the race crashes |
 | series objectives | `ChampionshipSeriesObjectivesData_<SeriesId>.json` | JSON | **no tool**: career series have no document, and `cache_edit` cannot add a new logical entry | career + Featured (the enabling flag is shared) | **closed** until the tool exists |
-| Challenge the Grid wagers | `ChallengeTheGridData` at cup level + a client flag | JSON | `cache_edit` | career | **verified**: the screen is driven by the client flag (section 11); the cup data only changes multipliers |
+| Challenge the Grid wagers | `ChallengeTheGridData` at cup level + a client flag | JSON | `cache_edit` | career | **verified**: the screen is driven by the client flag (section 11); the cup data only changes multipliers. **observed**: setting the table to 10.0 on every slot did **not** change the credits paid ([DISCOVERIES](../project/DISCOVERIES.md) D57) |
 
 ## 4. AI
 
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
 | grid / roster (cars, PI band, slots) | `AIField_<id>_Gen.xml`, named by the override's `AIFileName` | XML | `_tools/build_aifield.py` + `install_edit.py` (the group usually has no cache blob) | career (Featured has no AI grid field) | **verified** (`AI_GRIDS.md`) |
-| catch-up / slow-down / proximity per series | `AIRaceBehaviors` (two blocks: race, practice/qualifying) in the schedule | JSON | `cache_edit` | career | **hypothesis** (bench kit built) |
+| catch-up / slow-down / proximity per series | `AIRaceBehaviors` (two blocks: race, practice/qualifying) in the schedule | JSON | `cache_edit` | career | **observed** for catch-up and slow-down off in the race: the AI got better (user report, [DISCOVERIES](../project/DISCOVERIES.md) D59); the rest is a **hypothesis** |
 | catch-up flags per grid file | `RaceBehaviorSettings` inside the AIField XML | XML | `install_edit` | career: no Featured, Rivals or Meetup generator cites a career grid; a few grids are shared by several career series | **hypothesis**; which layer wins is open |
 | rubber banding / drivatar training per generator | `GameOptions_<gen>` attributes | XML | `cache_edit` | career | **observed** as already off in the career generators, so it is not the source of the elastic feel |
 | global AI config (career spread, dynamic difficulty, catch-up) | `AIConfig.*` in the client flags | JSON | `cache_edit` | **global** | **hypothesis**, discuss first |
@@ -73,9 +73,11 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 
 ## 5. Credits, economy and progression
 
+**Status so far: the cache's payout tables only change what the interface shows; the one concrete change to the credits paid is the session generator's mandatory stop (D58).** See [ECONOMY_MAP](ECONOMY_MAP.md).
+
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
-| credit scalars, per-track car credit scaling, rewards, driver/car level config | `CreditScalars.json`, `CarCreditScalingTable.json`, `Rewards.json`, `LevelConfigurationV3.json`, `DriverLevelConfig.json` (cache) | JSON | `cache_edit` | **global** (account progression) | **hypothesis**, discuss first |
+| credit scalars, per-track car credit scaling, rewards, driver/car level config | `CreditScalars.json`, `CarCreditScalingTable.json`, `Rewards.json`, `LevelConfigurationV3.json`, `DriverLevelConfig.json` (cache) | JSON | `cache_edit` | **global** (account progression) | **hypothesis**, discuss first Per-track car credit scaling (the career base cell): doubling it changed the pre-race screen but **not** the credits paid (D56). |
 | part discount by car level | `AffinityDiscountSettings` (client flags) | JSON | `cache_edit` | global | **hypothesis**; it is not manufacturer affinity |
 | prize packs, unlock rules, level rewards, bonuses, forzathon | `media\base\prizes\`, `media\base\unlocks\`, tunables | encrypted container | **closed** | account / server-side | **closed** |
 | affinity level rewards, legacy level config | `media\base\gametunablesettings\` (readable) | XML/JSON | file swap (no tool) | account | **hypothesis**; prefer the cache copy where one exists |
@@ -97,7 +99,7 @@ own. Car/driver progression is account-global, out of series-kit reach.
 | names and descriptions (`IDS_` keys) | LocStrings `.str` tables in the cache | `.str` (hashed keys) | `_tools/str_edit.py` + a `bytes` plan | per key | **verified**: new keys of any length work |
 | install string tables | `media\base\stringtables\<lang>.zip` | `.str` | not needed (the cache copy wins) | — | **verified** that the cache is the runtime source |
 | screens behind client flags | client flags (section 11) | JSON | `cache_edit` | depends on the flag | **verified** for one screen (n=1) |
-| art (posters, banners, buttons) | image paths in the schedule | path strings | `build_series.py` (reuse existing paths) | career | **verified** (reuse only; no new image assets) |
+| art (posters, banners, buttons) | image paths in the schedule | path strings | `build_series.py` (reuse existing paths) | career | **verified** (reuse only); own art: format read, no write tested ([SWATCHBIN](SWATCHBIN.md)) |
 
 ## 7. Tracks
 

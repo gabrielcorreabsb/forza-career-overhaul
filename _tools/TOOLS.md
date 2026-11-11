@@ -7,8 +7,8 @@ Role of each script. Everything here runs against **your** game install and cach
 
 | script | what it does |
 |---|---|
-| `cache_edit.py` | applies a `plan.json` to the game cache; guarded: lint, game closed, recent `--dry-run`; backup and ledger |
-| `install_edit.py` | swaps one CMS entry inside the **install** zip (groups outside the CmsCache, e.g. AIField) and the manifests; `--dry-run`, backup, `--restore` |
+| `cache_edit.py` | applies a `plan.json` to the game cache (career data, texts, and the AIField roster documents, which the game reads from the cache); guarded: lint, game closed, recent `--dry-run`; backup and ledger |
+| `install_edit.py` | swaps one CMS entry inside the **install** zip and the manifests; the fallback for a group a cache does not hold (AIField on a cache older than the 08/11/2026 snapshot); `--dry-run`, backup, `--restore` |
 | `plan_lint.py` | plan linter (static, multiplayer untouched, Strategy S, retired ids) |
 | `cache_verify.py` | full cache consistency check (Size/Checksum of every entry; must end with 0 errors) |
 | `rollback_cache.py` | restores the newest backup |
@@ -19,7 +19,7 @@ Role of each script. Everything here runs against **your** game install and cach
 | script | what it does |
 |---|---|
 | `build_series.py` | new series from a spec in `specs/` |
-| `build_aifield.py` | AI grid payload from a definition in `specs/aifield/` (pool or list), built on a vanilla template of your install; hand it to `install_edit.py` |
+| `build_aifield.py` | AI grid payload from a definition in `specs/aifield/` (pool or list), built on a vanilla template of your game; `--cache-plan` also writes the plan for `cache_edit.py` |
 | `fmlib/` | shared library: `cache`, `crypto`, `bcs`, `carsxml`, `overrides`, `strs`, `cars`, `ids`, `kit`, `aifield` |
 | `str_edit.py` | `.str` codec (byte-identical round-trip; `IDS_` keys of any length) |
 | `cms_crypto.py` | Python CMS codec; the key comes from `FM_CMS_KEY` or a local `cms_key.hex` (never versioned; see `docs/project/THIRD_PARTY.md`) |

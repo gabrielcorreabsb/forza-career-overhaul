@@ -1,7 +1,7 @@
 ---
 type: "Script"
 title: "cache_edit.py"
-description: "applies a plan.json to the game cache; guarded: lint, game closed, recent --dry-run; backup and ledger"
+description: "applies a plan.json to the game cache (career data, texts, and the AIField roster documents, which the game reads from the cache); guarded: lint, game closed, recent --dry-run; backup and ledger"
 resource: "../_tools/cache_edit.py"
 tags: ["tool", "1_pipeline_apply"]
 ---
@@ -10,6 +10,6 @@ tags: ["tool", "1_pipeline_apply"]
 
 Section: 1. Pipeline (apply)
 
-applies a plan.json to the game cache; guarded: lint, game closed, recent --dry-run; backup and ledger
+applies a plan.json to the game cache (career data, texts, and the AIField roster documents, which the game reads from the cache); guarded: lint, game closed, recent --dry-run; backup and ledger
 
 See `_tools/TOOLS.md`.

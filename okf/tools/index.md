@@ -2,14 +2,14 @@
 
 Scripts of the pipeline, by role. Source: _tools/TOOLS.md.
 
-- [cache_edit.py](/tools/cache_edit_py.md) — applies a plan.json to the game cache; guarded: lint, game closed, recent --dry-run; backup and ledger
-- [install_edit.py](/tools/install_edit_py.md) — swaps one CMS entry inside the install zip (groups outside the CmsCache, e.g. AIField) and the manifests; --dry-run, backup, --restore
+- [cache_edit.py](/tools/cache_edit_py.md) — applies a plan.json to the game cache (career data, texts, and the AIField roster documents, which the game reads from the cache); guarded: lint, game closed, recent --dry-run; backup and ledger
+- [install_edit.py](/tools/install_edit_py.md) — swaps one CMS entry inside the install zip and the manifests; the fallback for a group a cache does not hold (AIField on a cache older than the 08/11/2026 snapshot); --dry-run, backup, --restore
 - [plan_lint.py](/tools/plan_lint_py.md) — plan linter (static, multiplayer untouched, Strategy S, retired ids)
 - [cache_verify.py](/tools/cache_verify_py.md) — full cache consistency check (Size/Checksum of every entry; must end with 0 errors)
 - [rollback_cache.py](/tools/rollback_cache_py.md) — restores the newest backup
 - [snapshot_cache.py](/tools/snapshot_cache_py.md) — copies the cache to _work\cachetest for tests
 - [build_series.py](/tools/build_series_py.md) — new series from a spec in specs/
-- [build_aifield.py](/tools/build_aifield_py.md) — AI grid payload from a definition in specs/aifield/ (pool or list), built on a vanilla template of your install; hand it to install_edit.py
+- [build_aifield.py](/tools/build_aifield_py.md) — AI grid payload from a definition in specs/aifield/ (pool or list), built on a vanilla template of your game; --cache-plan also writes the plan for cache_edit.py
 - [fmlib/](/tools/fmlib.md) — shared library: cache, crypto, bcs, carsxml, overrides, strs, cars, ids, kit, aifield
 - [str_edit.py](/tools/str_edit_py.md) — .str codec (byte-identical round-trip; IDS_ keys of any length)
 - [cms_crypto.py](/tools/cms_crypto_py.md) — Python CMS codec; the key comes from FM_CMS_KEY or a local cms_key.hex (never versioned; see docs/project/THIRD_PARTY.md)

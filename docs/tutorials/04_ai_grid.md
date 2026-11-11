@@ -15,7 +15,7 @@ its own tool:
 | target | file | applied by |
 |---|---|---|
 | `AISelectableCars.Acceptlist` | `BuildersCupScheduleDataV4.json` (CmsCache) | `cache_edit.py` (Strategy S) |
-| `AIField_117160001_Gen.xml` | group `cfa7698c`, **only in the install zip** | `install_edit.py` — `cache_edit.py` skips it (`[skip]`) |
+| `AIField_117160001_Gen.xml` | group `cfa7698c`; **in the cache since the clean snapshot of 08/11/2026, and the game reads that copy** (older cache: install zip only) | current route: `build_aifield.py --cache-plan` + `cache_edit.py`; on a cache without the group, `install_edit.py` ([AI_GRIDS](../guides/AI_GRIDS.md) §1) |
 
 Unlike `cache_edit.py`, **`install_edit.py` has no sandbox**: it takes no
 `--cache-dir`, and a real apply rewrites the install zip, the install manifest,
