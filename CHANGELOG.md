@@ -6,6 +6,9 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **README rewritten around what is proven in game**: a "Proven in game" opening, status badges, a progress panel and a diagram of the
+  first own season (both drawn by us, in `assets/`; no game material), the try-it commands moved up. Documentation only.
+
 - **Phase 0.3 — an own season** (findings D60–D67 in [DISCOVERIES](docs/project/DISCOVERIES.md)): the game reads the AI roster
   from the **cache**, so AI grids are written with `cache_edit.py` (`build_aifield.py --cache-plan`); a series with **several events**
   runs in sequence and accumulates points; one roster per class keeps the AI in the player's class; a closed pool of chosen models gives

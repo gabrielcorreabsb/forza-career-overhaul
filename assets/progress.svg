@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 484" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">What already works: the stages of the career mod and their status</title>
+  <desc id="d">Fifteen stages of the career mod. Verified in game: own place in the career, spec races, trackday, honest multi-class AI, AI per class or make, series with several events, progression gates. Observed: start type and slot, race weekend, practice length, weather and pit stop. In progress: a first own season. Planned: entry ladder, one-make and period series. To test: wear, fuel and tyres. Closed: prizes of our own and a real qualifying.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .r{font:13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .p{font:700 11px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .l{stroke:#21262D;stroke-width:1}
+  </style>
+  <rect class="bg" width="620" height="484" rx="6"/>
+  <text class="h" x="24" y="30">What already works</text>
+  <text class="s" x="24" y="48">7 verified in game, 3 observed, 1 in progress. Planned means not built yet.</text>
+
+  <!-- summary bar: 7 verified, 3 observed, 1 in progress, 2 planned, 1 to test, 1 closed = 15 -->
+  <g transform="translate(24,60)">
+    <rect x="0"   y="0" width="256" height="10" fill="#3FB950"/>
+    <rect x="256" y="0" width="110" height="10" fill="#58A6FF"/>
+    <rect x="366" y="0" width="37"  height="10" fill="#D29922"/>
+    <rect x="403" y="0" width="73"  height="10" fill="#8B949E"/>
+    <rect x="476" y="0" width="36"  height="10" fill="#6E7681"/>
+    <rect x="512" y="0" width="36"  height="10" fill="#F85149"/>
+  </g>
+
+  <g transform="translate(24,92)">
+    <!-- row i at y = i*24 -->
+    <text class="r" x="0" y="12">Own place in the career: a cup and ladder of our own</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text>
+
+    <g transform="translate(0,24)"><text class="r" x="0" y="12">Spec races: 23 AI of one model</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
+
+    <g transform="translate(0,48)"><text class="r" x="0" y="12">Trackday: any circuit, any class</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
+
+    <g transform="translate(0,72)"><text class="r" x="0" y="12">Honest multi-class AI: a pool that follows you, or a fixed list</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
+
+    <g transform="translate(0,96)"><text class="r" x="0" y="12">AI per class or per make, from a pool of chosen models</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
+
+    <g transform="translate(0,120)"><text class="r" x="0" y="12">Series with several events and accumulated points</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
+
+    <g transform="translate(0,144)"><text class="r" x="0" y="12">Progression gates: a group opens after another is done</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
+
+    <g transform="translate(0,168)"><text class="r" x="0" y="12">Start type and start slot per event</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
+
+    <g transform="translate(0,192)"><text class="r" x="0" y="12">Race weekend: practice orders the AI grid</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
+
+    <g transform="translate(0,216)"><text class="r" x="0" y="12">Practice length, weather, time of day, pit stop, field size</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
+
+    <g transform="translate(0,240)"><text class="r" x="0" y="12">A first own season: a cup, groups that unlock in order</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#D29922"/><text class="p" x="504" y="13" text-anchor="middle">IN PROGRESS</text></g>
+
+    <g transform="translate(0,264)"><text class="r" x="0" y="12">Entry ladder for the E and D classes</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#8B949E"/><text class="p" x="504" y="13" text-anchor="middle">PLANNED</text></g>
+
+    <g transform="translate(0,288)"><text class="r" x="0" y="12">One-make and period series (the pool mechanism is proven)</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#8B949E"/><text class="p" x="504" y="13" text-anchor="middle">PLANNED</text></g>
+
+    <g transform="translate(0,312)"><text class="r" x="0" y="12">Wear, fuel and tyre compound in the career</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#6E7681"/><text class="p" x="504" y="13" text-anchor="middle">TO TEST</text></g>
+
+    <g transform="translate(0,336)"><text class="r" x="0" y="12">Prizes of our own, a real qualifying</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#F85149"/><text class="p" x="504" y="13" text-anchor="middle">CLOSED</text></g>
+  </g>
+  <text class="s" x="24" y="472">Evidence for each row: docs/project/DISCOVERIES.md. Status updated on 11 Nov 2026.</text>
+</svg>

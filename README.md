@@ -5,104 +5,82 @@
 </p>
 
 <p align="center">
-  <b>A career mod for Forza Motorsport (2023, Steam), in the making</b><br>
-  Forza Motorsport 4 meets Gran Turismo 4 — and the tools to build it on your machine, from the game you own
+  <b>A career mod for Forza Motorsport (2023, Steam) — and the tools to build it on your machine</b><br>
+  Forza Motorsport 4 meets Gran Turismo 4, one piece at a time, each one tested in game
 </p>
 
 <p align="center">
-  <a href="docs/en/PROGRESS.md">Progress</a> ·
-  <a href="docs/guides/CAREER_MOD.md">The career mod</a> ·
-  <a href="docs/en/GETTING_STARTED.md">Build your own</a> ·
+  <img alt="Code license: MIT" src="https://img.shields.io/badge/code-MIT-blue">
+  <img alt="Docs license: CC BY 4.0" src="https://img.shields.io/badge/docs-CC%20BY%204.0-blue">
+  <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB">
+  <img alt=".NET 10 SDK" src="https://img.shields.io/badge/.NET-10-512BD4">
+  <img alt="Windows" src="https://img.shields.io/badge/platform-Windows-lightgrey">
+  <img alt="Status: phase 0.3, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
+</p>
+
+<p align="center">
+  <a href="docs/en/PROGRESS.md"><b>Progress</b></a> ·
+  <a href="docs/en/GETTING_STARTED.md"><b>Build your own</b></a> ·
   <a href="docs/en/MOD_TOOLKIT.md">What the mod can do</a> ·
+  <a href="docs/guides/CAREER_MOD.md">The vision</a> ·
   <a href="docs/INDICE.md">All docs</a> ·
   <a href="docs/pt-br/PROGRESS.md">Português</a>
 </p>
 
 ---
 
-## What this is
+## Proven in game
 
-**The career mod.** The goal is a career that takes the best of two games: the
-**permanent event list**, the right car for each event and one-make series of
-**Forza Motorsport 4**, and the **climb from the entry classes** of **Gran Turismo
-4**, with short cheap races in ordinary cars first. It is built piece by piece, and
-each piece is tested in game before it counts. Nothing is distributed ready to
-install: you generate your own changes with the tools here.
+Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES](docs/project/DISCOVERIES.md).
 
-**The toolkit.** Rename, reorder and unlock the career, create new series (several
-events each) from a short JSON spec, and build AI grids: one roster per class, per
-make, or a closed pool of hand-picked models. Everything works by editing the
-game's content cache **on your machine**, with your copy of the game, and every
-change is reproducible and reversible: lint, mandatory dry-run, automatic backup,
-post-write verification and rollback.
+- **A 23-car spec race**: all Porsche 911 GT3 RS '23, or all Subaru BRZ '22, against you.
+- **An AI that stays in your class**: German cars only, one roster per class, C to S, whatever the player drives.
+- **A grid of the models you pick**: five chosen models fill all 23 slots, four or five of each.
+- **A series with several events** that run in order, add up points and close at the last one.
+- **A cup of our own** whose groups unlock only after the one before is done.
+- **Where you start, how long you practise, the weather and the pit stop**, set event by event.
+- **And the honest limit:** credits and cars come from the **server**. We mapped what cannot be edited, so you do not have to
+  test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
+
+The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
+
+<p align="center">
+  <img src="assets/progress.svg" alt="What already works: seven stages verified in game, three observed, one in progress, two planned, one to test, one closed" width="620">
+</p>
 
 > Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
 > brand. This repository contains **our own code and documentation only** — no
 > game files, no game text, no mod payloads. See [NOTICE](NOTICE.md).
 
-## Where we are
+## The goal
 
-Phase by phase, with the evidence: [PROGRESS](docs/en/PROGRESS.md).
+A career that takes the best of two games: the **permanent event list**, the right car for each event and one-make series of
+**Forza Motorsport 4**, and the **climb from the entry classes** of **Gran Turismo 4**, with short cheap races in ordinary cars
+first. Nothing is distributed ready to install: you generate your own changes with the tools here, from the game you own, by
+editing its content cache **on your machine**. Every change is reproducible and reversible: lint, mandatory dry-run, automatic
+backup, post-write verification and rollback.
 
-**New since v0.2.0**
+| stage | state |
+|---|---|
+| Own place in the career, spec races, trackday, honest multi-class AI | verified in game |
+| AI per class or make; series with several events; progression gates | verified in game |
+| Start type and slot, race weekend, practice length, weather, pit stop, field size | observed |
+| A first own season (a cup, three groups that unlock in order) | in progress |
+| Entry ladder (E and D), one-make and period series | planned |
+| Wear, fuel, tyre compound | to test |
+| Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
 
-- **The game reads the AI roster from the cache**, so AI grids are rebuilt with the
-  normal apply tool, with no install edits.
-- **Series with several events** run in sequence, add up points and close at the last
-  event.
-- **Class and make grids**: one roster per class keeps the AI in your class; a closed
-  pool of chosen models gives a grid of only those models.
-- **Own pools at scale**: a vanilla roster document with an identical copy can be freed
-  and reused (313 candidates).
-- **A first season of our own** ("German Ovals", 6 series in 3 groups, in a cup of its
-  own) is in game; the first group is played.
-- **Prizes belong to the server.** Credits and cars are granted against the server's
-  own challenges; editing payout tables or challenge conditions changes only what the
-  screens show. The career pays through race length, unlocks by progression and live
-  vanilla challenges ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
+## A first season of our own
 
-| stage | what the player gets | state |
-|---|---|---|
-| Own place in the career | a cup and ladder of our own; renamed, reordered, unlocked | verified in game |
-| Spec races | 23 AI of one model against you | verified in game |
-| Trackday | pick a circuit, any class, rolling start | verified in game |
-| Start type and start slot per event | standing or rolling; a free pick or last on the grid | verified / observed |
-| Honest multi-class AI | a pool that follows your PI, or a fixed list D to R | verified in game |
-| AI per class or make | a roster per class; a closed pool of chosen models | verified in game |
-| Series with several events | a season-like series with accumulated points | verified in game |
-| Progression gates | a series or group opens only after another is done | verified in game |
-| Race weekend | practice orders the AI's grid; the generator decides where you start | observed |
-| Practice length, weather, time of day, pit stop, field size | set per event | observed |
-| A first own season | cup of our own, groups that unlock in order | in progress |
-| Entry ladder (E and D) | short series for the cars the career never lists | planned |
-| One-make and period series | one manufacturer, decade or country | planned (the pool mechanism is proven) |
-| Wear, fuel, tyre compound | the career's own wear, fuel and compound | to test |
-| Prizes of our own, real qualifying | — | closed: the server grants prizes; no data field selects a qualifying |
+<p align="center">
+  <img src="assets/season.svg" alt="One cup of our own with three groups of two series each; group 1 is open, groups 2 and 3 are locked until the group before is done" width="620">
+</p>
 
-## At a glance
+A cup of our own, in the career, with three groups of two series (two or three events each). The AI is German only and sits in
+your class. The first group is played; the other two stay locked until it is done. How it works:
+[CAREER_MOD](docs/guides/CAREER_MOD.md).
 
-| you want to… | status | start here |
-|---|---|---|
-| rename, reorder or unlock cups, ladders and series | verified | [tutorial 01](docs/tutorials/01_rename.md) · [tutorial 02](docs/tutorials/02_reorder.md) |
-| create a new series from a spec | verified | [tutorial 03](docs/tutorials/03_new_series.md) · [SERIES_CHECKLIST](docs/reference/SERIES_CHECKLIST.md) |
-| build an AI grid (class, make, chosen models) | verified | [tutorial 04](docs/tutorials/04_ai_grid.md) · [AI_GRIDS](docs/guides/AI_GRIDS.md) |
-| race against 23 cars of one model | verified | [AI_GRIDS](docs/guides/AI_GRIDS.md) §6 |
-| let practice set the starting grid, choose where you start | verified / observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
-| set practice length, weather, start type per event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
-| understand how the career pays | mapped | [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) |
-| see every lever and how sure we are | mapped | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) · [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
-
-Every finding is tested in game, not guessed from file names; the evidence and its
-status (verified, observed, to test) are in [DISCOVERIES](docs/project/DISCOVERIES.md).
-
-**What this does not do.** It does not touch online play, physics or the account
-economy. Steam's *verify files* or a new server snapshot can undo edits; run the
-tools again (kits are reproducible). A new CMS file with an invented id is rejected
-by the game, so custom content reuses existing slots. Findings marked *observed*
-rest on one or two runs: if yours differs, open an issue with the numbers
-([CONTRIBUTING](CONTRIBUTING.md)).
-
-## Start in three steps
+## Try it in three steps
 
 1. **Look** — build the two oracles and read your own career data on a *copy*
    of the cache: [GETTING_STARTED](docs/en/GETTING_STARTED.md) (about 15
@@ -113,7 +91,6 @@ rest on one or two runs: if yours differs, open an issue with the numbers
    undo with `rollback_cache.py` ([PIPELINE](docs/en/PIPELINE.md)).
 
 ```powershell
-python _tools\inventory.py                                   # your own game data, read-only
 python _tools\build_series.py --spec specs\<name>.json       # spec -> kit
 python _tools\cache_edit.py --dry-run --plan patches\<kit>\plan.json
 python _tools\cache_edit.py --plan patches\<kit>\plan.json --verify
@@ -129,16 +106,32 @@ python _tools\rollback_cache.py                              # undo the last app
   and kept git-ignored: [THIRD_PARTY](docs/project/THIRD_PARTY.md). A fresh clone
   cannot run `cache_edit.py` until you supply them.
 
+## You want to…
+
+| you want to… | status | start here |
+|---|---|---|
+| rename, reorder or unlock cups, ladders and series | verified | [tutorial 01](docs/tutorials/01_rename.md) · [tutorial 02](docs/tutorials/02_reorder.md) |
+| create a new series from a spec | verified | [tutorial 03](docs/tutorials/03_new_series.md) · [SERIES_CHECKLIST](docs/reference/SERIES_CHECKLIST.md) |
+| build an AI grid (class, make, chosen models) | verified | [tutorial 04](docs/tutorials/04_ai_grid.md) · [AI_GRIDS](docs/guides/AI_GRIDS.md) |
+| set where you start, practice, weather, start type per event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
+| understand how the career pays | mapped | [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) |
+| see every lever and how sure we are | mapped | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) · [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
+
+**What this does not do.** It does not touch online play, physics or the account economy. Steam's *verify files* or a new
+server snapshot can undo edits; run the tools again (kits are reproducible). A new CMS file with an invented id is rejected by
+the game, so custom content reuses existing slots. Findings marked *observed* rest on one or two runs: if yours differs, open an
+issue with the numbers ([CONTRIBUTING](CONTRIBUTING.md)).
+
 ## Documentation
 
 | folder | what is inside |
 |---|---|
 | [`docs/en/`](docs/en/GETTING_STARTED.md) · [`docs/pt-br/`](docs/pt-br/GETTING_STARTED.md) | **Start**: getting started, concepts, the apply pipeline, the mod toolkit, progress |
 | [`docs/tutorials/`](docs/tutorials/01_rename.md) | **Step by step**: rename, reorder, new series, AI grid |
-| [`docs/guides/`](docs/guides/CAREER_MOD.md) | **By goal**: the career mod, career basics, AI grids, custom multi-class races, a trackday series, troubleshooting |
+| [`docs/guides/`](docs/guides/CAREER_MOD.md) | **By goal**: the career mod, career basics, AI grids, troubleshooting |
 | [`docs/reference/`](docs/reference/MODDING_SURFACE.md) | **The format**: what can be modded, career model, race system, cars and PI, schema, economy, glossary |
 | [`docs/data/`](docs/data/ENUMS.md) | **Tables** generated from your game: cars, tracks, classes and enums |
-| [`docs/project/`](docs/project/DISCOVERIES.md) | **The project**: discoveries, open questions, career audit, decisions, third-party material (status: [PROGRESS](docs/en/PROGRESS.md)) |
+| [`docs/project/`](docs/project/DISCOVERIES.md) | **The project**: discoveries, open questions, career audit, decisions, third-party material |
 
 The full map, by task: [docs/INDICE.md](docs/INDICE.md). The role of each script:
 [_tools/TOOLS.md](_tools/TOOLS.md).
