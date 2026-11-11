@@ -15,7 +15,7 @@ python _tools\aifield_survey.py   # survey of all AI field documents
 ```
 
 Step by step: [tutorial 04](../tutorials/04_ai_grid.md). Multi-class recipes and a
-test protocol: [CUSTOM_RACE](CUSTOM_RACE.md).
+test protocol: §8.
 
 ## 1. Two roster targets, only one of them matters
 
@@ -286,6 +286,18 @@ document's flags or the series' flags win is untested.
   generator ([RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.17), not on the roster size alone.
 - **untested** — Nothing has produced a field above 24 cars in total; there is
   no precedent for a larger grid ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md)).
+
+## 8. Choosing, and a test protocol
+
+- **Pool** when the series should get harder as the player's car does; **list** when the series is *about* the mix
+  (trackday, endurance). Repeating a car in a list raises its weight, but the draw deviates from it (inferred).
+- Every car needs: to be in the catalogue, no always-active veto, and `AI_` files (`build_aifield.py --check` checks all three).
+- Keep 23 AI slots; one car per make per class and mixed eras are the rules used so far.
+- **Test protocol:** three runs per grid, ideally with player cars of different classes. Record per run: the player's car and
+  PI, the 23 AI cars with their listed class and PI, repeats, whether the grid changed, the grid size, CMS errors and the
+  first-lap pace of a few cars. Treat run 1 after a change as a warm-up (§5).
+- **Open:** a lap-time table per class; whether a list reacts to the player's PI (expected no); the role of `EligibleCars`
+  in list documents ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 5, 6, 7).
 
 ## See also
 

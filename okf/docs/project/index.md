@@ -3,9 +3,8 @@
 Documents under docs/project/.
 
 - [Career audit](/docs/project/career_audit.md) — The findings of a read-only audit of the career data: how much of it is vanilla
-- [Discoveries — what we learned and what it unlocks](/docs/project/discoveries.md) — all three. The running log of what we learned, with its evidence and status, plus what each finding makes possible. Read next the guide for your area: CAREER_BASICS (common career), CUSTOM_RACE (multi-class grids in any series), CIRCUIT_EX…
+- [Discoveries — what we learned and what it unlocks](/docs/project/discoveries.md) — all three. The running log of what we learned, with its evidence and status, plus what each finding makes possible. Read next the guide for your area: CAREER_BASICS (common career), AI_GRIDS (AI grids in any series), CAREER_MOD (the series…
 - [Open questions](/docs/project/open_questions.md) — These are the questions that controlled in-game tests will settle. Each one has
-- [Project status — where the career overhaul is and where it goes](/docs/project/project_status.md) — The career we are assembling, stage by stage, is described in
 - [Third-party material (not distributed here)](/docs/project/third_party.md) — This project reuses the crypto work of another open project. Its files are
 - [ADR-001 — Strategy S: rewrite blobs in place, update Size/Checksum only](/docs/project/decisions/adr_001_strategy_s.md) — In the CmsCache a blob file is named after the SHA-256 of its content
 - [ADR-002 — Resolve snapshot → blob by Checksum, never by name or mtime](/docs/project/decisions/adr_002_checksum_mapping.md) — logical file

@@ -1,9 +1,8 @@
 # Tutorial 04 — AI roster and grid (summary)
 
 This page is a map, not the manual. The guide for this topic is
-[`guides/CUSTOM_RACE.md`](../guides/CUSTOM_RACE.md) (modes, class scale, recipe,
-test protocol). The model, the XML structure, the survey
-numbers and the per-car evidence live in `AI_GRIDS.md`; read it before
+[`guides/AI_GRIDS.md`](../guides/AI_GRIDS.md) (modes, class scale, the model, the XML
+structure, the survey numbers, the recipe and the test protocol); read it before
 touching a grid. The mc58 kit (23-car roster) is the worked example
 (maintainer's lab).
 

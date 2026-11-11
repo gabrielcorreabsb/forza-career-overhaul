@@ -38,16 +38,9 @@ override keys: [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.8 and §2.16.
 
 ## 2. Which lap count wins — the event's or the override's? — **answered**
 
-**Question.** `NumberOfRequiredLaps` and `FeatureRace.Laps` disagree on 600 of
-627 events. Which one does the race run?
-
-**Answer.** **verified** — **the override wins, in both directions.** A bench
-series ran the same track twice: event 2 laps / override 8 laps raced 8 laps on
-the HUD, and event 8 / override 2 raced 2. Write race length into the override
-(`build_series.py` does).
-
-**Why it mattered.** Every new event or rebalanced lap count has to be written
-into the field that matters; edits to the event's lap count alone are inert.
+**Answer.** **verified** — the override wins, in both directions (2 laps in the event and 8 in the override raced 8, and
+the reverse raced 2). Write race length into the override; `build_series.py` does. Evidence: D28 in
+[DISCOVERIES](DISCOVERIES.md).
 
 ## 3. How are series rules wired in the career?
 
@@ -286,85 +279,18 @@ as not read.
 
 ---
 
-## 16. Where does the human's fixed starting slot come from?
+## 16. Where does the human's fixed starting slot come from? — **answered**
 
-**Question.** The starting grid splits in two rules: the practice session orders
-the **AI**, and the **human** gets a start position that is a constant per event
-when the start-position wager screen is off — his own practice time does not move
-it. Which data computes that slot, and why does it not change with the session?
+**Answer.** **observed** — the AI's grid follows the practice classification; the human's slot is set by the **session
+generator's grid shape** and its start index (D46, D47), and the slot picked on the *Challenge the Grid* wager screen is
+obeyed only when the generator imposes none: estimated-lap-time order obeys the pick, rank order puts the human first up
+to index 5 and last from index 6, qualifying order gives a mid-grid value that moves with the field, the roster and the
+car. The suggested slot is a constant that follows neither the player's lap, the car nor the wager block (the series'
+field-size field is ignored, so field size could not be tried). No data field turns on a real qualifying (D33). Decision: [ADR-006](decisions/ADR-006_grid_start_shapes.md).
 
-**What we know.** **observed** — the AI half is the practice session: the AI's
-practice classification came back as the race grid order, one entry after
-another (a single swap, from a tied time), in a run on the plain baseline, and
-again with the wager screen switched back on. **observed** — the human half is
-not the practice: the same slot with the best practice time of the session and
-with no timed lap at all, and a different slot in another layout while the
-start-position wager was active, for different cars. **verified** — with the
-wager screen switched back on (one client flag), the screen **suggests a start
-position of its own** and the slot the player picks on it is the slot he starts
-from: a pick away from the suggestion was honoured in full, with the AI still on
-the practice order (n=1). So the wager is a real control of the player's slot,
-and the constant slot is the state of the screen-off path.
-**verified** (data) — neither the event record nor the override of that event
-carries a start-position or seed field, the AI field document only holds the
-drivatar template (a PI window and a count, no position or seed), and the
-session generator's grid-ordering shape changes neither the player's slot nor the
-order the AI comes out in (a qualifying-order generator with a real human
-cluster slot was run against the estimated-order one).
-
-**Refuted.** ~~The slot he gets with the screen off is the wager's suggested slot
-applied without the UI.~~ With the screen on, the suggestion was not the slot of
-the screen-off state, so the constant slot has another source. The wager block
-(a projected race-time delta, an overtake time and a following-car time, i.e. the
-inputs of a projected start position) was the likely input of the
-**suggestion**; the tests below point the other way.
-
-**Answered (second round of tests).** (ii) The suggestion does **not** follow the
-player's practice time: with the best lap of the session by about six seconds it
-was the same slot as with no timed lap, and the same with cars of two classes, so
-it follows neither the lap nor the car. The projected race-time delta ×10 and a
-payout table cut to one row did not move it either. On a 24-car grid it is the
-**middle slot (12th)**; the screen-off state is another constant (7th on the
-test oval). Four further one-field tests meant to reach a real Qualifying
-(generator grid shape, practice limit type `Disabled`, a series-level rules
-reference, series field size) had no effect in the career, so no data lever for
-the slot or for a Qualifying session is known (DISCOVERIES D33). Small samples.
-
-**Still open.** (i) Where the fixed slot of the screen-off state comes from
-(a client constant is the likeliest reading). (iii) Whether the wager's other two
-terms (overtake time, following-car time) move the suggestion — judged unlikely
-after the delta did not, not tested. (iv) Whether the suggestion scales with the
-field size — the field-size field of the series is ignored, so the question could
-not be asked that way.
-
-**New (third round, observed, n=3 on one event).** A *different* generator
-value moved the slot. With the event pointed at a generator whose grid options
-were `GridOrderingType = AIDriverRank` and `ClusterHumansAtIndex = 2` (the
-earlier shape tests only compared `Qualifying` and the estimated order), with
-the wager screen on: the player picked the **12th** slot and started **1st**;
-on a second run he picked the **24th** and was pulled to **1st** again, and after restarting the series he started **1st** a third time. His
-practice lap (1:08.661) was one of the two slowest of the 24, and the AI came out
-in an order that does **not** follow lap time (the best lap of the list sat at
-18th) — consistent with an AI order by driver rank. So the generator's grid
-options **can** set the human's slot and **override the wager's pick**. Not
-explained: index 2 was expected to give 3rd, not 1st. Next: repeat with a fast
-lap and with a slow lap, then other index values (0, 5, 11, 23).
-
-**Grid bench (fourth round, observed, n=1 per series).** Six generators, one field each, same event design. With `AIDriverRank`: index **0, 2, 5 → 1st**; index **11, 23 → 24th**, and the 24th held with a fast practice lap. With `Qualifying` and index 2 the slot was **already fixed from the start of practice (7th)**, so the qualifying shapes give the old constant slot and only `AIDriverRank` moves the human. So the index is not a position: it behaves as a cut, with the turn between 5 and 11. One reading is that the index is compared with the AI's driver rank (all 23 ranks lying between 6 and 11); then indices 6–10 should give intermediate slots. Next: indices 7, 8 and 9. The `Qualifying` slot is the same **7th** with the best lap, with a slow lap or none, with index 2 and with index 10 (Racers Cup generator, class R car, another track), and it matched the old oval constant: a fixed value of that path, not computed from the lap, the index, the class or the track. The ordering by estimated lap time gave **13th** in another series, so the constant depends on the ordering shape. Hypothesis to test: the 7th and 13th are fractions of the 24-car field (about a quarter and a half); a roster of 8 cars (the one document with 7 drivatars) would then start 3rd and 5th rather than 7th.
-
-**Why it matters.** A mod that reorders a field or builds a race weekend has to
-know whether the human's slot is data it can set or a constant it has to accept.
-Today it is a constant it can only **override by the player's own pick** on the
-wager screen: the practical route to a qualifying is to switch the screen on and
-choose the slot the lap deserves, or to accept the fixed slot with the screen
-off.
-
----
-
-**Update (03/11/2026).** Answered in part. **observed** — the slot comes from the **session generator's grid shape** and its start index
-(D46, D47): estimated-lap-time order obeys the slot picked on the screen; rank order puts the human first up to index 5 and last from
-index 6; qualifying order gives a mid-grid value that moves with the field, the AI roster and the car. The earlier reading that the
-generator shape moves neither the slot nor the AI order was too narrow. Decision: [ADR-006](decisions/ADR-006_grid_start_shapes.md).
+**Still open.** Whether indices 6 to 10 give intermediate slots (the tests jumped from 5 to 11), and whether the
+qualifying-order constants (7th of 24, 13th with the estimated order) are fractions of the field size (a roster of 8 would
+then start 3rd and 5th).
 
 ## 17. Why does the AI leave the track at the same corners?
 
@@ -394,21 +320,14 @@ is a belief, not a finding.
 | Featured/Multiplayer content can be ported into the career tree for schema-level mechanisms only (the reward/progression surface does not come along) | `CAREER_MODEL.md` part 2 | port one Featured series into a career ladder and compare what the series screen offers |
 | The `PlayerPIRelativeToClass` numeric key is a class index | `AI_GRIDS.md` §5 | same test as item 4 |
 
-## 18. Where do the paid credits come from?
+## 18. Where do the paid credits come from? — **answered**
 
-**Question.** The post-race credits did not follow two edits of the cache's tables (the career base cell of a track and car class, and the
-cup's wager table), although the pre-race screen showed new numbers for the first. What sets the credits that are paid?
+**Answer.** **observed** — from the **server**, against its own rules and challenge list. The career's cache tables (the
+base cell per track and class, the cup's wager table), the install's payout rates and bonus percentages, and edited
+challenge conditions change only what the screens show; the credits arrive as parcels (practice, finish, VIP equal to the
+base parcels, difficulty and rule set on a top-3 finish) and the only lever found on the client side is the session
+generator's mandatory stop (finish parcel 800 to 550, one series, D58). Details and the tests:
+[ECONOMY_MAP](../reference/ECONOMY_MAP.md) §1 and §5.
 
-**What we know.** **observed** — the credits come as parcels (practice, finish, VIP equal to the base parcels, difficulty and rule set on a
-top-3 finish); the start slot did not change them. **observed** — a mandatory stop demanded by the session generator lowered the finish
-parcel (800 to 550) and the difficulty parcel (350 to 250) in a one-field check in both directions (D58). So some session options reach the
-paid credits; the cache's payout tables do not.
-
-**observed** (flag_bonus, 04/11) — the wager table does not pay with the screen off either: on 20061 (start P24, wager screen off, a low
-bonus multiplier) the credit stayed at 2,100, as it did with the screen on and the bonus off. With the screen on and the cup 103 bonus at
-10.0 (20059, 03/11 and 04/11) the screen showed the new multiplier and the credit was still 2,100. Not tested: screen off with 10.0.
-
-**Why it matters.** It decides whether a series can have an economy of its own. The generator's options are the lead.
-
-**Test.** Read which other options differ between a generator that paid 800 and one that paid 550, and change them one at a time on the same
-series; only with a discussion first, one global scalar of `CreditScalars.json` with a Featured control.
+**Still open.** Which input sets the size of the base parcels, and whether the wager table pays with the screen off and
+the cup bonus at 10.0.

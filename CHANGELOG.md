@@ -15,6 +15,10 @@ not published here: you generate your own kits from your copy of the game.
 - **Phase 0.2 — rewards**: prizes belong to the server. Edited challenge conditions mark the row completed but nothing is paid, and
   payout rates and bonuses in the install's tunable files changed nothing; live vanilla challenges do count races run in our series.
   [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) §5.
+- **Docs consolidated**: `PROJECT_STATUS` is now part of [PROGRESS](docs/en/PROGRESS.md) (the next steps and how to help are there),
+  `CUSTOM_RACE` is part of [AI_GRIDS](docs/guides/AI_GRIDS.md) (§8, choosing and a test protocol) and `CIRCUIT_EXPERIENCE` is part of
+  [CAREER_MOD](docs/guides/CAREER_MOD.md) (the trackday example). The answered open questions (lap count, the start slot, where the
+  credits come from) are now short answers.
 - **New [PROGRESS](docs/en/PROGRESS.md)** (English and Portuguese): the project's timeline by phase. The README is shorter and points
   to it. Documentation only: nothing new is distributed.
 

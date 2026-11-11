@@ -48,7 +48,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | alavanca | status | evidência | ferramenta / guia |
 |---|---|---|---|
 | roster que acompanha o PI do jogador, ou lista fixa multiclasse | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md), [tutorial 04](../tutorials/04_ai_grid.md) |
-| pool maior que o grid (campo diferente a cada corrida) e faixas largas de PI | ✅ | verified | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| pool maior que o grid (campo diferente a cada corrida) e faixas largas de PI | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) |
 | **roster próprio** num documento de roster existente e sem uso (por exemplo 23 carros de um só modelo); um roster por documento, compartilhado por todo evento que aponte para ele | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §6 |
 | **roster próprio pelo cache**: o documento de roster é reescrito com `cache_edit.py` e o jogo lê a cópia do cache; por classe, por marca, ou um pool com todos os carros de uma marca | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §1, §6c |
 | o PI da IA fica preso ao teto da janela do roster quando o carro do jogador está acima; uma série de classe precisa de janela com teto igual ao teto da classe | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
@@ -67,7 +67,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | alavanca | status | evidência | ferramenta / guia |
 |---|---|---|---|
 | voltas de treino limitadas → sessão cronometrada (**não existe sessão de qualify separada** na carreira) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
-| trackday: sem treino, largada lançada, uma volta | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
+| trackday: sem treino, largada lançada, uma volta | ✅ | verified | [CAREER_MOD](../guides/CAREER_MOD.md) |
 | sessão de uma volta | 🧪 | hypothesis | — |
 | **voltas de treino por evento**: o `NumberOfRequiredLaps` do evento as define, separado das voltas da corrida (1 e 5 voltas de treino testadas com corrida de 2; 0 deixa sem voltas contadas e ainda deixa correr) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.4 |
 | clima e hora no override do evento valem **só na corrida**; o treino mantém o próprio bloco (chuva pesada e largada à noite testadas); apontar para outro forecast funciona, editar o conteúdo de um forecast segue sem prova | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.16 |
@@ -107,8 +107,8 @@ nada mudou.
 | **Largada estilo GT** (largar em último e ultrapassar todo mundo) | ✅ forçada (observed, várias séries) | um gerador de sessão em ordem por rank com índice de largada 23 põe o jogador em **último** seja qual for a volta de treino, em grids de 8 e de 24 carros; o projeto fixa esse formato ([ADR-006](../project/decisions/ADR-006_grid_start_shapes.md)) |
 | **Largada livre** (escolher a sua vaga) | ✅ | um gerador com ordem por tempo estimado e sem índice de largada; a escolha da tela é obedecida |
 | **Treino curto** (1 a 5 voltas) | ✅ | defina o `NumberOfRequiredLaps` do evento, separado das voltas da corrida |
-| **Trackday** | ✅ | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
-| **Grid multiclasse em qualquer série** | ✅ | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| **Trackday** | ✅ | [CAREER_MOD](../guides/CAREER_MOD.md) |
+| **Grid multiclasse em qualquer série** | ✅ | [AI_GRIDS](../guides/AI_GRIDS.md) |
 | **Qualify automático para o humano** | ⛔ | nenhuma alavanca de dados encontrada até agora |
 
 ## 3. Fechado — por favor, não repetir

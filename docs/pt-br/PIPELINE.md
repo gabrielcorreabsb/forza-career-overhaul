@@ -124,7 +124,7 @@ muda só o que vai dentro do plano.
   juntos — e, ao contrário do `cache_edit.py`, não tem sandbox
   (`--cache-dir`): um apply real toca o install real. Ver
   [AI_GRIDS](../guides/AI_GRIDS.md) e
-  [CUSTOM_RACE](../guides/CUSTOM_RACE.md).
+  [AI_GRIDS](../guides/AI_GRIDS.md).
 
 Sintomas e causas já vistas: [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md).
 

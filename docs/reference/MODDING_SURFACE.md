@@ -56,7 +56,7 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 | race weather and hour | event override `FeatureRace.WeatherForecast`, `TimeOfDayHour` | JSON | cache_edit after `build_series.py` | career | **observed** (n=1): they change the race only; the practice keeps the `PracticeAndQualifying` block |
 | practice laps | the event's `NumberOfRequiredLaps` (the race laps stay in `FeatureRace.Laps`) | JSON | `cache_edit` (`build_series.py` writes both with one number today) | career | **observed**: events with 2, 3 and 4 required laps showed 2, 3 and 4 practice laps; the series' and the generator's lap limits did not act |
 | AI document with no drivers | `AIField_<id>_Gen.xml` with an empty driver list | XML | `install_edit` | career | **closed** as a way to run solo: practice runs, the race crashes |
-| series objectives | `ChampionshipSeriesObjectivesData_<SeriesId>.json` | JSON | **no tool**: career series have no document, and `cache_edit` cannot add a new logical entry | career + Featured (the enabling flag is shared) | **closed** until the tool exists |
+| series objectives | `ChampionshipSeriesObjectivesData_<SeriesId>.json` | JSON | **no tool**: career series have no document, and `cache_edit` cannot add a new logical entry | career + Featured (the enabling flag is shared) | **closed**: a switch-on test on a fresh series showed and paid nothing ([ECONOMY_MAP](ECONOMY_MAP.md) §5) |
 | Challenge the Grid wagers | `ChallengeTheGridData` at cup level + a client flag | JSON | `cache_edit` | career | **verified**: the screen is driven by the client flag (section 11); the cup data only changes multipliers. **observed**: setting the table to 10.0 on every slot did **not** change the credits paid ([DISCOVERIES](../project/DISCOVERIES.md) D57) |
 
 ## 4. AI
@@ -90,7 +90,11 @@ is the `BuildersCup` entry of the track-x-class base table
 (`CarCreditScalingTable.json`). Prizes are challenges pointing at
 `Rewards.json` ids (all references resolve); custom series have no
 challenge file, so a new series inherits payout but gets no prize of its
-own. Car/driver progression is account-global, out of series-kit reach.
+own. **Closed (November 2026):** editing challenge conditions, prizes or
+per-series objectives makes the client mark the row completed, but credits
+and cars are granted by the server against its own challenges
+([ECONOMY_MAP](ECONOMY_MAP.md) §5). Car/driver progression is account-global,
+out of series-kit reach.
 
 ## 6. UI and text
 

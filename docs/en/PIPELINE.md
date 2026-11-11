@@ -123,7 +123,7 @@ Nothing here changes the loop above (plan → `--dry-run` → apply with
   snapshots + `cache-manifest.json` together — and unlike `cache_edit.py` it has
   no sandbox (`--cache-dir`): a real apply touches the real install. See
   [AI_GRIDS](../guides/AI_GRIDS.md) and
-  [CUSTOM_RACE](../guides/CUSTOM_RACE.md).
+  [AI_GRIDS](../guides/AI_GRIDS.md).
 
 Symptoms and causes already diagnosed are in
 [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md).

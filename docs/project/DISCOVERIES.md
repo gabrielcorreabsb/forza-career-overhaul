@@ -3,8 +3,8 @@
 > **Area: all three.** The running log of what we learned, with its evidence and
 > status, plus what each finding makes possible. Read next the guide for your
 > area: [CAREER_BASICS](../guides/CAREER_BASICS.md) (common career),
-> [CUSTOM_RACE](../guides/CUSTOM_RACE.md) (multi-class grids in any series),
-> [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) (the series 20004 trackday).
+> [AI_GRIDS](../guides/AI_GRIDS.md) (AI grids in any series),
+> [CAREER_MOD](../guides/CAREER_MOD.md) (the series 20004 trackday and the other worked examples).
 
 Status labels: **verified** (seen in game or reproduced by a script),
 **inferred** (follows from a verified rule), **to test**. Numbers come from
@@ -155,8 +155,7 @@ The grid work is closed for now (mc63 active). Left on the table:
 | topic | doc |
 |---|---|
 | model, ids, what to touch | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
-| modes, classes, band, recipe, protocol | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
-| series 20004, kits, switching grids | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
-| AI grid model, survey numbers, how to build | [AI_GRIDS](../guides/AI_GRIDS.md) |
+| AI grid model, modes, classes, band, survey numbers, how to build, test protocol | [AI_GRIDS](../guides/AI_GRIDS.md) |
+| series 20004 and the other worked examples | [CAREER_MOD](../guides/CAREER_MOD.md) |
 | what can be modded, where, with which tool | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | symptom → cause → fix | [TROUBLESHOOTING](../guides/TROUBLESHOOTING.md) |

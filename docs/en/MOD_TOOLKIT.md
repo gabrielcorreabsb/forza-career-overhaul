@@ -46,7 +46,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | lever | status | evidence | tool / guide |
 |---|---|---|---|
 | roster that follows the player's PI, or a fixed multiclass list | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md), [tutorial 04](../tutorials/04_ai_grid.md) |
-| pools larger than the grid (a different field every race) and wide PI bands | ✅ | verified | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| pools larger than the grid (a different field every race) and wide PI bands | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) |
 | **custom roster** in an existing, unused AI roster document (for example 23 cars of one model); one roster per document, shared by every event that points to it | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §6 |
 | **custom roster through the cache**: the roster document is rewritten with `cache_edit.py` and the game reads the cache copy; per class, per make, or one pool of every car of a make | ✅ | verified | [AI_GRIDS](../guides/AI_GRIDS.md) §1, §6c |
 | the AI's PI is clamped at the roster window's ceiling when the player's car is above it; a class series needs a window whose ceiling is the class ceiling | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
@@ -65,7 +65,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | lever | status | evidence | tool / guide |
 |---|---|---|---|
 | limited practice laps → a timed session (there is **no separate qualifying session** in the career) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.5 |
-| trackday: no practice, rolling start, one lap | ✅ | verified | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
+| trackday: no practice, rolling start, one lap | ✅ | verified | [CAREER_MOD](../guides/CAREER_MOD.md) |
 | one-lap session | 🧪 | hypothesis | — |
 | **practice laps per event**: the event's `NumberOfRequiredLaps` sets them, apart from the race laps (1 and 5 practice laps tested with a 2-lap race; 0 leaves no counted laps and still lets you race) | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.4 |
 | weather and time of day in the event override act on the **race only**; the practice keeps its own block (heavy rain and a night start tested); pointing to another forecast works, editing a forecast's content is unproven | ✅ | observed | [RACE_SYSTEM](../reference/RACE_SYSTEM.md) §2.16 |
@@ -104,8 +104,8 @@ flag, open one Featured or multiplayer event to confirm nothing moved.
 | **GT-style start** (start last and overtake everyone) | ✅ forced (observed, several series) | a session generator set to rank order with start index 23 puts the player **last** whatever the practice lap, in grids of 8 and 24 cars; the project fixes this shape ([ADR-006](../project/decisions/ADR-006_grid_start_shapes.md)) |
 | **Free start** (choose your slot) | ✅ | a generator with estimated-lap-time order and no start index; the screen's pick is obeyed |
 | **Short practice** (1 to 5 laps) | ✅ | set the event's `NumberOfRequiredLaps`, apart from the race laps |
-| **Trackday** | ✅ | [CIRCUIT_EXPERIENCE](../guides/CIRCUIT_EXPERIENCE.md) |
-| **Multiclass grid in any series** | ✅ | [CUSTOM_RACE](../guides/CUSTOM_RACE.md) |
+| **Trackday** | ✅ | [CAREER_MOD](../guides/CAREER_MOD.md) |
+| **Multiclass grid in any series** | ✅ | [AI_GRIDS](../guides/AI_GRIDS.md) |
 | **Automatic qualifying for the human** | ⛔ | no data lever found so far |
 
 ## 3. Closed — please do not repeat

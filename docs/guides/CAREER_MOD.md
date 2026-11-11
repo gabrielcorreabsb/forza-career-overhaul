@@ -3,7 +3,7 @@
 > **Area: the whole project.** The vision, the stages of the career we are
 > assembling, and which of them already run in game. Evidence for each claim is
 > in [DISCOVERIES](../project/DISCOVERIES.md); what is next is in
-> [PROJECT_STATUS](../project/PROJECT_STATUS.md). This page documents; it does
+> [PROGRESS](../en/PROGRESS.md). This page documents; it does
 > not ship anything: no game files and no mod payloads are distributed (see
 > [NOTICE](../../NOTICE.md)).
 
@@ -57,8 +57,23 @@ published ([PIPELINE](../en/PIPELINE.md)).
 
 ### Trackday (series 20004)
 One event on the Nürburgring Nordschleife, rolling start, one lap, no practice,
-any class up to X999, with a mixed grid of 23 AI. It proves the format "pick a
-circuit and drive it". Details: [CIRCUIT_EXPERIENCE](CIRCUIT_EXPERIENCE.md).
+any class up to X999 (`ClassRestriction 8`, `TargetPI 999`; an S car at PI 701 was
+accepted), a 23-car acceptlist for the player and a mixed grid of 23 AI. It proves the
+format "pick a circuit and drive it" (FM4's "pick a circuit, any class").
+
+- **Placement:** a cup and ladder of its own ("Trackday"), the series cloned from a vanilla
+  series; the event's `OpenPracticeLimitationTimeInSeconds` is 0. The same 0 on other
+  series did **not** remove the practice (observed in two series), so the trackday relies
+  on more than that field.
+- **The AI is the interesting part**, and three grids were played in turn on the same
+  document: the original 23 cars (window 600–700); a **pool** of 40 cars (window 500–800,
+  the field sits 10–50 PI below you, in your class); a **fixed list** of 18 cars repeated
+  to 23 slots, D to R, whatever you drive; and a **pool of 56 cars (E to P) with a wide band**
+  (−350…+250), whose field follows your car and spans 4 to 7 classes. The last one stayed.
+- The game draws from the list or pool (repeats beyond the listed weights were seen), so the
+  weights of a list are a bias, not a guarantee.
+- To build or switch such a grid: [AI_GRIDS](AI_GRIDS.md) §6 and
+  [tutorial 04](../tutorials/04_ai_grid.md).
 
 ### Spec race with a custom roster (series 20009 and 20010)
 The AI grid is 23 cars of a single model: a Subaru BRZ '22 in one series, a
@@ -114,8 +129,7 @@ grid of only those models. See [PROGRESS](../en/PROGRESS.md) and D60–D67 in [D
 
 The next stages, in the order we expect to reach them: the entry ladder at E and D,
 one-make and period series, longer races with wear and fuel, and the career economy.
-The list with its reasons lives in [PROJECT_STATUS](../project/PROJECT_STATUS.md)
-§4.
+The list with its reasons lives in [PROGRESS](../en/PROGRESS.md).
 
 ## 6. How to take part
 

@@ -1,4 +1,4 @@
----
+﻿---
 name: Idea
 about: A feature, a tool improvement or something to test in the game
 labels: enhancement
@@ -14,4 +14,4 @@ career if that helps):
 
 **Idea** (a tool change, a doc, or an experiment anyone can run on a cache copy):
 
-**Related docs** (e.g. `docs/project/OPEN_QUESTIONS.md`, `docs/project/PROJECT_STATUS.md`):
+**Related docs** (e.g. `docs/project/OPEN_QUESTIONS.md`, `docs/en/PROGRESS.md`):

@@ -138,7 +138,7 @@ python _tools\rollback_cache.py                              # undo the last app
 | [`docs/guides/`](docs/guides/CAREER_MOD.md) | **By goal**: the career mod, career basics, AI grids, custom multi-class races, a trackday series, troubleshooting |
 | [`docs/reference/`](docs/reference/MODDING_SURFACE.md) | **The format**: what can be modded, career model, race system, cars and PI, schema, economy, glossary |
 | [`docs/data/`](docs/data/ENUMS.md) | **Tables** generated from your game: cars, tracks, classes and enums |
-| [`docs/project/`](docs/project/PROJECT_STATUS.md) | **The project**: status, discoveries, open questions, career audit, decisions, third-party material |
+| [`docs/project/`](docs/project/DISCOVERIES.md) | **The project**: discoveries, open questions, career audit, decisions, third-party material (status: [PROGRESS](docs/en/PROGRESS.md)) |
 
 The full map, by task: [docs/INDICE.md](docs/INDICE.md). The role of each script:
 [_tools/TOOLS.md](_tools/TOOLS.md).
