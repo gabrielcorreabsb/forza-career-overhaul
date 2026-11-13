@@ -1,0 +1,56 @@
+{
+  "name": "y2020s_s",
+  "description": "G21: AI grid of every covered decade 2020s, class S model(s) in the 750..800 window, 23 slots, a -10..+10 band around the player in 3 frames, Expert, rubber banding off, elastic flags off. Target document AIField_187685300_Gen.xml, freed by repointing its override at the identical keeper in the same kit.",
+  "logical": "AIField_187685300_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    3277,
+    3359,
+    3371,
+    3437,
+    3518,
+    3537,
+    3594,
+    3622,
+    3655,
+    3667,
+    3672,
+    3766,
+    3771,
+    3781
+  ],
+  "window": [
+    750,
+    800,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

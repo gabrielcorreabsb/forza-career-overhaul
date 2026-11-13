@@ -1,0 +1,52 @@
+{
+  "name": "audi_a",
+  "description": "G21: AI grid of every covered brand Audi, class A model(s) in the 650..700 window, 23 slots, a -10..+10 band around the player in 3 frames, Expert, rubber banding off, elastic flags off. Target document AIField_187685297_Gen.xml, freed by repointing its override at the identical keeper in the same kit.",
+  "logical": "AIField_187685297_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    1117,
+    2009,
+    2180,
+    3264,
+    3286,
+    3318,
+    3453,
+    3454,
+    3583,
+    3584
+  ],
+  "window": [
+    650,
+    700,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

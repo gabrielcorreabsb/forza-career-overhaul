@@ -1,0 +1,54 @@
+{
+  "name": "ferrari_s",
+  "description": "G21: AI grid of every covered brand Ferrari, class S model(s) in the 750..800 window, 23 slots, a -10..+10 band around the player in 3 frames, Expert, rubber banding off, elastic flags off. Target document AIField_187685298_Gen.xml, freed by repointing its override at the identical keeper in the same kit.",
+  "logical": "AIField_187685298_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    333,
+    1022,
+    1131,
+    2184,
+    2315,
+    2577,
+    2793,
+    2974,
+    3226,
+    3312,
+    3367,
+    3594
+  ],
+  "window": [
+    750,
+    800,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

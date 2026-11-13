@@ -1,0 +1,79 @@
+{
+  "name": "y2010s_a",
+  "description": "G21: AI grid of every covered decade 2010s, class A model(s) in the 650..700 window, 23 slots, a -10..+10 band around the player in 3 frames, Expert, rubber banding off, elastic flags off. Target document AIField_187685299_Gen.xml, freed by repointing its override at the identical keeper in the same kit.",
+  "logical": "AIField_187685299_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    1117,
+    1388,
+    1500,
+    1598,
+    1654,
+    2009,
+    2018,
+    2133,
+    2154,
+    2162,
+    2166,
+    2180,
+    2181,
+    2194,
+    2235,
+    2400,
+    2421,
+    2468,
+    2471,
+    2529,
+    2665,
+    2739,
+    2741,
+    2993,
+    3064,
+    3091,
+    3117,
+    3123,
+    3125,
+    3149,
+    3173,
+    3225,
+    3250,
+    3264,
+    3272,
+    3286,
+    3318
+  ],
+  "window": [
+    650,
+    700,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

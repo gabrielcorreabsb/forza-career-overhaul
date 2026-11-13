@@ -79,6 +79,7 @@ bytes as before.
 | `series[].donor_event`, `override.donor` | | clone an event/override from another track (an override carries its track, so it cannot cross tracks) |
 | `series[].cars` | | optional `{acceptlist, class?, division?}`: the XML entry holds the declared car ids and the series' `SelectableCars` points at them (`Acceptlist` + the given class/division, each defaulting to the donor's when omitted); without it the entry clones the donor list and `SelectableCars` stays untouched |
 | `series[].ai_cars` | | optional `{acceptlist}`: the series' `AISelectableCars` holds the declared guids (`{"Acceptlist": [...]}`); without it the series keeps the donor's `AISelectableCars` untouched |
+| `aifield` | | optional list of 1–12 definitions (`specs/aifield/<name>.json`): each one is built with `build_aifield.py --cache-plan` and merged into the same plan, so one kit frees a document and rewrites it as a pool; without it the plan is byte-identical to before |
 
 Refusals: more than 5 series or more than 5 events in one series,
 `event_id` together with `events`, a top-level `track`/`donor_event` or a
@@ -115,6 +116,7 @@ separados; o `--spec` continua gerando os mesmos bytes.
 | `series[].donor_event`, `override.donor` | | clonar evento/override de outra pista (o override carrega a pista, não atravessa) |
 | `series[].cars` | | opcional `{acceptlist, class?, division?}`: o bloco do XML recebe os ids declarados e o `SelectableCars` da série aponta para eles (`Acceptlist` + classe/divisão dadas, cada uma herdada da doadora quando omitida); sem ele o bloco clona a lista da doadora e o `SelectableCars` fica intocado |
 | `series[].ai_cars` | | opcional `{acceptlist}`: o `AISelectableCars` da série recebe os guids declarados (`{"Acceptlist": [...]}`); sem ele a série mantém o `AISelectableCars` da doadora intocado |
+| `aifield` | | lista opcional de 1–12 definições (`specs/aifield/<nome>.json`): cada uma é gerada com o `build_aifield.py --cache-plan` e juntada no mesmo plano, então um kit libera um documento e o reescreve como pool; sem ela o plano fica byte-idêntico ao de antes |
 
 Recusa: mais de 5 séries ou mais de 5 eventos numa série, `event_id` junto
 com `events`, `track`/`donor_event` de nível de série ou `override.donor`

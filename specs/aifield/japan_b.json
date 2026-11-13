@@ -1,0 +1,58 @@
+{
+  "name": "japan_b",
+  "description": "G21: AI grid of every covered country Japan, class B model(s) in the 550..600 window, 23 slots, a -10..+10 band around the player in 3 frames, Expert, rubber banding off, elastic flags off. Target document AIField_659620014_Gen.xml, freed by repointing its override at the identical keeper in the same kit.",
+  "logical": "AIField_659620014_Gen.xml",
+  "template": "AIField_116830000_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    363,
+    365,
+    411,
+    412,
+    425,
+    444,
+    445,
+    2168,
+    2175,
+    2870,
+    3307,
+    3402,
+    3412,
+    3520,
+    3546,
+    3620
+  ],
+  "window": [
+    550,
+    600,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      -10,
+      10
+    ],
+    [
+      50,
+      -10,
+      10
+    ],
+    [
+      100,
+      -10,
+      10
+    ]
+  ],
+  "difficulty": "Expert",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": false,
+      "CatchUp": false,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

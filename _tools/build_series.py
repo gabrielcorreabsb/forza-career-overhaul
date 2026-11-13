@@ -28,7 +28,7 @@ from fmlib import bcs as B  # noqa: E402
 from fmlib import cars as C  # noqa: E402
 from fmlib import carsxml, crypto, ids, nested, overrides, strs  # noqa: E402
 from fmlib.cache import Cache  # noqa: E402
-from fmlib.core import FmError, ROOT, json_dump, json_load_exact  # noqa: E402
+from fmlib.core import FmError, ROOT, WORK, json_dump, json_load_exact  # noqa: E402
 from fmlib.kit import Kit  # noqa: E402
 
 WARN = []
@@ -40,6 +40,7 @@ ROUND_NAME_RE = re.compile(r"^Test: .+ \[(\d+)\]$")
 ROUND_OPS = ("rename_cup", "rename_ladder", "remove_series", "remove_ladder",
              "remove_cup")
 ROUND_EVENT_KEYS = ("event_id", "track", "laps")
+ROUND_MAX_AIFIELD = 12
 
 
 
@@ -96,9 +97,9 @@ def load_round_spec(path):
     if len(series) > ROUND_MAX_SERIES:
         raise FmError("round spec: %d series (max %d per round)"
                       % (len(series), ROUND_MAX_SERIES))
-    if not series and not spec.get("ops"):
-        raise FmError("round spec: nothing to do ('series' and 'ops' are "
-                      "both empty)")
+    if not series and not spec.get("ops") and not spec.get("aifield"):
+        raise FmError("round spec: nothing to do ('series', 'ops' and "
+                      "'aifield' are all empty)")
     base = spec["base"]
     if not isinstance(base, dict) or not isinstance(base.get("series"), int):
         raise FmError("round spec.base: needs 'series' (the donor series id)")
@@ -243,6 +244,24 @@ def load_round_spec(path):
                 if not isinstance(e[k], str) or not e[k].strip():
                     raise FmError("%s: '%s' must be a non-empty string"
                                   % (tag, k))
+    aif = spec.get("aifield")
+    if aif is not None:
+        if not isinstance(aif, list) or not aif:
+            raise FmError("round spec: 'aifield' must be a non-empty list of "
+                          "definitions (specs/aifield/<name>.json)")
+        if len(aif) > ROUND_MAX_AIFIELD:
+            raise FmError("round spec: %d aifield definitions (max %d per "
+                          "round)" % (len(aif), ROUND_MAX_AIFIELD))
+        seen_def = set()
+        for i, path in enumerate(aif):
+            if not isinstance(path, str) or not path.strip():
+                raise FmError("round spec.aifield[%d]: must be a path string"
+                              % i)
+            key = os.path.normcase(os.path.abspath(path))
+            if key in seen_def:
+                raise FmError("round spec.aifield[%d]: %s declared twice"
+                              % (i, path))
+            seen_def.add(key)
     return spec
 
 
@@ -553,6 +572,54 @@ def edit_round(bcs, ovr, xml, spec, prod_files, new_ids, snap):
     B.check_invariants(bcs, snap)
     return xml, removed
 
+
+
+def load_aifield_defs(paths, owned):
+    """The round's `aifield` definitions, validated by build_aifield itself.
+
+    `owned` = the logical files the round already writes (a definition that
+    rewrites one of them, or another definition's document, is refused)."""
+    import build_aifield as BA
+    out, logicals = [], set(owned)
+    for path in paths:
+        d = BA.load_def(path)
+        if d["logical"] in logicals:
+            raise FmError("round spec: aifield rewrites %s twice (or it is "
+                          "already a target of the round)" % d["logical"])
+        logicals.add(d["logical"])
+        out.append((path, d))
+    return out
+
+
+def merge_aifield(spec, cache, kit, plan):
+    """build_aifield --cache-plan for each round def, merged into the plan.
+
+    Each definition lands as one `op="bytes"` target of its own document,
+    encrypted with the current cache-blob payload as template, and the payload
+    is copied next to the kit's own (merge_cache_plans: duplicate target or
+    different bytes under the same name is refused)."""
+    import build_aifield as BA          # lazy: public export has no cache route
+    import merge_cache_plans as MCP     # lab tool (not in the public allowlist)
+    defs = load_aifield_defs(spec["aifield"],
+                             [t["logical"] for t in kit.targets])
+    adds = []
+    for path, d in defs:
+        out = os.path.join(WORK, "aifield_" + kit.name + "_" + d["name"])
+        print("  [aifield] %s -> %s" % (path, d["logical"]))
+        BA.build(d, out, write=True, cache_plan=True, cache_dir=cache.dir)
+        adds.append(os.path.join(out, BA.CACHE_PLAN))
+    saved = sys.argv
+    try:
+        # merge_cache_plans.py is the documented joiner (payload copy + the
+        # duplicate/different-bytes refusals); it reads its arguments from
+        # sys.argv, so it is driven here exactly as the CLI would be.
+        for add in adds:
+            sys.argv = [saved[0], "--into", plan, "--add", add]
+            MCP.main()
+    finally:
+        sys.argv = saved
+    with open(plan, encoding="utf-8-sig") as fh:
+        return len(json.load(fh).get("targets") or [])
 
 
 def load_repoint_refs(cache):
@@ -926,6 +993,11 @@ def run_round(spec, args):
         "%s - rodada '%s' gerada por _tools/build_series.py --round a partir "
         "de %s. Aplicar com o jogo FECHADO: dry-run, depois --verify."
         % (spec["kit"], spec["title"], meta["spec"]), meta)
+    n_targets = len(kit.targets)
+    if spec.get("aifield"):
+        print("")
+        print("[aifield] %d definition(s)" % len(spec["aifield"]))
+        n_targets = merge_aifield(spec, cache, kit, plan)
     kit.write_nota(spec["title"], "_tools/build_series.py --round",
                    spec.get("scope", "Rodada '%s': %d serie(s) no cup/grupo."
                             % (spec["title"], len(spec["series"]))),
@@ -933,7 +1005,7 @@ def run_round(spec, args):
                    purpose=(spec["question"], spec["mask"],
                             spec["min_condition"], spec["refutes"]))
     print("")
-    print("plan: %s (%d targets)%s" % (plan, len(kit.targets),
+    print("plan: %s (%d targets)%s" % (plan, n_targets,
                                        " | %d warning(s)" % len(WARN)
                                        if WARN else ""))
     print("next: python _tools\\plan_lint.py --plan %s" % plan)

@@ -36,11 +36,15 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 - **A 23-car spec race**: all Porsche 911 GT3 RS '23, or all Subaru BRZ '22, against you.
 - **An AI that stays in your class**: German cars only, one roster per class, C to S, whatever the player drives.
 - **A grid of the models you pick**: five chosen models fill all 23 slots, four or five of each.
+- **An AI of one theme, at any size**: American only, Italian only, 2010s only; pools of 4, 12, 21 and 37 models, each
+  filling the whole grid.
 - **A series with several events** that run in order, add up points and close at the last one.
 - **A cup of our own** whose groups unlock only after the one before is done.
+- **Our series count toward the game's own challenges**: car, track and laps, one for one, and the **real prize arrives**
+  (ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan).
 - **Where you start, how long you practise, the weather and the pit stop**, set event by event.
-- **And the honest limit:** credits and cars come from the **server**. We mapped what cannot be edited, so you do not have to
-  test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
+- **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
+  challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
 
 The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
 
@@ -64,8 +68,10 @@ backup, post-write verification and rollback.
 |---|---|
 | Own place in the career, spec races, trackday, honest multi-class AI | verified in game |
 | AI per class or make; series with several events; progression gates | verified in game |
+| Own AI pools of a theme (country, make, decade); series that serve the game's live challenges | verified in game |
 | Start type and slot, race weekend, practice length, weather, pit stop, field size | observed |
 | A first own season (a cup, three groups that unlock in order) | in progress |
+| A second season built around the game's live challenges (a cup, five groups) | in progress |
 | Entry ladder (E and D), one-make and period series | planned |
 | Wear, fuel, tyre compound | to test |
 | Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
@@ -79,6 +85,15 @@ backup, post-write verification and rollback.
 A cup of our own, in the career, with three groups of two series (two or three events each). The AI is German only and sits in
 your class. The first group is played; the other two stay locked until it is done. How it works:
 [CAREER_MOD](docs/guides/CAREER_MOD.md).
+
+## A second season, built on the game's challenges
+
+The game keeps a list of monthly challenges: ten races in a Mustang, ten laps at Mugello in a Lamborghini, a win at Suzuka in
+a Nissan. We built a cup of five groups, **one group per challenge**, each with its own car list, its own AI of the same theme
+and the track the challenge asks for. The cup is applied in the game and shows in the career. The Suzuka group was played
+end to end: the AI is all Japanese, the win counted and the Nissan was unlocked. The Italian, Ferrari-in-Florida, Camaro and
+2010s groups are still to play. Because the challenges rotate every month, the cup is a draft whose themes follow the list of
+the day.
 
 ## Try it in three steps
 
