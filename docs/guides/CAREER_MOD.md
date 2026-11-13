@@ -34,6 +34,7 @@ piece is tested in game before it counts.
 | **AI per class or per make** | a roster per class keeps the AI in your class; a closed pool of chosen models gives a grid of only those models | verified in game (D64, D65) |
 | **Progression gates** | a series or a whole group opens only after another is done | verified in game |
 | **A first own season** | a cup of our own with groups that unlock in order ("German Ovals", 6 series) | in game; first group played ([PROGRESS](../en/PROGRESS.md)) |
+| **A second season on the game's challenges** | a cup of five groups, one per live challenge, each with its own cars and a one-theme AI | in game; the Suzuka group played, four to play (D68, D69) |
 | **Entry ladder (E and D)** | four to six short series for the cars the career never lists (E: 31 of 50 cars used, D: 50 of 106) | planned, viable |
 | **Spec races** | everyone in the same car: 23 AI of one model against you | verified in game |
 | **Trackday** | pick a circuit, any class, no practice, a rolling start | verified in game |
@@ -110,6 +111,15 @@ Six series in three groups, in a cup of its own: the cup shows in the career, th
 the first is done, and the AI is German only, inside the player's class (one roster per class, caps on the game's
 PI scale). A 3-event series ran in sequence with accumulated points, and a closed pool of five chosen models gave a
 grid of only those models. See [PROGRESS](../en/PROGRESS.md) and D60–D67 in [DISCOVERIES](../project/DISCOVERIES.md).
+
+### A second season (cup of our own, built on the game's challenges)
+The game keeps a monthly list of challenges (races in a car, laps on a track, a win). Our second cup has five groups, one per
+challenge: American muscle (Mustang and Camaro), Italy at Mugello (Lamborghini), Ferrari in Florida (Daytona), Rising Sun (a win
+at Suzuka in a Nissan) and the 2010s. Each series lists only the cars the challenge asks for, runs on the track it names and
+uses an AI roster of the same theme (pools of 4 to 37 models, D68). A series of ours counts toward a live challenge one for one,
+the progress lives on the server and finishing it pays the real prize (D69): a Mustang and a Nissan have been earned this way.
+Two cautions: the screen shows 0% after reopening the game until the first race of the session, and the challenges rotate every
+month, so the cup follows the list of the day. Only the Suzuka group has been played end to end so far.
 
 ## 4. What shapes the design
 

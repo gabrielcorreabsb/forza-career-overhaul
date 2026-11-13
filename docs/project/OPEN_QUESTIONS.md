@@ -135,6 +135,9 @@ limit or just the largest document anyone built?
 **What we know.** **verified** — 23 slots in 552 documents, `NumberOfDrivatars`
 23, `MaxAI` 23 on all 178 series. No document or event asks for more.
 
+**Update (13 Nov).** **observed** — a vanilla series whose document lists 46 slots showed **24 drivers** in its first event, so the cap
+is not the document size (D70). One run; where the cap lives is still unknown.
+
 **Why it matters.** Any grid ambition beyond 24 cars is currently speculation.
 
 **Test.** Write a document with 30 slots and an event that accepts it, apply, and

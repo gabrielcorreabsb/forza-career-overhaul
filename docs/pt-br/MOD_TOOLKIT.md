@@ -32,7 +32,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | uma **série com vários eventos** (2 a 8 no jogo vanilla): os eventos rodam em sequência, os pontos da série somam por piloto, a série termina no último evento e cada corrida paga o mesmo | ✅ | verified | a lista de eventos da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pagamento que cresce com o tamanho da corrida (voltas, distância) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
 | bônus de colocação ao concluir uma série (troféu mais créditos pela posição final), (nos dados do jogo vale para toda série; **não pagou** ao vencer uma série nova nossa, até agora) | 🧪 | hypothesis | em aberto |
-| corridas nas nossas séries contam para os desafios vanilla ativos do Centro de Desafios (um mensal "5 corridas em carro dos anos 2020" pagou 75.000 créditos) | ✅ | observed | escolher carros e pistas que batam com os desafios ativos |
+| corridas nas nossas séries contam para os desafios vanilla ativos do Centro de Desafios (um mensal "5 corridas em carro dos anos 2020" pagou 75.000 créditos) | ✅ | verified | escolher carros e pistas que batam com os desafios ativos: voltas, pista e carro contam 1 para 1, o progresso fica no servidor (a tela mostra 0% ao reabrir até a primeira corrida) e concluir paga o prêmio real (D69) |
 | prêmio próprio: editar a condição, o prêmio ou o objetivo por série de um desafio | ⛔ | observed | a linha mostra **concluído**, mas nada é pago; quem entrega o prêmio é o servidor, pela lista de desafios dele |
 
 ### Evento
@@ -58,7 +58,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | um arquivo de roster de IA **totalmente novo** (entrada nova que o servidor não conhece) | ⛔ | observed | o jogo ficou offline ao abrir o evento; os documentos liberados acima são o caminho alternativo |
 | a distância da IA ao jogador (escolhida pelo PI do jogador contra o piso de PI do documento; o teto de desempenho do evento não limita a IA) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
 | flags de comportamento do documento de roster (catch-up, slow-down…) contra as da série: qual vence | 🧪 | hypothesis | — |
-| grids acima de 24 carros | 🧪 | a testar | — |
+| grids acima de 24 carros | 🧪 | a testar | um documento de 46 vagas ainda mostrou 24 pilotos (D70) |
 | elástico (rubber banding) da IA nos geradores da carreira | já desligado | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | catch-up e slow-down da IA desligados na corrida: a IA ficou melhor, e os dois desligados são o padrão da carreira (relato do jogador, sem medição de voltas) | ✅ | observed | [DISCOVERIES](../project/DISCOVERIES.md) D59 |
 | ajustes globais da IA que também atingem o multiplayer | ⛔ | — | não mexemos sem conversar |
@@ -136,7 +136,7 @@ nada mudou.
   do grid nem a classe do carro.
 - **Prêmio próprio por desafio (quatro testes):** ligar os objetivos por série, apontar um desafio para uma série nossa, trocar a condição
   de um desafio (voltas, pista, divisão de carro) e abrir uma exibição de prêmio. O cliente lê as condições editadas e marca a linha como
-  concluída, mas nenhum carro ou crédito chega e a conclusão pode sumir ao reabrir o jogo. Só os desafios ativos, sem edição, pagam.
+  concluída, mas nenhum carro ou crédito chega e a conclusão pode sumir ao reabrir o jogo. Só os desafios ativos, sem edição, pagam, e esses mantêm o progresso ao reabrir.
 - **Um campo numa série de bancada, sem efeito nos créditos pagos:** o modificador de pagamento e o preset de overrides do gerador, e a
   dificuldade de IA da série. A escolha de dificuldade do próprio jogador pode mascarar a última (hipótese).
 - **Flag de ordenação manual de grid**: o nome pertence ao código de lobby de

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 262" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">A second season, built on the game's live challenges: one cup, five groups</title>
+  <desc id="d">A cup of our own holds five groups, one per live game challenge: American muscle (Mustang and Camaro), Italy at Mugello (Lamborghini), Ferrari in Florida (Daytona), Rising Sun (a win at Suzuka in a Nissan) and the 2010s. Each has its own car list and an AI of the same theme. The Rising Sun group was played; the other four are still to play.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .r{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .b{font:700 12px "Segoe UI",Helvetica,Arial,sans-serif}
+    .p{font:700 11px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .box{fill:#161B22;stroke:#30363D;stroke-width:1}
+  </style>
+  <rect class="bg" width="620" height="262" rx="6"/>
+  <text class="h" x="24" y="30">A second season, built on the game's challenges</text>
+  <text class="s" x="24" y="48">One cup, five groups: each one serves a live challenge, with its own cars and an AI of the same theme.</text>
+  <rect x="24" y="62" width="572" height="26" rx="6" fill="#161B22" stroke="#D29922" stroke-width="1.5"/>
+  <text class="b" x="40" y="80" fill="#D29922">CUP OF OUR OWN · DRAFT, THE CHALLENGES ROTATE EVERY MONTH</text>
+  <rect class="box" x="24" y="98" width="572" height="28" rx="5"/>
+  <text class="b" x="36" y="116" fill="#E6EDF3">1 · American muscle</text>
+  <text class="s" x="190" y="116">Mustang · Camaro</text>
+  <text class="r" x="296" y="116">10 races, Mustang or Camaro</text>
+  <rect x="520" y="103" width="66" height="18" rx="9" fill="#8B949E"/><text class="p" x="553" y="116" text-anchor="middle">TO PLAY</text>
+  <rect class="box" x="24" y="130" width="572" height="28" rx="5"/>
+  <text class="b" x="36" y="148" fill="#E6EDF3">2 · Italy at Mugello</text>
+  <text class="s" x="190" y="148">Lamborghini</text>
+  <text class="r" x="296" y="148">10 laps at Mugello, Lamborghini</text>
+  <rect x="520" y="135" width="66" height="18" rx="9" fill="#8B949E"/><text class="p" x="553" y="148" text-anchor="middle">TO PLAY</text>
+  <rect class="box" x="24" y="162" width="572" height="28" rx="5"/>
+  <text class="b" x="36" y="180" fill="#E6EDF3">3 · Ferrari in Florida</text>
+  <text class="s" x="190" y="180">Ferrari</text>
+  <text class="r" x="296" y="180">10 laps at Daytona, Ferrari</text>
+  <rect x="520" y="167" width="66" height="18" rx="9" fill="#8B949E"/><text class="p" x="553" y="180" text-anchor="middle">TO PLAY</text>
+  <rect class="box" x="24" y="194" width="572" height="28" rx="5"/>
+  <text class="b" x="36" y="212" fill="#E6EDF3">4 · Rising Sun</text>
+  <text class="s" x="190" y="212">Nissan</text>
+  <text class="r" x="296" y="212">a win at Suzuka, Nissan</text>
+  <rect x="520" y="199" width="66" height="18" rx="9" fill="#3FB950"/><text class="p" x="553" y="212" text-anchor="middle">PLAYED</text>
+  <rect class="box" x="24" y="226" width="572" height="28" rx="5"/>
+  <text class="b" x="36" y="244" fill="#E6EDF3">5 · The 2010s</text>
+  <text class="s" x="190" y="244">Modern classics</text>
+  <text class="r" x="296" y="244">no challenge: a 37-model AI</text>
+  <rect x="520" y="231" width="66" height="18" rx="9" fill="#8B949E"/><text class="p" x="553" y="244" text-anchor="middle">TO PLAY</text>
+</svg>

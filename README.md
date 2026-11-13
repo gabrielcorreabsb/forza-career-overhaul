@@ -49,7 +49,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
 
 <p align="center">
-  <img src="assets/progress.svg" alt="What already works: seven stages verified in game, three observed, one in progress, two planned, one to test, one closed" width="620">
+  <img src="assets/progress.svg" alt="What already works: eight stages verified in game, three observed, two in progress, two planned, one to test, one closed" width="620">
 </p>
 
 > Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
@@ -94,6 +94,10 @@ and the track the challenge asks for. The cup is applied in the game and shows i
 end to end: the AI is all Japanese, the win counted and the Nissan was unlocked. The Italian, Ferrari-in-Florida, Camaro and
 2010s groups are still to play. Because the challenges rotate every month, the cup is a draft whose themes follow the list of
 the day.
+
+<p align="center">
+  <img src="assets/challenge_tour.svg" alt="One cup of our own with five groups, one per live game challenge: American muscle, Italy at Mugello, Ferrari in Florida, Rising Sun (played) and the 2010s" width="620">
+</p>
 
 ## Try it in three steps
 

@@ -30,7 +30,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | a **series with several events** (2–8 in the vanilla game): the events run in sequence, series points add up per driver, the series is done after the last event, every race pays the same | ✅ | verified | the series' event list ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pay that grows with the race length (laps, distance) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
 | placement bonus when a series ends (trophy plus credits by final position), (in the game data for every series; **not paid** when a new series of ours was won, so far) | 🧪 | hypothesis | open |
-| races in our series count for the live vanilla challenges of the Challenge Hub (a monthly "5 races in a 2020s car" paid 75,000 credits) | ✅ | observed | pick cars and tracks that match the live challenges |
+| races in our series count for the live vanilla challenges of the Challenge Hub (a monthly "5 races in a 2020s car" paid 75,000 credits) | ✅ | verified | pick cars and tracks that match the live challenges: laps, track and car count one for one, the progress lives on the server (the screen reads 0% after a restart until the first race), and finishing one pays the real prize (D69) |
 | a prize of our own: edit a challenge's condition, prize or per-series objective | ⛔ | observed | the row shows **completed**, but nothing is paid; prizes are granted by the server against its own challenge list |
 
 ### Event
@@ -56,7 +56,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | a **brand-new** AI roster file (a new entry the server does not know) | ⛔ | observed | the game went offline when the event was opened; the freed documents above are the way around it |
 | how far the AI sits from the player (picked by the player's PI against the document's PI floor; the event's performance cap does not limit the AI) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
 | roster-document behaviour flags (catch-up, slow-down…) against the series ones: which wins | 🧪 | hypothesis | — |
-| grids above 24 cars | 🧪 | to test | — |
+| grids above 24 cars | 🧪 | to test | a 46-slot document still showed 24 drivers (D70) |
 | AI rubber banding in the career generators | already off | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | AI catch-up and slow-down off in the race: the AI got better, and both off is the career default (a player's report, no lap measurements) | ✅ | observed | [DISCOVERIES](../project/DISCOVERIES.md) D59 |
 | global AI settings that also reach multiplayer | ⛔ | — | not touched without discussion |
@@ -134,7 +134,7 @@ flag, open one Featured or multiplayer event to confirm nothing moved.
   field or the class of the car either.
 - **A prize of our own through challenges (four tests):** turning on per-series objectives, pointing a challenge at our series, changing a
   challenge's condition (laps, track, car division) and opening a reward showcase. The client reads the edited conditions and marks the
-  row completed, but no car or credits arrive and the completion can vanish after a restart. Only the live, unedited challenges pay.
+  row completed, but no car or credits arrive and the completion can vanish after a restart. Only the live, unedited challenges pay, and those keep their progress across restarts.
 - **One field on a bench series, no effect on the credits paid:** the generator's payout modifier and overrides preset, and the
   series' AI difficulty. The player's own difficulty choice may mask the last one (hypothesis).
 

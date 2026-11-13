@@ -9,6 +9,11 @@ not published here: you generate your own kits from your copy of the game.
 - **README rewritten around what is proven in game**: a "Proven in game" opening, status badges, a progress panel and a diagram of the
   first own season (both drawn by us, in `assets/`; no game material), the try-it commands moved up. Documentation only.
 
+- **A second season, built on the game's challenges** (findings D68–D70 in [DISCOVERIES](docs/project/DISCOVERIES.md)): own AI
+  pools work at every size tried (4 to 37 models, one theme each); a series of ours counts toward the game's live challenges one
+  for one, the progress lives on the server and finishing one pays the real prize (a Mustang, a Nissan earned at Suzuka); a
+  46-slot roster document still showed 24 drivers. A cup of five groups, one per live challenge, is in game. README, PROGRESS,
+  MOD_TOOLKIT, CAREER_MOD and the two diagrams updated. Documentation only.
 - **Phase 0.3 — an own season** (findings D60–D67 in [DISCOVERIES](docs/project/DISCOVERIES.md)): the game reads the AI roster
   from the **cache**, so AI grids are written with `cache_edit.py` (`build_aifield.py --cache-plan`); a series with **several events**
   runs in sequence and accumulates points; one roster per class keeps the AI in the player's class; a closed pool of chosen models gives

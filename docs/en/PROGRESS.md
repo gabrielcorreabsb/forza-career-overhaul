@@ -16,7 +16,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **v0.1.0 and v0.2.0** | 31 Oct | the pipeline: rename, reorder, unlock the whole career; new series from a JSON spec; safe apply (lint, dry-run, backup, verify, rollback); AI grids (pool or fixed list), spec races of 23 cars of one model, a trackday series, the audit of the vanilla career | verified |
 | **Test batteries 3–5** | early Nov | where you start (free pick or last), practice length apart from the race, weather and time of day for the race, a mandatory pit stop per event, small fields (8, 12, 16 cars) | observed |
 | **Phase 0.2 — rewards** | 6–9 Nov | the career's pay and prizes mapped. Editing payout tables, bonuses or challenge conditions changes only what the screens show; **credits and cars are granted by the server against its own challenges**. What works instead: pay that grows with race length, unlocks by progression, and live vanilla challenges that count races run in our series | closed for prizes of our own; observed for the rest |
-| **Phase 0.3 — an own season** | 9–11 Nov | a cup of our own that plays like the vanilla ones (below) | in progress |
+| **Phase 0.3 — an own season** | 9–13 Nov | a cup of our own that plays like the vanilla ones, AI pools of one theme, and a second cup built on the game's live challenges (below) | in progress |
 
 ## Phase 0.3, finding by finding
 
@@ -29,7 +29,11 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **A closed pool of hand-picked models** gives a grid of only those models | one-make, one-brand, themed championships | verified | D65 |
 | A series' own car list **does not filter** the roster document | the roster must be written in the document itself | closed | D66 |
 | **A vanilla roster document with an identical copy can be freed** (point its event at the copy) and reused as a pool of ours | own pools at scale: 313 documents are freeable | verified | D67 |
+| **Own AI pools work at every size tried**: 4, 12 (American only), 21 (Italian only) and 37 models (2010s only) each filled the whole grid with that theme, after 8 more vanilla documents were freed in one go with the hub and online intact | themed championships by country, make or decade | verified | D68 |
+| **Our series count toward the game's own challenges and the real prize arrives**: laps, track and car count one for one; ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan. The progress lives on the server: after reopening the game the screen shows 0% until the first race of the session | a series can be built to serve a live challenge | verified | D69 |
+| A roster document of 46 slots still showed **24 drivers** | grids above 24 stay closed for now | observed | D70 |
 | **First season, "German Ovals"** (6 series in 3 groups, in a cup of its own): the cup shows, the second group stays locked until the first is done, the German-only AI sits in the player's class | the first playable season | first group played; groups 2–3 not yet | — |
+| **Second season, "Challenge Tour"** (a cup of five groups, one per live challenge, each with its own car list and one-theme AI): applied in game, the cup shows; the Suzuka group was played end to end (all-Japanese AI, the win counted, the Nissan unlocked) | a season that follows the game's monthly challenges | Suzuka group played; four groups still to play | D69 |
 
 ## What is next
 
