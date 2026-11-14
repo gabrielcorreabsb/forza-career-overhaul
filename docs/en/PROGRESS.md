@@ -17,6 +17,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Test batteries 3–5** | early Nov | where you start (free pick or last), practice length apart from the race, weather and time of day for the race, a mandatory pit stop per event, small fields (8, 12, 16 cars) | observed |
 | **Phase 0.2 — rewards** | 6–9 Nov | the career's pay and prizes mapped. Editing payout tables, bonuses or challenge conditions changes only what the screens show; **credits and cars are granted by the server against its own challenges**. What works instead: pay that grows with race length, unlocks by progression, and live vanilla challenges that count races run in our series | closed for prizes of our own; observed for the rest |
 | **Phase 0.3 — an own season** | 9–13 Nov | a cup of our own that plays like the vanilla ones, AI pools of one theme, and a second cup built on the game's live challenges (below) | in progress |
+| **Phase 0.4 — race format** | 14 Nov | how fast a series' tyres wear, how fast its race clock runs and when its rain starts and ends, each tested in game on a short oval (below). Also the fifth and last test of prizes of our own through the challenges: the screen shows the car we put, the server still counts and pays its own | observed |
 
 ## Phase 0.3, finding by finding
 
@@ -36,6 +37,18 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **First season, "German Ovals"** (6 series in 3 groups, in a cup of its own): the cup shows, the second group stays locked until the first is done, the German-only AI sits in the player's class | the first playable season | first group played; groups 2–3 not yet | — |
 | **Second season, "Challenge Tour"** (a cup of five groups, one per live challenge, each with its own car list and one-theme AI): applied in game, the cup shows; the Suzuka and Daytona groups were played end to end (all-Japanese and all-Ferrari AI; the win and the laps counted; the Nissan, a Ferrari 488 GTB and a Porsche 911 RSR arrived) | a season that follows the game's monthly challenges | two groups played; three still to play (they need cars the player does not own yet) | D69, D71 |
 
+## Phase 0.4, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| **A series' tyre wear scale works** (with wear switched on in the player's own difficulty): 6 against 1 over 10 laps made the car lose grip at the end; the % damage readout barely moved, so it is a poor measure. The game itself only uses 1, 3, 4 and 6 | a series can set how fast tyres fade; sprint 1, long 3 or 4, hard 6 | observed (one run each, by feel) | D72 |
+| **The race clock runs from the event override, not from the series default**: the pair of keys `TimeOfDayTimeScale` and `TimeOfDayTimeScaleOverride` in the event override made a 10-lap oval race go from afternoon to night (144 faster than 60); the series default alone (24, 60, 144) moved nothing. A start at 22h also works | a day-to-night race in a few minutes; sunsets on a schedule | observed (by eye) | D73 |
+| **Weather has its own block for practice and for the race**: rain in practice only and rain in the race only both worked in the same series | dry practice and wet race, or the reverse | observed | D74 |
+| **A weather forecast's body can be edited, and its phase times are real seconds**: phases retimed to 100 s and 50 s followed the edit in a 300 s race, and a phase changed to clear sky showed up. A 20 s transition to clear sky dried the track at once, far too abrupt | rain that starts, peaks and ends on a schedule; use a long transition or a middle phase when it clears | observed (by eye) | D74 |
+| **Our test series differ from the vanilla ones** in the AI's behaviour switches (the rubber band is off, a slot-car start is on) and in some series defaults, because they are copies of one bench series | results from the bench describe a bench AI; the vanilla block is the one to use in a season | audit | [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md) |
+
+Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md).
+
 ## What is next
 
 State labels: **viable** (the mechanism is known), **to test** (plausible, needs a controlled run in game), **not possible**
@@ -47,7 +60,7 @@ State labels: **viable** (the mechanism is known), **to test** (plausible, needs
 | **Entry path at E and D** | 209 of 711 cars are in no event; E (31 of 50 used) and D (50 of 106) are the worst served; short series for them, with an AI band that keeps the field in class | viable |
 | **Car × event matrix** | a list that puts every car in at least one event turns the catalogue into the career; numeric limits (year, power) are untested | viable, partly to test |
 | **Permanent event list** | the timed (Featured) content has no permanent home; re-parenting a series with fresh ids is proven, synthesising its lists is the open part | viable |
-| **Race format** | wear and fuel, weather and time of day passing during a race, the AI's behaviour flags against the series' ones | to test |
+| **Race format** | tyre wear scale, race clock speed and weather timing are proven (Phase 0.4); fuel, qualifying, the AI's behaviour flags against the series' ones and a smooth clear-sky transition are still to test | partly done, rest to test |
 | **Career tyre compound** | per-mode lists in the client flags set the default tyre for online modes but not the career; adding a career item is one entry | to test |
 | **Grids above 24 cars** | no precedent: every vanilla document asks for 23 AI + the player ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
 | **Own art per series** | posters and banners are inherited from the donor series; the format is read, writing is untested | to test |

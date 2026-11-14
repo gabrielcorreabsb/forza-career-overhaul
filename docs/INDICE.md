@@ -45,6 +45,7 @@ English-only.
 | Know how career payout, prizes and levels fit together | **[reference/ECONOMY_MAP](reference/ECONOMY_MAP.md)** | payout layers, prize catalog, what a series kit can and cannot move |
 | The career tree, ids, ordering, gates | **[reference/CAREER_MODEL](reference/CAREER_MODEL.md)** | cup, ladder, series, event; Builders Cup vs Featured |
 | How one event/race is defined | **[reference/RACE_SYSTEM](reference/RACE_SYSTEM.md)** | laps (the override wins), practice that sets the grid, start, overrides |
+| Every value the vanilla series use, per field | **[reference/SERIES_FIELD_VALUES](reference/SERIES_FIELD_VALUES.md)** | tables by level (series defaults, series, event, event override) with the values used, their counts and what we tested |
 | Cars, classes, PI and which cars a series accepts | **[reference/CARS_AND_PI](reference/CARS_AND_PI.md)** | classes, PI bands, acceptlist, usable/denied/swap |
 | Look up a field of a career/Featured record | **[reference/SCHEMA_REFERENCE](reference/SCHEMA_REFERENCE.md)** | field-by-field catalogue, defaults, evidence labels |
 | Files, counts, id ranges and derived tables | **[reference/DATA_REFERENCE](reference/DATA_REFERENCE.md)** | tree, record sizes, identity rules |

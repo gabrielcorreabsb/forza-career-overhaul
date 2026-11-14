@@ -103,6 +103,7 @@ completed, but credits and cars are granted by the server against its own challe
 | per-series objectives switched on for a fresh series | nothing shown or paid |
 | payout rates and bonus percentages in the install's tunable files (halved or set to 100) | the pay did not change |
 | a vanilla series given our content under its own ids | the server's counter for its "complete all series" challenge did not move |
+| a live lap challenge with its condition moved to our oval series and its prize swapped for another car (last round, 14/11) | the hub row showed the swapped car (the prize picture comes from the client cache), but the counter never moved on the oval lap: the server counts its own rule (laps on the original track) and pays its own prize |
 
 What does work: a live, unedited vanilla challenge counts the races run in our series (a monthly "5 races in a 2020s
 car" paid 75,000 credits, and a clean-laps challenge counted our laps), pay grows with race length, and a series or

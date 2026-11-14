@@ -17,6 +17,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Baterias de teste 3–5** | início de nov | onde você larga (escolha livre ou último), treino separado da corrida, clima e hora da corrida, parada obrigatória por evento, grids pequenos (8, 12, 16 carros) | observed |
 | **Fase 0.2 — prêmios** | 6–9/11 | pagamento e prêmios da carreira mapeados. Editar tabelas de pagamento, bônus ou condições de desafio muda só o que as telas mostram; **créditos e carros são concedidos pelo servidor, contra a lista de desafios dele**. O que funciona: pagamento que cresce com a duração da corrida, desbloqueio por progressão e desafios vanilla ativos que contam corridas de séries nossas | closed para prêmios próprios; observed para o resto |
 | **Fase 0.3 — temporada própria** | 9–13/11 | uma cup nossa que se joga como as vanilla, pools de IA de um tema só e uma segunda cup feita sobre os desafios ativos do jogo (abaixo) | em andamento |
+| **Fase 0.4 — formato de corrida** | 14/11 | a velocidade com que os pneus de uma série desgastam, a velocidade do relógio da corrida e quando a chuva começa e termina, cada um testado no jogo num oval curto (abaixo). Também o quinto e último teste de prêmio próprio pelos desafios: a tela mostra o carro que pusemos, e o servidor continua contando e pagando o dele | observado |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -36,6 +37,18 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Primeira temporada, "Ovais Alemães"** (6 séries em 3 grupos, numa cup própria): a cup aparece, o grupo 2 fica trancado até o 1 terminar, a IA só alemã fica na classe do jogador | a primeira temporada jogável | primeiro grupo jogado; grupos 2–3 ainda não | — |
 | **Segunda temporada, "Turnê dos Desafios"** (uma cup de cinco grupos, um por desafio ativo, cada um com a sua lista de carros e IA de um tema só): aplicada no jogo, a cup aparece; os grupos de Suzuka e Daytona foram jogados de ponta a ponta (IA toda japonesa e toda Ferrari; a vitória e as voltas contaram; chegaram o Nissan, uma Ferrari 488 GTB e um Porsche 911 RSR) | uma temporada que segue os desafios mensais do jogo | dois grupos jogados; três a jogar (exigem carros que o jogador ainda não tem) | D69, D71 |
 
+## Fase 0.4, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| **A escala de desgaste de pneu da série funciona** (com o desgaste ligado na dificuldade do próprio jogador): 6 contra 1 em 10 voltas fez o carro perder aderência no fim; o % de dano quase não mexeu, então é uma medida ruim. O próprio jogo só usa 1, 3, 4 e 6 | uma série escolhe a rapidez com que o pneu cai; sprint 1, longa 3 ou 4, dura 6 | observado (uma corrida de cada, por sensação) | D72 |
+| **O relógio da corrida corre a partir do override do evento, não do padrão da série**: o par de chaves `TimeOfDayTimeScale` e `TimeOfDayTimeScaleOverride` no override do evento levou uma corrida de 10 voltas num oval da tarde à noite (144 mais rápido que 60); o padrão da série sozinho (24, 60, 144) não moveu nada. Largar às 22h também funciona | uma corrida do dia à noite em poucos minutos; pôr do sol em hora marcada | observado (a olho) | D73 |
+| **O clima tem bloco próprio para o treino e para a corrida**: chuva só no treino e chuva só na corrida funcionaram na mesma série | treino seco e corrida molhada, ou o contrário | observado | D74 |
+| **O corpo de uma previsão de clima pode ser editado, e os tempos das fases são em segundos reais**: fases reajustadas para 100 s e 50 s seguiram a edição numa corrida de 300 s, e uma fase trocada por céu limpo apareceu. Uma transição de 20 s para céu limpo secou a pista de uma vez, brusco demais | chuva que começa, chega ao máximo e termina em hora marcada; use transição longa ou uma fase intermediária ao limpar | observado (a olho) | D74 |
+| **Nossas séries de teste diferem das vanilla** nos interruptores de comportamento da IA (o elástico está desligado, a largada de autorama está ligada) e em alguns padrões da série, porque são cópias de uma série de bancada | resultados da bancada descrevem uma IA de bancada; o bloco vanilla é o que se usa numa temporada | auditoria | [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md) |
+
+Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md).
+
 ## O que vem
 
 Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede uma corrida controlada no jogo), **not possible**
@@ -47,7 +60,7 @@ Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede u
 | **Trilha de entrada em E e D** | 209 de 711 carros não estão em nenhum evento; E (31 de 50 usados) e D (50 de 106) são as classes pior servidas; séries curtas para eles, com uma faixa de IA que mantém o grid na classe | viable |
 | **Matriz carro × evento** | uma lista que põe todo carro em ao menos um evento transforma o catálogo em carreira; limites numéricos (ano, potência) não foram testados | viable, em parte to test |
 | **Lista permanente de eventos** | o conteúdo com prazo (Featured) não tem casa permanente; reaparentar uma série com ids novos está provado, sintetizar as listas é a parte aberta | viable |
-| **Formato de corrida** | desgaste e combustível, clima e hora passando durante a corrida, as flags de comportamento da IA contra as da série | to test |
+| **Formato de corrida** | escala de desgaste, velocidade do relógio e tempo do clima estão provados (Fase 0.4); combustível, classificação, as flags de comportamento da IA contra as da série e uma transição suave para céu limpo seguem para testar | em parte feito, o resto a testar |
 | **Composto de pneu da carreira** | listas por modo nas flags do cliente definem o pneu padrão dos modos online, não o da carreira; acrescentar um item de carreira é uma entrada | to test |
 | **Grids acima de 24 carros** | sem precedente: todo documento vanilla pede 23 IA + o jogador ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
 | **Arte própria por série** | pôsteres e banners vêm da série doadora; o formato foi lido, a escrita não foi testada | to test |
