@@ -41,7 +41,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 - **A series with several events** that run in order, add up points and close at the last one.
 - **A cup of our own** whose groups unlock only after the one before is done.
 - **Our series count toward the game's own challenges**: car, track and laps, one for one, and the **real prize arrives**
-  (ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan).
+  (ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan; ten laps at Daytona in a Ferrari gave a Ferrari 488 GTB, and a second challenge on that track, a segment score, paid a Porsche 911 RSR with no extra work).
 - **Where you start, how long you practise, the weather and the pit stop**, set event by event.
 - **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
   challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
@@ -90,13 +90,14 @@ your class. The first group is played; the other two stay locked until it is don
 
 The game keeps a list of monthly challenges: ten races in a Mustang, ten laps at Mugello in a Lamborghini, a win at Suzuka in
 a Nissan. We built a cup of five groups, **one group per challenge**, each with its own car list, its own AI of the same theme
-and the track the challenge asks for. The cup is applied in the game and shows in the career. The Suzuka group was played
-end to end: the AI is all Japanese, the win counted and the Nissan was unlocked. The Italian, Ferrari-in-Florida, Camaro and
-2010s groups are still to play. Because the challenges rotate every month, the cup is a draft whose themes follow the list of
+and the track the challenge asks for. The cup is applied in the game and shows in the career. Two groups were played end to
+end. At Suzuka the AI is all Japanese, the win counted and the Nissan was unlocked. At Daytona the AI is all Ferrari, the laps
+counted and the Ferrari 488 GTB arrived, together with a Porsche 911 RSR from a second challenge on the same track. The
+Italian, Camaro and 2010s groups are still to play. Because the challenges rotate every month, the cup is a draft whose themes follow the list of
 the day.
 
 <p align="center">
-  <img src="assets/challenge_tour.svg" alt="One cup of our own with five groups, one per live game challenge: American muscle, Italy at Mugello, Ferrari in Florida, Rising Sun (played) and the 2010s" width="620">
+  <img src="assets/challenge_tour.svg" alt="One cup of our own with five groups, one per live game challenge: American muscle, Italy at Mugello, Ferrari in Florida (played), Rising Sun (played) and the 2010s" width="620">
 </p>
 
 ## Try it in three steps

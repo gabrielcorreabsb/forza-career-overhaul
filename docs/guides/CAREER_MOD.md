@@ -34,7 +34,7 @@ piece is tested in game before it counts.
 | **AI per class or per make** | a roster per class keeps the AI in your class; a closed pool of chosen models gives a grid of only those models | verified in game (D64, D65) |
 | **Progression gates** | a series or a whole group opens only after another is done | verified in game |
 | **A first own season** | a cup of our own with groups that unlock in order ("German Ovals", 6 series) | in game; first group played ([PROGRESS](../en/PROGRESS.md)) |
-| **A second season on the game's challenges** | a cup of five groups, one per live challenge, each with its own cars and a one-theme AI | in game; the Suzuka group played, four to play (D68, D69) |
+| **A second season on the game's challenges** | a cup of five groups, one per live challenge, each with its own cars and a one-theme AI | in game; the Suzuka and Daytona groups played, three to play (D68–D71) |
 | **Entry ladder (E and D)** | four to six short series for the cars the career never lists (E: 31 of 50 cars used, D: 50 of 106) | planned, viable |
 | **Spec races** | everyone in the same car: 23 AI of one model against you | verified in game |
 | **Trackday** | pick a circuit, any class, no practice, a rolling start | verified in game |
@@ -117,9 +117,9 @@ The game keeps a monthly list of challenges (races in a car, laps on a track, a 
 challenge: American muscle (Mustang and Camaro), Italy at Mugello (Lamborghini), Ferrari in Florida (Daytona), Rising Sun (a win
 at Suzuka in a Nissan) and the 2010s. Each series lists only the cars the challenge asks for, runs on the track it names and
 uses an AI roster of the same theme (pools of 4 to 37 models, D68). A series of ours counts toward a live challenge one for one,
-the progress lives on the server and finishing it pays the real prize (D69): a Mustang and a Nissan have been earned this way.
+the progress lives on the server and finishing it pays the real prize (D69): a Mustang, a Nissan and a Ferrari 488 GTB have been earned this way. A challenge that names only a track (a segment score of 8 or more at Daytona) counts by the track alone: it paid a Porsche 911 RSR while the Ferrari series was being played (D71), and it was the only one of its kind still active.
 Two cautions: the screen shows 0% after reopening the game until the first race of the session, and the challenges rotate every
-month, so the cup follows the list of the day. Only the Suzuka group has been played end to end so far.
+month, so the cup follows the list of the day. Only the Suzuka and Daytona groups have been played end to end so far; the others need cars the player does not own yet.
 
 ## 4. What shapes the design
 

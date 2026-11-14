@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 262" width="100%" role="img" aria-labelledby="t d">
   <title id="t">A second season, built on the game's live challenges: one cup, five groups</title>
-  <desc id="d">A cup of our own holds five groups, one per live game challenge: American muscle (Mustang and Camaro), Italy at Mugello (Lamborghini), Ferrari in Florida (Daytona), Rising Sun (a win at Suzuka in a Nissan) and the 2010s. Each has its own car list and an AI of the same theme. The Rising Sun group was played; the other four are still to play.</desc>
+  <desc id="d">A cup of our own holds five groups, one per live game challenge: American muscle (Mustang and Camaro), Italy at Mugello (Lamborghini), Ferrari in Florida (Daytona), Rising Sun (a win at Suzuka in a Nissan) and the 2010s. Each has its own car list and an AI of the same theme. The Ferrari in Florida and Rising Sun groups were played; the other three are still to play.</desc>
   <style>
     .bg{fill:#0B0E14}
     .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
@@ -29,7 +29,7 @@
   <text class="b" x="36" y="180" fill="#E6EDF3">3 · Ferrari in Florida</text>
   <text class="s" x="190" y="180">Ferrari</text>
   <text class="r" x="296" y="180">10 laps at Daytona, Ferrari</text>
-  <rect x="520" y="167" width="66" height="18" rx="9" fill="#8B949E"/><text class="p" x="553" y="180" text-anchor="middle">TO PLAY</text>
+  <rect x="520" y="167" width="66" height="18" rx="9" fill="#3FB950"/><text class="p" x="553" y="180" text-anchor="middle">PLAYED</text>
   <rect class="box" x="24" y="194" width="572" height="28" rx="5"/>
   <text class="b" x="36" y="212" fill="#E6EDF3">4 · Rising Sun</text>
   <text class="s" x="190" y="212">Nissan</text>

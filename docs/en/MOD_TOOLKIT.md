@@ -30,7 +30,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | a **series with several events** (2–8 in the vanilla game): the events run in sequence, series points add up per driver, the series is done after the last event, every race pays the same | ✅ | verified | the series' event list ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pay that grows with the race length (laps, distance) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
 | placement bonus when a series ends (trophy plus credits by final position), (in the game data for every series; **not paid** when a new series of ours was won, so far) | 🧪 | hypothesis | open |
-| races in our series count for the live vanilla challenges of the Challenge Hub (a monthly "5 races in a 2020s car" paid 75,000 credits) | ✅ | verified | pick cars and tracks that match the live challenges: laps, track and car count one for one, the progress lives on the server (the screen reads 0% after a restart until the first race), and finishing one pays the real prize (D69) |
+| races in our series count for the live vanilla challenges of the Challenge Hub (a monthly "5 races in a 2020s car" paid 75,000 credits) | ✅ | verified | pick cars and tracks that match the live challenges: laps, track and car count one for one, the progress lives on the server (the screen reads 0% after a restart until the first race), and finishing one pays the real prize (D69); a challenge that names only a track counts by the track alone (D71) |
 | a prize of our own: edit a challenge's condition, prize or per-series objective | ⛔ | observed | the row shows **completed**, but nothing is paid; prizes are granted by the server against its own challenge list |
 
 ### Event
