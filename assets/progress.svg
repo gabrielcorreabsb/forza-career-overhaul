@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 532" width="100%" role="img" aria-labelledby="t d">
   <title id="t">What already works: the stages of the career mod and their status</title>
-  <desc id="d">Seventeen stages of the career mod. Verified in game: own place in the career, spec races, trackday, honest multi-class AI, AI per class or make, own AI pools of a theme and series that serve the game's challenges, series with several events, progression gates. Observed: start type and slot, race weekend, practice length, weather and pit stop. In progress: a first own season and a second one built on the game's live challenges. Planned: entry ladder, one-make and period series. To test: wear, fuel and tyres. Closed: prizes of our own and a real qualifying.</desc>
+  <desc id="d">Seventeen stages of the career mod. Verified in game: own place in the career, spec races, trackday, honest multi-class AI, AI per class or make, own AI pools of a theme and series that serve the game's challenges, series with several events, progression gates. Observed: start type and slot, race weekend, practice length, weather and its timing, race clock, tyre wear and pit stop. In progress: a first own season and a second one built on the game's live challenges. Planned: entry ladder, one-make and period series. To test: fuel and tyre compound. Closed: prizes of our own and a real qualifying.</desc>
   <style>
     .bg{fill:#0B0E14}
     .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
@@ -45,7 +45,7 @@
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
     <g transform="translate(0,216)"><text class="r" x="0" y="12">Race weekend: practice orders the AI grid</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
-    <g transform="translate(0,240)"><text class="r" x="0" y="12">Practice length, weather, time of day, pit stop, field size</text>
+    <g transform="translate(0,240)"><text class="r" x="0" y="12">Weather, race clock, tyre wear, practice, pit stop, field size</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
     <g transform="translate(0,264)"><text class="r" x="0" y="12">A first own season: a cup, groups that unlock in order</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#D29922"/><text class="p" x="504" y="13" text-anchor="middle">IN PROGRESS</text></g>
@@ -55,7 +55,7 @@
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#8B949E"/><text class="p" x="504" y="13" text-anchor="middle">PLANNED</text></g>
     <g transform="translate(0,336)"><text class="r" x="0" y="12">One-make and period series (the pool mechanism is proven)</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#8B949E"/><text class="p" x="504" y="13" text-anchor="middle">PLANNED</text></g>
-    <g transform="translate(0,360)"><text class="r" x="0" y="12">Wear, fuel and tyre compound in the career</text>
+    <g transform="translate(0,360)"><text class="r" x="0" y="12">Fuel and tyre compound in the career</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#6E7681"/><text class="p" x="504" y="13" text-anchor="middle">TO TEST</text></g>
     <g transform="translate(0,384)"><text class="r" x="0" y="12">Prizes of our own, a real qualifying</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#F85149"/><text class="p" x="504" y="13" text-anchor="middle">CLOSED</text></g>

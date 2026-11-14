@@ -15,7 +15,7 @@
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB">
   <img alt=".NET 10 SDK" src="https://img.shields.io/badge/.NET-10-512BD4">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows-lightgrey">
-  <img alt="Status: phase 0.3, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
+  <img alt="Status: phase 0.4, race format and own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
 </p>
 
 <p align="center">
@@ -43,6 +43,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 - **Our series count toward the game's own challenges**: car, track and laps, one for one, and the **real prize arrives**
   (ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan; ten laps at Daytona in a Ferrari gave a Ferrari 488 GTB, and a second challenge on that track, a segment score, paid a Porsche 911 RSR with no extra work).
 - **Where you start, how long you practise, the weather and the pit stop**, set event by event.
+- **The race format of a series**: how fast its tyres wear (a series scale that changes the grip at the end of a race), how fast the race clock runs (a day-to-night race in a few minutes) and when its rain starts, peaks and ends (a forecast's phase times and sky can be edited). Every value the vanilla series use is listed in [SERIES_FIELD_VALUES](docs/reference/SERIES_FIELD_VALUES.md).
 - **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
   challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
 
@@ -69,11 +70,11 @@ backup, post-write verification and rollback.
 | Own place in the career, spec races, trackday, honest multi-class AI | verified in game |
 | AI per class or make; series with several events; progression gates | verified in game |
 | Own AI pools of a theme (country, make, decade); series that serve the game's live challenges | verified in game |
-| Start type and slot, race weekend, practice length, weather, pit stop, field size | observed |
+| Start type and slot, race weekend, practice length, weather and its timing, race clock speed, tyre wear scale, pit stop, field size | observed |
 | A first own season (a cup, three groups that unlock in order) | in progress |
 | A second season built around the game's live challenges (a cup, five groups) | in progress |
 | Entry ladder (E and D), one-make and period series | planned |
-| Wear, fuel, tyre compound | to test |
+| Fuel, tyre compound, the AI's wear | to test |
 | Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
 
 ## A first season of our own
@@ -133,7 +134,7 @@ python _tools\rollback_cache.py                              # undo the last app
 | rename, reorder or unlock cups, ladders and series | verified | [tutorial 01](docs/tutorials/01_rename.md) · [tutorial 02](docs/tutorials/02_reorder.md) |
 | create a new series from a spec | verified | [tutorial 03](docs/tutorials/03_new_series.md) · [SERIES_CHECKLIST](docs/reference/SERIES_CHECKLIST.md) |
 | build an AI grid (class, make, chosen models) | verified | [tutorial 04](docs/tutorials/04_ai_grid.md) · [AI_GRIDS](docs/guides/AI_GRIDS.md) |
-| set where you start, practice, weather, start type per event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
+| set where you start, practice, weather, rain timing, race clock, tyre wear, start type per event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
 | understand how the career pays | mapped | [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) |
 | see every lever and how sure we are | mapped | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) · [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 

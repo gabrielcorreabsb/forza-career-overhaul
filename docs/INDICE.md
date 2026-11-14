@@ -17,7 +17,7 @@ English-only.
 | Understand the cache, Strategy S and the career model | **[en/CONCEPTS](en/CONCEPTS.md)** ([PT](pt-br/CONCEPTS.md)) | diagrams and glossary |
 | Apply or revert a mod on the CmsCache | **[en/PIPELINE](en/PIPELINE.md)** ([PT](pt-br/PIPELINE.md)) | golden rules (game closed), `--dry-run` then `--verify`, rollback and verification |
 | See what the mod can do today and how sure we are | **[en/MOD_TOOLKIT](en/MOD_TOOLKIT.md)** ([PT](pt-br/MOD_TOOLKIT.md)) | levers by pillar, recipes, what is closed |
-| See how the project has progressed, phase by phase | **[en/PROGRESS](en/PROGRESS.md)** ([PT](pt-br/PROGRESS.md)) | timeline (v0.1 → phase 0.3), findings of the own season, what is next |
+| See how the project has progressed, phase by phase | **[en/PROGRESS](en/PROGRESS.md)** ([PT](pt-br/PROGRESS.md)) | timeline (v0.1 → phase 0.4), findings of the own season, what is next |
 
 ## Tutorials (step by step)
 
