@@ -138,6 +138,14 @@ flag, open one Featured or multiplayer event to confirm nothing moved.
 - **A prize of our own through challenges (four tests):** turning on per-series objectives, pointing a challenge at our series, changing a
   challenge's condition (laps, track, car division) and opening a reward showcase. The client reads the edited conditions and marks the
   row completed, but no car or credits arrive and the completion can vanish after a restart. Only the live, unedited challenges pay, and those keep their progress across restarts.
+- **Car level, car points (CP) and the price of CP (seven tests, November 2026):** the level curve in the cache is read by the client (a car crossed an
+  edited threshold and showed the next level), but the CP the account receives, the CP paid per level and the price of a CP purchase did not change;
+  an edited price made the purchase fail. The online service keeps the balance of every car; the cache only feeds the screens.
+- **A server of our own (a career with no online service) is not possible, and this project does not support it.** The game checks a signature
+  on every answer of the online service, and a replacement cannot produce it; there is no offline mode to fall back on. The same holds for faking
+  the answers of the real service. The only edit the client accepts is the one this project does: changes to the content it downloads and caches.
+  We do not document, test or help with redirecting the game's traffic. Anyone who tries it anyway does so **at their own risk**: it may break the
+  game, get an account flagged or banned, and may violate the game's terms of service.
 - **One field on a bench series, no effect on the credits paid:** the generator's payout modifier and overrides preset, and the
   series' AI difficulty. The player's own difficulty choice may mask the last one (hypothesis).
 

@@ -76,6 +76,7 @@ backup, post-write verification and rollback.
 | Entry ladder (E and D), one-make and period series | planned |
 | Fuel, tyre compound, the AI's wear | to test |
 | Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
+| Car level, car points and their price; a server of our own | closed (the online service owns the account; see [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md)) |
 
 ## A first season of our own
 
@@ -177,6 +178,12 @@ generated; do not edit it by hand.
 
 Modding violates the game's Terms of Use and may get you banned from online
 features. Use it at your own risk.
+
+A career on a server of our own is **not possible and not supported**: the game checks a
+signature on every answer of the online service, which a replacement cannot produce, and
+there is no offline mode. This project only changes the content the game downloads and
+caches, and it does not document, test or help with redirecting the game's traffic or
+faking the service's replies. Anyone who tries that anyway does so at their own risk.
 
 ## What is not in this repository
 

@@ -48,7 +48,8 @@ piece is tested in game before it counts.
 | **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | a mandatory stop is a per-event switch (observed); wear and fuel to test |
 | **Weather and time of day per event** | a set forecast and start hour for the race (heavy rain, a night start) | observed (race only; the practice keeps its own) |
 | **Practice length per event** | 1 to 5 practice laps, apart from the race laps | observed |
-| **Prize cars, the end of car level, manufacturer affinity** | — | not possible: they live in the game's account and server |
+| **Prize cars, manufacturer affinity** | — | not possible: they live in the game's account and server |
+| **The end of the car-level grind (Car Points)** | — | tested 14/11/2026, blocked by the server: all upgrade categories are already unlocked at level 1, and the car level on screen follows the edited XP curve, but the Car Points never change (starting CP, CP per level and the CP price are the server's; a bought CP at an edited price is refused) |
 
 ## 3. Examples that already run
 

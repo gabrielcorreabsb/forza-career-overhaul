@@ -6,6 +6,8 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **Limits written down** (finding D75 in [DISCOVERIES](docs/project/DISCOVERIES.md)): car level, car points and their price belong to the online service, and a career on a server of our own is not possible and not supported (the game checks a signature on every answer); anyone who tries it does so at their own risk. README, MOD_TOOLKIT (both languages) and ECONOMY_MAP updated. Documentation only.
+
 - **README rewritten around what is proven in game**: a "Proven in game" opening, status badges, a progress panel and a diagram of the
   first own season (both drawn by us, in `assets/`; no game material), the try-it commands moved up. Documentation only.
 

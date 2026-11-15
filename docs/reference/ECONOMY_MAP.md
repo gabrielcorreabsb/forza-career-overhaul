@@ -109,3 +109,7 @@ What does work: a live, unedited vanilla challenge counts the races run in our s
 car" paid 75,000 credits, and a clean-laps challenge counted our laps), pay grows with race length, and a series or
 group can be gated on another to unlock in order. The career therefore rewards through those, not through prizes
 of its own.
+
+The same split holds for **car level and car points**: the cache's level curve moves the level shown, but the points the account
+receives, the points paid per level and the price of a points purchase are the server's (D75). Nothing in the cache turns a
+series into a source of car points.

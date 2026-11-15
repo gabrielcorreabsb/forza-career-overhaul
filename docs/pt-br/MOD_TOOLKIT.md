@@ -140,6 +140,14 @@ nada mudou.
 - **Prêmio próprio por desafio (quatro testes):** ligar os objetivos por série, apontar um desafio para uma série nossa, trocar a condição
   de um desafio (voltas, pista, divisão de carro) e abrir uma exibição de prêmio. O cliente lê as condições editadas e marca a linha como
   concluída, mas nenhum carro ou crédito chega e a conclusão pode sumir ao reabrir o jogo. Só os desafios ativos, sem edição, pagam, e esses mantêm o progresso ao reabrir.
+- **Nível do carro, pontos de carro (CP) e preço do CP (sete testes, novembro de 2026):** a curva de nível no cache é lida pelo cliente (um carro
+  passou de um limite editado e mostrou o nível seguinte), mas o CP que a conta recebe, o CP pago por nível e o preço de uma compra de CP não
+  mudaram; um preço editado fez a compra falhar. O serviço online guarda o saldo de cada carro; o cache só alimenta as telas.
+- **Um servidor próprio (uma carreira sem o serviço online) não é possível, e este projeto não oferece suporte a isso.** O jogo confere uma
+  assinatura em toda resposta do serviço online, e um substituto não consegue produzi-la; não existe modo offline para recorrer. Vale o mesmo
+  para falsificar as respostas do serviço real. A única edição que o cliente aceita é a que este projeto faz: mudanças no conteúdo que ele baixa e
+  guarda em cache. Não documentamos, não testamos nem ajudamos a redirecionar o tráfego do jogo. Quem tentar mesmo assim faz isso **por sua conta e
+  risco**: pode quebrar o jogo, fazer a conta ser sinalizada ou banida, e pode violar os termos de uso do jogo.
 - **Um campo numa série de bancada, sem efeito nos créditos pagos:** o modificador de pagamento e o preset de overrides do gerador, e a
   dificuldade de IA da série. A escolha de dificuldade do próprio jogador pode mascarar a última (hipótese).
 - **Flag de ordenação manual de grid**: o nome pertence ao código de lobby de
