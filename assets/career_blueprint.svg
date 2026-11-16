@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 606" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">How the career is assembled</title>
+  <desc id="d">The career is a hierarchy of five levels: the career (championship 500), cups, groups (ladders), series and events. Each level lists its children by id: cups by LadderOrderData, groups by OrderData, series by OrderedEventIds, events by position. We add our own cups, groups and series next to the vanilla ones. The first season is one cup with three groups of two series, where a group opens when the one before is done. The challenge tour is one cup with five groups, one per live game challenge. A series can require other series, groups or events; an empty list means no prerequisite.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .card{fill:#11161F;stroke:#21262D;stroke-width:1}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .r{font:13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .b{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .n{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .p{font:700 11px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .k{font:12px Consolas,"Courier New",monospace;fill:#58A6FF}
+    .ln{stroke:#30363D;stroke-width:1.5;fill:none}
+    .lk{stroke:#21262D;stroke-width:1}
+  </style>
+  <rect class="bg" width="620" height="606" rx="6"/>
+<text class="h" x="24" y="30">How the career is assembled</text>
+<text class="s" x="24" y="48">Each level lists its children by id. We add our own cups, groups and series next to the vanilla ones.</text>
+<g transform="translate(24,64)">
+<rect class="card" width="572" height="50" rx="6"/>
+<circle cx="26" cy="25" r="13" fill="#58A6FF"/><text class="n" x="26" y="30" text-anchor="middle">1</text>
+<text class="b" x="52" y="21">Career</text>
+<text class="s" x="52" y="39">one championship (id 500); multiplayer is untouched</text>
+<text class="s" x="556" y="21" text-anchor="end">children listed by</text>
+<text class="k" x="556" y="39" text-anchor="end">the cup array</text>
+</g>
+<path class="ln" d="M310 114 v6 m-4 -3 l4 3 l4 -3"/>
+<g transform="translate(24,120)">
+<rect class="card" width="572" height="50" rx="6"/>
+<circle cx="26" cy="25" r="13" fill="#58A6FF"/><text class="n" x="26" y="30" text-anchor="middle">2</text>
+<text class="b" x="52" y="21">Cup</text>
+<text class="s" x="52" y="39">ours sit beside the vanilla cups</text>
+<text class="s" x="556" y="21" text-anchor="end">children listed by</text>
+<text class="k" x="556" y="39" text-anchor="end">LadderOrderData</text>
+</g>
+<path class="ln" d="M310 170 v6 m-4 -3 l4 3 l4 -3"/>
+<g transform="translate(24,176)">
+<rect class="card" width="572" height="50" rx="6"/>
+<circle cx="26" cy="25" r="13" fill="#58A6FF"/><text class="n" x="26" y="30" text-anchor="middle">3</text>
+<text class="b" x="52" y="21">Group (ladder)</text>
+<text class="s" x="52" y="39">a step of a cup; may stay locked until another is done</text>
+<text class="s" x="556" y="21" text-anchor="end">children listed by</text>
+<text class="k" x="556" y="39" text-anchor="end">OrderData</text>
+</g>
+<path class="ln" d="M310 226 v6 m-4 -3 l4 3 l4 -3"/>
+<g transform="translate(24,232)">
+<rect class="card" width="572" height="50" rx="6"/>
+<circle cx="26" cy="25" r="13" fill="#58A6FF"/><text class="n" x="26" y="30" text-anchor="middle">4</text>
+<text class="b" x="52" y="21">Series</text>
+<text class="s" x="52" y="39">cars, AI rules, race format, AI roster document</text>
+<text class="s" x="556" y="21" text-anchor="end">children listed by</text>
+<text class="k" x="556" y="39" text-anchor="end">OrderedEventIds</text>
+</g>
+<path class="ln" d="M310 282 v6 m-4 -3 l4 3 l4 -3"/>
+<g transform="translate(24,288)">
+<rect class="card" width="572" height="50" rx="6"/>
+<circle cx="26" cy="25" r="13" fill="#58A6FF"/><text class="n" x="26" y="30" text-anchor="middle">5</text>
+<text class="b" x="52" y="21">Event</text>
+<text class="s" x="52" y="39">track, laps, weather, clock, start; its override row</text>
+<text class="s" x="556" y="21" text-anchor="end">children listed by</text>
+<text class="k" x="556" y="39" text-anchor="end">no children</text>
+</g>
+<text class="h" x="24" y="358">What we build on top</text>
+<g transform="translate(24,370)">
+<rect class="card" width="278" height="124" rx="6"/>
+<text class="b" x="14" y="22">First season</text>
+<text class="s" x="14" y="40">one cup, three groups of two series</text>
+<rect x="14" y="52" width="76" height="40" rx="4" fill="#0B0E14" stroke="#3FB950" stroke-width="1.2"/>
+<text class="s" x="52" y="68" text-anchor="middle">group 1</text>
+<text class="s" x="52" y="83" text-anchor="middle">open</text>
+<path class="ln" d="M91 72 h8 m-3 -3 l3 3 l-3 3"/>
+<rect x="98" y="52" width="76" height="40" rx="4" fill="#0B0E14" stroke="#6E7681" stroke-width="1.2"/>
+<text class="s" x="136" y="68" text-anchor="middle">group 2</text>
+<text class="s" x="136" y="83" text-anchor="middle">locked</text>
+<path class="ln" d="M175 72 h8 m-3 -3 l3 3 l-3 3"/>
+<rect x="182" y="52" width="76" height="40" rx="4" fill="#0B0E14" stroke="#6E7681" stroke-width="1.2"/>
+<text class="s" x="220" y="68" text-anchor="middle">group 3</text>
+<text class="s" x="220" y="83" text-anchor="middle">locked</text>
+<text class="s" x="14" y="112">a group opens when the one before is done</text>
+</g>
+<g transform="translate(318,370)">
+<rect class="card" width="278" height="124" rx="6"/>
+<text class="b" x="14" y="22">Challenge tour</text>
+<text class="s" x="14" y="40">one cup, five groups, one per live challenge</text>
+<rect x="14" y="52" width="45" height="40" rx="4" fill="#0B0E14" stroke="#58A6FF" stroke-width="1.2"/>
+<text class="s" x="36.5" y="76" text-anchor="middle">g1</text>
+<rect x="65" y="52" width="45" height="40" rx="4" fill="#0B0E14" stroke="#58A6FF" stroke-width="1.2"/>
+<text class="s" x="87.5" y="76" text-anchor="middle">g2</text>
+<rect x="116" y="52" width="45" height="40" rx="4" fill="#0B0E14" stroke="#58A6FF" stroke-width="1.2"/>
+<text class="s" x="138.5" y="76" text-anchor="middle">g3</text>
+<rect x="167" y="52" width="45" height="40" rx="4" fill="#0B0E14" stroke="#58A6FF" stroke-width="1.2"/>
+<text class="s" x="189.5" y="76" text-anchor="middle">g4</text>
+<rect x="218" y="52" width="45" height="40" rx="4" fill="#0B0E14" stroke="#58A6FF" stroke-width="1.2"/>
+<text class="s" x="240.5" y="76" text-anchor="middle">g5</text>
+<text class="s" x="14" y="112">the cars and the AI follow the challenge</text>
+</g>
+<g transform="translate(24,508)">
+<rect class="card" width="572" height="64" rx="6"/>
+<text class="b" x="14" y="21">Gates and the test cup</text>
+<text class="s" x="14" y="39">A series can require other series, groups or events;</text>
+<text class="s" x="14" y="55">an empty list means no prerequisite. Experiments have a cup of their own.</text>
+</g>
+<text class="s" x="24" y="590">Evidence: docs/reference/CAREER_MODEL.md. Status as of 16 Nov 2026.</text>
+</svg>

@@ -78,6 +78,20 @@ backup, post-write verification and rollback.
 | Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
 | Car level, car points and their price; a server of our own | closed (the online service owns the account; see [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md)) |
 
+## The plan, in two pictures
+
+<p align="center">
+  <img src="assets/career_blueprint.svg" alt="How the career is assembled: career, cups, groups, series and events, each level listing its children by id, with our first season (three groups of two series) and the challenge tour (five groups) built on top" width="620">
+</p>
+
+Every level of the career lists its children by id, so our own cups, groups and series sit next to the vanilla ones. The map
+below says where each value lives and what we decided about it: used in our standard, discovered and available, without effect,
+masked by the player's own settings, or closed because the server owns it.
+
+<p align="center">
+  <img src="assets/value_map.svg" alt="Where each value lives and what we decided: the AI speed band and off-track limit (used), the levelled AI field (used), the race switches (used), the AI difficulty label and slot count (no effect), damage and wear of the series (masked), weather and race clock (discovered), prizes and car level (closed)" width="620">
+</p>
+
 ## A first season of our own
 
 <p align="center">
