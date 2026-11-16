@@ -15,7 +15,7 @@
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB">
   <img alt=".NET 10 SDK" src="https://img.shields.io/badge/.NET-10-512BD4">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows-lightgrey">
-  <img alt="Status: phase 0.4, race format and own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
+  <img alt="Status: phase 0.6, values covered and own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
 </p>
 
 <p align="center">
@@ -44,6 +44,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
   (ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan; ten laps at Daytona in a Ferrari gave a Ferrari 488 GTB, and a second challenge on that track, a segment score, paid a Porsche 911 RSR with no extra work).
 - **Where you start, how long you practise, the weather and the pit stop**, set event by event.
 - **The race format of a series**: how fast its tyres wear (a series scale that changes the grip at the end of a race), how fast the race clock runs (a day-to-night race in a few minutes) and when its rain starts, peaks and ends (a forecast's phase times and sky can be edited). Every value the vanilla series use is listed in [SERIES_FIELD_VALUES](docs/reference/SERIES_FIELD_VALUES.md).
+- **Every field a series and an event can set, tried across its range** (16 Nov): laps from 1 to 67, start hour and minute, the clock speed, the start type, a performance cap that really blocks a car, weather by forecast id, the build-phase skip and unlock gates all work; the open class, the slot counts, a 30-minute practice and the skip-lap flag do nothing; the career has no qualifying; some generators drop the connection and an empty roster document crashes the race. The roster document, not the series, decides who is on the grid ([DISCOVERIES](docs/project/DISCOVERIES.md) D81 to D85).
 - **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
   challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
 
