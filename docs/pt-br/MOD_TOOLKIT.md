@@ -43,6 +43,13 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | os tetos usam a escala de PI **do jogo** (C 500, B 600, A 700, S 800, R 900); a coluna PI do catálogo não é essa escala | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | elegibilidade de carros por lista de aceitos | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
 | limites numéricos de carro: o PI é inerte e a lista de aceitos vence (ano, potência e peso sem teste) | ⛔ | observed | — |
+| **voltas (1 a 67), hora e minuto de início, par de velocidade do relógio (16 e 32) e tipo de largada** por evento no override | ✅ | verified | D81 |
+| um **teto de desempenho no override** como portão (300 barrou um carro da classe S; 999 deixou entrar e não alargou o grid) | ✅ | verified | D81 |
+| classe aberta, teto 0 e vagas da série (`MaxPlayers`, `MaxAIPlayers`) como alavancas do grid | ⛔ | verified | D82: o documento de elenco decide |
+| **clima por id de previsão** na corrida e no treino; uma previsão de uma fase pega o primeiro céu (quatro de quatro) | ✅ | verified (ids); observed (primeiro céu) | D83 |
+| pular a **fase de construção**, um **portão de evento** e um **de série** (contador com lista vazia mantém a série trancada) | ✅ | verified | D84 |
+| treino de 30 minutos, flag de pular volta e campos de qualificação | ⛔ | verified | D85: sem efeito; a carreira não tem qualificação |
+| gerador citado pelo override: muda só o tipo de largada; dois sem opções locais derrubaram a conexão e um travou o jogo | 🧪 | observed | D82, D85: só geradores definidos localmente |
 
 ### Roster e comportamento da IA
 | alavanca | status | evidência | ferramenta / guia |

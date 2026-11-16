@@ -19,6 +19,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.3 — an own season** | 9–13 Nov | a cup of our own that plays like the vanilla ones, AI pools of one theme, and a second cup built on the game's live challenges (below) | in progress |
 | **Phase 0.4 — race format** | 14 Nov | how fast a series' tyres wear, how fast its race clock runs and when its rain starts and ends, each tested in game on a short oval (below). Also the fifth and last test of prizes of our own through the challenges: the screen shows the car we put, the server still counts and pays its own | observed |
 | **Phase 0.5 — the AI standard** | 15–16 Nov | the AI of a series no longer leaves the track at the same corner: one global edit of the AI's speed band plus a levelled field at the class ceiling, tried on Brands Hatch GP, Lime Rock, an oval and class A (below) | verified |
+| **Phase 0.6 — covering the values** | 16 Nov | every field a series, an event and its override can set was tried in game across its range, in a bench of one-field series: what works, what has no effect and what is not safe (below) | verified |
 
 ## Phase 0.3, finding by finding
 
@@ -59,6 +60,16 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | **A levelled field at the class ceiling** puts all 23 AI cars at one PI on chosen models, in class S and class A; the model still sets the pace (four slow models lap 4–7 s behind) | class series with an honest, even field; slow models can be swapped | verified | D78 |
 | The series' **AI difficulty label and slot count do not act**; its damage and wear values were masked by the player's preset | do not use them as levers for the AI | verified (grid, pace); observed (damage, wear) | D79 |
 | **A new per-track file in the AI statics zip is read** by the game | tune one track alone | verified | D80 |
+
+## Phase 0.6, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| **Laps, start hour and minute, the clock-speed pair and the start type** hold across their range in the event override; a **performance cap of 300** in the override stops a car above it | per-event laps, time of day and start; a real gate on the car | verified | D81 |
+| **The AI roster document decides the grid**: an open class, a cap of 0 and the series' own slot counts change nothing; a generator changes the start type only | to change the field, write the roster document | verified | D82 |
+| **Weather by forecast id** works for the race and for the practice (overcast, clear, storm, partly cloudy); a one-phase forecast with five skies started clear in four races out of four | the sky per event; the order of the skies may be the lever | verified (ids); observed (first sky) | D83 |
+| **The build phase, an event gate and a series gate** work; a series typed as a reward showcase completed and paid nothing | a season that skips the build screen and unlocks in order | verified | D84 |
+| A 30-minute practice and the skip-lap flag **do nothing** here; the career has **no qualifying**; two generators dropped the connection, one crashed, and an empty roster document crashes the race | a list of what not to use | verified (no effect); observed (generators) | D85 |
 
 ## What is next
 

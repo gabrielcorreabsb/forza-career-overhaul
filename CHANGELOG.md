@@ -6,6 +6,8 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **Covering the values** (findings D81–D85 in [DISCOVERIES](docs/project/DISCOVERIES.md)): every field a series, an event and its override can set was tried in game in a bench of one-field series. Laps, start time, the clock-speed pair, the start type, the performance cap in the override, weather by forecast id, the build-phase skip and the event and series gates work; the open class, the slot counts, a 30-minute practice and the skip-lap flag do nothing; the career has no qualifying; some generators drop the connection and an empty roster document crashes the race. PROGRESS and MOD_TOOLKIT (both languages) and the value map updated. Documentation only.
+
 - **The AI standard** (findings D76–D80 in [DISCOVERIES](docs/project/DISCOVERIES.md)): narrowing the AI's per-driver speed band
   (two global keys of the AI statics file) cut the AI's off-track errors on Brands Hatch GP and held on Lime Rock, an oval and
   class A; a higher off-track speed limit makes the AI recover faster; a levelled field at the class ceiling puts all 23 AI cars at

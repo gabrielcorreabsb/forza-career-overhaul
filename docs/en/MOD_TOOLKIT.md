@@ -41,6 +41,13 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | caps are on the **game's** PI scale (C 500, B 600, A 700, S 800, R 900); the catalogue's PI column is not | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | car eligibility by accept list | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
 | numeric car limits: PI is inert and the accept list wins (year, power and weight untested) | ⛔ | observed | — |
+| **race laps (1 to 67), start hour and minute, clock-speed pair (16 and 32) and start type** per event in the override | ✅ | verified | D81 |
+| a **performance cap in the override** as a gate (300 stopped a class-S car; 999 let it in and did not widen the grid) | ✅ | verified | D81 |
+| the series' open class, performance cap 0 and slot counts (`MaxPlayers`, `MaxAIPlayers`) as levers for the grid | ⛔ | verified | D82: the roster document decides |
+| **weather by forecast id** for the race and for the practice; a one-phase forecast takes its first sky (four of four) | ✅ | verified (ids); observed (first sky) | D83 |
+| the **build phase** skip, an **event gate** and a **series gate** (a count with an empty list keeps the series locked) | ✅ | verified | D84 |
+| a practice of 30 minutes, the skip-lap flag and the qualifying fields | ⛔ | verified | D85: no effect; the career has no qualifying |
+| a generator named by the override: it changes the start type only; two without local options dropped the connection, one crashed | 🧪 | observed | D82, D85: use only locally defined generators |
 
 ### AI roster and behaviour
 | lever | status | evidence | tool / guide |

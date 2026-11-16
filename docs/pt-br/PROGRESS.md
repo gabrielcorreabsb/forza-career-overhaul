@@ -19,6 +19,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.3 — temporada própria** | 9–13/11 | uma cup nossa que se joga como as vanilla, pools de IA de um tema só e uma segunda cup feita sobre os desafios ativos do jogo (abaixo) | em andamento |
 | **Fase 0.4 — formato de corrida** | 14/11 | a velocidade com que os pneus de uma série desgastam, a velocidade do relógio da corrida e quando a chuva começa e termina, cada um testado no jogo num oval curto (abaixo). Também o quinto e último teste de prêmio próprio pelos desafios: a tela mostra o carro que pusemos, e o servidor continua contando e pagando o dele | observado |
 | **Fase 0.5 — o padrão da IA** | 15–16/11 | a IA de uma série deixa de sair da pista na mesma curva: uma edição global da faixa de velocidade da IA mais um campo nivelado no teto da classe, testados em Brands Hatch GP, Lime Rock, um oval e a classe A (abaixo) | verified |
+| **Fase 0.6 — cobrindo os valores** | 16/11 | cada campo que uma série, um evento e o override dele podem definir foi testado no jogo ao longo da faixa, numa bancada de séries de um campo só: o que funciona, o que não tem efeito e o que não é seguro (abaixo) | verified |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -59,6 +60,16 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | **Um campo nivelado no teto da classe** põe os 23 carros da IA no mesmo PI, em modelos escolhidos, na classe S e na classe A; o modelo ainda define o ritmo (quatro modelos lentos ficam 4–7 s atrás) | séries de classe com um campo honesto e parelho; modelos lentos podem ser trocados | verified | D78 |
 | O **rótulo de dificuldade da IA e o número de vagas da série não agem**; os valores de dano e desgaste foram mascarados pelo preset do jogador | não usar como alavancas da IA | verified (grid, ritmo); observed (dano, desgaste) | D79 |
 | **Um arquivo novo por pista no zip de estatísticas da IA** é lido pelo jogo | ajustar uma pista só | verified | D80 |
+
+## Fase 0.6, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| **Voltas, hora e minuto de início, o par de velocidade do relógio e o tipo de largada** valem ao longo da faixa no override do evento; um **teto de desempenho de 300** no override barra o carro acima dele | voltas, horário e largada por evento; um portão de verdade para o carro | verified | D81 |
+| **O documento de elenco da IA decide o grid**: classe aberta, teto 0 e as vagas da própria série não mudam nada; um gerador muda só o tipo de largada | para mudar o grid, escreva o documento de elenco | verified | D82 |
+| **Clima por id de previsão** vale na corrida e no treino (nublado, limpo, tempestade, parcialmente nublado); uma previsão de uma fase com cinco céus começou limpa em quatro corridas de quatro | o céu por evento; a ordem dos céus pode ser a alavanca | verified (ids); observed (primeiro céu) | D83 |
+| **A fase de construção, um portão de evento e um de série** funcionam; uma série do tipo vitrine de recompensa concluiu e não pagou nada | uma temporada que pula a tela de montagem e destrava em ordem | verified | D84 |
+| Um treino de 30 minutos e a flag de pular volta **não fazem nada** aqui; a carreira **não tem qualificação**; dois geradores derrubaram a conexão, um travou o jogo e um documento de elenco vazio derruba a corrida | uma lista do que não usar | verified (sem efeito); observed (geradores) | D85 |
 
 ## O que vem
 

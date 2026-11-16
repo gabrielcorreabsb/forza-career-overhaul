@@ -44,7 +44,7 @@
 <rect x="504" y="328" width="92" height="18" rx="9" fill="#58A6FF"/><text class="p" x="550.0" y="341" text-anchor="middle">DISCOVERED</text>
 <text class="r" x="36" y="364">Cars the player may bring</text>
 <rect x="540" y="352" width="56" height="18" rx="9" fill="#3FB950"/><text class="p" x="568.0" y="365" text-anchor="middle">USED</text>
-<text class="r" x="36" y="388">AI difficulty label, AI slot count</text>
+<text class="r" x="36" y="388">AI difficulty, AI slots, max players</text>
 <rect x="514" y="376" width="82" height="18" rx="9" fill="#8B949E"/><text class="p" x="555.0" y="389" text-anchor="middle">NO EFFECT</text>
 <text class="r" x="36" y="412">Damage and tyre wear of the series</text>
 <rect x="526" y="400" width="70" height="18" rx="9" fill="#D29922"/><text class="p" x="561.0" y="413" text-anchor="middle">MASKED</text>
@@ -52,11 +52,11 @@
 <line class="lk" x1="24" y1="450" x2="596" y2="450"/>
 <text class="r" x="36" y="470">Roster document, PI cap, class, laps (set explicitly)</text>
 <rect x="540" y="458" width="56" height="18" rx="9" fill="#3FB950"/><text class="p" x="568.0" y="471" text-anchor="middle">USED</text>
-<text class="r" x="36" y="494">Weather, forecast, race clock, start, practice</text>
+<text class="r" x="36" y="494">Laps, hour, clock, start, weather, gates</text>
 <rect x="504" y="482" width="92" height="18" rx="9" fill="#58A6FF"/><text class="p" x="550.0" y="495" text-anchor="middle">DISCOVERED</text>
 <text class="b" x="24" y="526">Server side</text>
 <line class="lk" x1="24" y1="532" x2="596" y2="532"/>
 <text class="r" x="36" y="552">Prizes of our own, car level and points</text>
 <rect x="530" y="540" width="66" height="18" rx="9" fill="#F85149"/><text class="p" x="563.0" y="553" text-anchor="middle">CLOSED</text>
-<text class="s" x="24" y="578">Evidence: DISCOVERIES (D72 to D80), SERIES_FIELD_VALUES. 16 Nov 2026.</text>
+<text class="s" x="24" y="578">Evidence: DISCOVERIES (D72 to D85), SERIES_FIELD_VALUES. 16 Nov 2026.</text>
 </svg>
