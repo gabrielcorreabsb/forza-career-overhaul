@@ -51,7 +51,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
 
 <p align="center">
-  <img src="assets/progress.svg" alt="What already works: nine stages verified in game, three observed, two in progress, two planned, one to test, one closed" width="620">
+  <img src="assets/progress.svg" alt="What already works: ten stages verified in game, three observed, two in progress, two planned, two to test, two closed" width="620">
 </p>
 
 > Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
@@ -71,12 +71,15 @@ backup, post-write verification and rollback.
 | Own place in the career, spec races, trackday, honest multi-class AI | verified in game |
 | AI per class or make; series with several events; progression gates | verified in game |
 | Own AI pools of a theme (country, make, decade); series that serve the game's live challenges | verified in game |
+| Series and event fields tried across their range: laps, start time, clock, start type, a performance cap, weather by forecast id, the build-phase skip, gates | verified in game |
 | Start type and slot, race weekend, practice length, weather and its timing, race clock speed, tyre wear scale, pit stop, field size | observed |
 | A first own season (a cup, three groups that unlock in order) | in progress |
 | A second season built around the game's live challenges (a cup, five groups) | in progress |
 | Entry ladder (E and D), one-make and period series | planned |
 | Fuel, tyre compound, the AI's wear | to test |
+| Banners, series texts and the client's feature flags | to test |
 | Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
+| Series fields that do not act: open class, slot counts, a 30-minute practice, the skip-lap flag | closed (the roster document decides the grid; the career has no qualifying) |
 | Car level, car points and their price; a server of our own | closed (the online service owns the account; see [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md)) |
 
 ## The plan, in two pictures
