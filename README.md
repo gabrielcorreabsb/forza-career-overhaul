@@ -50,7 +50,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
 
 <p align="center">
-  <img src="assets/progress.svg" alt="What already works: eight stages verified in game, three observed, two in progress, two planned, one to test, one closed" width="620">
+  <img src="assets/progress.svg" alt="What already works: nine stages verified in game, three observed, two in progress, two planned, one to test, one closed" width="620">
 </p>
 
 > Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
@@ -101,6 +101,18 @@ the day.
 <p align="center">
   <img src="assets/challenge_tour.svg" alt="One cup of our own with five groups, one per live game challenge: American muscle, Italy at Mugello, Ferrari in Florida (played), Rising Sun (played) and the 2010s" width="620">
 </p>
+
+## The AI standard
+
+<p align="center">
+  <img src="assets/ai_standard.svg" alt="The AI standard in four parts: a levelled field at the class ceiling, a narrow speed band for every AI driver, a gentler recovery off the track and race switches; tried on Brands Hatch GP (verified in game), Lime Rock, an oval and class A 700 (observed)" width="620">
+</p>
+
+The AI of a series used to leave the track at the same corner, alone, with two wheels on the grass. Narrowing the speed range the
+game gives each AI driver (one global edit, no track overrides it) cut that a lot at Brands Hatch GP, and it held on Lime Rock, an oval and
+class A. Together with a field levelled at the class ceiling, a gentler recovery off the track and a set of race switches, it is the
+standard we follow for the career's AI. The evidence is in [PROGRESS](docs/en/PROGRESS.md) and
+[DISCOVERIES](docs/project/DISCOVERIES.md) (D76 to D80).
 
 ## Try it in three steps
 

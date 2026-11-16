@@ -18,6 +18,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.2 — rewards** | 6–9 Nov | the career's pay and prizes mapped. Editing payout tables, bonuses or challenge conditions changes only what the screens show; **credits and cars are granted by the server against its own challenges**. What works instead: pay that grows with race length, unlocks by progression, and live vanilla challenges that count races run in our series | closed for prizes of our own; observed for the rest |
 | **Phase 0.3 — an own season** | 9–13 Nov | a cup of our own that plays like the vanilla ones, AI pools of one theme, and a second cup built on the game's live challenges (below) | in progress |
 | **Phase 0.4 — race format** | 14 Nov | how fast a series' tyres wear, how fast its race clock runs and when its rain starts and ends, each tested in game on a short oval (below). Also the fifth and last test of prizes of our own through the challenges: the screen shows the car we put, the server still counts and pays its own | observed |
+| **Phase 0.5 — the AI standard** | 15–16 Nov | the AI of a series no longer leaves the track at the same corner: one global edit of the AI's speed band plus a levelled field at the class ceiling, tried on Brands Hatch GP, Lime Rock, an oval and class A (below) | verified |
 
 ## Phase 0.3, finding by finding
 
@@ -48,6 +49,16 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Our test series differ from the vanilla ones** in the AI's behaviour switches (the rubber band is off, a slot-car start is on) and in some series defaults, because they are copies of one bench series | results from the bench describe a bench AI; the vanilla block is the one to use in a season | audit | [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md) |
 
 Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md).
+
+## Phase 0.5, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| **Narrowing the AI's per-driver speed band** (two keys of the AI statics file) cut its off-track errors; no track overrides them, so it holds everywhere | one edit fixes the AI leaving the track in every series | verified | D76 |
+| **A higher off-track speed limit** makes the AI recover faster after leaving the track | a gentler recovery | observed | D77 |
+| **A levelled field at the class ceiling** puts all 23 AI cars at one PI on chosen models, in class S and class A; the model still sets the pace (four slow models lap 4–7 s behind) | class series with an honest, even field; slow models can be swapped | verified | D78 |
+| The series' **AI difficulty label and slot count do not act**; its damage and wear values were masked by the player's preset | do not use them as levers for the AI | verified (grid, pace); observed (damage, wear) | D79 |
+| **A new per-track file in the AI statics zip is read** by the game | tune one track alone | verified | D80 |
 
 ## What is next
 

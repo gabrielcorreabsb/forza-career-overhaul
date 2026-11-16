@@ -54,6 +54,11 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | a series' own AI car list as a **filter** on the roster document | ⛔ | verified | D66: the list does not filter; write the pool into the document |
 | **free a vanilla roster document**: an event whose document has an identical copy can be pointed at the copy (same grid), and the freed document becomes a pool of ours; 313 are freeable | ✅ | verified | D67 |
 | a **brand-new** AI roster file (a new entry the server does not know) | ⛔ | observed | the game went offline when the event was opened; the freed documents above are the way around it |
+| **narrow per-driver speed band** of the AI (two global keys of the AI statics file, edited in the install): the AI leaves the track far less; no per-track file overrides them | ✅ | verified | D76, [AI_GRIDS](../guides/AI_GRIDS.md) |
+| **higher off-track speed limit** for the AI (one global key): it recovers faster after leaving the track | ✅ | observed | D77 |
+| **levelled field at the class ceiling** (window of 10 PI points ending at the ceiling, band 0…0, chosen models): all 23 AI cars at one PI in class S and class A; the model still sets the pace | ✅ | verified | D78 |
+| series `AIDifficulty` label and `MaxAIPlayers` as levers for the AI | ⛔ | verified (grid and pace) | D79 |
+| a **new per-track file** in the AI statics zip (a single track tuned alone) | ✅ | verified (one track) | D80 |
 | how far the AI sits from the player (picked by the player's PI against the document's PI floor; the event's performance cap does not limit the AI) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
 | roster-document behaviour flags (catch-up, slow-down…) against the series ones: which wins | 🧪 | hypothesis | — |
 | grids above 24 cars | 🧪 | to test | a 46-slot document still showed 24 drivers (D70) |

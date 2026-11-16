@@ -6,6 +6,11 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **The AI standard** (findings D76–D80 in [DISCOVERIES](docs/project/DISCOVERIES.md)): narrowing the AI's per-driver speed band
+  (two global keys of the AI statics file) cut the AI's off-track errors on Brands Hatch GP and held on Lime Rock, an oval and
+  class A; a higher off-track speed limit makes the AI recover faster; a levelled field at the class ceiling puts all 23 AI cars at
+  one PI in class S and class A, with the model still setting the pace; the series' AI difficulty label and slot count do not act;
+  a new per-track file in the AI statics zip is read by the game. PROGRESS and MOD_TOOLKIT (both languages) updated. Documentation only.
 - **Limits written down** (finding D75 in [DISCOVERIES](docs/project/DISCOVERIES.md)): car level, car points and their price belong to the online service, and a career on a server of our own is not possible and not supported (the game checks a signature on every answer); anyone who tries it does so at their own risk. README, MOD_TOOLKIT (both languages) and ECONOMY_MAP updated. Documentation only.
 
 - **README rewritten around what is proven in game**: a "Proven in game" opening, status badges, a progress panel and a diagram of the

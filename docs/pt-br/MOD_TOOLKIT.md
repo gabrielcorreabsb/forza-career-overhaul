@@ -56,6 +56,11 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | a lista de carros da própria série como **filtro** do documento de roster | ⛔ | verified | D66: a lista não filtra; escreva o pool no documento |
 | **liberar um documento de roster vanilla**: um evento cujo documento tem cópia idêntica pode ser apontado para a cópia (mesmo grid), e o documento liberado vira pool nosso; 313 são liberáveis | ✅ | verified | D67 |
 | um arquivo de roster de IA **totalmente novo** (entrada nova que o servidor não conhece) | ⛔ | observed | o jogo ficou offline ao abrir o evento; os documentos liberados acima são o caminho alternativo |
+| **faixa estreita de velocidade por piloto** da IA (duas chaves globais do arquivo de estatísticas da IA, editado no install): a IA sai muito menos da pista; nenhum arquivo por pista as sobrescreve | ✅ | verified | D76, [AI_GRIDS](../guides/AI_GRIDS.md) |
+| **limite de velocidade fora da pista mais alto** para a IA (uma chave global): ela se recupera mais rápido depois de sair | ✅ | observed | D77 |
+| **campo nivelado no teto da classe** (janela de 10 pontos de PI terminando no teto, banda 0…0, modelos escolhidos): os 23 carros da IA no mesmo PI nas classes S e A; o modelo ainda define o ritmo | ✅ | verified | D78 |
+| rótulo `AIDifficulty` e `MaxAIPlayers` da série como alavancas da IA | ⛔ | verified (grid e ritmo) | D79 |
+| um **arquivo novo por pista** no zip de estatísticas da IA (ajustar uma pista só) | ✅ | verified (uma pista) | D80 |
 | a distância da IA ao jogador (escolhida pelo PI do jogador contra o piso de PI do documento; o teto de desempenho do evento não limita a IA) | ✅ | observed | [AI_GRIDS](../guides/AI_GRIDS.md) §5 |
 | flags de comportamento do documento de roster (catch-up, slow-down…) contra as da série: qual vence | 🧪 | hypothesis | — |
 | grids acima de 24 carros | 🧪 | a testar | um documento de 46 vagas ainda mostrou 24 pilotos (D70) |

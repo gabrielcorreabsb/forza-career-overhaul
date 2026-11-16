@@ -1,0 +1,53 @@
+{
+  "name": "flat700_a",
+  "description": "Levelled AI grid for class A (the standard of the career AI, A 700 version of flat800_s): the same 11 models of AIField_80090001, window 690..700 (the builder needs min < max; a player at 700 or above gives a target of exactly 700) and a 0..0 band in every frame, so every AI car loads the tune file at PI 700 (or its highest file below). Same layout template, difficulty and document flags as flat800_s (slow-down and catch-up on, proximity and position spread off). Target document AIField_659620013_Gen.xml: no override record cites it (free); its previous content was the japan_c pool of G21, whose series are not in the live cache.",
+  "logical": "AIField_659620013_Gen.xml",
+  "template": "AIField_80090001_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    2133,
+    2162,
+    2181,
+    2194,
+    2665,
+    2993,
+    3091,
+    3123,
+    3453,
+    3594,
+    3716
+  ],
+  "window": [
+    690,
+    700,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      50,
+      0,
+      0
+    ],
+    [
+      100,
+      0,
+      0
+    ]
+  ],
+  "difficulty": "Average",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": true,
+      "CatchUp": true,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}

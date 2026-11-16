@@ -18,6 +18,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.2 — prêmios** | 6–9/11 | pagamento e prêmios da carreira mapeados. Editar tabelas de pagamento, bônus ou condições de desafio muda só o que as telas mostram; **créditos e carros são concedidos pelo servidor, contra a lista de desafios dele**. O que funciona: pagamento que cresce com a duração da corrida, desbloqueio por progressão e desafios vanilla ativos que contam corridas de séries nossas | closed para prêmios próprios; observed para o resto |
 | **Fase 0.3 — temporada própria** | 9–13/11 | uma cup nossa que se joga como as vanilla, pools de IA de um tema só e uma segunda cup feita sobre os desafios ativos do jogo (abaixo) | em andamento |
 | **Fase 0.4 — formato de corrida** | 14/11 | a velocidade com que os pneus de uma série desgastam, a velocidade do relógio da corrida e quando a chuva começa e termina, cada um testado no jogo num oval curto (abaixo). Também o quinto e último teste de prêmio próprio pelos desafios: a tela mostra o carro que pusemos, e o servidor continua contando e pagando o dele | observado |
+| **Fase 0.5 — o padrão da IA** | 15–16/11 | a IA de uma série deixa de sair da pista na mesma curva: uma edição global da faixa de velocidade da IA mais um campo nivelado no teto da classe, testados em Brands Hatch GP, Lime Rock, um oval e a classe A (abaixo) | verified |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -48,6 +49,16 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Nossas séries de teste diferem das vanilla** nos interruptores de comportamento da IA (o elástico está desligado, a largada de autorama está ligada) e em alguns padrões da série, porque são cópias de uma série de bancada | resultados da bancada descrevem uma IA de bancada; o bloco vanilla é o que se usa numa temporada | auditoria | [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md) |
 
 Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES_FIELD_VALUES](../reference/SERIES_FIELD_VALUES.md).
+
+## Fase 0.5, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| **Estreitar a faixa de velocidade por piloto da IA** (duas chaves do arquivo de estatísticas da IA) reduziu muito as saídas de pista; nenhuma pista as sobrescreve, então vale em todo lugar | uma edição corrige a IA saindo da pista em todas as séries | verified | D76 |
+| **Um limite de velocidade fora da pista mais alto** faz a IA se recuperar mais rápido depois de sair | uma recuperação mais suave | observed | D77 |
+| **Um campo nivelado no teto da classe** põe os 23 carros da IA no mesmo PI, em modelos escolhidos, na classe S e na classe A; o modelo ainda define o ritmo (quatro modelos lentos ficam 4–7 s atrás) | séries de classe com um campo honesto e parelho; modelos lentos podem ser trocados | verified | D78 |
+| O **rótulo de dificuldade da IA e o número de vagas da série não agem**; os valores de dano e desgaste foram mascarados pelo preset do jogador | não usar como alavancas da IA | verified (grid, ritmo); observed (dano, desgaste) | D79 |
+| **Um arquivo novo por pista no zip de estatísticas da IA** é lido pelo jogo | ajustar uma pista só | verified | D80 |
 
 ## O que vem
 

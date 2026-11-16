@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 480" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">The AI standard: four parts and where it was tried</title>
+  <desc id="d">The standard for the career AI has four parts: a levelled field at the class ceiling with all 23 AI cars at one PI on chosen models; a narrow speed band for every AI driver, one global edit that no track overrides; a gentler recovery off the track through a higher off-track speed limit; and race switches with slow-down and catch-up on and proximity and position spread off, with all four on left as a choice for the beta. It was tried on four circuits: Brands Hatch GP, where the AI left the track at one corner, is verified in game; Lime Rock South Chicane with no excursions, the Eaglerock oval that went well and class A 700, competitive with more incidents, are observed.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .card{fill:#11161F;stroke:#21262D;stroke-width:1}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .r{font:13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .n{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .p{font:700 11px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+  </style>
+  <rect class="bg" width="620" height="480" rx="6"/>
+  <text class="h" x="24" y="30">The AI standard</text>
+  <text class="s" x="24" y="48">Four parts, tried on four circuits. Evidence: docs/project/DISCOVERIES.md, D76 to D80.</text>
+
+  <g transform="translate(24,64)">
+    <rect class="card" width="572" height="56" rx="6"/>
+    <circle cx="26" cy="28" r="14" fill="#58A6FF"/><text class="n" x="26" y="33" text-anchor="middle">1</text>
+    <text class="h" x="52" y="24">A levelled field at the class ceiling</text>
+    <text class="s" x="52" y="43">All 23 AI cars at one PI (S 800, A 700), on chosen models, in a free roster document.</text>
+  </g>
+  <g transform="translate(24,128)">
+    <rect class="card" width="572" height="56" rx="6"/>
+    <circle cx="26" cy="28" r="14" fill="#58A6FF"/><text class="n" x="26" y="33" text-anchor="middle">2</text>
+    <text class="h" x="52" y="24">A narrow speed band for every AI driver</text>
+    <text class="s" x="52" y="43">One global edit of the AI statics file; no track of the game overrides it.</text>
+  </g>
+  <g transform="translate(24,192)">
+    <rect class="card" width="572" height="56" rx="6"/>
+    <circle cx="26" cy="28" r="14" fill="#58A6FF"/><text class="n" x="26" y="33" text-anchor="middle">3</text>
+    <text class="h" x="52" y="24">A gentler recovery off the track</text>
+    <text class="s" x="52" y="43">A higher off-track speed limit: the AI comes back to the track faster.</text>
+  </g>
+  <g transform="translate(24,256)">
+    <rect class="card" width="572" height="56" rx="6"/>
+    <circle cx="26" cy="28" r="14" fill="#58A6FF"/><text class="n" x="26" y="33" text-anchor="middle">4</text>
+    <text class="h" x="52" y="24">Race switches</text>
+    <text class="s" x="52" y="43">Slow-down and catch-up on; proximity and position spread off. Beta: all four on.</text>
+  </g>
+
+  <text class="h" x="24" y="344">Where it was tried</text>
+  <g transform="translate(24,356)">
+    <text class="r" x="0" y="12">Brands Hatch GP: the AI left the track at one corner</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text>
+    <g transform="translate(0,24)"><text class="r" x="0" y="12">Lime Rock South Chicane: no excursions</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
+    <g transform="translate(0,48)"><text class="r" x="0" y="12">Eaglerock oval: went well</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
+    <g transform="translate(0,72)"><text class="r" x="0" y="12">Class A 700: competitive, with more incidents</text>
+    <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
+  </g>
+  <text class="s" x="24" y="468">Status updated on 16 Nov 2026. Observed means seen in play, not isolated.</text>
+</svg>

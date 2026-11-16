@@ -1,0 +1,53 @@
+{
+  "name": "flat800_s",
+  "description": "Levelled AI grid for the Brands Hatch braking bench: the 11 models of AIField_80090001 (class S, Average), window 790..800 (the builder needs min < max; the player on the bench is at 800, so the target is exactly 800) and a 0..0 band in every frame, so every AI car loads the tune file at PI 800 (or its lowest above 800) whatever the player drives. Isolates which models fail from how fast the field is. Layout template and difficulty are those of 80090001 itself. Target document AIField_187685300_Gen.xml: no override record cites it (free), its previous content was the y2020s_s pool of G21; the series that used that pool are not in the live cache. Document flags mirror series 21304 (slow-down and catch-up on, proximity and position spread off). 2181 tops out at 786 and 2194 at 797 below the window, so those two load their highest file.",
+  "logical": "AIField_187685300_Gen.xml",
+  "template": "AIField_80090001_Gen.xml",
+  "mode": "pool",
+  "roster": [
+    2133,
+    2162,
+    2181,
+    2194,
+    2665,
+    2993,
+    3091,
+    3123,
+    3453,
+    3594,
+    3716
+  ],
+  "window": [
+    790,
+    800,
+    10
+  ],
+  "slots": 23,
+  "frames": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      50,
+      0,
+      0
+    ],
+    [
+      100,
+      0,
+      0
+    ]
+  ],
+  "difficulty": "Average",
+  "rubber_banding": false,
+  "behavior": {
+    "FeaturedRace": {
+      "SlowDown": true,
+      "CatchUp": true,
+      "Proximity": false,
+      "PosDifficultySpread": false
+    }
+  }
+}
