@@ -20,7 +20,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.4 — race format** | 14 Nov | how fast a series' tyres wear, how fast its race clock runs and when its rain starts and ends, each tested in game on a short oval (below). Also the fifth and last test of prizes of our own through the challenges: the screen shows the car we put, the server still counts and pays its own | observed |
 | **Phase 0.5 — the AI standard** | 15–16 Nov | the AI of a series no longer leaves the track at the same corner: one global edit of the AI's speed band plus a levelled field at the class ceiling, tried on Brands Hatch GP, Lime Rock, an oval and class A (below) | verified |
 | **Phase 0.6 — covering the values** | 16 Nov | every field a series, an event and its override can set was tried in game across its range, in a bench of one-field series: what works, what has no effect and what is not safe (below) | verified |
-| **Phase 0.7 — texts, locks and groups** | 16–17 Nov | the car list cut by year and PI band, the series points set by a table per position, the practice clock to the minute, and the text a locked series shows (below). Also what **does not work**: descriptions, a cup's practice limit and a ladder's label show nothing on screen | verified / observed |
+| **Phase 0.7 — texts, locks and groups** | 16–17 Nov | the car list cut by year, PI band, blocklist and class, the practice length by laps or a timed free practice, the series points set by a table per position, the practice clock to the minute, and the text a locked series shows (below). Also what **does not work**: descriptions, a cup's practice limit and a ladder's label show nothing on screen | verified / observed |
 
 ## Phase 0.3, finding by finding
 
@@ -77,6 +77,8 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | finding | what it enables | state | evidence |
 |---|---|---|---|
 | The **practice start hour** is its own field, apart from the race hour; the **start minute** works too (30 and 15) | practice and race at different times of day, to the minute | verified | D87, D90 |
+| **0 practice laps** give one lap and then a 10-minute free practice; 5 laps give 5; the practice time limit shows only in a free practice; two required stops demand two | the length of the practice per event | observed | D95 |
+| A **blocklist** offered 635 cars without the named one; a **class** filter alone offered only that class; class and accept list intersect; the strict severity showed nothing | exclude cars by name or restrict by class, no accept list needed | observed | D96 |
 | **Year, price and PI ranges of the car list** cut what the career offers, with an empty blocklist and class Any (the PI band is on the game's scale; the price field is not in the catalogue's unit) | a series for old or recent cars, or a PI band, without naming cars | observed | D88 |
 | The **points table** of an event decides the series points by finishing position; the lap-target field shows no effect | a series that pays its own points per position | observed | D89 |
 | One required stop in the override makes the race demand one stop; the five AI switches of the practice block did not change the race; the Modern NASCAR slot-car start looked like the others | a stop per event; the practice switches stay as in vanilla | verified (stop); observed (rest) | D90 |

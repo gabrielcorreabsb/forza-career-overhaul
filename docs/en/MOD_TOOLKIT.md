@@ -44,6 +44,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | performance cap per event (the event value wins over the override) | ✅ | verified | [DISCOVERIES](../project/DISCOVERIES.md) |
 | caps are on the **game's** PI scale (C 500, B 600, A 700, S 800, R 900); the catalogue's PI column is not | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | car eligibility by accept list | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
+| a **blocklist** (one car out of the list), a **class** filter and a **severity**: the blocklist offered 635 cars without the named one; class S offered only class S (101 cars); class and accept list **intersect**; the strict severity changed nothing visible | ✅ | observed | D96 |
 | numeric car limits together with an accept list: PI is inert and the accept list wins | ⛔ | observed | — |
 | **car list ranges** (year, PI band) with an empty blocklist and class Any: a minimum and a maximum year and a PI band cut the list, on the game's PI scale (the maximum looks exclusive, the minimum inclusive); the price field is not in the catalogue's unit | ✅ | observed | D88 |
 | **race laps (1 to 67), start hour and minute, clock-speed pair (16 and 32) and start type** per event in the override | ✅ | verified | D81 |
@@ -55,6 +56,8 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | **practice start minute** (30 and 15) in the event override: the practice opens at that minute; the hour is its own field (22 and 5) | ✅ | verified | D87, D90 |
 | the **points table** of an event (24 positions) decides the series points by finishing position (100 and 0, a flat 10 and 1 to 24 all read back); the lap-target field shows no effect | ✅ | observed | D89 |
 | the five AI switches of the practice-and-qualifying block, flipped at once | 🧪 | observed | D90: the race looked the same; the practice and the qualifying were not reported |
+| **0 practice laps** gives one lap and then a 10-minute free practice (the event's time limit, read only in free practice); 5 laps give 5 practice laps; two required stops (`Pits` 2) demand two stops | ✅ | observed | D95 |
+| drafting and dynamic track turned off | ⛔ | decided | the vanilla game never switches them off (92 of 92 career series): they stay `true`, never tested off |
 | a generator named by the override: it changes the start type only; two without local options dropped the connection, one crashed | 🧪 | observed | D82, D85: use only locally defined generators |
 
 ### AI roster and behaviour

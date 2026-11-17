@@ -46,6 +46,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | teto de desempenho por evento (vale o valor do evento, não o do override) | ✅ | verified | [DISCOVERIES](../project/DISCOVERIES.md) |
 | os tetos usam a escala de PI **do jogo** (C 500, B 600, A 700, S 800, R 900); a coluna PI do catálogo não é essa escala | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | elegibilidade de carros por lista de aceitos | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
+| uma **lista de bloqueio** (um carro fora da lista), um filtro de **classe** e uma **severidade**: a lista de bloqueio ofereceu 635 carros sem o carro nomeado; a classe S ofereceu só classe S (101 carros); classe e lista de aceitos **se cruzam**; a severidade estrita não mudou nada visível | ✅ | observed | D96 |
 | limites numéricos de carro junto com uma lista de aceitos: o PI é inerte e a lista de aceitos vence | ⛔ | observed | — |
 | **faixas da lista de carros** (ano, faixa de PI) com lista de bloqueio vazia e classe Any: um ano mínimo e um máximo e uma faixa de PI cortam a lista, na escala de PI do jogo (o máximo parece exclusivo, o mínimo inclusivo); o campo de preço não está na unidade do catálogo | ✅ | observed | D88 |
 | **voltas (1 a 67), hora e minuto de início, par de velocidade do relógio (16 e 32) e tipo de largada** por evento no override | ✅ | verified | D81 |
@@ -57,6 +58,8 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | **minuto de início do treino** (30 e 15) no override do evento: o treino abre naquele minuto; a hora é um campo à parte (22 e 5) | ✅ | verified | D87, D90 |
 | a **tabela de pontos** do evento (24 posições) decide os pontos da série pela posição de chegada (100 e 0, 10 iguais e 1 a 24 foram lidos de volta); o campo da volta-alvo não mostra efeito | ✅ | observed | D89 |
 | os cinco switches de IA do bloco de treino e classificação, invertidos de uma vez | 🧪 | observed | D90: a corrida ficou igual; o treino e a classificação não foram relatados |
+| **0 voltas de treino** dão uma volta e depois um treino livre de 10 minutos (o limite de tempo do evento, lido só no treino livre); 5 voltas dão 5 voltas de treino; duas paradas obrigatórias (`Pits` 2) exigem duas paradas | ✅ | observed | D95 |
+| vácuo e pista dinâmica desligados | ⛔ | decidido | o jogo vanilla nunca os desliga (92 de 92 séries da carreira): ficam `true`, nunca testados desligados |
 | gerador citado pelo override: muda só o tipo de largada; dois sem opções locais derrubaram a conexão e um travou o jogo | 🧪 | observed | D82, D85: só geradores definidos localmente |
 
 ### Roster e comportamento da IA
