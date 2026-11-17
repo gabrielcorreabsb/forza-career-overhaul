@@ -21,7 +21,9 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 |---|---|---|---|
 | árvore cup → ladder → série → evento: ordem, nomes, arte (reuso da arte existente) | ✅ | verified | [tutorial 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
 | séries novas, com ids próprios | ✅ | verified | `build_series.py` |
-| nomes e descrições (chaves de texto novas, de qualquer tamanho) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
+| nomes de cups, ladders, séries e eventos (chaves de texto novas, de qualquer tamanho) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
+| **descrições** de série, ladder e cup (chaves de texto novas) | ⛔ | observed | D92: nenhuma tela da carreira as desenha, nem as vanilla; o nome é o único texto visível |
+| limite de treino da cup, rótulo da ladder e lista de conclusão da ladder | ⛔ | observed | D91: nada muda na tela (o treino é contado em voltas; a leitura da conclusão não foi provada) |
 | tela de escolha do primeiro carro | 🧪 | hypothesis | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
 | série de exibição de prêmio (um tipo de série para dirigir um carro de prêmio): **exige o carro do prêmio na garagem** para entrar; não entrega o carro | ⛔ | verified | — |
 
@@ -29,6 +31,8 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | alavanca | status | evidência | ferramenta / guia |
 |---|---|---|---|
 | abrir uma série (nossa ou vanilla) só depois de concluir outra série ou um grupo inteiro | ✅ | verified | critérios de entrada da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)) |
+| **texto do bloqueio** de uma série trancada por outra série, por uma ladder ou por um evento: o nosso texto aparece no cartão da série (249 caracteres quebram em várias linhas e o cabeçalho do cartão cresce sobre a arte); valor vazio mostra um marcador de texto ausente | ✅ | observed | D94 |
+| uma série trancada por **nível de piloto** mostra sempre a mensagem do jogo (o nível pedido e o seu); o texto do bloqueio não muda | ⛔ | observed | D93 |
 | uma **série com vários eventos** (2 a 8 no jogo vanilla): os eventos rodam em sequência, os pontos da série somam por piloto, a série termina no último evento e cada corrida paga o mesmo | ✅ | verified | a lista de eventos da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pagamento que cresce com o tamanho da corrida (voltas, distância) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
 | bônus de colocação ao concluir uma série (troféu mais créditos pela posição final), (nos dados do jogo vale para toda série; **não pagou** ao vencer uma série nova nossa, até agora) | 🧪 | hypothesis | em aberto |
@@ -42,13 +46,17 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | teto de desempenho por evento (vale o valor do evento, não o do override) | ✅ | verified | [DISCOVERIES](../project/DISCOVERIES.md) |
 | os tetos usam a escala de PI **do jogo** (C 500, B 600, A 700, S 800, R 900); a coluna PI do catálogo não é essa escala | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | elegibilidade de carros por lista de aceitos | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
-| limites numéricos de carro: o PI é inerte e a lista de aceitos vence (ano, potência e peso sem teste) | ⛔ | observed | — |
+| limites numéricos de carro junto com uma lista de aceitos: o PI é inerte e a lista de aceitos vence | ⛔ | observed | — |
+| **faixas da lista de carros** (ano, faixa de PI) com lista de bloqueio vazia e classe Any: um ano mínimo e um máximo e uma faixa de PI cortam a lista, na escala de PI do jogo (o máximo parece exclusivo, o mínimo inclusivo); o campo de preço não está na unidade do catálogo | ✅ | observed | D88 |
 | **voltas (1 a 67), hora e minuto de início, par de velocidade do relógio (16 e 32) e tipo de largada** por evento no override | ✅ | verified | D81 |
 | um **teto de desempenho no override** como portão (300 barrou um carro da classe S; 999 deixou entrar e não alargou o grid) | ✅ | verified | D81 |
 | classe aberta, teto 0 e vagas da série (`MaxPlayers`, `MaxAIPlayers`) como alavancas do grid | ⛔ | verified | D82: o documento de elenco decide |
 | **clima por id de previsão** na corrida e no treino; uma previsão de uma fase pega o primeiro céu (quatro de quatro) | ✅ | verified (ids); observed (primeiro céu) | D83 |
 | pular a **fase de construção**, um **portão de evento** e um **de série** (contador com lista vazia mantém a série trancada) | ✅ | verified | D84 |
 | treino de 30 minutos, flag de pular volta e campos de qualificação | ⛔ | verified | D85: sem efeito; a carreira não tem qualificação |
+| **minuto de início do treino** (30 e 15) no override do evento: o treino abre naquele minuto; a hora é um campo à parte (22 e 5) | ✅ | verified | D87, D90 |
+| a **tabela de pontos** do evento (24 posições) decide os pontos da série pela posição de chegada (100 e 0, 10 iguais e 1 a 24 foram lidos de volta); o campo da volta-alvo não mostra efeito | ✅ | observed | D89 |
+| os cinco switches de IA do bloco de treino e classificação, invertidos de uma vez | 🧪 | observed | D90: a corrida ficou igual; o treino e a classificação não foram relatados |
 | gerador citado pelo override: muda só o tipo de largada; dois sem opções locais derrubaram a conexão e um travou o jogo | 🧪 | observed | D82, D85: só geradores definidos localmente |
 
 ### Roster e comportamento da IA
@@ -64,7 +72,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | **liberar um documento de roster vanilla**: um evento cujo documento tem cópia idêntica pode ser apontado para a cópia (mesmo grid), e o documento liberado vira pool nosso; 313 são liberáveis | ✅ | verified | D67 |
 | um arquivo de roster de IA **totalmente novo** (entrada nova que o servidor não conhece) | ⛔ | observed | o jogo ficou offline ao abrir o evento; os documentos liberados acima são o caminho alternativo |
 | **faixa estreita de velocidade por piloto** da IA (duas chaves globais do arquivo de estatísticas da IA, editado no install): a IA sai muito menos da pista; nenhum arquivo por pista as sobrescreve | ✅ | verified | D76, [AI_GRIDS](../guides/AI_GRIDS.md) |
-| **limite de velocidade fora da pista mais alto** para a IA (uma chave global): ela se recupera mais rápido depois de sair | ✅ | observed | D77 |
+| **limite de velocidade fora da pista mais alto e três chaves de recuperação** para a IA (quatro chaves globais): ela se recupera mais rápido e perde menos o controle depois de sair | ✅ | observed (quatro chaves juntas) | D77, D86 |
 | **campo nivelado no teto da classe** (janela de 10 pontos de PI terminando no teto, banda 0…0, modelos escolhidos): os 23 carros da IA no mesmo PI nas classes S e A; o modelo ainda define o ritmo | ✅ | verified | D78 |
 | rótulo `AIDifficulty` e `MaxAIPlayers` da série como alavancas da IA | ⛔ | verified (grid e ritmo) | D79 |
 | um **arquivo novo por pista** no zip de estatísticas da IA (ajustar uma pista só) | ✅ | verified (uma pista) | D80 |

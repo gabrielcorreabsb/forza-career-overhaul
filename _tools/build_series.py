@@ -19,6 +19,7 @@ Usage:
 import argparse
 import copy
 import json
+import math
 import os
 import re
 import sys
@@ -38,9 +39,14 @@ ROUND_MAX_SERIES = 5
 ROUND_MAX_EVENTS = 5
 ROUND_NAME_RE = re.compile(r"^Test: .+ \[(\d+)\]$")
 ROUND_OPS = ("rename_cup", "rename_ladder", "remove_series", "remove_ladder",
-             "remove_cup")
+             "remove_cup", "describe_cup")
+ROUND_MAX_TEXT = 2000
 ROUND_EVENT_KEYS = ("event_id", "track", "laps")
 ROUND_MAX_AIFIELD = 12
+ROUND_RANGE_KEYS = ("PIMin", "PIMax", "PowerMin", "PowerMax", "WeightMin",
+                    "WeightMax", "YearMin", "YearMax", "BaseCostMin",
+                    "BaseCostMax")
+ROUND_RANGE_FLOAT = {"PowerMin", "PowerMax", "WeightMin", "WeightMax"}
 
 
 
@@ -75,6 +81,50 @@ def name_key(label_or_name):
     return strs.key_for(label_or_name)
 
 
+def desc_key(label):
+    """IDS_ key of a description text (labels desc|<id>, desc|ladder|<id>,
+    desc|cup|<id>; one key per target, so two series may share a text)."""
+    return strs.key_for(label)
+
+
+def lock_key(label):
+    """IDS_ key of a lock text (label lock|<id>; one key per series, so a
+    lock text is always ours)."""
+    return strs.key_for(label)
+
+
+def check_description(value, tag):
+    """series[].description and series[].lock_text: "" (empty), a text, or
+    {"from_series": <id>}."""
+    if isinstance(value, str):
+        if len(value) > ROUND_MAX_TEXT:
+            raise FmError("%s: text has %d characters (max %d)"
+                          % (tag, len(value), ROUND_MAX_TEXT))
+        return value
+    if isinstance(value, dict):
+        unknown = set(value) - {"from_series"}
+        if unknown or len(value) != 1:
+            raise FmError("%s: an object must be exactly "
+                          '{"from_series": <series id>}' % tag)
+        v = value["from_series"]
+        if isinstance(v, bool) or not isinstance(v, int):
+            raise FmError("%s: 'from_series' must be an integer series id"
+                          % tag)
+        return value
+    raise FmError("%s: must be a string (empty leaves it blank) or "
+                  '{"from_series": <series id>}' % tag)
+
+
+def check_text(value, tag):
+    """group.description and ops.describe_cup.text: non-empty text."""
+    if not isinstance(value, str) or not value:
+        raise FmError("%s: must be a non-empty string" % tag)
+    if len(value) > ROUND_MAX_TEXT:
+        raise FmError("%s: text has %d characters (max %d)"
+                      % (tag, len(value), ROUND_MAX_TEXT))
+    return value
+
+
 # --------------------------------------------------------------------------- #
 # round spec (--round): one ladder per experiment, series cloned from a base
 # --------------------------------------------------------------------------- #
@@ -91,6 +141,9 @@ def load_round_spec(path):
     for k in ("group", "base", "series"):
         if k not in spec:
             raise FmError("round spec: missing '%s'" % k)
+    if isinstance(spec["group"], dict) and "description" in spec["group"]:
+        check_text(spec["group"]["description"],
+                   "round spec.group.description")
     series = spec["series"]
     if not isinstance(series, list):
         raise FmError("round spec: 'series' must be a list")
@@ -176,26 +229,68 @@ def load_round_spec(path):
             if k in item and not isinstance(item[k], dict):
                 raise FmError("round spec.series[%d].%s must be an object"
                               % (i, k))
+        if "event" in item and "PointSpread" in item["event"]:
+            ps = item["event"]["PointSpread"]
+            if (not isinstance(ps, list) or len(ps) != 24
+                    or any(isinstance(v, bool) or not isinstance(v, int)
+                           or v < 0 for v in ps)):
+                raise FmError("round spec.series[%d].event.PointSpread: must "
+                              "be a list of exactly 24 integers >= 0 (never "
+                              "bool, float or string) - the same table "
+                              "applies to every event of the series" % i)
         if "cars" in item:
             c = item["cars"]
             tag = "round spec.series[%d].cars" % i
-            unknown = set(c) - {"acceptlist", "class", "division"}
+            unknown = set(c) - {"acceptlist", "blocklist", "class",
+                                "division", "severity", "ranges"}
             if unknown:
                 raise FmError("%s: unknown key(s) %s (expected "
-                              "acceptlist/[class]/[division])"
-                              % (tag, sorted(unknown)))
-            al = c.get("acceptlist")
-            if not isinstance(al, list) or not al or \
-                    any(isinstance(v, bool) or not isinstance(v, int)
-                        for v in al):
-                raise FmError("%s: 'acceptlist' must be a non-empty list of "
-                              "car ids" % tag)
+                              "acceptlist|blocklist/[class]/[division]/"
+                              "[severity]/[ranges])" % (tag, sorted(unknown)))
+            if ("acceptlist" in c) == ("blocklist" in c):
+                raise FmError("%s: exactly one of 'acceptlist' (non-empty) "
+                              "or 'blocklist' (may be empty)" % tag)
+            lkey = "acceptlist" if "acceptlist" in c else "blocklist"
+            al = c[lkey]
+            if (not isinstance(al, list)
+                    or (lkey == "acceptlist" and not al)
+                    or any(isinstance(v, bool) or not isinstance(v, int)
+                           for v in al)):
+                raise FmError("%s: '%s' must be a list of car ids "
+                              "(acceptlist: non-empty)" % (tag, lkey))
+            if "severity" in c and c["severity"] not in ("None", "Strict"):
+                raise FmError("%s: 'severity' must be None or Strict" % tag)
             if "class" in c and (not isinstance(c["class"], str)
                                  or len(c["class"]) != 1):
                 raise FmError("%s: 'class' must be a single letter "
                               "(C/B/A/S/R)" % tag)
             if "division" in c and not isinstance(c["division"], str):
                 raise FmError("%s: 'division' must be a string" % tag)
+            if "ranges" in c:
+                r = c["ranges"]
+                rtag = "%s.ranges" % tag
+                if not isinstance(r, dict) or not r:
+                    raise FmError("%s: must be a non-empty object" % rtag)
+                unknown = set(r) - set(ROUND_RANGE_KEYS)
+                if unknown:
+                    raise FmError("%s: unknown key(s) %s (expected %s)"
+                                  % (rtag, sorted(unknown),
+                                     "|".join(ROUND_RANGE_KEYS)))
+                for key, val in r.items():
+                    if isinstance(val, bool) or \
+                            not isinstance(val, (int, float)) or \
+                            (isinstance(val, float) and
+                             not math.isfinite(val)):
+                        raise FmError("%s: '%s' must be a finite number "
+                                      "(never bool)" % (rtag, key))
+                for lo, hi in (("PIMin", "PIMax"), ("PowerMin", "PowerMax"),
+                               ("WeightMin", "WeightMax"),
+                               ("YearMin", "YearMax"),
+                               ("BaseCostMin", "BaseCostMax")):
+                    if lo in r and hi in r and r[lo] > 0 and r[hi] > 0 \
+                            and r[lo] > r[hi]:
+                        raise FmError("%s: '%s' (%s) > '%s' (%s)" %
+                                      (rtag, lo, r[lo], hi, r[hi]))
         if "ai_cars" in item:
             a = item["ai_cars"]
             atag = "round spec.series[%d].ai_cars" % i
@@ -209,6 +304,18 @@ def load_round_spec(path):
                         for v in al):
                 raise FmError("%s: 'acceptlist' must be a non-empty list of "
                               "car ids" % atag)
+        if "description" in item:
+            check_description(item["description"],
+                              "round spec.series[%d].description" % i)
+        if "lock_text" in item:
+            check_description(item["lock_text"],
+                              "round spec.series[%d].lock_text" % i)
+            ss = item.get("series_set", {})
+            if "EntryCriteria.EntryCriteriaName" in ss:
+                raise FmError("round spec.series[%d]: 'lock_text' and "
+                              "series_set.EntryCriteria.EntryCriteriaName both "
+                              "set the lock text (two sources) - keep one"
+                              % i)
         if multi and "donor" in item.get("override", {}):
             raise FmError("round spec.series[%d]: common 'override.donor' "
                           "has no meaning with 'events' (each event takes "
@@ -221,6 +328,11 @@ def load_round_spec(path):
             raise FmError("round spec.ops[%d]: missing integer 'id'" % i)
         if op["op"].startswith("rename") and not op.get("name"):
             raise FmError("round spec.ops[%d]: rename needs 'name'" % i)
+        if op["op"] == "describe_cup":
+            if isinstance(op["id"], bool):
+                raise FmError("round spec.ops[%d]: 'id' must be an integer"
+                              % i)
+            check_text(op.get("text"), "round spec.ops[%d].text" % i)
     repoint = spec.get("repoint")
     if repoint is not None:
         if not isinstance(repoint, list) or not repoint:
@@ -285,21 +397,36 @@ def group_placement(group):
     if "id" in group and (isinstance(group["id"], bool)
                          or not isinstance(group["id"], int)):
         raise FmError("round spec.group: 'id' must be an integer ladder id")
+    if "description" in group:
+        check_text(group["description"], "round spec.group.description")
     lad = {"id": group.get("id", "auto"), "donor": group["donor"], "name": group["name"],
            "cup": group["cup"]}
     if "key_label" in group:
         lad["key_label"] = group["key_label"]
+    if "description" in group:
+        lad["description"] = group["description"]
     return {"ladder": lad}
 
 
-def spec_key_pairs(spec):
-    """IDS_ keys a round adds: series names, group names, renames."""
+def spec_key_pairs(spec, ladder_id=None):
+    """IDS_ keys a round adds: series names, group names, renames and the
+    description texts (ladder_id = the resolved ladder of `group`)."""
     pairs = [(name_key(item.get("key_label", item["name"])), item["name"])
              for item in spec["series"]]
+    for item in spec["series"]:
+        d = item.get("description")
+        if isinstance(d, str) and d:
+            pairs.append((desc_key("desc|%d" % item["id"]), d))
+    for item in spec["series"]:
+        t = item.get("lock_text")
+        if isinstance(t, str) and t:
+            pairs.append((lock_key("lock|%d" % item["id"]), t))
     for op in spec.get("ops", []):
         if op["op"] in ("rename_cup", "rename_ladder"):
             pairs.append((name_key(op.get("key_label", op["name"])),
                           op["name"]))
+        elif op["op"] == "describe_cup":
+            pairs.append((desc_key("desc|cup|%d" % op["id"]), op["text"]))
     group = spec["group"]
     if isinstance(group, dict):
         pairs.append((name_key(group.get("key_label", group["name"])),
@@ -307,7 +434,68 @@ def spec_key_pairs(spec):
         if isinstance(group["cup"], dict):
             c = group["cup"]
             pairs.append((name_key(c.get("key_label", c["name"])), c["name"]))
+        if "description" in group:
+            if ladder_id is None:
+                raise FmError("round spec.group.description: the ladder id is "
+                              "not resolved")
+            pairs.append((desc_key("desc|ladder|%d" % ladder_id),
+                          group["description"]))
     return pairs
+
+
+def describe_series(bcs, item, ns, snap):
+    """series[].description -> the series' Description (a key, or "")."""
+    if "description" not in item:
+        return
+    d = item["description"]
+    if isinstance(d, str):
+        ns["Description"] = desc_key("desc|%d" % item["id"]) if d else ""
+        print("  %s: series %d Description %s"
+              % (snap, item["id"],
+                 "cleared" if not d else "-> new key"))
+        return
+    src = B.find_series(bcs, d["from_series"])
+    if src is None:
+        raise FmError("%s: series %d (description from_series) does not exist "
+                      "- refusing" % (snap, d["from_series"]))
+    key = src.get("Description")
+    if not isinstance(key, str) or not key:
+        raise FmError("%s: series %d has an empty Description, there is "
+                      "nothing to copy - refusing"
+                      % (snap, d["from_series"]))
+    ns["Description"] = key
+    print("  %s: series %d Description <- the key of series %d"
+          % (snap, item["id"], d["from_series"]))
+
+
+def describe_lock(bcs, item, ns, snap):
+    """series[].lock_text -> EntryCriteria.EntryCriteriaName (a key, or "").
+
+    Without the key the field keeps the donor's text byte for byte; with it
+    the text is ours (a new key), blank, or copied from another series."""
+    if "lock_text" not in item:
+        return
+    v = item["lock_text"]
+    path = "EntryCriteria.EntryCriteriaName"
+    if isinstance(v, str):
+        key = lock_key("lock|%d" % item["id"]) if v else ""
+        nested.set_path(ns, path, key)
+        print("  %s: series %d %s %s"
+              % (snap, item["id"], path,
+                 "cleared" if not v else "-> new key"))
+        return
+    src = B.find_series(bcs, v["from_series"])
+    if src is None:
+        raise FmError("%s: series %d (lock_text from_series) does not exist "
+                      "- refusing" % (snap, v["from_series"]))
+    ec = src.get("EntryCriteria")
+    key = ec.get("EntryCriteriaName") if isinstance(ec, dict) else None
+    if not isinstance(key, str) or not key:
+        raise FmError("%s: series %d has an empty EntryCriteriaName, there is "
+                      "nothing to copy - refusing" % (snap, v["from_series"]))
+    nested.set_path(ns, path, key)
+    print("  %s: series %d %s <- the key of series %d"
+          % (snap, item["id"], path, v["from_series"]))
 
 
 def apply_ops(bcs, ops, snap):
@@ -326,6 +514,11 @@ def apply_ops(bcs, ops, snap):
             if lad is None:
                 raise FmError("%s: ladder %d not found" % (snap, op["id"]))
             lad["Name"] = name_key(op.get("key_label", op["name"]))
+        elif kind == "describe_cup":
+            cup = B.find_cup(bcs, op["id"])
+            if cup is None:
+                raise FmError("%s: cup %d not found" % (snap, op["id"]))
+            cup["Description"] = desc_key("desc|cup|%d" % op["id"])
         elif kind == "remove_series":
             s = B.remove_series(bcs, op["id"])
             removed["series"].append(s["ChampionshipSeriesId"])
@@ -375,23 +568,38 @@ def round_series_cars(xml, donor_id, item, ns):
     {"Acceptlist": [<guid>, ...]}); with ai_cars it holds the declared
     AI acceptlist."""
     cars = item.get("cars")
+    xml_opts = {}
     if cars is None:
         car_ids = donor_xml_car_ids(xml, donor_id)
     else:
-        car_ids = list(cars["acceptlist"])
+        blocklist = "blocklist" in cars
+        car_ids = list(cars["blocklist" if blocklist else "acceptlist"])
         sc = ns["SelectableCars"]
-        sc["BlockOrAcceptlistType"] = "Acceptlist"
+        sc["BlockOrAcceptlistType"] = ("Blocklist" if blocklist
+                                       else "Acceptlist")
         sc["BlockOrAcceptlist"] = [C.guid(c) for c in car_ids]
         if "class" in cars:
             sc["CarClassId"] = cars["class"]
         if "division" in cars:
             sc["CarDivisionId"] = cars["division"]
+        if "severity" in cars:
+            sc["SeverityType"] = cars["severity"]
+        if "ranges" in cars:
+            for key, val in cars["ranges"].items():
+                if key in ROUND_RANGE_FLOAT:
+                    sc[key] = float(val)
+                else:
+                    sc[key] = int(val)
+        xml_opts = dict(list_type="Blacklist" if blocklist else "Whitelist",
+                        class_id=cars.get("class"),
+                        severity=cars.get("severity"),
+                        ranges=cars.get("ranges"))
     ai = item.get("ai_cars")
     if ai is not None:
         ns["AISelectableCars"] = {"Acceptlist":
                                   [C.guid(c) for c in ai["acceptlist"]]}
-    return carsxml.add_entry(xml, donor_id, item["id"], car_ids), \
-        len(car_ids)
+    return carsxml.add_entry(xml, donor_id, item["id"], car_ids,
+                             **xml_opts), len(car_ids)
 
 
 def round_track_override(ovr, track, prod_files, snap):
@@ -411,7 +619,9 @@ def edit_round_multi(bcs, ovr, xml, lad, item, base_series, base_event,
     """Series with series[].events (1-5): one event + override per entry, in
     order. Same-track entries clone the base event/override; other tracks
     clone that track's donor event/override. Every event gets the base
-    PointSpread table and ID == override ID; OrderedEventIds follows the
+    PointSpread table, unless series[].event declares its own PointSpread
+    (validated: 24 ints >= 0; the same table lands on every event of the
+    series). ID == override ID; OrderedEventIds follows the
     events array (vanilla pattern, TASK_g16_multievento)."""
     ov = item.get("override", {})
     events = []
@@ -429,10 +639,10 @@ def edit_round_multi(bcs, ovr, xml, lad, item, base_series, base_event,
                                serial=track)
         if "laps" in ev_spec:
             ev["NumberOfRequiredLaps"] = ev_spec["laps"]
-        for k, v in item.get("event", {}).items():
-            nested.set_path(ev, k, v, create)
         if "PointSpread" in base_event:
             ev["PointSpread"] = copy.deepcopy(base_event["PointSpread"])
+        for k, v in item.get("event", {}).items():
+            nested.set_path(ev, k, v, create)
         events.append(ev)
     ns = copy.deepcopy(base_series)
     ns["ChampionshipSeriesId"] = item["id"]
@@ -441,6 +651,8 @@ def edit_round_multi(bcs, ovr, xml, lad, item, base_series, base_event,
     ns["OrderedEventIds"] = [e["EventDataId"] for e in events]
     for k, v in item.get("series_set", {}).items():
         nested.set_path(ns, k, v, create)
+    describe_series(bcs, item, ns, snap)
+    describe_lock(bcs, item, ns, snap)
     B.append_series(lad, ns)
     for ev, ev_spec in zip(events, item["events"]):
         track = ev_spec.get("track", base_track)
@@ -537,6 +749,8 @@ def edit_round(bcs, ovr, xml, spec, prod_files, new_ids, snap):
         ns["OrderedEventIds"] = [ev["EventDataId"]]
         for k, v in item.get("series_set", {}).items():
             nested.set_path(ns, k, v, create)
+        describe_series(bcs, item, ns, snap)
+        describe_lock(bcs, item, ns, snap)
         B.append_series(lad, ns)
         ov = item.get("override", {})
         donor_id = ov.get("donor", base_ovr)
@@ -713,6 +927,9 @@ def resolve_placement(bcs, pl, new_ids, snap):
         raise FmError("%s: donor ladder %d not found" % (snap, lad_spec["donor"]))
     lad = B.clone_ladder(donor_lad, new_ids["ladder"],
                          name_key(lad_spec.get("key_label", lad_spec["name"])))
+    if "description" in lad_spec:
+        lad["Description"] = desc_key("desc|ladder|%d"
+                                      % lad["ChampionshipLadderId"])
     B.append_ladder(cup, lad)
     return lad
 
@@ -934,16 +1151,19 @@ def run_round(spec, args):
         for key in ("cars", "ai_cars"):
             if key not in item:
                 continue
-            al = item[key]["acceptlist"]
-            for w in C.check_acceptlist(al, cars=cars_db):
-                warn(w)
+            al = item[key].get("acceptlist",
+                               item[key].get("blocklist", []))
+            ws = C.check_acceptlist(al, cars=cars_db)  # unknown ids raise
+            if "blocklist" not in item[key]:
+                for w in ws:
+                    warn(w)
             bad = sorted(set(al) & denied)
             if bad:
                 raise FmError("round spec: series %d %s.acceptlist has "
                               "always-denied cars %s - refusing"
                               % (item["id"], key, bad[:10]))
 
-    key_pairs = spec_key_pairs(spec)
+    key_pairs = spec_key_pairs(spec, new_ids.get("ladder"))
     removed_seen = None
     live_refs = load_repoint_refs(cache) if spec.get("repoint") else None
     for snap in snaps:

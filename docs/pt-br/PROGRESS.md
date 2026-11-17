@@ -20,6 +20,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.4 — formato de corrida** | 14/11 | a velocidade com que os pneus de uma série desgastam, a velocidade do relógio da corrida e quando a chuva começa e termina, cada um testado no jogo num oval curto (abaixo). Também o quinto e último teste de prêmio próprio pelos desafios: a tela mostra o carro que pusemos, e o servidor continua contando e pagando o dele | observado |
 | **Fase 0.5 — o padrão da IA** | 15–16/11 | a IA de uma série deixa de sair da pista na mesma curva: uma edição global da faixa de velocidade da IA mais um campo nivelado no teto da classe, testados em Brands Hatch GP, Lime Rock, um oval e a classe A (abaixo) | verified |
 | **Fase 0.6 — cobrindo os valores** | 16/11 | cada campo que uma série, um evento e o override dele podem definir foi testado no jogo ao longo da faixa, numa bancada de séries de um campo só: o que funciona, o que não tem efeito e o que não é seguro (abaixo) | verified |
+| **Fase 0.7 — textos, travas e grupos** | 16–17/11 | a lista de carros cortada por ano e faixa de PI, os pontos da série definidos por uma tabela por posição, o relógio do treino até o minuto, e o texto que uma série trancada mostra (abaixo). Também o que **não funciona**: descrições, o limite de treino de uma cup e o rótulo de uma ladder não mostram nada na tela | verified / observed |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -56,7 +57,7 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | descoberta | o que habilita | estado | evidência |
 |---|---|---|---|
 | **Estreitar a faixa de velocidade por piloto da IA** (duas chaves do arquivo de estatísticas da IA) reduziu muito as saídas de pista; nenhuma pista as sobrescreve, então vale em todo lugar | uma edição corrige a IA saindo da pista em todas as séries | verified | D76 |
-| **Um limite de velocidade fora da pista mais alto** faz a IA se recuperar mais rápido depois de sair | uma recuperação mais suave | observed | D77 |
+| **Um limite de velocidade fora da pista mais alto** faz a IA se recuperar mais rápido depois de sair; com mais três chaves de recuperação juntas, ela também perde menos o controle | uma recuperação mais suave | observed | D77, D86 |
 | **Um campo nivelado no teto da classe** põe os 23 carros da IA no mesmo PI, em modelos escolhidos, na classe S e na classe A; o modelo ainda define o ritmo (quatro modelos lentos ficam 4–7 s atrás) | séries de classe com um campo honesto e parelho; modelos lentos podem ser trocados | verified | D78 |
 | O **rótulo de dificuldade da IA e o número de vagas da série não agem**; os valores de dano e desgaste foram mascarados pelo preset do jogador | não usar como alavancas da IA | verified (grid, ritmo); observed (dano, desgaste) | D79 |
 | **Um arquivo novo por pista no zip de estatísticas da IA** é lido pelo jogo | ajustar uma pista só | verified | D80 |
@@ -70,6 +71,18 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | **Clima por id de previsão** vale na corrida e no treino (nublado, limpo, tempestade, parcialmente nublado); uma previsão de uma fase com cinco céus começou limpa em quatro corridas de quatro | o céu por evento; a ordem dos céus pode ser a alavanca | verified (ids); observed (primeiro céu) | D83 |
 | **A fase de construção, um portão de evento e um de série** funcionam; uma série do tipo vitrine de recompensa concluiu e não pagou nada | uma temporada que pula a tela de montagem e destrava em ordem | verified | D84 |
 | Um treino de 30 minutos e a flag de pular volta **não fazem nada** aqui; a carreira **não tem qualificação**; dois geradores derrubaram a conexão, um travou o jogo e um documento de elenco vazio derruba a corrida | uma lista do que não usar | verified (sem efeito); observed (geradores) | D85 |
+
+## Fase 0.7, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| A **hora de início do treino** é um campo à parte da hora da corrida; o **minuto de início** também funciona (30 e 15) | treino e corrida em horas diferentes, até o minuto | verified | D87, D90 |
+| **Faixas de ano, preço e PI da lista de carros** cortam o que a carreira oferece, com lista de bloqueio vazia e classe Any (a faixa de PI é a da escala do jogo; o campo de preço não está na unidade do catálogo) | uma série de carros antigos ou recentes, ou de uma faixa de PI, sem citar carros | observed | D88 |
+| A **tabela de pontos** do evento define os pontos da série pela posição de chegada; o campo da volta-alvo não mostra efeito | uma série que paga pontos próprios por posição | observed | D89 |
+| Uma parada obrigatória no override faz a corrida exigir uma parada; os cinco switches de IA do bloco de treino não mudaram a corrida; a largada com carro-guia da NASCAR Moderna parecia igual às outras | uma parada por evento; os switches do treino ficam como no vanilla | verified (parada); observed (resto) | D90 |
+| O limite de treino de uma cup, o rótulo de uma ladder e a lista de conclusão de uma ladder **não mostram nada** na tela | nada a entregar com eles | observed | D91 |
+| A **descrição** de série, ladder e cup não é desenhada por nenhuma tela da carreira, nem nas vanilla | o nome é o único texto visível | observed | D92 |
+| O **texto do bloqueio** de uma série trancada por outra série, por uma ladder ou por um evento é o nosso texto no cartão, até 249 caracteres (quebra em linhas; o cartão cresce); valor vazio mostra um marcador de texto ausente; um bloqueio por **nível de piloto** mostra sempre a mensagem do jogo | motivos de bloqueio claros, no nosso idioma | observed | D93, D94 |
 
 ## O que vem
 
@@ -86,7 +99,7 @@ Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede u
 | **Composto de pneu da carreira** | listas por modo nas flags do cliente definem o pneu padrão dos modos online, não o da carreira; acrescentar um item de carreira é uma entrada | to test |
 | **Grids acima de 24 carros** | sem precedente: todo documento vanilla pede 23 IA + o jogador ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
 | **Arte própria por série** | pôsteres e banners vêm da série doadora; o formato foi lido, a escrita não foi testada | to test |
-| **Outros idiomas** | textos novos vão só para a tabela pt-BR; os outros 19 idiomas não têm chaves | depois |
+| **Outros idiomas** | textos novos vão só para a tabela pt-BR; os outros 20 idiomas não têm chaves. Decidido: feito na release do mod, copiando as chaves do conteúdo real para todos os idiomas (nomes traduzidos como rascunho, inglês como texto de reserva) | na release |
 
 **Not possible, não repetir:** Qualifying real (D33), prêmios próprios e edição de pagamento no cache ou nos arquivos do
 install (o servidor concede), afinidade com fabricante (valor do servidor; o substituto é a série de uma só marca), física,

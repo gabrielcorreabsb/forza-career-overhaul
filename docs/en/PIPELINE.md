@@ -81,7 +81,9 @@ manifest**, never by name or mtime. Lint alone:
 round-trip. New keys are free-form (`IDS_<md5("MC44|<label>")>`, see
 `fmlib.strs.key_for`; collisions are checked) and can have **any** length — the
 game resolves a key by name hash. Only `LocStrings_pt-BR.str` gets the new keys
-today; the other 19 languages do not (pending).
+today; the other 20 languages do not. Decision (17/11/2026): localization is done
+at the mod's **release**, not now: the keys of the real content will be copied to
+the 20 languages, with translated names (draft) and English as the fallback text.
 
 ## Career (`BuildersCupScheduleDataV4.json`)
 

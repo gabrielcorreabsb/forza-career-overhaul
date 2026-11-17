@@ -20,6 +20,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.4 — race format** | 14 Nov | how fast a series' tyres wear, how fast its race clock runs and when its rain starts and ends, each tested in game on a short oval (below). Also the fifth and last test of prizes of our own through the challenges: the screen shows the car we put, the server still counts and pays its own | observed |
 | **Phase 0.5 — the AI standard** | 15–16 Nov | the AI of a series no longer leaves the track at the same corner: one global edit of the AI's speed band plus a levelled field at the class ceiling, tried on Brands Hatch GP, Lime Rock, an oval and class A (below) | verified |
 | **Phase 0.6 — covering the values** | 16 Nov | every field a series, an event and its override can set was tried in game across its range, in a bench of one-field series: what works, what has no effect and what is not safe (below) | verified |
+| **Phase 0.7 — texts, locks and groups** | 16–17 Nov | the car list cut by year and PI band, the series points set by a table per position, the practice clock to the minute, and the text a locked series shows (below). Also what **does not work**: descriptions, a cup's practice limit and a ladder's label show nothing on screen | verified / observed |
 
 ## Phase 0.3, finding by finding
 
@@ -56,7 +57,7 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | finding | what it enables | state | evidence |
 |---|---|---|---|
 | **Narrowing the AI's per-driver speed band** (two keys of the AI statics file) cut its off-track errors; no track overrides them, so it holds everywhere | one edit fixes the AI leaving the track in every series | verified | D76 |
-| **A higher off-track speed limit** makes the AI recover faster after leaving the track | a gentler recovery | observed | D77 |
+| **A higher off-track speed limit** makes the AI recover faster after leaving the track; with three more recovery keys raised together it also loses less control | a gentler recovery | observed | D77, D86 |
 | **A levelled field at the class ceiling** puts all 23 AI cars at one PI on chosen models, in class S and class A; the model still sets the pace (four slow models lap 4–7 s behind) | class series with an honest, even field; slow models can be swapped | verified | D78 |
 | The series' **AI difficulty label and slot count do not act**; its damage and wear values were masked by the player's preset | do not use them as levers for the AI | verified (grid, pace); observed (damage, wear) | D79 |
 | **A new per-track file in the AI statics zip is read** by the game | tune one track alone | verified | D80 |
@@ -70,6 +71,18 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | **Weather by forecast id** works for the race and for the practice (overcast, clear, storm, partly cloudy); a one-phase forecast with five skies started clear in four races out of four | the sky per event; the order of the skies may be the lever | verified (ids); observed (first sky) | D83 |
 | **The build phase, an event gate and a series gate** work; a series typed as a reward showcase completed and paid nothing | a season that skips the build screen and unlocks in order | verified | D84 |
 | A 30-minute practice and the skip-lap flag **do nothing** here; the career has **no qualifying**; two generators dropped the connection, one crashed, and an empty roster document crashes the race | a list of what not to use | verified (no effect); observed (generators) | D85 |
+
+## Phase 0.7, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| The **practice start hour** is its own field, apart from the race hour; the **start minute** works too (30 and 15) | practice and race at different times of day, to the minute | verified | D87, D90 |
+| **Year, price and PI ranges of the car list** cut what the career offers, with an empty blocklist and class Any (the PI band is on the game's scale; the price field is not in the catalogue's unit) | a series for old or recent cars, or a PI band, without naming cars | observed | D88 |
+| The **points table** of an event decides the series points by finishing position; the lap-target field shows no effect | a series that pays its own points per position | observed | D89 |
+| One required stop in the override makes the race demand one stop; the five AI switches of the practice block did not change the race; the Modern NASCAR slot-car start looked like the others | a stop per event; the practice switches stay as in vanilla | verified (stop); observed (rest) | D90 |
+| A cup's practice limit, a ladder's label and a ladder's completion list **show nothing** on screen | nothing to ship from them | observed | D91 |
+| The **description** of a series, a ladder and a cup is not drawn by any career screen, the vanilla ones included | the name is the only visible text | observed | D92 |
+| The **lock text** of a series locked by another series, a ladder or an event is our own text on the card, up to 249 characters (wrapped; the card grows); an empty value shows a missing-text marker; a lock by **driver level** always shows the game's message | clear, own-language reasons for a lock | observed | D93, D94 |
 
 ## What is next
 
@@ -86,7 +99,7 @@ State labels: **viable** (the mechanism is known), **to test** (plausible, needs
 | **Career tyre compound** | per-mode lists in the client flags set the default tyre for online modes but not the career; adding a career item is one entry | to test |
 | **Grids above 24 cars** | no precedent: every vanilla document asks for 23 AI + the player ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
 | **Own art per series** | posters and banners are inherited from the donor series; the format is read, writing is untested | to test |
-| **Other languages** | new strings go into the pt-BR table only; the other 19 locales have no keys yet | later |
+| **Other languages** | new strings go into the pt-BR table only; the other 20 locales have no keys yet. Decided: done at the mod's release, copying the keys of the real content to every language (names translated as a draft, English as the fallback) | at release |
 
 **Not possible, do not repeat:** a real Qualifying (D33), prizes of our own and payout edits in the cache or install files
 (the server grants them), manufacturer affinity (a server value; the substitute is the one-make series), physics, the

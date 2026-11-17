@@ -11,4 +11,5 @@ Documents under docs/reference/.
 - [Race system](/docs/reference/race_system.md) — How a career event is described in the data: the event record, the override
 - [Schema reference](/docs/reference/schema_reference.md) — Field-by-field catalogue of the career and Featured/Multiplayer records: what
 - [Series checklist — what a new career series needs, and why](/docs/reference/series_checklist.md) — The reference behind build_series.py: every step a new series needs, in
+- [Series and event field values (what vanilla uses)](/docs/reference/series_field_values.md) — Every value the game's own career series use, read from the live CmsCache on 14/11/2026:
 - [Series art — the .swatchbin format](/docs/reference/swatchbin.md) — What a career poster or banner file looks like in Forza Motorsport (2023), and

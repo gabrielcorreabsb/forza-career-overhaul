@@ -68,12 +68,12 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 | `ChampionshipCupId` | cup identity (opaque) | unique per cup |
 | `ChampionshipId` | owning championship | 500 |
 | `Name` | display name, as an `IDS_` key | unique key per cup |
-| `Description` | one-line description, as an `IDS_` key | empty |
+| `Description` | one-line description, as an `IDS_` key; **not drawn by any career screen** (D92) | empty |
 | `ImagePath` | cup art | empty |
 | `IntroVideoPath` | intro movie played on entry | `LogoParade.bk2` |
 | `OpenTime` / `CloseTime` | availability window | `1-1-1 0:0:0.0` / never |
 | `StartEndDate` | `From` / `To` bounds of the same window | sentinel pair |
-| `OpenPracticeLimitationTime` | practice minutes at cup level | 10 |
+| `OpenPracticeLimitationTime` | practice minutes at cup level; set to 0, the open practice still opened with its laps (D91) | 10 |
 | `EntryCriteria` | gate block (name, min level, required ladders/series/events + counts) | all empty |
 | `ChallengeTheGridData` | challenge-the-grid setup (race wagers); the screen itself is gated by a client flag (Part 3) | one fixed block |
 | `RewardVirtualTrophy` | trophy awarded for completing the cup | one fixed block |
@@ -93,8 +93,8 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 | `ChampionshipLadderId` | ladder identity | unique per ladder |
 | `ChampionshipId` | owning championship | 500 |
 | `Name` | display name, as an `IDS_` key | unique per ladder |
-| `Description` | description key | empty |
-| `ChampionshipLadderFlag` | free-form flag | empty |
+| `Description` | description key; **not drawn by any career screen** (D92) | empty |
+| `ChampionshipLadderFlag` | free-form flag; a text in it showed nothing on screen (D91) | empty |
 | `ImagePath` | ladder art | one shared GAME: path on 34 ladders |
 | `IntroVideoPath` | intro movie | `LogoParade.bk2` |
 | `OpenTime` / `CloseTime` | availability window | fixed / never |
@@ -108,6 +108,17 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
   the career schema; it takes a list of requirement names, and
   `["AllSeries"]` (every ladder in the data) means "finish every series".
   *How to reproduce:* read the ladder records — one distinct value across them.
+  Emptying the list on a ladder changed nothing on screen (D91; whether the
+  client reads it stays unproven).
+
+- **verified** — a series' `EntryCriteria.EntryCriteriaName` is the text of its
+  lock card. For a lock by required series, ladder or event the card shows our
+  own text (a new `IDS_` key), up to 249 characters wrapped over several lines
+  (the card header grows); an empty value shows the game's missing-text marker
+  (D94). A lock by `MinDriverLevel` always shows the game's own message and
+  ignores the name (D93).
+  *How to reproduce:* give a series a required series and an own key for the
+  name, then read its card in the ladder.
 
 ## 1.4 Series — 28 fields
 
@@ -116,7 +127,7 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 | `ChampionshipSeriesId` | series identity (opaque; ≥ 20000 for customs) | unique |
 | `ChampionshipId` | owning championship | 500 |
 | `Name` | display name, as an `IDS_` key | unique key |
-| `Description` | description key | empty on 153 of 178 |
+| `Description` | description key; **not drawn by any career screen** (D92) | empty on 153 of 178 |
 | `ImagePath` / `BannerImagePath` / `ButtonImagePath` | series art | one shared GAME: path; button art empty on 155 |
 | `ChampionshipEventData` | the series' event objects | 1–8 per series |
 | `OrderedEventIds` | event ids in display order | mirrors the array |

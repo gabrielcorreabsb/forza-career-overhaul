@@ -81,8 +81,10 @@ manifesto**, nunca por nome ou mtime. Lint avulso:
 `_tools\str_edit.py` — parse/rewrite com round-trip byte-idêntico. Chaves novas
 são livres (`IDS_<md5("MC44|<rótulo>")>`, ver `fmlib.strs.key_for`; colisão
 verificada) e de **qualquer tamanho** — o jogo resolve a chave por hash do nome.
-Hoje só `LocStrings_pt-BR.str` recebe as chaves novas; os outros 19 idiomas ficam
-sem elas (pendência).
+Hoje só `LocStrings_pt-BR.str` recebe as chaves novas; os outros 20 idiomas ficam
+sem elas. Decisão (17/11/2026): a multilocalização entra na **release** do mod,
+não agora: as chaves do conteúdo real serão copiadas para os 20 idiomas, com
+nomes traduzidos (rascunho) e inglês como texto de reserva.
 
 ## Carreira (`BuildersCupScheduleDataV4.json`)
 

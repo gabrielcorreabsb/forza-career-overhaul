@@ -19,7 +19,9 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 |---|---|---|---|
 | cup → ladder → series → event tree: order, names, art (reuse of existing art) | ✅ | verified | [tutorials 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
 | brand-new series with their own ids | ✅ | verified | `build_series.py` |
-| names and descriptions (new text keys of any length) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
+| names of cups, ladders, series and events (new text keys of any length) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
+| **descriptions** of a series, a ladder and a cup (new text keys) | ⛔ | observed | D92: no career screen draws them, not even the vanilla ones; the name is the only visible text |
+| a cup's practice limit, a ladder's label and a ladder's completion list | ⛔ | observed | D91: nothing changes on screen (the practice is counted in laps; the completion reading is unproven) |
 | first-car selection screen | 🧪 | hypothesis | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
 | reward showcase series (a series type that drives a prize car): it **needs the prize car in the garage** to enter; it does not give the car | ⛔ | verified | — |
 
@@ -27,6 +29,8 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | lever | status | evidence | tool / guide |
 |---|---|---|---|
 | unlock a series (ours or a vanilla one) only after another series or a whole group is done | ✅ | verified | the series' entry criteria ([CAREER_BASICS](../guides/CAREER_BASICS.md)) |
+| **lock text** of a series locked by another series, a ladder or an event: our own text shows on the series card (249 characters wrap to several lines and the card header grows over the art); an empty value shows a missing-text marker | ✅ | observed | D94 |
+| a series locked by **driver level** always shows the game's own message (the level asked and yours); its lock text cannot be changed | ⛔ | observed | D93 |
 | a **series with several events** (2–8 in the vanilla game): the events run in sequence, series points add up per driver, the series is done after the last event, every race pays the same | ✅ | verified | the series' event list ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pay that grows with the race length (laps, distance) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
 | placement bonus when a series ends (trophy plus credits by final position), (in the game data for every series; **not paid** when a new series of ours was won, so far) | 🧪 | hypothesis | open |
@@ -40,13 +44,17 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | performance cap per event (the event value wins over the override) | ✅ | verified | [DISCOVERIES](../project/DISCOVERIES.md) |
 | caps are on the **game's** PI scale (C 500, B 600, A 700, S 800, R 900); the catalogue's PI column is not | ✅ | verified | [CARS_AND_PI](../reference/CARS_AND_PI.md) §3.1 |
 | car eligibility by accept list | ✅ | verified | [CAREER_BASICS](../guides/CAREER_BASICS.md) |
-| numeric car limits: PI is inert and the accept list wins (year, power and weight untested) | ⛔ | observed | — |
+| numeric car limits together with an accept list: PI is inert and the accept list wins | ⛔ | observed | — |
+| **car list ranges** (year, PI band) with an empty blocklist and class Any: a minimum and a maximum year and a PI band cut the list, on the game's PI scale (the maximum looks exclusive, the minimum inclusive); the price field is not in the catalogue's unit | ✅ | observed | D88 |
 | **race laps (1 to 67), start hour and minute, clock-speed pair (16 and 32) and start type** per event in the override | ✅ | verified | D81 |
 | a **performance cap in the override** as a gate (300 stopped a class-S car; 999 let it in and did not widen the grid) | ✅ | verified | D81 |
 | the series' open class, performance cap 0 and slot counts (`MaxPlayers`, `MaxAIPlayers`) as levers for the grid | ⛔ | verified | D82: the roster document decides |
 | **weather by forecast id** for the race and for the practice; a one-phase forecast takes its first sky (four of four) | ✅ | verified (ids); observed (first sky) | D83 |
 | the **build phase** skip, an **event gate** and a **series gate** (a count with an empty list keeps the series locked) | ✅ | verified | D84 |
 | a practice of 30 minutes, the skip-lap flag and the qualifying fields | ⛔ | verified | D85: no effect; the career has no qualifying |
+| **practice start minute** (30 and 15) in the event override: the practice opens at that minute; the hour is its own field (22 and 5) | ✅ | verified | D87, D90 |
+| the **points table** of an event (24 positions) decides the series points by finishing position (100 and 0, a flat 10 and 1 to 24 all read back); the lap-target field shows no effect | ✅ | observed | D89 |
+| the five AI switches of the practice-and-qualifying block, flipped at once | 🧪 | observed | D90: the race looked the same; the practice and the qualifying were not reported |
 | a generator named by the override: it changes the start type only; two without local options dropped the connection, one crashed | 🧪 | observed | D82, D85: use only locally defined generators |
 
 ### AI roster and behaviour
@@ -62,7 +70,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | **free a vanilla roster document**: an event whose document has an identical copy can be pointed at the copy (same grid), and the freed document becomes a pool of ours; 313 are freeable | ✅ | verified | D67 |
 | a **brand-new** AI roster file (a new entry the server does not know) | ⛔ | observed | the game went offline when the event was opened; the freed documents above are the way around it |
 | **narrow per-driver speed band** of the AI (two global keys of the AI statics file, edited in the install): the AI leaves the track far less; no per-track file overrides them | ✅ | verified | D76, [AI_GRIDS](../guides/AI_GRIDS.md) |
-| **higher off-track speed limit** for the AI (one global key): it recovers faster after leaving the track | ✅ | observed | D77 |
+| **higher off-track speed limit and three recovery keys** for the AI (four global keys): it recovers faster and loses less control after leaving the track | ✅ | observed (four keys together) | D77, D86 |
 | **levelled field at the class ceiling** (window of 10 PI points ending at the ceiling, band 0…0, chosen models): all 23 AI cars at one PI in class S and class A; the model still sets the pace | ✅ | verified | D78 |
 | series `AIDifficulty` label and `MaxAIPlayers` as levers for the AI | ⛔ | verified (grid and pace) | D79 |
 | a **new per-track file** in the AI statics zip (a single track tuned alone) | ✅ | verified (one track) | D80 |
