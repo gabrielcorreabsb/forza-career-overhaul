@@ -82,6 +82,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 | grids above 24 cars | 🧪 | to test | a 46-slot document still showed 24 drivers (D70) |
 | AI rubber banding in the career generators | already off | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | AI catch-up and slow-down off in the race: the AI got better, and both off is the career default (a player's report, no lap measurements) | ✅ | observed | [DISCOVERIES](../project/DISCOVERIES.md) D59 |
+| the four AI behaviour switches of the series' race, one at a time: **catch-up off** loosens the back of the field (a lap of 1:50 to 2:13 against 1:37 to 1:40); **slow-down off** gives less separation from slow cars; **proximity off** makes the AI less contact-seeking; **position spread off** changes nothing | ✅ | observed | D97 |
 | global AI settings that also reach multiplayer | ⛔ | — | not touched without discussion |
 
 ### Session: practice and qualifying

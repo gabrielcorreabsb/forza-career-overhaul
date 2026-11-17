@@ -84,6 +84,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 | grids acima de 24 carros | 🧪 | a testar | um documento de 46 vagas ainda mostrou 24 pilotos (D70) |
 | elástico (rubber banding) da IA nos geradores da carreira | já desligado | observed | [MODDING_SURFACE](../reference/MODDING_SURFACE.md) |
 | catch-up e slow-down da IA desligados na corrida: a IA ficou melhor, e os dois desligados são o padrão da carreira (relato do jogador, sem medição de voltas) | ✅ | observed | [DISCOVERIES](../project/DISCOVERIES.md) D59 |
+| os quatro switches de comportamento da IA na corrida da série, um de cada vez: **catch-up desligado** solta o fundo do grid (volta de 1:50 a 2:13 contra 1:37 a 1:40); **slow-down desligado** dá menos separação com os carros lentos; **proximity desligado** deixa a IA menos atrás de contato; **position spread desligado** não muda nada | ✅ | observed | D97 |
 | ajustes globais da IA que também atingem o multiplayer | ⛔ | — | não mexemos sem conversar |
 
 ### Sessão: treino e qualify

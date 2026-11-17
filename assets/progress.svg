@@ -45,7 +45,7 @@
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
     <g transform="translate(0,216)"><text class="r" x="0" y="12">Series and event fields tried across their range (D81-D85)</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
-    <g transform="translate(0,240)"><text class="r" x="0" y="12">Car list filters, practice, points per position, lock texts (D87-D96)</text>
+    <g transform="translate(0,240)"><text class="r" x="0" y="12">Car list filters, practice, points per position, lock texts (D87-D97)</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#3FB950"/><text class="p" x="504" y="13" text-anchor="middle">VERIFIED IN GAME</text></g>
     <g transform="translate(0,264)"><text class="r" x="0" y="12">Start type and start slot per event</text>
     <rect x="436" y="0" width="136" height="18" rx="9" fill="#58A6FF"/><text class="p" x="504" y="13" text-anchor="middle">OBSERVED</text></g>
