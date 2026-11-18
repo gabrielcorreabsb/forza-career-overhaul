@@ -12,6 +12,12 @@ distributed.
 
 - It contains **our own code and documentation** (see `LICENSE` and
   `LICENSE-DOCS.md`).
+- It contains **our own poster art** (`art/posters/`): images generated with
+  Google's Nano Banana image model for this project, released under
+  [CC BY 4.0](LICENSE-DOCS.md) like the documentation. They show no game
+  asset, logo, real car, real driver or third-party text. Copyright in
+  AI-generated images is uncertain in many countries; the license states how
+  we want them used, not a guarantee.
 - It contains **no game assets and no game executables**. Everything extracted
   from your own installation (`_extract/`, `_backup/`, `_out/`, `_work/`, the
   CmsCache copies) is generated locally and git-ignored.

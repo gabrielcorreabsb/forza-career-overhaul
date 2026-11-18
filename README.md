@@ -136,7 +136,8 @@ the day.
 A series names its poster; the poster lives in the game's install. One spec line (`poster`) gives both halves: the cache
 kit points the series at the new poster, and `posters.json` installs it with plain Python, next to the vanilla posters
 and without moving any of them. A Steam update removes the art, never the career: the card just shows no image until you
-install it again ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 7).
+install it again ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 7). A sample poster, tested in game, is in
+[art/posters](art/posters/fco_sample_poster_848x1320.png) (our own art, CC BY 4.0; see [NOTICE](NOTICE.md)).
 
 ## The AI standard
 

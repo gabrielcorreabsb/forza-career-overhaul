@@ -31,6 +31,13 @@ git-ignored paths.
   them. The optional method 21 reader loads `xcompress64.dll` from the
   `XCOMPRESS_DLL` variable or from a local copy under `_external/`.
 
+## Poster art (ours, in this repository)
+
+The images in `art/posters/` are not third-party material: they were generated for this project with Google's
+Nano Banana image model (18/11/2026) and are released under CC BY 4.0, like the documentation. They are our own
+art, not game files, and carry no game asset, logo, real car or driver. The tool that installs them into the
+game's poster archives is `_tools/swatchbin_edit.py` ([SWATCHBIN](../reference/SWATCHBIN.md)).
+
 ## What you need locally
 
 Local layout (every path below is git-ignored):
