@@ -167,6 +167,27 @@ uma linha em `patches\ledger.jsonl`; ele recusa com processo `forza*` aberto ou
 quando o último dry-run limpo daquele plano exato tem mais de 30 minutos. Para
 desfazer: `python _tools\rollback_cache.py`.
 
+## 7. Opcional: um pôster seu
+
+Uma série pode mostrar a sua arte no cartão (testado no jogo: [SWATCHBIN](../reference/SWATCHBIN.md)).
+A arte fica no install do jogo, não no cache, então é um segundo passo, separado:
+
+1. Faça um PNG de **848×1320** (e, se quiser, um de **424×660**; senão o mesmo arquivo é usado).
+   Deixe o quarto de cima sem texto: o nome da série é desenhado por cima.
+2. No spec da rodada, dê à série um `poster` (`{"name": "FCO_MeuPoster", "image": "art/meu.png"}`,
+   veja [specs/README.md](../../specs/README.md)). O kit passa a ter `posters.json` ao lado do `plan.json`.
+3. Com o jogo **fechado**, instale os pôsteres e depois aplique o kit como no passo 6:
+
+```powershell
+python _tools\swatchbin_edit.py --allow-install --manifest patches\<kit>\posters.json --dry-run
+python _tools\swatchbin_edit.py --allow-install --manifest patches\<kit>\posters.json --verify
+```
+
+A primeira escrita faz backup dos dois arquivos originais (o caminho aparece na tela); `--restore <essa pasta>`
+os devolve. Só entradas `FCO_*` são gravadas, toda outra entrada fica onde estava (um arquivo refeito com
+entradas movidas trava o jogo), e basta Python. Depois de um update do Steam ou de *verificar arquivos*, os
+pôsteres somem; as séries continuam funcionando, com o cartão vazio, até você rodar o mesmo comando de novo.
+
 ## Se der errado
 
 | sintoma | causa / correção |

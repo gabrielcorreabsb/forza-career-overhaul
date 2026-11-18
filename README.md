@@ -15,7 +15,7 @@
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB">
   <img alt=".NET 10 SDK" src="https://img.shields.io/badge/.NET-10-512BD4">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows-lightgrey">
-  <img alt="Status: phase 0.7, texts and locks covered, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
+  <img alt="Status: phase 0.8, own poster art, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
 </p>
 
 <p align="center">
@@ -46,6 +46,10 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
 - **The race format of a series**: how fast its tyres wear (a series scale that changes the grip at the end of a race), how fast the race clock runs (a day-to-night race in a few minutes) and when its rain starts, peaks and ends (a forecast's phase times and sky can be edited). Every value the vanilla series use is listed in [SERIES_FIELD_VALUES](docs/reference/SERIES_FIELD_VALUES.md).
 - **Every field a series and an event can set, tried across its range** (16 Nov): laps from 1 to 67, start hour and minute, the clock speed, the start type, a performance cap that really blocks a car, weather by forecast id, the build-phase skip and unlock gates all work; the open class, the slot counts, a 30-minute practice and the skip-lap flag do nothing; the career has no qualifying; some generators drop the connection and an empty roster document crashes the race. The roster document, not the series, decides who is on the grid ([DISCOVERIES](docs/project/DISCOVERIES.md) D81 to D85).
 - **The car list, the practice, the points and the lock text of a series** (16–17 Nov): year and PI ranges, a blocklist and a class filter cut the list of cars the career offers; 0 practice laps give a timed free practice; the AI's catch-up, slow-down and proximity switches each change the field; a table per finishing position sets the series points; the practice clock opens at any hour and minute; and a series locked by another series, a ladder or an event shows **your own text** on its card (a lock by driver level always shows the game's message). Descriptions of series, ladders and cups, a cup's practice limit and a ladder's label show nothing on screen, so they are not levers ([DISCOVERIES](docs/project/DISCOVERIES.md) D87 to D97).
+- **A poster of our own for each series** (18 Nov): our art, under its own name, added to the game's poster archives with
+  plain Python, shows on the series card; several go in at once, and a lost poster (after a Steam update) only leaves the
+  card without art. The archive's layout has to stay as the game wrote it: a rebuilt archive with moved entries crashed
+  the game ([SWATCHBIN](docs/reference/SWATCHBIN.md), [DISCOVERIES](docs/project/DISCOVERIES.md) D98 to D104).
 - **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
   challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
 
@@ -74,11 +78,13 @@ backup, post-write verification and rollback.
 | Own AI pools of a theme (country, make, decade); series that serve the game's live challenges | verified in game |
 | Series and event fields tried across their range: laps, start time, clock, start type, a performance cap, weather by forecast id, the build-phase skip, gates | verified in game |
 | Start type and slot, race weekend, practice length, weather and its timing, race clock speed, tyre wear scale, pit stop, field size | observed |
+| Car list by year, PI band, blocklist and class; points per position; own lock text; own poster art per series | observed |
 | A first own season (a cup, three groups that unlock in order) | in progress |
 | A second season built around the game's live challenges (a cup, five groups) | in progress |
 | Entry ladder (E and D), one-make and period series | planned |
 | Fuel, tyre compound, the AI's wear | to test |
-| Banners, series texts and the client's feature flags | to test |
+| The client's feature flags; the intro video of a group | to test |
+| Series descriptions, banners and buttons, a cup's practice limit, a ladder's label | closed (nothing shows on screen) |
 | Prizes of our own, a real qualifying | closed (the server grants prizes; no data field selects a qualifying) |
 | Series fields that do not act: open class, slot counts, a 30-minute practice, the skip-lap flag | closed (the roster document decides the grid; the career has no qualifying) |
 | Car level, car points and their price; a server of our own | closed (the online service owns the account; see [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md)) |
@@ -120,6 +126,17 @@ the day.
 <p align="center">
   <img src="assets/challenge_tour.svg" alt="One cup of our own with five groups, one per live game challenge: American muscle, Italy at Mugello, Ferrari in Florida (played), Rising Sun (played) and the 2010s" width="620">
 </p>
+
+## Your own poster art
+
+<p align="center">
+  <img src="assets/poster_pipeline.svg" alt="Own poster art in two halves: a PNG and a poster key in the round spec become, through build_series, a cache kit that points the series at FCO_name and a posters.json manifest; swatchbin_edit installs the manifest into the game's two poster archives keeping every vanilla entry in place; the series card then shows the art" width="620">
+</p>
+
+A series names its poster; the poster lives in the game's install. One spec line (`poster`) gives both halves: the cache
+kit points the series at the new poster, and `posters.json` installs it with plain Python, next to the vanilla posters
+and without moving any of them. A Steam update removes the art, never the career: the card just shows no image until you
+install it again ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 7).
 
 ## The AI standard
 
@@ -168,6 +185,7 @@ python _tools\rollback_cache.py                              # undo the last app
 | build an AI grid (class, make, chosen models) | verified | [tutorial 04](docs/tutorials/04_ai_grid.md) · [AI_GRIDS](docs/guides/AI_GRIDS.md) |
 | set where you start, practice, weather, rain timing, race clock, tyre wear, start type per event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
 | understand how the career pays | mapped | [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) |
+| give a series its own poster | observed | [GETTING_STARTED step 7](docs/en/GETTING_STARTED.md) · [SWATCHBIN](docs/reference/SWATCHBIN.md) |
 | see every lever and how sure we are | mapped | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) · [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 
 **What this does not do.** It does not touch online play, physics or the account economy. Steam's *verify files* or a new

@@ -164,6 +164,27 @@ The apply backs the whole cache up to `_backup\cache_<timestamp>` and appends to
 last clean dry-run for that exact plan is older than 30 minutes. To undo:
 `python _tools\rollback_cache.py`.
 
+## 7. Optional: a poster of your own
+
+A series can show your own art on its card (tested in game: [SWATCHBIN](../reference/SWATCHBIN.md)).
+The art lives in the game's install, not in the cache, so it is a second, separate step:
+
+1. Make a PNG of **848×1320** (and, if you want, a **424×660** one; otherwise the same file is used).
+   Keep the top quarter free of text: the series name is drawn over it.
+2. In the round spec, give the series a `poster` (`{"name": "FCO_MyPoster", "image": "art/my.png"}`,
+   see [specs/README.md](../../specs/README.md)). The kit then holds `posters.json` next to `plan.json`.
+3. With the game **closed**, install the posters, then apply the kit as in step 6:
+
+```powershell
+python _tools\swatchbin_edit.py --allow-install --manifest patches\<kit>\posters.json --dry-run
+python _tools\swatchbin_edit.py --allow-install --manifest patches\<kit>\posters.json --verify
+```
+
+The first write backs up the two original archives (path printed); `--restore <that folder>` puts them back.
+Only `FCO_*` entries are ever written, every other entry stays where it was (a rebuilt archive with moved
+entries crashes the game), and it needs plain Python only. After a Steam update or *verify files* the posters
+are gone; the series still work, with an empty card, until you run the same command again.
+
 ## If something goes wrong
 
 | symptom | cause / fix |

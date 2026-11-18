@@ -128,6 +128,67 @@ def check_text(value, tag):
 # --------------------------------------------------------------------------- #
 # round spec (--round): one ladder per experiment, series cloned from a base
 # --------------------------------------------------------------------------- #
+POSTER_DIR = "GAME:\\Media\\UI\\Textures\\Data_Bound\\SeriesPosters\\"
+POSTER_NAME_RE = re.compile(r"^FCO_[A-Za-z0-9_]{1,48}$")
+
+
+def check_poster(item, tag):
+    """series[].poster = {name: FCO_*, image, [image_hires]}: our own poster
+    (D99-D104). The series gets ImagePath; the kit gets posters.json, the
+    manifest that swatchbin_edit.py --manifest installs."""
+    p = item["poster"]
+    if not isinstance(p, dict) or set(p) - {"name", "image", "image_hires"} \
+            or "name" not in p or "image" not in p:
+        raise FmError("%s.poster: needs {name, image[, image_hires]}" % tag)
+    if not isinstance(p["name"], str) or not POSTER_NAME_RE.match(p["name"]):
+        raise FmError("%s.poster.name %r: must be FCO_<letters, digits, _> "
+                      "(never a vanilla name)" % (tag, p["name"]))
+    for k in ("image", "image_hires"):
+        if k in p and (not isinstance(p[k], str) or not p[k].strip()):
+            raise FmError("%s.poster.%s: a path to a PNG" % (tag, k))
+    if "ImagePath" in item.get("series_set", {}):
+        raise FmError("%s: poster and series_set.ImagePath both set the "
+                      "poster (two sources) - keep one" % tag)
+
+
+def poster_path(item):
+    return POSTER_DIR + item["poster"]["name"] + ".png"
+
+
+def write_poster_manifest(spec, spec_path, kit_dir):
+    """posters.json next to the plan: the install half of the round."""
+    base = os.path.dirname(os.path.abspath(spec_path))
+    add, seen = [], set()
+    for item in spec["series"]:
+        p = item.get("poster")
+        if not p:
+            continue
+        if p["name"].lower() in seen:
+            continue              # two series may share one poster
+        seen.add(p["name"].lower())
+        ent = {"name": p["name"]}
+        for k in ("image", "image_hires"):
+            if k in p:
+                src = os.path.normpath(os.path.join(base, p[k]))
+                if not os.path.isfile(src):
+                    raise FmError("poster %s: %s not found" % (p["name"], src))
+                try:
+                    ent[k] = os.path.relpath(src, kit_dir).replace("\\", "/")
+                except ValueError:        # another drive: keep it absolute
+                    ent[k] = src
+        add.append(ent)
+    if not add:
+        return None
+    out = os.path.join(kit_dir, "posters.json")
+    with open(out, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({"_doc": "install half of %s: python _tools\\swatchbin_edit"
+                           ".py --allow-install --manifest <this file> "
+                           "(--dry-run first; game closed)" % spec["kit"],
+                   "codec": "deflate", "add": add}, fh, indent=1)
+        fh.write("\n")
+    return out
+
+
 def load_round_spec(path):
     """Validates a round spec; refuses before anything is written."""
     with open(path, encoding="utf-8-sig") as fh:
@@ -318,6 +379,13 @@ def load_round_spec(path):
                               "series_set.EntryCriteria.EntryCriteriaName both "
                               "set the lock text (two sources) - keep one"
                               % i)
+        if "poster" in item:
+            check_poster(item, "round spec.series[%d]" % i)
+        if "poster_brief" in item and (
+                not isinstance(item["poster_brief"], str)
+                or not item["poster_brief"].strip()):
+            raise FmError("round spec.series[%d].poster_brief: a non-empty "
+                          "line of text" % i)
         if multi and "donor" in item.get("override", {}):
             raise FmError("round spec.series[%d]: common 'override.donor' "
                           "has no meaning with 'events' (each event takes "
@@ -661,6 +729,8 @@ def edit_round_multi(bcs, ovr, xml, lad, item, base_series, base_event,
     ns["OrderedEventIds"] = [e["EventDataId"] for e in events]
     for k, v in item.get("series_set", {}).items():
         nested.set_path(ns, k, v, create)
+    if "poster" in item:
+        ns["ImagePath"] = poster_path(item)
     describe_series(bcs, item, ns, snap)
     describe_lock(bcs, item, ns, snap)
     B.append_series(lad, ns)
@@ -759,6 +829,8 @@ def edit_round(bcs, ovr, xml, spec, prod_files, new_ids, snap):
         ns["OrderedEventIds"] = [ev["EventDataId"]]
         for k, v in item.get("series_set", {}).items():
             nested.set_path(ns, k, v, create)
+        if "poster" in item:
+            ns["ImagePath"] = poster_path(item)
         describe_series(bcs, item, ns, snap)
         describe_lock(bcs, item, ns, snap)
         B.append_series(lad, ns)
@@ -1234,6 +1306,10 @@ def run_round(spec, args):
         print("")
         print("[aifield] %d definition(s)" % len(spec["aifield"]))
         n_targets = merge_aifield(spec, cache, kit, plan)
+    posters = write_poster_manifest(spec, args.round, kit.dir)
+    if posters:
+        print("posters: %s (install half: swatchbin_edit.py --manifest)"
+              % posters)
     kit.write_nota(spec["title"], "_tools/build_series.py --round",
                    spec.get("scope", "Rodada '%s': %d serie(s) no cup/grupo."
                             % (spec["title"], len(spec["series"]))),

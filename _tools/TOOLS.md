@@ -22,6 +22,9 @@ Role of each script. Everything here runs against **your** game install and cach
 | `build_aifield.py` | AI grid payload from a definition in `specs/aifield/` (pool or list), built on a vanilla template of your game; `--cache-plan` also writes the plan for `cache_edit.py` |
 | `fmlib/` | shared library: `cache`, `crypto`, `bcs`, `carsxml`, `overrides`, `strs`, `cars`, `ids`, `kit`, `aifield` |
 | `str_edit.py` | `.str` codec (byte-identical round-trip; `IDS_` keys of any length) |
+| `swatchbin.py` | own poster art: PNG → `.swatchbin` (BC7, header generated for the size; no game file read) |
+| `swatchbin_edit.py` | installs own posters into the game's poster archives (`--manifest posters.json`: add/remove `FCO_*` entries in one write, vanilla layout kept, Deflate, backup, `--dry-run`/`--verify`/`--restore`) |
+| `test_swatchbin_edit.py` | self-test of `swatchbin.py` and `swatchbin_edit.py` on synthetic archives |
 | `cms_crypto.py` | Python CMS codec; the key comes from `FM_CMS_KEY` or a local `cms_key.hex` (never versioned; see `docs/project/THIRD_PARTY.md`) |
 | `cmsoracle/`, `cacheoracle/` | .NET oracles (`dotnet build <x>.csproj -c Release`); the cache oracle needs third-party files you supply |
 

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 340" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">Own poster art: one spec line, two halves</title>
+  <desc id="d">A round spec gives a series a poster key with a name FCO_x and a PNG. build_series.py turns it into a cache kit, where the series points its ImagePath at FCO_x, and a posters.json manifest. cache_edit applies the kit to the game cache; swatchbin_edit installs the manifest into the game's two poster archives, adding FCO_x and keeping every vanilla entry in place. The series card then shows the art. After a Steam update the card is empty until the manifest is installed again.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .r{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .m{font:11px Consolas,"Courier New",monospace;fill:#E6EDF3}
+    .b{font:700 12px "Segoe UI",Helvetica,Arial,sans-serif}
+    .box{fill:#161B22;stroke:#30363D;stroke-width:1}
+    .ln{stroke:#D29922;stroke-width:2;fill:none}
+  </style>
+  <rect class="bg" width="620" height="340" rx="6"/>
+  <text class="h" x="24" y="30">Your own poster: one spec line, two halves</text>
+  <text class="s" x="24" y="48">The series lives in the game cache; its poster lives in the game install. Both come from the same spec.</text>
+
+  <!-- spec -->
+  <rect class="box" x="24" y="88" width="150" height="128" rx="6" stroke="#D29922" stroke-width="1.5"/>
+  <text class="b" x="38" y="110" fill="#D29922">ROUND SPEC</text>
+  <text class="r" x="38" y="132">a series, plus</text>
+  <text class="m" x="38" y="152">"poster": {</text>
+  <text class="m" x="46" y="168">"name": "FCO_x",</text>
+  <text class="m" x="46" y="184">"image": "x.png"}</text>
+  <text class="s" x="38" y="204">PNG 848×1320</text>
+
+  <path class="ln" d="M174 152 H198"/><path class="ln" d="M192 147 L198 152 L192 157"/>
+
+  <!-- generator -->
+  <rect class="box" x="198" y="124" width="120" height="56" rx="6"/>
+  <text class="b" x="212" y="146" fill="#E6EDF3">build_series.py</text>
+  <text class="s" x="212" y="166">--round</text>
+
+  <!-- split -->
+  <path class="ln" d="M318 152 H330 V100 H344 M330 152 V214 H344"/>
+  <path class="ln" d="M338 95 L344 100 L338 105 M338 209 L344 214 L338 219"/>
+
+  <!-- cache half -->
+  <rect class="box" x="344" y="72" width="120" height="56" rx="6"/>
+  <text class="b" x="358" y="94" fill="#58A6FF">CACHE KIT</text>
+  <text class="s" x="358" y="114">ImagePath = FCO_x</text>
+  <rect class="box" x="490" y="72" width="106" height="56" rx="6" stroke="#58A6FF"/>
+  <text class="b" x="502" y="94" fill="#58A6FF">game cache</text>
+  <text class="s" x="502" y="114">the series</text>
+  <path class="ln" d="M464 100 H490" style="stroke:#58A6FF"/><path d="M484 95 L490 100 L484 105" stroke="#58A6FF" stroke-width="2" fill="none"/>
+  <text class="s" x="452" y="66">cache_edit</text>
+
+  <!-- install half -->
+  <rect class="box" x="344" y="186" width="120" height="56" rx="6"/>
+  <text class="b" x="358" y="208" fill="#BC8CFF">posters.json</text>
+  <text class="s" x="358" y="228">install half</text>
+  <rect class="box" x="490" y="186" width="106" height="56" rx="6" stroke="#BC8CFF"/>
+  <text class="b" x="502" y="208" fill="#BC8CFF">poster zips</text>
+  <text class="s" x="502" y="228">+ FCO_x</text>
+  <path d="M464 214 H490 M484 209 L490 214 L484 219" stroke="#BC8CFF" stroke-width="2" fill="none"/>
+  <text class="s" x="440" y="258">swatchbin_edit</text>
+
+  <!-- card -->
+  <path d="M596 100 H608 V282 H596 M543 242 V264" stroke="#3FB950" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+  <rect x="198" y="264" width="398" height="36" rx="6" fill="#161B22" stroke="#3FB950" stroke-width="1.5"/>
+  <text class="b" x="212" y="287" fill="#3FB950">SERIES CARD</text>
+  <text class="r" x="312" y="287">shows your poster, under the series name</text>
+
+  <text class="s" x="24" y="324">Plain Python, vanilla entries never move. After a Steam update: empty card, no crash; install again.</text>
+</svg>

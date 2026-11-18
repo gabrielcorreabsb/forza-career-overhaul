@@ -12,6 +12,9 @@ Scripts of the pipeline, by role. Source: _tools/TOOLS.md.
 - [build_aifield.py](/tools/build_aifield_py.md) — AI grid payload from a definition in specs/aifield/ (pool or list), built on a vanilla template of your game; --cache-plan also writes the plan for cache_edit.py
 - [fmlib/](/tools/fmlib.md) — shared library: cache, crypto, bcs, carsxml, overrides, strs, cars, ids, kit, aifield
 - [str_edit.py](/tools/str_edit_py.md) — .str codec (byte-identical round-trip; IDS_ keys of any length)
+- [swatchbin.py](/tools/swatchbin_py.md) — own poster art: PNG → .swatchbin (BC7, header generated for the size; no game file read)
+- [swatchbin_edit.py](/tools/swatchbin_edit_py.md) — installs own posters into the game's poster archives (--manifest posters.json: add/remove FCO_ entries in one write, vanilla layout kept, Deflate, backup, --dry-run/--verify/--restore)
+- [test_swatchbin_edit.py](/tools/test_swatchbin_edit_py.md) — self-test of swatchbin.py and swatchbin_edit.py on synthetic archives
 - [cms_crypto.py](/tools/cms_crypto_py.md) — Python CMS codec; the key comes from FM_CMS_KEY or a local cms_key.hex (never versioned; see docs/project/THIRD_PARTY.md)
 - [cmsoracle/](/tools/cmsoracle.md) — .NET oracles (dotnet build <x>.csproj -c Release); the cache oracle needs third-party files you supply
 - [cacheoracle/](/tools/cacheoracle.md) — .NET oracles (dotnet build <x>.csproj -c Release); the cache oracle needs third-party files you supply
