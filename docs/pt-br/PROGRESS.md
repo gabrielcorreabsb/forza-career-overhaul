@@ -21,6 +21,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.5 — o padrão da IA** | 15–16/11 | a IA de uma série deixa de sair da pista na mesma curva: uma edição global da faixa de velocidade da IA mais um campo nivelado no teto da classe, testados em Brands Hatch GP, Lime Rock, um oval e a classe A (abaixo) | verified |
 | **Fase 0.6 — cobrindo os valores** | 16/11 | cada campo que uma série, um evento e o override dele podem definir foi testado no jogo ao longo da faixa, numa bancada de séries de um campo só: o que funciona, o que não tem efeito e o que não é seguro (abaixo) | verified |
 | **Fase 0.7 — textos, travas e grupos** | 16–17/11 | a lista de carros cortada por ano, faixa de PI, lista de bloqueio e classe, o tamanho do treino por voltas ou treino livre com tempo, os pontos da série definidos por uma tabela por posição, o relógio do treino até o minuto, e o texto que uma série trancada mostra (abaixo). Também o que **não funciona**: descrições, o limite de treino de uma cup e o rótulo de uma ladder não mostram nada na tela | verified / observed |
+| **Fase 0.8 — arte própria** | 18/11 | uma série pode mostrar **um pôster nosso**, com nome próprio, instalado pela ferramenta do mod só com Python; vários pôsteres entram de uma vez, e um pôster perdido (depois de um update do Steam) só deixa o cartão sem arte (abaixo) | observed |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -87,6 +88,14 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | A **descrição** de série, ladder e cup não é desenhada por nenhuma tela da carreira, nem nas vanilla | o nome é o único texto visível | observed | D92 |
 | O **texto do bloqueio** de uma série trancada por outra série, por uma ladder ou por um evento é o nosso texto no cartão, até 249 caracteres (quebra em linhas; o cartão cresce); valor vazio mostra um marcador de texto ausente; um bloqueio por **nível de piloto** mostra sempre a mensagem do jogo | motivos de bloqueio claros, no nosso idioma | observed | D93, D94 |
 
+## Fase 0.8, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| O **pôster** de uma série (`ImagePath`) e a imagem de uma ladder trocam a arte dos cartões; o banner e o botão da série não mudaram nada visível | apontar cada série e ladder para uma arte adequada | observed | D98 |
+| **Pôster com arte nossa** aparece no cartão da série: uma entrada nova, com nome próprio, nos arquivos de pôster do jogo, no formato das entradas vanilla (grade de 4096 bytes, campo com o offset dos dados); Deflate é aceito, então não precisa do runtime da Microsoft | cada série do mod com o próprio pôster | observed | D99–D102 |
+| Vários pôsteres gravados de uma vez, e um removido, funcionam; uma série cujo pôster falta mostra o cartão sem imagem e nada quebra | instalar todos os pôsteres num passo só; perder a arte (update do Steam) não quebra a carreira | observed | D103, D104 |
+
 ## O que vem
 
 Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede uma corrida controlada no jogo), **not possible**
@@ -101,7 +110,7 @@ Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede u
 | **Formato de corrida** | escala de desgaste, velocidade do relógio e tempo do clima estão provados (Fase 0.4); combustível, classificação, as flags de comportamento da IA contra as da série e uma transição suave para céu limpo seguem para testar | em parte feito, o resto a testar |
 | **Composto de pneu da carreira** | listas por modo nas flags do cliente definem o pneu padrão dos modos online, não o da carreira; acrescentar um item de carreira é uma entrada | to test |
 | **Grids acima de 24 carros** | sem precedente: todo documento vanilla pede 23 IA + o jogador ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
-| **Arte própria por série** | pôsteres e banners vêm da série doadora; o formato foi lido, a escrita não foi testada | to test |
+| **Arte própria por série** | provada no jogo (D99–D104): um pôster nosso por série, gravado pela ferramenta do mod só com Python; falta o passo de instalação para o jogador e a arte em si | viable |
 | **Outros idiomas** | textos novos vão só para a tabela pt-BR; os outros 20 idiomas não têm chaves. Decidido: feito na release do mod, copiando as chaves do conteúdo real para todos os idiomas (nomes traduzidos como rascunho, inglês como texto de reserva) | na release |
 
 **Not possible, não repetir:** Qualifying real (D33), prêmios próprios e edição de pagamento no cache ou nos arquivos do

@@ -21,6 +21,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.5 — the AI standard** | 15–16 Nov | the AI of a series no longer leaves the track at the same corner: one global edit of the AI's speed band plus a levelled field at the class ceiling, tried on Brands Hatch GP, Lime Rock, an oval and class A (below) | verified |
 | **Phase 0.6 — covering the values** | 16 Nov | every field a series, an event and its override can set was tried in game across its range, in a bench of one-field series: what works, what has no effect and what is not safe (below) | verified |
 | **Phase 0.7 — texts, locks and groups** | 16–17 Nov | the car list cut by year, PI band, blocklist and class, the practice length by laps or a timed free practice, the series points set by a table per position, the practice clock to the minute, and the text a locked series shows (below). Also what **does not work**: descriptions, a cup's practice limit and a ladder's label show nothing on screen | verified / observed |
+| **Phase 0.8 — own art** | 18 Nov | a series can show **a poster of our own**, under its own name, installed by the mod's tool with plain Python; several posters go in at once, and a lost poster (after a Steam update) only leaves the card without art (below) | observed |
 
 ## Phase 0.3, finding by finding
 
@@ -87,6 +88,14 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | The **description** of a series, a ladder and a cup is not drawn by any career screen, the vanilla ones included | the name is the only visible text | observed | D92 |
 | The **lock text** of a series locked by another series, a ladder or an event is our own text on the card, up to 249 characters (wrapped; the card grows); an empty value shows a missing-text marker; a lock by **driver level** always shows the game's message | clear, own-language reasons for a lock | observed | D93, D94 |
 
+## Phase 0.8, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| A series' **poster** (`ImagePath`) and a ladder's image change the art on their cards; the series' banner and button fields changed nothing seen | point each series and ladder at fitting art | observed | D98 |
+| **Our own poster art** shows on a series card: a new entry, under its own name, in the game's poster archives, in the vanilla entry shape (4096-byte grid, data-offset field); Deflate is accepted, so no Microsoft runtime is needed | every series of the mod with its own poster | observed | D99–D102 |
+| Several posters written in one go, and one removed, all behave; a series whose poster is missing shows an empty card body and nothing breaks | install every poster in one step; losing the art (a Steam update) is harmless | observed | D103, D104 |
+
 ## What is next
 
 State labels: **viable** (the mechanism is known), **to test** (plausible, needs a controlled run in game), **not possible**
@@ -101,7 +110,7 @@ State labels: **viable** (the mechanism is known), **to test** (plausible, needs
 | **Race format** | tyre wear scale, race clock speed and weather timing are proven (Phase 0.4); fuel, qualifying, the AI's behaviour flags against the series' ones and a smooth clear-sky transition are still to test | partly done, rest to test |
 | **Career tyre compound** | per-mode lists in the client flags set the default tyre for online modes but not the career; adding a career item is one entry | to test |
 | **Grids above 24 cars** | no precedent: every vanilla document asks for 23 AI + the player ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
-| **Own art per series** | posters and banners are inherited from the donor series; the format is read, writing is untested | to test |
+| **Own art per series** | proven in game (D99–D104): a poster of our own per series, written by the mod's tool in plain Python; left: the release step for players and the art itself | viable |
 | **Other languages** | new strings go into the pt-BR table only; the other 20 locales have no keys yet. Decided: done at the mod's release, copying the keys of the real content to every language (names translated as a draft, English as the fallback) | at release |
 
 **Not possible, do not repeat:** a real Qualifying (D33), prizes of our own and payout edits in the cache or install files

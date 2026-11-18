@@ -4,7 +4,7 @@ What a career poster or banner file looks like in Forza Motorsport (2023), and
 what is still unproven before a series can ship its own art. It holds no game
 images and no game text, only the layout, counts and status.
 
-**Status: the read side is verified; nothing has been written to the game.**
+**Status: our own poster art works in the game (18/11/2026), both in the room of an existing entry and as a brand-new entry name, in method 21 or in Deflate.**
 Today a series reuses an existing poster or banner path
 ([MODDING_SURFACE](MODDING_SURFACE.md)).
 
@@ -50,6 +50,43 @@ is `144 + width × height`. All numbers are little-endian.
 | slice +0 | encoding | 9 (BC7) |
 | slice +4 | offset of the mip record, from `P` | |
 | mip +0 | mip size in bytes | equals file size minus 144 |
+
+## Layout inside the archive (measured)
+
+- Every entry of the four archives starts at an offset that is a multiple of
+  4096 (332 of 332 in the normal poster archive, 196 of 196 in the normal banner
+  archive), with an 8-byte extra field, method 21, and spare room after the data
+  (the next entry starts at the next 4096 boundary after that room).
+- **A rebuilt archive that shifts offsets crashes the game.** On 18/11/2026 the
+  poster archives were rewritten with one entry in Deflate and everything after
+  it moved off the 4096 grid (250 of 332 entries); every series poster in the
+  test cup turned white and the game crashed. The archives were restored from
+  backup. The cause was not split between the shifted offsets and the Deflate
+  method.
+- **A swap that keeps every offset and the file size works.** The new content went
+  into the old entry's own room, in method 21 (the compressed bytes of another
+  entry, copied as they are), in both archives: the series card showed the new
+  poster and nothing else changed.
+- **Our own art works the same way.** Our image, encoded to BC7 with a vanilla
+  header as template and compressed in method 21 with the same LZX runtime the
+  reader uses, went into an idle poster's room in both archives; a series whose
+  `ImagePath` names that poster showed our art. The compressed poster took about
+  38% of the pixel size (normal) and 31% (hires), well inside the room.
+- **The 8-byte extra field is a data offset.** In every entry's central
+  directory record it is tag `0x1123`, size 4, then the offset of that entry's
+  data in the archive.
+- **A new entry name works.** A new entry appended at the end on the 4096 grid,
+  in method 21, with its own `0x1123` field and the central directory kept on
+  the grid, showed our art on the card of a series whose `ImagePath` names it.
+- **Deflate is accepted.** The same new entry written in Deflate (method 8),
+  with the same shape, showed the same art. So the D99 crash came from the
+  shifted offsets, not from the method, and writing our art needs no LZX
+  runtime.
+- **Many at once, and removal.** Three new entries written in one go each showed
+  the right image. Removing an entry by dropping its central directory record
+  and zeroing its room, with no other entry moved, is accepted.
+- **A missing poster is harmless.** A series whose `ImagePath` names a poster
+  that does not exist shows an empty card body, with no crash.
 
 ## What is not proven
 

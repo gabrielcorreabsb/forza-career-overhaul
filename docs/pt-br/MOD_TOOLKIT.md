@@ -19,7 +19,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 ### Estrutura da carreira e textos
 | alavanca | status | evidência | ferramenta / guia |
 |---|---|---|---|
-| árvore cup → ladder → série → evento: ordem, nomes, arte (reuso da arte existente) | ✅ | verified | [tutorial 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
+| árvore cup → ladder → série → evento: ordem, nomes, arte (arte existente ou pôster nosso por série) | ✅ | verified | [tutorial 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
 | séries novas, com ids próprios | ✅ | verified | `build_series.py` |
 | nomes de cups, ladders, séries e eventos (chaves de texto novas, de qualquer tamanho) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
 | **descrições** de série, ladder e cup (chaves de texto novas) | ⛔ | observed | D92: nenhuma tela da carreira as desenha, nem as vanilla; o nome é o único texto visível |
@@ -32,6 +32,7 @@ Rótulos de evidência: **verified** (a mudança foi feita e o efeito visto no j
 |---|---|---|---|
 | abrir uma série (nossa ou vanilla) só depois de concluir outra série ou um grupo inteiro | ✅ | verified | critérios de entrada da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)) |
 | **texto do bloqueio** de uma série trancada por outra série, por uma ladder ou por um evento: o nosso texto aparece no cartão da série (249 caracteres quebram em várias linhas e o cabeçalho do cartão cresce sobre a arte); valor vazio mostra um marcador de texto ausente | ✅ | observed | D94 |
+| **pôster próprio por série**: uma entrada nova, com nome próprio, nos arquivos de pôster do jogo (normal e alta resolução), no formato das entradas vanilla, Deflate aceito; a série a nomeia no `ImagePath`. Vários de uma vez e remoção funcionam; pôster ausente deixa o cartão sem arte, nada quebra. Banner e botão não mostraram nada | ✅ | observed | D98–D104 |
 | uma série trancada por **nível de piloto** mostra sempre a mensagem do jogo (o nível pedido e o seu); o texto do bloqueio não muda | ⛔ | observed | D93 |
 | uma **série com vários eventos** (2 a 8 no jogo vanilla): os eventos rodam em sequência, os pontos da série somam por piloto, a série termina no último evento e cada corrida paga o mesmo | ✅ | verified | a lista de eventos da série ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pagamento que cresce com o tamanho da corrida (voltas, distância) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |

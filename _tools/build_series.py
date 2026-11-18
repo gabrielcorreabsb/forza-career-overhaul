@@ -141,6 +141,8 @@ def load_round_spec(path):
     for k in ("group", "base", "series"):
         if k not in spec:
             raise FmError("round spec: missing '%s'" % k)
+    if isinstance(spec["group"], dict) and "set" in spec["group"]:
+        group_placement(spec["group"])          # validates group.set
     if isinstance(spec["group"], dict) and "description" in spec["group"]:
         check_text(spec["group"]["description"],
                    "round spec.group.description")
@@ -401,6 +403,14 @@ def group_placement(group):
         check_text(group["description"], "round spec.group.description")
     lad = {"id": group.get("id", "auto"), "donor": group["donor"], "name": group["name"],
            "cup": group["cup"]}
+    if "set" in group:
+        gs = group["set"]
+        if not isinstance(gs, dict) or not gs or any(
+                not isinstance(k, str) or not k or isinstance(v, (dict, list))
+                for k, v in gs.items()):
+            raise FmError("round spec.group.set: a non-empty object of "
+                          "top-level ladder fields -> scalar values")
+        lad["set"] = gs
     if "key_label" in group:
         lad["key_label"] = group["key_label"]
     if "description" in group:
@@ -930,6 +940,12 @@ def resolve_placement(bcs, pl, new_ids, snap):
     if "description" in lad_spec:
         lad["Description"] = desc_key("desc|ladder|%d"
                                       % lad["ChampionshipLadderId"])
+    for k, v in lad_spec.get("set", {}).items():
+        if k not in lad:
+            raise FmError("%s: group.set field %r is not in donor ladder %d "
+                          "(only existing ladder fields)"
+                          % (snap, k, lad_spec["donor"]))
+        lad[k] = v
     B.append_ladder(cup, lad)
     return lad
 

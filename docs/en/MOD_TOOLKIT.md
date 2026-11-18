@@ -17,7 +17,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 ### Career structure and text
 | lever | status | evidence | tool / guide |
 |---|---|---|---|
-| cup → ladder → series → event tree: order, names, art (reuse of existing art) | ✅ | verified | [tutorials 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
+| cup → ladder → series → event tree: order, names, art (existing art, or our own poster per series) | ✅ | verified | [tutorials 02](../tutorials/02_reorder.md), [03](../tutorials/03_new_series.md) |
 | brand-new series with their own ids | ✅ | verified | `build_series.py` |
 | names of cups, ladders, series and events (new text keys of any length) | ✅ | verified | `str_edit.py`, [tutorial 01](../tutorials/01_rename.md) |
 | **descriptions** of a series, a ladder and a cup (new text keys) | ⛔ | observed | D92: no career screen draws them, not even the vanilla ones; the name is the only visible text |
@@ -30,6 +30,7 @@ names, not run). Status: ✅ ready · 🧪 being tested · ⛔ closed.
 |---|---|---|---|
 | unlock a series (ours or a vanilla one) only after another series or a whole group is done | ✅ | verified | the series' entry criteria ([CAREER_BASICS](../guides/CAREER_BASICS.md)) |
 | **lock text** of a series locked by another series, a ladder or an event: our own text shows on the series card (249 characters wrap to several lines and the card header grows over the art); an empty value shows a missing-text marker | ✅ | observed | D94 |
+| **own poster per series**: a new entry under its own name in the game's poster archives (normal and high-res), in the vanilla entry shape, Deflate accepted; the series names it in `ImagePath`. Several at once and removal work; a missing poster leaves the card without art, nothing breaks. Banner and button fields showed nothing | ✅ | observed | D98–D104 |
 | a series locked by **driver level** always shows the game's own message (the level asked and yours); its lock text cannot be changed | ⛔ | observed | D93 |
 | a **series with several events** (2–8 in the vanilla game): the events run in sequence, series points add up per driver, the series is done after the last event, every race pays the same | ✅ | verified | the series' event list ([CAREER_BASICS](../guides/CAREER_BASICS.md)), [DISCOVERIES](../project/DISCOVERIES.md) |
 | pay that grows with the race length (laps, distance) | ✅ | observed | [ECONOMY_MAP](../reference/ECONOMY_MAP.md) |
