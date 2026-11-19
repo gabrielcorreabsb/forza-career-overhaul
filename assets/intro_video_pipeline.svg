@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 380" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">Own intro video: file, index record, series in full screen</title>
+  <desc id="d">An MP4 is encoded to Bink 2 with RAD Video Tools. bk2_install.py puts the .bk2 under its own name FCO_x in the install's two video folders; hash_manifest_edit.py adds the path's record to the install's file index, hash.manifest, without which the game does not see the file. A cache kit sets the series to IntroVideoPath FCO_x.bk2 and PlayIntroVideoFullScreen true with no first-car screen. Opening the series plays the video full screen, then the car selection. Without full screen the game plays a 3D scene picked by name with its own music and narration instead.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .m{font:11px Consolas,"Courier New",monospace;fill:#E6EDF3}
+    .b{font:700 12px "Segoe UI",Helvetica,Arial,sans-serif}
+    .box{fill:#161B22;stroke:#30363D;stroke-width:1}
+  </style>
+  <rect class="bg" width="620" height="380" rx="6"/>
+  <text class="h" x="24" y="30">Your own intro video: file, index record, full screen</text>
+  <text class="s" x="24" y="48">The video and its index record live in the install; the series that plays it lives in the game cache.</text>
+
+  <!-- encode -->
+  <rect class="box" x="24" y="74" width="132" height="64" rx="6" stroke="#D29922" stroke-width="1.5"/>
+  <text class="b" x="38" y="96" fill="#D29922">YOUR CLIP</text>
+  <text class="s" x="38" y="114">MP4 → Bink 2</text>
+  <text class="s" x="38" y="130">RAD Video Tools</text>
+  <path d="M156 106 H180 M174 101 L180 106 L174 111" stroke="#D29922" stroke-width="2" fill="none"/>
+
+  <!-- install file -->
+  <rect class="box" x="180" y="74" width="196" height="64" rx="6" stroke="#BC8CFF"/>
+  <text class="b" x="194" y="96" fill="#BC8CFF">1 · bk2_install.py --add</text>
+  <text class="m" x="194" y="114">ui\videos\1080\fco_x.bk2</text>
+  <text class="m" x="194" y="130">ui\videos\2160\fco_x.bk2</text>
+  <path d="M376 106 H400 M394 101 L400 106 L394 111" stroke="#BC8CFF" stroke-width="2" fill="none"/>
+
+  <!-- index -->
+  <rect class="box" x="400" y="74" width="196" height="64" rx="6" stroke="#BC8CFF"/>
+  <text class="b" x="414" y="96" fill="#BC8CFF">2 · hash_manifest_edit.py</text>
+  <text class="s" x="414" y="114">+ record in hash.manifest</text>
+  <text class="s" x="414" y="130">hash of the path, value</text>
+
+  <text class="s" x="400" y="160">no record = the game does not see the file (black screen)</text>
+
+  <!-- cache -->
+  <rect class="box" x="180" y="178" width="416" height="70" rx="6" stroke="#58A6FF"/>
+  <text class="b" x="194" y="200" fill="#58A6FF">3 · cache kit (build_series --round, cache_edit)</text>
+  <text class="m" x="194" y="220">IntroVideoPath: "FCO_x.bk2"   PlayIntroVideoFullScreen: true</text>
+  <text class="m" x="194" y="238">FirstCarSelectEnabled: false  FirstCarSelectCars: []</text>
+
+  <!-- result -->
+  <path d="M388 248 V270 M383 264 L388 270 L393 264" stroke="#3FB950" stroke-width="2" fill="none"/>
+  <rect x="180" y="270" width="416" height="40" rx="6" fill="#161B22" stroke="#3FB950" stroke-width="1.5"/>
+  <text class="b" x="194" y="295" fill="#3FB950">series opens → your video, full screen → car selection</text>
+
+  <!-- other mode -->
+  <rect class="box" x="24" y="178" width="132" height="132" rx="6"/>
+  <text class="b" x="38" y="200" fill="#8B949E">full screen OFF</text>
+  <text class="s" x="38" y="220">a 3D scene picked</text>
+  <text class="s" x="38" y="236">by the name, with</text>
+  <text class="s" x="38" y="252">the game's music</text>
+  <text class="s" x="38" y="268">and narration;</text>
+  <text class="s" x="38" y="284">unknown name =</text>
+  <text class="s" x="38" y="300">default scene</text>
+
+  <text class="s" x="24" y="340">After a Steam update or "verify files": run steps 1 and 2 again; until then the series shows a black screen and keeps working.</text>
+  <text class="s" x="24" y="360">No game video or audio in this project. Findings D105–D113.</text>
+</svg>

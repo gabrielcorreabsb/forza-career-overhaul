@@ -185,6 +185,28 @@ Only `FCO_*` entries are ever written, every other entry stays where it was (a r
 entries crashes the game), and it needs plain Python only. After a Steam update or *verify files* the posters
 are gone; the series still work, with an empty card, until you run the same command again.
 
+## 8. Optional: an intro video of your own
+
+A series can open with your own video, full screen ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)). Like the
+poster, the video lives in the install, and the game only reads install files listed in its file index
+([INSTALL_INDEX](../reference/INSTALL_INDEX.md)), so there are three moves, game **closed**:
+
+1. Encode the clip in Bink 2 (RAD Video Tools), 1920×1080 or 5600×2000, 30 fps.
+2. Install it and index it:
+
+```powershell
+python _tools\bk2_install.py --add FCO_MyIntro --from-file my_1080.bk2 --from-file-2160 my_2160.bk2 --apply
+python _tools\hash_manifest_edit.py --check ui\videos\1080\practicalperformance.bk2 ui\videos\2160\practicalperformance.bk2
+python _tools\hash_manifest_edit.py --add ui\videos\1080\fco_myintro.bk2 ui\videos\2160\fco_myintro.bk2 --value <v1080> <v2160> --apply
+```
+
+3. In the round spec, give the series `"series_set": {"IntroVideoPath": "FCO_MyIntro.bk2",
+   "PlayIntroVideoFullScreen": true, "FirstCarSelectEnabled": false, "FirstCarSelectCars": []}` and apply
+   the kit as in step 6.
+
+Use the values `--check` prints for a vanilla video. `hash_manifest_edit.py --restore --apply` puts the
+original index back. After a Steam update the series shows a black screen until you run step 2 again.
+
 ## If something goes wrong
 
 | symptom | cause / fix |

@@ -15,6 +15,8 @@ Scripts of the pipeline, by role. Source: _tools/TOOLS.md.
 - [swatchbin.py](/tools/swatchbin_py.md) — own poster art: PNG → .swatchbin (BC7, header generated for the size; no game file read)
 - [swatchbin_edit.py](/tools/swatchbin_edit_py.md) — installs own posters into the game's poster archives (--manifest posters.json: add/remove FCO_ entries in one write, vanilla layout kept, Deflate, backup, --dry-run/--verify/--restore)
 - [test_swatchbin_edit.py](/tools/test_swatchbin_edit_py.md) — self-test of swatchbin.py and swatchbin_edit.py on synthetic archives
+- [bk2_install.py](/tools/bk2_install_py.md) — own intro videos: installs a Bink 2 .bk2 under its own name FCO_ in the install's two video folders (--add/--remove), or overwrites one of the four videos no game data names (--replace/--restore, backup); header checked, game closed, dry-run by default
+- [hash_manifest_edit.py](/tools/hash_manifest_edit_py.md) — adds records to the install's file index (media\base\hash.manifest) so the game reads a new loose file, such as an own video; --check shows a path's record; never changes a vanilla record; dry-run, backup, --restore
 - [cms_crypto.py](/tools/cms_crypto_py.md) — Python CMS codec; the key comes from FM_CMS_KEY or a local cms_key.hex (never versioned; see docs/project/THIRD_PARTY.md)
 - [cmsoracle/](/tools/cmsoracle.md) — .NET oracles (dotnet build <x>.csproj -c Release); the cache oracle needs third-party files you supply
 - [cacheoracle/](/tools/cacheoracle.md) — .NET oracles (dotnet build <x>.csproj -c Release); the cache oracle needs third-party files you supply

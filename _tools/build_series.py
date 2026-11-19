@@ -39,7 +39,8 @@ ROUND_MAX_SERIES = 5
 ROUND_MAX_EVENTS = 5
 ROUND_NAME_RE = re.compile(r"^Test: .+ \[(\d+)\]$")
 ROUND_OPS = ("rename_cup", "rename_ladder", "remove_series", "remove_ladder",
-             "remove_cup", "describe_cup")
+             "remove_cup", "describe_cup", "set_cup",
+             "set_series")
 ROUND_MAX_TEXT = 2000
 ROUND_EVENT_KEYS = ("event_id", "track", "laps")
 ROUND_MAX_AIFIELD = 12
@@ -398,6 +399,22 @@ def load_round_spec(path):
             raise FmError("round spec.ops[%d]: missing integer 'id'" % i)
         if op["op"].startswith("rename") and not op.get("name"):
             raise FmError("round spec.ops[%d]: rename needs 'name'" % i)
+        if op["op"] == "set_series":
+            ss = op.get("set")
+            if isinstance(op["id"], bool) or op["id"] < 20000                     or not isinstance(ss, dict) or not ss or any(
+                        not isinstance(k, str) or not k for k in ss):
+                raise FmError("round spec.ops[%d]: set_series needs the "
+                              "integer 'id' of one of our series (>= 20000) "
+                              "and 'set' = a non-empty object of existing "
+                              "top-level series fields -> values" % i)
+        if op["op"] == "set_cup":
+            cs = op.get("set")
+            if isinstance(op["id"], bool) or not isinstance(cs, dict)                     or not cs or any(
+                        not isinstance(k, str) or not k
+                        or isinstance(v, (dict, list)) for k, v in cs.items()):
+                raise FmError("round spec.ops[%d]: set_cup needs an integer "
+                              "'id' and 'set' = a non-empty object of "
+                              "top-level cup fields -> scalar values" % i)
         if op["op"] == "describe_cup":
             if isinstance(op["id"], bool):
                 raise FmError("round spec.ops[%d]: 'id' must be an integer"
@@ -592,6 +609,28 @@ def apply_ops(bcs, ops, snap):
             if lad is None:
                 raise FmError("%s: ladder %d not found" % (snap, op["id"]))
             lad["Name"] = name_key(op.get("key_label", op["name"]))
+        elif kind == "set_series":
+            hits = [x for _c, _l, x in B.iter_series(bcs)
+                    if x.get("ChampionshipSeriesId") == op["id"]]
+            if len(hits) != 1:
+                raise FmError("%s: series %d found %d times"
+                              % (snap, op["id"], len(hits)))
+            for k, v in op["set"].items():
+                if k not in hits[0]:
+                    raise FmError("%s: set_series field %r is not in series "
+                                  "%d (only existing fields)"
+                                  % (snap, k, op["id"]))
+                hits[0][k] = v
+        elif kind == "set_cup":
+            cup = B.find_cup(bcs, op["id"])
+            if cup is None:
+                raise FmError("%s: cup %d not found" % (snap, op["id"]))
+            for k, v in op["set"].items():
+                if k not in cup:
+                    raise FmError("%s: set_cup field %r is not in cup %d "
+                                  "(only existing cup fields)"
+                                  % (snap, k, op["id"]))
+                cup[k] = v
         elif kind == "describe_cup":
             cup = B.find_cup(bcs, op["id"])
             if cup is None:

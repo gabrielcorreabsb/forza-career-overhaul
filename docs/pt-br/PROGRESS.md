@@ -22,6 +22,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.6 — cobrindo os valores** | 16/11 | cada campo que uma série, um evento e o override dele podem definir foi testado no jogo ao longo da faixa, numa bancada de séries de um campo só: o que funciona, o que não tem efeito e o que não é seguro (abaixo) | verified |
 | **Fase 0.7 — textos, travas e grupos** | 16–17/11 | a lista de carros cortada por ano, faixa de PI, lista de bloqueio e classe, o tamanho do treino por voltas ou treino livre com tempo, os pontos da série definidos por uma tabela por posição, o relógio do treino até o minuto, e o texto que uma série trancada mostra (abaixo). Também o que **não funciona**: descrições, o limite de treino de uma cup e o rótulo de uma ladder não mostram nada na tela | verified / observed |
 | **Fase 0.8 — arte própria** | 18/11 | uma série pode mostrar **um pôster nosso**, com nome próprio, instalado pela ferramenta do mod só com Python; vários pôsteres entram de uma vez, e um pôster perdido (depois de um update do Steam) só deixa o cartão sem arte (abaixo) | observed |
+| **Fase 0.9 — vídeo de introdução, seleção de carro e o índice de arquivos do install** | 19/11 | uma série pode tocar **um vídeo de introdução nosso, com nome próprio**: o jogo lê um arquivo novo do install quando o caminho dele está no índice de arquivos do install (`hash.manifest`), cujo hash agora calculamos; a seleção do primeiro carro não funciona nas nossas séries, então fica desligada (abaixo) | verified / observed |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -96,6 +97,16 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | **Pôster com arte nossa** aparece no cartão da série: uma entrada nova, com nome próprio, nos arquivos de pôster do jogo, no formato das entradas vanilla (grade de 4096 bytes, campo com o offset dos dados); Deflate é aceito, então não precisa do runtime da Microsoft | cada série do mod com o próprio pôster | observed | D99–D102 |
 | Vários pôsteres gravados de uma vez, e um removido, funcionam; uma série cujo pôster falta mostra o cartão sem imagem e nada quebra | instalar todos os pôsteres num passo só; perder a arte (update do Steam) não quebra a carreira | observed | D103, D104 |
 
+## Fase 0.9, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| O **`IntroVideoPath`** da própria série toca o vídeo na entrada, sem nenhum outro campo; a lista de cores (`IntroCarColors`) sozinha não muda nada; o campo de vídeo da **ladder** não mostrou nada | uma série própria com vídeo de introdução, escolhido entre os vídeos do jogo pelo nome | observed | D105 |
+| A **seleção do primeiro carro** (`FirstCarSelectEnabled` true) lista `FirstCarSelectCars`, mas confirmar um carro deu erro e voltou ao menu nas nossas séries, mesmo para um carro que o jogador tem e a série aceita; com **false** a tela some, o vídeo continua e a corrida roda normal | manter o vídeo e tirar a tela que quebra; oferecer escolha de carros é a seleção normal da lista de carros da série (três carros aceitos aparecem todos) | observed | D105, D106 |
+| A introdução é uma **cena 3D escolhida pelo nome do vídeo**, com música e narração próprias; um nome desconhecido cai numa cena padrão. Com `PlayIntroVideoFullScreen` **true** a série toca o próprio `.bk2`, em tela cheia, sem cena e sem narração | um vídeo de introdução simples, sob nosso controle | observed | D107, D108 |
+| Um `.bk2` com **nome novo** deu tela preta; sobrescrever um vídeo que nenhum dado do jogo cita tocou o conteúdo novo | conteúdo próprio sem mexer no vídeo de nenhuma série vanilla | observed | D109, D111 |
+| **O índice de arquivos do install**: `media\base\hash.manifest` lista cada arquivo e pasta que o jogo pode ler, com um hash do caminho que reconstruímos para os 5.188 registros dos dois índices; acrescentar um registro fez o vídeo de nome novo tocar | **arquivos novos no install** (hoje vídeos; qualquer arquivo solto que o jogo procura pelo caminho) | verified | D110, D112, D113 |
+
 ## O que vem
 
 Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede uma corrida controlada no jogo), **not possible**
@@ -110,6 +121,8 @@ Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede u
 | **Formato de corrida** | escala de desgaste, velocidade do relógio e tempo do clima estão provados (Fase 0.4); combustível, classificação, as flags de comportamento da IA contra as da série e uma transição suave para céu limpo seguem para testar | em parte feito, o resto a testar |
 | **Composto de pneu da carreira** | listas por modo nas flags do cliente definem o pneu padrão dos modos online, não o da carreira; acrescentar um item de carreira é uma entrada | to test |
 | **Grids acima de 24 carros** | sem precedente: todo documento vanilla pede 23 IA + o jogador ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 8) | to test |
+| **Vídeo de introdução próprio** | provado de ponta a ponta com um vídeo copiado (D113): instalar o `.bk2`, acrescentar o registro no índice, apontar a série em tela cheia ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)); falta codificar um clipe nosso em Bink 2 com a ferramenta da RAD | viable |
+| **Arquivos novos no install** | o índice de arquivos está resolvido ([INSTALL_INDEX](../reference/INSTALL_INDEX.md)): outros arquivos soltos que o jogo lê pelo caminho (texturas, sons, cenas) podem agora ser acrescentados em vez de sobrescritos; cada tipo pede o próprio teste | to test |
 | **Arte própria por série** | provada no jogo (D99–D104): um pôster nosso por série, gravado pela ferramenta do mod só com Python; falta o passo de instalação para o jogador e a arte em si | viable |
 | **Outros idiomas** | textos novos vão só para a tabela pt-BR; os outros 20 idiomas não têm chaves. Decidido: feito na release do mod, copiando as chaves do conteúdo real para todos os idiomas (nomes traduzidos como rascunho, inglês como texto de reserva) | na release |
 

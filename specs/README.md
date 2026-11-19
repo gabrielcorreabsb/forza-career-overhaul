@@ -86,6 +86,8 @@ bytes as before.
 | `series[].poster_brief` | | optional one line saying what the poster should show (the theme of the series); a note for whoever makes the art, not written to the game |
 | `group.description` | | optional non-empty text for the new ladder's `Description` (new key `desc|ladder|<id>`); only with a `{name, donor, cup}` group |
 | `ops[]` `describe_cup` | | `{"op": "describe_cup", "id": <cup>, "text": "..."}`: the cup's `Description` gets a new key (`desc|cup|<id>`) and the text goes to the pt-BR `.str` |
+| `ops[]` `set_cup` | | `{"op": "set_cup", "id": <cup>, "set": {<field>: <scalar>}}`: sets existing top-level fields of a cup (e.g. `IntroVideoPath`); a field the cup lacks, an empty `set` or a non-scalar value is refused |
+| `ops[]` `set_series` | | `{"op": "set_series", "id": <series >= 20000>, "set": {<field>: <value>}}`: sets existing top-level fields of one of our series already in the cache; a vanilla id, a missing field or an empty `set` is refused |
 | `aifield` | | optional list of 1–12 definitions (`specs/aifield/<name>.json`): each one is built with `build_aifield.py --cache-plan` and merged into the same plan, so one kit frees a document and rewrites it as a pool; without it the plan is byte-identical to before |
 
 Refusals: more than 5 series or more than 5 events in one series,

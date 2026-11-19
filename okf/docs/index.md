@@ -7,7 +7,7 @@ Documents by area; the first level lists the root docs, then one page per folder
 - [guides](/docs/guides/index.md) — 4 documents
 - [project](/docs/project/index.md) — 10 documents
 - [pt-br](/docs/pt_br/index.md) — 5 documents
-- [reference](/docs/reference/index.md) — 11 documents
+- [reference](/docs/reference/index.md) — 13 documents
 - [tutorials](/docs/tutorials/index.md) — 4 documents
 
 - [Index: which doc to read for each task](/docs/indice.md) — One-page map, grouped like the folders. Default reading order:

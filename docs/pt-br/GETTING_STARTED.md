@@ -188,6 +188,28 @@ os devolve. Só entradas `FCO_*` são gravadas, toda outra entrada fica onde est
 entradas movidas trava o jogo), e basta Python. Depois de um update do Steam ou de *verificar arquivos*, os
 pôsteres somem; as séries continuam funcionando, com o cartão vazio, até você rodar o mesmo comando de novo.
 
+## 8. Opcional: um vídeo de introdução seu
+
+Uma série pode abrir com um vídeo seu, em tela cheia ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)). Como o
+pôster, o vídeo mora no install, e o jogo só lê arquivos do install que estão no índice de arquivos dele
+([INSTALL_INDEX](../reference/INSTALL_INDEX.md)); são três passos, com o jogo **fechado**:
+
+1. Codifique o clipe em Bink 2 (RAD Video Tools), 1920×1080 ou 5600×2000, 30 fps.
+2. Instale e indexe:
+
+```powershell
+python _tools\bk2_install.py --add FCO_MeuIntro --from-file meu_1080.bk2 --from-file-2160 meu_2160.bk2 --apply
+python _tools\hash_manifest_edit.py --check ui\videos\1080\practicalperformance.bk2 ui\videos\2160\practicalperformance.bk2
+python _tools\hash_manifest_edit.py --add ui\videos\1080\fco_meuintro.bk2 ui\videos\2160\fco_meuintro.bk2 --value <v1080> <v2160> --apply
+```
+
+3. Na spec da rodada, dê à série `"series_set": {"IntroVideoPath": "FCO_MeuIntro.bk2",
+   "PlayIntroVideoFullScreen": true, "FirstCarSelectEnabled": false, "FirstCarSelectCars": []}` e aplique o
+   kit como no passo 6.
+
+Use os valores que o `--check` mostra para um vídeo vanilla. `hash_manifest_edit.py --restore --apply` devolve
+o índice original. Depois de um update do Steam a série mostra tela preta até você repetir o passo 2.
+
 ## Se der errado
 
 | sintoma | causa / correção |

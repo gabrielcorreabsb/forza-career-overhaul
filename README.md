@@ -15,7 +15,7 @@
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB">
   <img alt=".NET 10 SDK" src="https://img.shields.io/badge/.NET-10-512BD4">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows-lightgrey">
-  <img alt="Status: phase 0.8, own poster art, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
+  <img alt="Status: phase 0.9, own intro video and poster art, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
 </p>
 
 <p align="center">
@@ -50,6 +50,11 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
   plain Python, shows on the series card; several go in at once, and a lost poster (after a Steam update) only leaves the
   card without art. The archive's layout has to stay as the game wrote it: a rebuilt archive with moved entries crashed
   the game ([SWATCHBIN](docs/reference/SWATCHBIN.md), [DISCOVERIES](docs/project/DISCOVERIES.md) D98 to D104).
+- **An intro video of our own for each series** (19 Nov): a series in full-screen mode plays any Bink 2 video we install, under
+  its own name, with no 3D scene and no narration. The key was the **install's file index** (`hash.manifest`): the game only
+  reads install files listed there, and we now compute its hash, so **new files can be added to the install**, not only
+  overwritten ([INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md),
+  [DISCOVERIES](docs/project/DISCOVERIES.md) D105 to D113).
 - **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
   challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
 
@@ -139,6 +144,17 @@ and without moving any of them. A Steam update removes the art, never the career
 install it again ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 7). A sample poster, tested in game, is in
 [art/posters](art/posters/fco_sample_poster_848x1320.png) (our own art, CC BY 4.0; see [NOTICE](NOTICE.md)).
 
+## Your own intro video
+
+<p align="center">
+  <img src="assets/intro_video_pipeline.svg" alt="Own intro video in three steps: a clip encoded to Bink 2 is installed under its own name FCO_x by bk2_install; hash_manifest_edit adds its record to the install's file index, without which the game does not see it; a cache kit sets the series to the video in full screen with no first-car screen; the series then opens with the video and goes to the car selection" width="620">
+</p>
+
+Without full screen, a series intro is a 3D scene the game picks by the video's name, with its own music and narration.
+With `PlayIntroVideoFullScreen` the series plays the video file itself, and that file can be ours: install it, add its
+record to the install's file index, point the series at it ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 8). The
+clip is encoded in Bink 2 with RAD's own tool; no game video ships here.
+
 ## The AI standard
 
 <p align="center">
@@ -187,6 +203,8 @@ python _tools\rollback_cache.py                              # undo the last app
 | set where you start, practice, weather, rain timing, race clock, tyre wear, start type per event | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
 | understand how the career pays | mapped | [ECONOMY_MAP](docs/reference/ECONOMY_MAP.md) |
 | give a series its own poster | observed | [GETTING_STARTED step 7](docs/en/GETTING_STARTED.md) · [SWATCHBIN](docs/reference/SWATCHBIN.md) |
+| give a series its own intro video | verified / observed | [GETTING_STARTED step 8](docs/en/GETTING_STARTED.md) · [INTRO_VIDEO](docs/reference/INTRO_VIDEO.md) |
+| add a new file to the game's install | verified | [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md) |
 | see every lever and how sure we are | mapped | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) · [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 
 **What this does not do.** It does not touch online play, physics or the account economy. Steam's *verify files* or a new

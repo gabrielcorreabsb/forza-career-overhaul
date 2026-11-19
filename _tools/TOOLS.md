@@ -25,6 +25,8 @@ Role of each script. Everything here runs against **your** game install and cach
 | `swatchbin.py` | own poster art: PNG → `.swatchbin` (BC7, header generated for the size; no game file read) |
 | `swatchbin_edit.py` | installs own posters into the game's poster archives (`--manifest posters.json`: add/remove `FCO_*` entries in one write, vanilla layout kept, Deflate, backup, `--dry-run`/`--verify`/`--restore`) |
 | `test_swatchbin_edit.py` | self-test of `swatchbin.py` and `swatchbin_edit.py` on synthetic archives |
+| `bk2_install.py` | own intro videos: installs a Bink 2 `.bk2` under its own name `FCO_*` in the install's two video folders (`--add`/`--remove`), or overwrites one of the four videos no game data names (`--replace`/`--restore`, backup); header checked, game closed, dry-run by default |
+| `hash_manifest_edit.py` | adds records to the install's file index (`media\base\hash.manifest`) so the game reads a new loose file, such as an own video; `--check` shows a path's record; never changes a vanilla record; dry-run, backup, `--restore` |
 | `cms_crypto.py` | Python CMS codec; the key comes from `FM_CMS_KEY` or a local `cms_key.hex` (never versioned; see `docs/project/THIRD_PARTY.md`) |
 | `cmsoracle/`, `cacheoracle/` | .NET oracles (`dotnet build <x>.csproj -c Release`); the cache oracle needs third-party files you supply |
 

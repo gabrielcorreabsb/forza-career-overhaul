@@ -96,7 +96,7 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 | `Description` | description key; **not drawn by any career screen** (D92) | empty |
 | `ChampionshipLadderFlag` | free-form flag; a text in it showed nothing on screen (D91) | empty |
 | `ImagePath` | ladder art | one shared GAME: path on 34 ladders |
-| `IntroVideoPath` | intro movie | `LogoParade.bk2` |
+| `IntroVideoPath` | intro movie (changing it showed nothing, D105) | `LogoParade.bk2` |
 | `OpenTime` / `CloseTime` | availability window | fixed / never |
 | `StartEndDate` | `From` / `To` of the same window | sentinel pair |
 | `EntryCriteria` | gate block (same 8 sub-fields as the cup) | all empty |
@@ -134,11 +134,11 @@ racers-cup metadata document with the same CMS reader (procedure in each entry).
 | `OpenTime` / `CloseTime` | availability window | various / 122 series close never |
 | `StartEndDate` | `From` / `To` of the window | sentinel pair |
 | `DefaultEventOverrides` | 15-field defaults block (see §1.6) | one block per series |
-| `IntroVideoPath` | intro movie | empty on 101 |
+| `IntroVideoPath` | intro: by default a 3D scene picked by this name (D105, D107); with `PlayIntroVideoFullScreen` true, the `.bk2` file itself, full screen, which can be our own ([INTRO_VIDEO](INTRO_VIDEO.md)) | empty on 101 |
 | `PlayIntroVideoFullScreen` | play it full screen | false |
 | `CarSelectVideoPath` | clip played on the car-select screen | empty |
 | `IntroCarColors` | paint overrides for the intro car | empty |
-| `FirstCarSelectEnabled` / `FirstCarSelectCars` | pre-seed the first car choice | false / empty |
+| `FirstCarSelectEnabled` / `FirstCarSelectCars` | first car choice; true errors back to the menu on confirm in our series, keep false and empty (D105, D106) | false / empty |
 | `CarSelectAcceptlist` | **legacy** acceptlist slot | empty on all 178 |
 | `SelectableCars` | the real car filter: 38 fields (see §1.5) | one open filter |
 | `AISelectableCars` | `Acceptlist` of AI cars for the series | empty on 82, populated on 96 |
