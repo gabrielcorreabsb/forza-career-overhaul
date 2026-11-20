@@ -67,7 +67,9 @@ so the tool for loose XML refuses it.
 [`_tools/graphics/apply_kit.py`](../../_tools/graphics/apply_kit.py) applies a **kit** (a small JSON of edits) to the
 loose XML files: it keeps the original of each file before the first edit, restores one kit at a time or all,
 refuses to write with the game open, does a dry-run first and stops if the file no longer matches the state it
-recorded (a Steam update, another tool). It never touches a zip. A kit holds only the values you choose:
+recorded (a Steam update, another tool). It never touches a zip. The originals and the state of applied kits go
+to a `graphics` folder next to the repository (set `FM_GRAPHICS` to move it); keep it, because restoring needs
+it. A kit holds only the values you choose:
 
 ```json
 {"id": "EXAMPLE", "description": "one value, as a template",
