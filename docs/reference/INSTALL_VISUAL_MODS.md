@@ -9,26 +9,25 @@ and are not published here.
 
 **Status.** Tested in game by the maintainer on one machine (an RX 9070 XT, 1728p with DLSS Quality, 60 FPS at
 about 80% GPU; 4K runs out of VRAM). The set is aimed at high-end hardware: it raises quality and costs GPU and
-VRAM. For where each file lives and what is known about it see [MEDIA_MAP](MEDIA_MAP.md).
+VRAM (the cubemap and sky step alone cost about 300 MB of VRAM on the maintainer's machine). For where each file lives and what is known about it see [MEDIA_MAP](MEDIA_MAP.md).
 
 ## What we changed
 
 Direction: **up** = a higher value than the game's own Ultra, **down** = lower, **new** = a key the file did
-not define. Status: **approved** = the maintainer approved it after testing, **in use** = applied for weeks,
-**in test** = applied, not yet approved.
+not define. Status: **approved** = tested in game by the maintainer and approved.
 
 ### Render settings (`pcfamily\renderscenarios\ultra\global.xml` and `race.xml`, with the matching menu options)
 
 | group | fields | direction | status |
 |---|---|---|---|
-| shadows | `PSSMShadowsResolution`, `CSMShadowsResolution` (levels), `ShadowMapResolution` | up | in use |
-| shadows | `EnableNightMoonShadows`, `AllowAICarHeadlightShadow` | new / on | in use |
-| cubemaps and sky | `CarCubemapResolution`, `CarCubemapMSAA`, `GlobalCubemapResolution` | up | in use |
-| cubemaps and sky | `GlobalCubemapResolution` (second step), `ProceduralSkyResolution` | up | in test |
-| reflections (ray tracing) | `EnvMapDistanceScale`, `EnvMapMeshLimitScale`, `EnvMapFrequencyScale`, `DXRRTBufferPassCarMaxViewDistance`, `DXRMaxUpdatableModelsProcessedPerFrame`, `DXRResolutionScale` | up | in use |
-| reflections (ray tracing) | `DXRCockpitTransparentPassEnabled`, `EnvMapMeshSizeLimitScale` | new | in use |
-| car detail | `OpponentCarLiveryResolution`, `DensityCullCutoffValueLevel`, `MaxDynamicTrackLevel`, AI particle detail | up | in use |
-| car detail | `CarDrawRenderedAO`, `DayUltraShaders` | new | in use |
+| shadows | `PSSMShadowsResolution`, `CSMShadowsResolution` (levels), `ShadowMapResolution` | up | approved |
+| shadows | `EnableNightMoonShadows`, `AllowAICarHeadlightShadow` | new / on | approved |
+| cubemaps and sky | `CarCubemapResolution`, `CarCubemapMSAA`, `GlobalCubemapResolution` | up | approved |
+| cubemaps and sky | `GlobalCubemapResolution` (second step), `ProceduralSkyResolution` | up | approved |
+| reflections (ray tracing) | `EnvMapDistanceScale`, `EnvMapMeshLimitScale`, `EnvMapFrequencyScale`, `DXRRTBufferPassCarMaxViewDistance`, `DXRMaxUpdatableModelsProcessedPerFrame`, `DXRResolutionScale` | up | approved |
+| reflections (ray tracing) | `DXRCockpitTransparentPassEnabled`, `EnvMapMeshSizeLimitScale` | new | approved |
+| car detail | `OpponentCarLiveryResolution`, `DensityCullCutoffValueLevel`, `MaxDynamicTrackLevel`, AI particle detail | up | approved |
+| car detail | `CarDrawRenderedAO`, `DayUltraShaders` | new | approved |
 | car level of detail | `CarAnimLODThresholds` (race) | equalled to the global Ultra value | approved |
 | car level of detail | `CarFocusLODMinMax`, `CarNonFocusLODMinMax` (maximum), `CarPlanarLODOverride`, `CarShaderLODBias` | down | approved |
 
@@ -36,9 +35,9 @@ not define. Status: **approved** = the maintainer approved it after testing, **i
 
 | fields | direction | status |
 |---|---|---|
-| `Cubemap` (`FacesPerFrame`, `FarDistance`, `MeshLimit`), `ShadowSettings.DistantShadowsPerFrame`, `ShadowEnds.InGameShadowEnd` | up | in use |
-| `HeadlightShadows.HeadlightShadowDistance`, `ShadowMapAniso` | up | in use |
-| `ForceEnableGTAO` (base only) | new | in use |
+| `Cubemap` (`FacesPerFrame`, `FarDistance`, `MeshLimit`), `ShadowSettings.DistantShadowsPerFrame`, `ShadowEnds.InGameShadowEnd` | up | approved |
+| `HeadlightShadows.HeadlightShadowDistance`, `ShadowMapAniso` | up | approved |
+| `ForceEnableGTAO` (base only) | new | approved |
 | `CollidableDropDistance` (16 tracks that lowered it) | up, back to the base value | approved |
 
 A track is only edited where it already defines the field; a missing attribute inherits the base.
@@ -47,9 +46,9 @@ A track is only edited where it already defines the field; a missing attribute i
 
 | what | fields | direction | status |
 |---|---|---|---|
-| free photo-mode camera | `PhotoModeCam`: collision iterations and radius, `MaxHeight`, boundary radius, ceiling and floor, `MinFOVPhotoMode` | limits removed | in test |
-| free showroom photo camera | `ShowroomPhotomode.ini`: collision, ceiling, floor, `MaxDistance`, `MinFOV`, `MaxFOV` | limits removed | in test |
-| softer vignette on the race cameras | `FollowLowCam`, `FollowHighCam`, `HoodCam`, `BumperHighCam`: vignette alpha and colour | down | in test |
+| free photo-mode camera | `PhotoModeCam`: collision iterations and radius, `MaxHeight`, boundary radius, ceiling and floor, `MinFOVPhotoMode` | limits removed | approved |
+| free showroom photo camera | `ShowroomPhotomode.ini`: collision, ceiling, floor, `MaxDistance`, `MinFOV`, `MaxFOV` | limits removed | approved |
+| softer vignette on the race cameras | `FollowLowCam`, `FollowHighCam`, `HoodCam`, `BumperHighCam`: vignette alpha and colour | down | approved |
 
 ### UI texture (`ui\textures\Data_Bound.zip` and `hires\Data_Bound.zip`)
 

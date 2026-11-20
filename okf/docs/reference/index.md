@@ -2,6 +2,7 @@
 
 Documents under docs/reference/.
 
+- [AI statics — the AI's global tuning in the install](/docs/reference/ai_statics.md) — The game keeps a set of global tuning files for the AI drivers in the install: media\base\ai\aistatics.zip, a
 - [Career model](/docs/reference/career_model.md) — How the single-player career of Forza Motorsport (FM8) is assembled from data:
 - [Cars and PI](/docs/reference/cars_and_pi.md) — The car side of the career: the class/PI scale, how many cars exist, how a
 - [Data reference](/docs/reference/data_reference.md) — A compact reference to the career data: the tree, record sizes, counts,

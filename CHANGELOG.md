@@ -6,6 +6,7 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **AI statics documented** ([AI_STATICS](docs/reference/AI_STATICS.md)): the six keys of the install's AI tuning file we changed, with direction and evidence (D76, D77); the file and its editing tool are not distributed.
 - **README reorganised**: what the repository is, an at-a-glance table and the three-step quick start now come first; "Proven in game" is condensed (the detail stays in PROGRESS and DISCOVERIES); the visual-mods section has its own picture and a short table by area.
 - **Install-only visual modifications** ([INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md), [MEDIA_MAP](docs/reference/MEDIA_MAP.md)): the file map of the install's `media\`, a list of what we changed (render, LOD, track look, camera, photo-mode watermark), one tool for the loose-XML changes (`graphics/apply_kit.py`: dry-run, backup, restore; the zip edits are documented, their tool is not published), and the rule that a rewritten zip keeps every entry at its offset ([D120](docs/project/DISCOVERIES.md)). Camera settings credited to GmSV2's Better Photo mode ([NOTICE](NOTICE.md)).
 - **Own intro videos and the install's file index** (findings D105–D113 in [DISCOVERIES](docs/project/DISCOVERIES.md)): a

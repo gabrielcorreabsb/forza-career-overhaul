@@ -174,8 +174,9 @@ challenges rotate every month, the cup is a draft whose themes follow the list o
 The AI of a series used to leave the track at the same corner, alone, with two wheels on the grass. Narrowing the speed range the
 game gives each AI driver (one global edit, no track overrides it) cut that a lot at Brands Hatch GP, and it held on Lime Rock, an oval and
 class A. Together with a field levelled at the class ceiling, a gentler recovery off the track and a set of race switches, it is the
-standard we follow for the career's AI. The evidence is in [PROGRESS](docs/en/PROGRESS.md) and
-[DISCOVERIES](docs/project/DISCOVERIES.md) (D76 to D80).
+standard we follow for the career's AI. Which keys of the AI statics file we changed, and in which direction, is in
+[AI_STATICS](docs/reference/AI_STATICS.md) (the file itself is not distributed). The evidence is in
+[PROGRESS](docs/en/PROGRESS.md) and [DISCOVERIES](docs/project/DISCOVERIES.md) (D76 to D80).
 
 ## Your own poster art
 
