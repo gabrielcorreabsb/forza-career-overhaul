@@ -37,6 +37,14 @@ were read from **Better Photo mode** by **GmSV2** on Nexus Mods
 names and the direction of the changes, as our own recipe, and credit the author; none of the mod's files is
 included. See [docs/reference/INSTALL_VISUAL_MODS.md](docs/reference/INSTALL_VISUAL_MODS.md).
 
+The first-person camera values in the same recipes (field of view, gaze pitch, hood and bumper offsets and
+the camera-physics tuning of the cockpit view and the driver eye position per car) were read from **Better Chaser and First Person Cam REWORKED**
+by **Yar** on Nexus Mods ([Forza Horizon 6 mod 324](https://www.nexusmods.com/forzahorizon6/mods/324)) and
+adapted to Forza Motorsport. The camera-tweak tutorial by **Wonder2k19**
+([Forza Motorsport mod 35](https://www.nexusmods.com/forzamotorsport/mods/35)) documents the layer format we
+edit. Same terms: only setting names and the direction of the changes, as our own recipe; none of the mods'
+files is included.
+
 ## Your responsibility
 
 Modding may violate the game's Terms of Use and can get you banned from online

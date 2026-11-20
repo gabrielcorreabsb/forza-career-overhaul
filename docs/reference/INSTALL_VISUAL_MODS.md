@@ -42,13 +42,16 @@ not define. Status: **approved** = tested in game by the maintainer and approved
 
 A track is only edited where it already defines the field; a missing attribute inherits the base.
 
-### Camera (`base\camera.zip`: `CameraSettings.ini`, `ShowroomPhotomode.ini`)
+### Camera (`base\camera.zip`: `CameraSettings.ini`, `CameraPhysics.xml`, `ShowroomPhotomode.ini`)
 
 | what | fields | direction | status |
 |---|---|---|---|
 | free photo-mode camera | `PhotoModeCam`: collision iterations and radius, `MaxHeight`, boundary radius, ceiling and floor, `MinFOVPhotoMode` | limits removed | approved |
 | free showroom photo camera | `ShowroomPhotomode.ini`: collision, ceiling, floor, `MaxDistance`, `MinFOV`, `MaxFOV` | limits removed | approved |
 | softer vignette on the race cameras | `FollowLowCam`, `FollowHighCam`, `HoodCam`, `BumperHighCam`: vignette alpha and colour | down | approved |
+| cockpit camera | `Driver` FOV; `DriverCam` and `NoWheelDriverCam` layers: base FOV, gaze pitch, speed and acceleration FOV, shake, impacts | wider and softer | approved |
+| driver eye position per car | `Locators.xml` inside each car zip (`media/pcfamily/cars/<id>.zip`): the two driver-eye locators, a few centimetres, 111 cars | moved | approved |
+| hood and bumper cameras | `HoodCam`, `BumperHighCam`: FOV, pitch, bumper height and offset, near clip | wider and closer | approved |
 
 ### UI texture (`ui\textures\Data_Bound.zip` and `hires\Data_Bound.zip`)
 
