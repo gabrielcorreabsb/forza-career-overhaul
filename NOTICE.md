@@ -29,6 +29,14 @@ distributed.
   your own copy of the game, and are git-ignored. The game data they derive
   from belongs to its rights holders.
 
+## Third-party credit
+
+The camera settings in our install-only visual recipes (a free photo-mode camera and a softer race vignette)
+were read from **Better Photo mode** by **GmSV2** on Nexus Mods
+([Forza Motorsport mod 12](https://www.nexusmods.com/forzamotorsport/mods/12)). We reproduce only the setting
+names and the direction of the changes, as our own recipe, and credit the author; none of the mod's files is
+included. See [docs/reference/INSTALL_VISUAL_MODS.md](docs/reference/INSTALL_VISUAL_MODS.md).
+
 ## Your responsibility
 
 Modding may violate the game's Terms of Use and can get you banned from online

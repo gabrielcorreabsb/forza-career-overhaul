@@ -51,6 +51,8 @@ English-only.
 | Files, counts, id ranges and derived tables | **[reference/DATA_REFERENCE](reference/DATA_REFERENCE.md)** | tree, record sizes, identity rules |
 | A new series — the why of each step | **[reference/SERIES_CHECKLIST](reference/SERIES_CHECKLIST.md)** | ids, series, ladder, events, overrides, car registry, `.str`; the standard path is [`../specs/README.md`](../specs/README.md) + `build_series.py` |
 | The format of series art (poster, banner) | **[reference/SWATCHBIN](reference/SWATCHBIN.md)** | `.swatchbin` layout, counts, what own art still needs |
+| The map of the install's `media\` folder (what exists, format, indexing, who the game reads, status) | **[reference/MEDIA_MAP](reference/MEDIA_MAP.md)** | one table per folder of `mediaase` and `media\pcfamily` |
+| Apply visual modifications to the install (render, LOD, camera, photo-mode watermark); the map of `media\` | **[reference/INSTALL_VISUAL_MODS](reference/INSTALL_VISUAL_MODS.md)**, [reference/MEDIA_MAP](reference/MEDIA_MAP.md) | what we changed (fields and direction), the one published tool, the zip layout rule, credits |
 | Give a series its own intro video; how the game finds install files | **[reference/INTRO_VIDEO](reference/INTRO_VIDEO.md)**, **[reference/INSTALL_INDEX](reference/INSTALL_INDEX.md)** | the two intro modes, the `.bk2` files, the file index (`hash.manifest`) and its hash, the tools |
 | Terms | **[reference/GLOSSARY](reference/GLOSSARY.md)** | vocabulary |
 

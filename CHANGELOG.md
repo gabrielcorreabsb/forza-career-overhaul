@@ -6,6 +6,7 @@ not published here: you generate your own kits from your copy of the game.
 
 ## Unreleased
 
+- **Install-only visual modifications** ([INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md), [MEDIA_MAP](docs/reference/MEDIA_MAP.md)): the file map of the install's `media\`, a list of what we changed (render, LOD, track look, camera, photo-mode watermark), one tool for the loose-XML changes (`graphics/apply_kit.py`: dry-run, backup, restore; the zip edits are documented, their tool is not published), and the rule that a rewritten zip keeps every entry at its offset ([D120](docs/project/DISCOVERIES.md)). Camera settings credited to GmSV2's Better Photo mode ([NOTICE](NOTICE.md)).
 - **Own intro videos and the install's file index** (findings D105–D113 in [DISCOVERIES](docs/project/DISCOVERIES.md)): a
   series intro is a 3D scene picked by the video's name, or, with `PlayIntroVideoFullScreen`, the video file itself; the
   game reads only the install files listed in `hash.manifest`, whose path hash is now known and rebuilt for every record;

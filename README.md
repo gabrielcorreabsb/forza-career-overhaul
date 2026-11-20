@@ -155,6 +155,19 @@ With `PlayIntroVideoFullScreen` the series plays the video file itself, and that
 record to the install's file index, point the series at it ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 8). The
 clip is encoded in Bink 2 (revision `KB2j`) with a Bink 2 encoder, one command (`encode_intro.py`) from an MP4 to an installed, indexed video ([INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), *Encoding*); no game video ships here.
 
+## Install-only visual modifications (*Modificações Install Only for Visual*)
+
+Besides the career data, some visual changes live only in the game's install: render quality, car level of
+detail, track look, camera settings and a few UI textures (for example the photo-mode watermark). They are
+aimed at high-end machines, tested by the maintainer in game, and touch no physics, no online play and no
+account data. The page lists what we changed (file, field and direction); one tool applies the loose-XML ones with
+a dry-run, a backup of the vanilla file and a one-command restore. The zip edits (camera, one UI texture) are
+documented but their tool is not published, and they keep every entry of the archive at its original offset,
+because moving them took the menu's animated background away ([D120](docs/project/DISCOVERIES.md)). Steam's
+*verify files* removes them: apply again. What changes and where is in [INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md); the file map is
+[MEDIA_MAP](docs/reference/MEDIA_MAP.md). The camera settings come from **Better Photo mode** by **GmSV2**
+([Nexus Mods](https://www.nexusmods.com/forzamotorsport/mods/12)); see [NOTICE](NOTICE.md).
+
 ## The AI standard
 
 <p align="center">
@@ -205,6 +218,7 @@ python _tools\rollback_cache.py                              # undo the last app
 | give a series its own poster | observed | [GETTING_STARTED step 7](docs/en/GETTING_STARTED.md) · [SWATCHBIN](docs/reference/SWATCHBIN.md) |
 | give a series its own intro video | verified / observed | [GETTING_STARTED step 8](docs/en/GETTING_STARTED.md) · [INTRO_VIDEO](docs/reference/INTRO_VIDEO.md) |
 | add a new file to the game's install | verified | [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md) |
+| apply visual modifications (render, LOD, camera, watermark) to the install | observed (one machine) | [INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md) · [MEDIA_MAP](docs/reference/MEDIA_MAP.md) |
 | see every lever and how sure we are | mapped | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) · [MODDING_SURFACE](docs/reference/MODDING_SURFACE.md) |
 
 **What this does not do.** It does not touch online play, physics or the account economy. Steam's *verify files* or a new
