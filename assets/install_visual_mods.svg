@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 380" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">Visual mods for the install: loose XML and zip entries</title>
+  <desc id="d">Two kinds of visual change are written into the game's install. Loose XML files (render scenarios, track settings and the menu options) are changed by apply_kit.py, which does a dry-run first, keeps the original of each file and can restore one kit or all. Zip entries (the camera archive and one UI texture archive) are edited in place: the same file size and every entry at its original offset, because moving entries took the menu's animated background away; the tool for zips is not published. Together they cover five areas: render quality, car level of detail, track look, camera and the photo-mode watermark. Steam's verify files undoes all of it, so apply again. The camera settings come from Better Photo mode by GmSV2.</desc>
+  <style>
+    .bg{fill:#0B0E14}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#8B949E}
+    .r{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .m{font:11px Consolas,"Courier New",monospace;fill:#E6EDF3}
+    .b{font:700 12px "Segoe UI",Helvetica,Arial,sans-serif}
+    .box{fill:#161B22;stroke:#30363D;stroke-width:1}
+    .ln{stroke:#D29922;stroke-width:2;fill:none}
+  </style>
+  <rect class="bg" width="620" height="380" rx="6"/>
+  <text class="h" x="24" y="30">Visual mods for the install</text>
+  <text class="s" x="24" y="48">Written into the game's media folder, not into the career data. Aimed at high-end machines.</text>
+
+  <!-- lane 1: loose XML -->
+  <rect class="box" x="24" y="70" width="210" height="84" rx="6" stroke="#58A6FF" stroke-width="1.5"/>
+  <text class="b" x="38" y="92" fill="#58A6FF">LOOSE XML</text>
+  <text class="m" x="38" y="112">renderscenarios</text>
+  <text class="m" x="38" y="128">tracksettings</text>
+  <text class="m" x="38" y="144">menu options</text>
+  <path class="ln" d="M234 112 H262" style="stroke:#58A6FF"/><path d="M256 107 L262 112 L256 117" stroke="#58A6FF" stroke-width="2" fill="none"/>
+  <rect class="box" x="262" y="82" width="160" height="60" rx="6"/>
+  <text class="b" x="276" y="104" fill="#E6EDF3">apply_kit.py</text>
+  <text class="s" x="276" y="124">dry-run first</text>
+  <path class="ln" d="M422 112 H450" style="stroke:#3FB950"/><path d="M444 107 L450 112 L444 117" stroke="#3FB950" stroke-width="2" fill="none"/>
+  <rect class="box" x="450" y="82" width="146" height="60" rx="6" stroke="#3FB950"/>
+  <text class="b" x="464" y="104" fill="#3FB950">original kept</text>
+  <text class="s" x="464" y="124">restore one or all</text>
+
+  <!-- lane 2: zip entries -->
+  <rect class="box" x="24" y="174" width="210" height="84" rx="6" stroke="#BC8CFF" stroke-width="1.5"/>
+  <text class="b" x="38" y="196" fill="#BC8CFF">ZIP ENTRIES</text>
+  <text class="m" x="38" y="216">camera.zip</text>
+  <text class="m" x="38" y="232">one UI texture</text>
+  <text class="s" x="38" y="248">tool not published</text>
+  <path class="ln" d="M234 216 H262" style="stroke:#BC8CFF"/><path d="M256 211 L262 216 L256 221" stroke="#BC8CFF" stroke-width="2" fill="none"/>
+  <rect class="box" x="262" y="186" width="334" height="60" rx="6" stroke="#BC8CFF"/>
+  <text class="b" x="276" y="208" fill="#BC8CFF">edited in place</text>
+  <text class="r" x="276" y="226">same file size, every entry at its offset</text>
+  <text class="s" x="276" y="240">moving them took the menu background away (D120)</text>
+
+  <!-- areas -->
+  <text class="b" x="24" y="286" fill="#D29922">FIVE AREAS</text>
+  <rect class="box" x="24" y="296" width="104" height="30" rx="15"/><text class="r" x="42" y="316">render quality</text>
+  <rect class="box" x="136" y="296" width="96" height="30" rx="15"/><text class="r" x="152" y="316">car LOD</text>
+  <rect class="box" x="240" y="296" width="96" height="30" rx="15"/><text class="r" x="254" y="316">track look</text>
+  <rect class="box" x="344" y="296" width="80" height="30" rx="15"/><text class="r" x="364" y="316">camera</text>
+  <rect class="box" x="432" y="296" width="164" height="30" rx="15"/><text class="r" x="448" y="316">photo-mode watermark</text>
+
+  <!-- footer -->
+  <text class="s" x="24" y="350">Steam &quot;verify files&quot; undoes it: apply again.</text>
+  <text class="s" x="24" y="368">Camera settings: Better Photo mode by GmSV2 (Nexus Mods).</text>
+</svg>

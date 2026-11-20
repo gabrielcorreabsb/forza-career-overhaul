@@ -15,12 +15,13 @@
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB">
   <img alt=".NET 10 SDK" src="https://img.shields.io/badge/.NET-10-512BD4">
   <img alt="Windows" src="https://img.shields.io/badge/platform-Windows-lightgrey">
-  <img alt="Status: phase 0.9, own intro video and poster art, own season in game" src="https://img.shields.io/badge/status-own%20season%20in%20game-D29922">
+  <img alt="Status: phase 0.10, own season, own art and intro video, visual mods for the install" src="https://img.shields.io/badge/status-own%20season%20%2B%20visual%20mods-D29922">
 </p>
 
 <p align="center">
   <a href="docs/en/PROGRESS.md"><b>Progress</b></a> ·
   <a href="docs/en/GETTING_STARTED.md"><b>Build your own</b></a> ·
+  <a href="#visual-mods-for-the-install"><b>Visual mods</b></a> ·
   <a href="docs/en/MOD_TOOLKIT.md">What the mod can do</a> ·
   <a href="docs/guides/CAREER_MOD.md">The vision</a> ·
   <a href="docs/INDICE.md">All docs</a> ·
@@ -29,34 +30,73 @@
 
 ---
 
+## What this is
+
+Tools, a method and the evidence for two kinds of change to Forza Motorsport, both made **on your machine, from the game you own**:
+
+- **The career.** New series, cups, AI fields, race formats and challenges, written to the game's content cache with
+  reproducible, reversible kits: lint, mandatory dry-run, automatic backup, post-write verification and rollback.
+- **The install.** Your own poster art and intro videos, new files the game's file index can see, and a set of
+  [visual modifications](#visual-mods-for-the-install): render quality, car level of detail, track look, camera and the
+  photo-mode watermark.
+
+Nothing is distributed ready to install: you generate your own changes with the tools here.
+
+> Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
+> brand. This repository contains **our own code and documentation only** — no
+> game files, no game text, no mod payloads. See [NOTICE](NOTICE.md).
+
+## At a glance
+
+| area | what you get | state | start here |
+|---|---|---|---|
+| Career structure | rename, reorder, unlock; new series and cups from a JSON spec; a first own season | verified in game | [tutorials](docs/tutorials/01_rename.md) · [CAREER_MOD](docs/guides/CAREER_MOD.md) |
+| The AI | one roster per class, make, country or decade; a field levelled at the class ceiling; the AI standard | verified / observed | [AI_GRIDS](docs/guides/AI_GRIDS.md) |
+| Race format | where you start, practice, weather and its timing, race clock, tyre wear, pit stop, field size | observed | [RACE_SYSTEM](docs/reference/RACE_SYSTEM.md) |
+| Own art and video | a poster and an intro video of our own for each series | verified / observed | [GETTING_STARTED](docs/en/GETTING_STARTED.md) steps 7 and 8 |
+| Visual mods for the install | render quality, car LOD, track look, camera, photo-mode watermark | observed (one machine) | [INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md) |
+| Closed | prizes, car level and points, a real qualifying, a server of our own | closed (the game's service owns them) | [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md) |
+
+## Try it in three steps
+
+1. **Look** — build the two oracles and read your own career data on a *copy*
+   of the cache: [GETTING_STARTED](docs/en/GETTING_STARTED.md) (about 15
+   minutes, never touches the game).
+2. **Describe** — write a short JSON spec for the series or grid you want
+   ([specs/README.md](specs/README.md), [specs/_TEMPLATE.json](specs/_TEMPLATE.json)).
+3. **Apply** — `--dry-run`, then apply with `--verify` with the game closed;
+   undo with `rollback_cache.py` ([PIPELINE](docs/en/PIPELINE.md)).
+
+```powershell
+python _tools\build_series.py --spec specs\<name>.json       # spec -> kit
+python _tools\cache_edit.py --dry-run --plan patches\<kit>\plan.json
+python _tools\cache_edit.py --plan patches\<kit>\plan.json --verify
+python _tools\rollback_cache.py                              # undo the last apply
+```
+
+### Prerequisites
+
+- Windows, with the game launched at least once (it creates the CmsCache).
+- Python 3.10+ (`pip install -r requirements.txt`) and the .NET 10 SDK (the two
+  oracles target `net10.0`).
+- The CMS key and the third-party files the cache oracle needs, obtained by you
+  and kept git-ignored: [THIRD_PARTY](docs/project/THIRD_PARTY.md). A fresh clone
+  cannot run `cache_edit.py` until you supply them.
+
 ## Proven in game
 
-Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES](docs/project/DISCOVERIES.md).
+Not a plan: each line ran in the game and has its evidence in [DISCOVERIES](docs/project/DISCOVERIES.md).
 
-- **A 23-car spec race**: all Porsche 911 GT3 RS '23, or all Subaru BRZ '22, against you.
-- **An AI that stays in your class**: German cars only, one roster per class, C to S, whatever the player drives.
-- **A grid of the models you pick**: five chosen models fill all 23 slots, four or five of each.
-- **An AI of one theme, at any size**: American only, Italian only, 2010s only; pools of 4, 12, 21 and 37 models, each
-  filling the whole grid.
-- **A series with several events** that run in order, add up points and close at the last one.
-- **A cup of our own** whose groups unlock only after the one before is done.
-- **Our series count toward the game's own challenges**: car, track and laps, one for one, and the **real prize arrives**
-  (ten races in a Mustang gave the Mustang; a win at Suzuka in a Nissan unlocked the Nissan; ten laps at Daytona in a Ferrari gave a Ferrari 488 GTB, and a second challenge on that track, a segment score, paid a Porsche 911 RSR with no extra work).
-- **Where you start, how long you practise, the weather and the pit stop**, set event by event.
-- **The race format of a series**: how fast its tyres wear (a series scale that changes the grip at the end of a race), how fast the race clock runs (a day-to-night race in a few minutes) and when its rain starts, peaks and ends (a forecast's phase times and sky can be edited). Every value the vanilla series use is listed in [SERIES_FIELD_VALUES](docs/reference/SERIES_FIELD_VALUES.md).
-- **Every field a series and an event can set, tried across its range** (16 Nov): laps from 1 to 67, start hour and minute, the clock speed, the start type, a performance cap that really blocks a car, weather by forecast id, the build-phase skip and unlock gates all work; the open class, the slot counts, a 30-minute practice and the skip-lap flag do nothing; the career has no qualifying; some generators drop the connection and an empty roster document crashes the race. The roster document, not the series, decides who is on the grid ([DISCOVERIES](docs/project/DISCOVERIES.md) D81 to D85).
-- **The car list, the practice, the points and the lock text of a series** (16–17 Nov): year and PI ranges, a blocklist and a class filter cut the list of cars the career offers; 0 practice laps give a timed free practice; the AI's catch-up, slow-down and proximity switches each change the field; a table per finishing position sets the series points; the practice clock opens at any hour and minute; and a series locked by another series, a ladder or an event shows **your own text** on its card (a lock by driver level always shows the game's message). Descriptions of series, ladders and cups, a cup's practice limit and a ladder's label show nothing on screen, so they are not levers ([DISCOVERIES](docs/project/DISCOVERIES.md) D87 to D97).
-- **A poster of our own for each series** (18 Nov): our art, under its own name, added to the game's poster archives with
-  plain Python, shows on the series card; several go in at once, and a lost poster (after a Steam update) only leaves the
-  card without art. The archive's layout has to stay as the game wrote it: a rebuilt archive with moved entries crashed
-  the game ([SWATCHBIN](docs/reference/SWATCHBIN.md), [DISCOVERIES](docs/project/DISCOVERIES.md) D98 to D104).
-- **An intro video of our own for each series** (19 Nov): a series in full-screen mode plays a Bink 2 video of ours (a 7.9 s clip with sound, from one MP4), under
-  its own name, with no 3D scene and no narration. The key was the **install's file index** (`hash.manifest`): the game only
-  reads install files listed there, and we now compute its hash, so **new files can be added to the install**, not only
-  overwritten ([INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md),
-  [DISCOVERIES](docs/project/DISCOVERIES.md) D105 to D113).
-- **And the honest limit:** credits and cars come from the **server**, so we cannot edit prizes, but a series built for a live
-  challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
+- **Spec races and an honest AI**: 23 cars of one model against you, or an AI that stays in your class, C to S, whatever you drive.
+- **AI of one theme, at any size**: German, American, Italian or 2010s only, or five models you pick, filling the whole grid.
+- **A cup of our own** whose groups unlock in order, with series of several events that add up points.
+- **Series that count toward the game's own challenges**, and the **real prize arrives**: a Mustang, a Nissan, a Ferrari 488 GTB, a Porsche 911 RSR.
+- **The race format, event by event**: where you start, practice length, weather and when rain starts and ends, how fast the race clock runs, tyre wear, a mandatory pit stop.
+- **Every field a series and an event can set, tried across its range**: what works, what does nothing, what is not safe ([DISCOVERIES](docs/project/DISCOVERIES.md) D81 to D97).
+- **Car lists, points and lock text**: year, PI, blocklist and class cut the car list; a table sets the points per position; a locked series shows **your own text**.
+- **Your own art and video**: a poster and an intro video of ours under their own names; the key was the **install's file index** (`hash.manifest`), so **new files can be added to the install**, not only overwritten ([SWATCHBIN](docs/reference/SWATCHBIN.md), [INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md)).
+- **Visual mods for the install**: render, LOD, camera and photo mode, applied and used for weeks on one machine ([INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md)).
+- **And the honest limit:** credits and cars come from the **server**, so prizes cannot be edited, but a series built for a live challenge earns the game's own prize. We mapped what cannot be edited, so you do not have to test it again ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
 
 The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
 
@@ -64,17 +104,11 @@ The full timeline, phase by phase: [PROGRESS](docs/en/PROGRESS.md).
   <img src="assets/progress.svg" alt="What already works: eleven stages verified in game, three observed, two in progress, two planned, two to test, three closed" width="620">
 </p>
 
-> Independent fan project, not affiliated with Microsoft, Turn 10 or the Forza
-> brand. This repository contains **our own code and documentation only** — no
-> game files, no game text, no mod payloads. See [NOTICE](NOTICE.md).
-
 ## The goal
 
 A career that takes the best of two games: the **permanent event list**, the right car for each event and one-make series of
 **Forza Motorsport 4**, and the **climb from the entry classes** of **Gran Turismo 4**, with short cheap races in ordinary cars
-first. Nothing is distributed ready to install: you generate your own changes with the tools here, from the game you own, by
-editing its content cache **on your machine**. Every change is reproducible and reversible: lint, mandatory dry-run, automatic
-backup, post-write verification and rollback.
+first.
 
 | stage | state |
 |---|---|
@@ -94,7 +128,7 @@ backup, post-write verification and rollback.
 | Series fields that do not act: open class, slot counts, a 30-minute practice, the skip-lap flag | closed (the roster document decides the grid; the career has no qualifying) |
 | Car level, car points and their price; a server of our own | closed (the online service owns the account; see [MOD_TOOLKIT](docs/en/MOD_TOOLKIT.md)) |
 
-## The plan, in two pictures
+### The plan, in two pictures
 
 <p align="center">
   <img src="assets/career_blueprint.svg" alt="How the career is assembled: career, cups, groups, series and events, each level listing its children by id, with our first season (three groups of two series) and the challenge tour (five groups) built on top" width="620">
@@ -122,15 +156,26 @@ your class. The first group is played; the other two stay locked until it is don
 
 The game keeps a list of monthly challenges: ten races in a Mustang, ten laps at Mugello in a Lamborghini, a win at Suzuka in
 a Nissan. We built a cup of five groups, **one group per challenge**, each with its own car list, its own AI of the same theme
-and the track the challenge asks for. The cup is applied in the game and shows in the career. Two groups were played end to
-end. At Suzuka the AI is all Japanese, the win counted and the Nissan was unlocked. At Daytona the AI is all Ferrari, the laps
-counted and the Ferrari 488 GTB arrived, together with a Porsche 911 RSR from a second challenge on the same track. The
-Italian, Camaro and 2010s groups are still to play. Because the challenges rotate every month, the cup is a draft whose themes follow the list of
-the day.
+and the track the challenge asks for. Two groups were played end to end. At Suzuka the AI is all Japanese, the win counted and
+the Nissan was unlocked. At Daytona the AI is all Ferrari, the laps counted and the Ferrari 488 GTB arrived, together with a
+Porsche 911 RSR from a second challenge on the same track. The Italian, Camaro and 2010s groups are still to play. Because the
+challenges rotate every month, the cup is a draft whose themes follow the list of the day.
 
 <p align="center">
   <img src="assets/challenge_tour.svg" alt="One cup of our own with five groups, one per live game challenge: American muscle, Italy at Mugello, Ferrari in Florida (played), Rising Sun (played) and the 2010s" width="620">
 </p>
+
+## The AI standard
+
+<p align="center">
+  <img src="assets/ai_standard.svg" alt="The AI standard in four parts: a levelled field at the class ceiling, a narrow speed band for every AI driver, a gentler recovery off the track and race switches; tried on Brands Hatch GP (verified in game), Lime Rock, an oval and class A 700 (observed)" width="620">
+</p>
+
+The AI of a series used to leave the track at the same corner, alone, with two wheels on the grass. Narrowing the speed range the
+game gives each AI driver (one global edit, no track overrides it) cut that a lot at Brands Hatch GP, and it held on Lime Rock, an oval and
+class A. Together with a field levelled at the class ceiling, a gentler recovery off the track and a set of race switches, it is the
+standard we follow for the career's AI. The evidence is in [PROGRESS](docs/en/PROGRESS.md) and
+[DISCOVERIES](docs/project/DISCOVERIES.md) (D76 to D80).
 
 ## Your own poster art
 
@@ -155,56 +200,32 @@ With `PlayIntroVideoFullScreen` the series plays the video file itself, and that
 record to the install's file index, point the series at it ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 8). The
 clip is encoded in Bink 2 (revision `KB2j`) with a Bink 2 encoder, one command (`encode_intro.py`) from an MP4 to an installed, indexed video ([INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), *Encoding*); no game video ships here.
 
-## Install-only visual modifications (*Modificações Install Only for Visual*)
-
-Besides the career data, some visual changes live only in the game's install: render quality, car level of
-detail, track look, camera settings and a few UI textures (for example the photo-mode watermark). They are
-aimed at high-end machines, tested by the maintainer in game, and touch no physics, no online play and no
-account data. The page lists what we changed (file, field and direction); one tool applies the loose-XML ones with
-a dry-run, a backup of the vanilla file and a one-command restore. The zip edits (camera, one UI texture) are
-documented but their tool is not published, and they keep every entry of the archive at its original offset,
-because moving them took the menu's animated background away ([D120](docs/project/DISCOVERIES.md)). Steam's
-*verify files* removes them: apply again. What changes and where is in [INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md); the file map is
-[MEDIA_MAP](docs/reference/MEDIA_MAP.md). The camera settings come from **Better Photo mode** by **GmSV2**
-([Nexus Mods](https://www.nexusmods.com/forzamotorsport/mods/12)); see [NOTICE](NOTICE.md).
-
-## The AI standard
+## Visual mods for the install
 
 <p align="center">
-  <img src="assets/ai_standard.svg" alt="The AI standard in four parts: a levelled field at the class ceiling, a narrow speed band for every AI driver, a gentler recovery off the track and race switches; tried on Brands Hatch GP (verified in game), Lime Rock, an oval and class A 700 (observed)" width="620">
+  <img src="assets/install_visual_mods.svg" alt="Visual mods for the install: loose XML files are changed by apply_kit.py, which does a dry-run first and keeps the originals; zip entries (the camera archive and one UI texture) are edited in place, with the same file size and every entry at its offset; they cover render quality, car level of detail, track look, camera and the photo-mode watermark" width="620">
 </p>
 
-The AI of a series used to leave the track at the same corner, alone, with two wheels on the grass. Narrowing the speed range the
-game gives each AI driver (one global edit, no track overrides it) cut that a lot at Brands Hatch GP, and it held on Lime Rock, an oval and
-class A. Together with a field levelled at the class ceiling, a gentler recovery off the track and a set of race switches, it is the
-standard we follow for the career's AI. The evidence is in [PROGRESS](docs/en/PROGRESS.md) and
-[DISCOVERIES](docs/project/DISCOVERIES.md) (D76 to D80).
+Quality changes that live only in the game's install, aimed at **high-end machines**: they raise detail and cost GPU and
+VRAM. They touch no physics, no online play and no account data, and each one is a value the game already reads.
 
-## Try it in three steps
+| area | what changes |
+|---|---|
+| Render quality | shadow, cubemap and sky resolution; reflection reach and update rate |
+| Car level of detail | LOD of the car in focus and of the field, in mirrors and on a wet track |
+| Track look | cubemap reach, shadow distances, how far cones and tyre walls exist |
+| Camera | a free photo-mode camera, a softer vignette on the race cameras |
+| Photo-mode watermark | the Forza logo texture shown in photo mode, made transparent |
 
-1. **Look** — build the two oracles and read your own career data on a *copy*
-   of the cache: [GETTING_STARTED](docs/en/GETTING_STARTED.md) (about 15
-   minutes, never touches the game).
-2. **Describe** — write a short JSON spec for the series or grid you want
-   ([specs/README.md](specs/README.md), [specs/_TEMPLATE.json](specs/_TEMPLATE.json)).
-3. **Apply** — `--dry-run`, then apply with `--verify` with the game closed;
-   undo with `rollback_cache.py` ([PIPELINE](docs/en/PIPELINE.md)).
+[`apply_kit.py`](_tools/graphics/apply_kit.py) applies the loose-XML changes with a dry-run, a backup of each original and a
+one-command restore. The zip edits (the camera archive, one UI texture) are documented but their tool is not published, and
+they must keep every entry at its original offset: moving them took the menu's animated background away
+([D120](docs/project/DISCOVERIES.md)). Steam's *verify files* removes all of it: apply again. The camera settings come
+from **Better Photo mode** by **GmSV2** ([Nexus Mods](https://www.nexusmods.com/forzamotorsport/mods/12); see
+[NOTICE](NOTICE.md)).
 
-```powershell
-python _tools\build_series.py --spec specs\<name>.json       # spec -> kit
-python _tools\cache_edit.py --dry-run --plan patches\<kit>\plan.json
-python _tools\cache_edit.py --plan patches\<kit>\plan.json --verify
-python _tools\rollback_cache.py                              # undo the last apply
-```
-
-### Prerequisites
-
-- Windows, with the game launched at least once (it creates the CmsCache).
-- Python 3.10+ (`pip install -r requirements.txt`) and the .NET 10 SDK (the two
-  oracles target `net10.0`).
-- The CMS key and the third-party files the cache oracle needs, obtained by you
-  and kept git-ignored: [THIRD_PARTY](docs/project/THIRD_PARTY.md). A fresh clone
-  cannot run `cache_edit.py` until you supply them.
+Every field, with its direction and state: [INSTALL_VISUAL_MODS](docs/reference/INSTALL_VISUAL_MODS.md). Where each file of the
+install lives and what we know about it: [MEDIA_MAP](docs/reference/MEDIA_MAP.md).
 
 ## You want to…
 
@@ -233,7 +254,7 @@ issue with the numbers ([CONTRIBUTING](CONTRIBUTING.md)).
 | [`docs/en/`](docs/en/GETTING_STARTED.md) · [`docs/pt-br/`](docs/pt-br/GETTING_STARTED.md) | **Start**: getting started, concepts, the apply pipeline, the mod toolkit, progress |
 | [`docs/tutorials/`](docs/tutorials/01_rename.md) | **Step by step**: rename, reorder, new series, AI grid |
 | [`docs/guides/`](docs/guides/CAREER_MOD.md) | **By goal**: the career mod, career basics, AI grids, troubleshooting |
-| [`docs/reference/`](docs/reference/MODDING_SURFACE.md) | **The format**: what can be modded, career model, race system, cars and PI, schema, economy, glossary |
+| [`docs/reference/`](docs/reference/MODDING_SURFACE.md) | **The format**: what can be modded, the install's file map, visual mods, career model, race system, cars and PI, schema, economy, glossary |
 | [`docs/data/`](docs/data/ENUMS.md) | **Tables** generated from your game: cars, tracks, classes and enums |
 | [`docs/project/`](docs/project/DISCOVERIES.md) | **The project**: discoveries, open questions, career audit, decisions, third-party material |
 
