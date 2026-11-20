@@ -29,7 +29,7 @@ touches multiplayer ships without a discussion first.
 |---|---|---|---|
 | **CmsCache (live)** | `%LOCALAPPDATA%\Microsoft.ForzaMotorsport\CmsCache\`: encrypted payloads in content-addressed blobs, listed by the `prod\<snapshot>` manifest | `_tools/cache_edit.py` (plan → `--dry-run` → apply `--verify`), Strategy S | the runtime source for every CMS file that has a local blob. Only a minority of manifest entries have a local blob; the rest are fetched on demand, and editing those has no effect |
 | **install-cms** | the CMS zips under the install's `media\pcfamily\cms\`, for content groups with no cache blob (e.g. AI grids) | `_tools/install_edit.py` (rewrites the zip and the install and cache manifest chain, with backup and restore) | the seed copies of groups that *do* have a cache blob are ignored at runtime (`docs/project/decisions/ADR-004_install_vs_runtime.md`) |
-| **install, loose or readable zip** | plain XML/JSON/INI under `media\` (render presets, per-track settings, string tables, tunables) | no tool yet: needs a file-swap tool with backup and restore | Steam "verify files" undoes it; integrity coverage is unknown (section 12) |
+| **install, loose or readable zip** | plain XML/JSON/INI under `media\` (render presets, per-track settings, string tables, tunables) | `_tools/graphics/apply_kit.py` for loose XML (dry-run, backup, restore); zip edits are documented in [INSTALL_VISUAL_MODS](INSTALL_VISUAL_MODS.md) | Steam "verify files" undoes it; integrity coverage is unknown (section 12) |
 | **install, encrypted container** | asset container with its own key (physics, prizes, unlocks, part of the tunables, install copies of the client flags and weather) | **closed**: this project does not write it | not needed for the career; nothing from it is in this repository |
 | **gamedb** | the game database under `media\base\db\` | **closed** for writing | read-only reference (car attributes, upgrade tables, AI tuning tables); `inventory.py` reads it |
 | **executable** | client defaults for optional config blocks | not modded | its string tokens show config keys that the data never sets |
@@ -114,7 +114,7 @@ out of series-kit reach.
 |---|---|---|---|---|---|
 | track per event, laps | override + event in the career schedule | JSON | `build_series.py` | career | **verified**: the race runs the override's lap count |
 | track temperature, track lists | `TrackTemperature`, track tables (cache / gamedb) | JSON / SQLite | `cache_edit` (cache only) | global | **hypothesis** |
-| per-track visual settings (sky, cubemaps, color grading, shadows) | `media\pcfamily\tracks\<track>\tracksettings*.xml` | loose XML | file swap (no tool) | client, visual | **hypothesis**; this is the first install pilot, once the tool exists |
+| per-track visual settings (sky, cubemaps, color grading, shadows) | `media\pcfamily\tracks\<track>\tracksettings*.xml` | loose XML | `_tools/graphics/apply_kit.py` | client, visual | **observed** (one machine): several fields raised and used for weeks, see [INSTALL_VISUAL_MODS](INSTALL_VISUAL_MODS.md) |
 | per-track surface contact params (friction, elasticity) | same files | loose XML | — | **global** (physics) | **closed** by project rule |
 | track geometry, ribbons, assets | track zips (some compressed with a method that needs a native runtime) | binary | — | global | **closed** |
 
@@ -122,7 +122,7 @@ out of series-kit reach.
 
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
-| quality presets (resolution of shadows, liveries, reflections, LOD distances) | `media\pcfamily\renderscenarios\<preset>\*.xml` | loose XML | file swap (no tool) | client, visual | **hypothesis**: going "above ultra" is possible in data but untested |
+| quality presets (resolution of shadows, liveries, reflections, LOD distances) | `media\pcfamily\renderscenarios\<preset>\*.xml` | loose XML | `_tools/graphics/apply_kit.py` | client, visual | **observed** (one machine): going "above ultra" works in data for shadows, cubemaps, reflections and car LOD; cost is GPU and VRAM ([INSTALL_VISUAL_MODS](INSTALL_VISUAL_MODS.md)) |
 | lens flares, photo-mode presets | `media\base\lensflare\`, photo-mode preset files | XML | file swap | client, visual | **hypothesis** |
 | hardware profile | `media\base\targethardwareprofiler.xml` | XML | file swap | client | **hypothesis** |
 
@@ -175,6 +175,6 @@ out of series-kit reach.
   `_tools/aifield_survey.py`: read-only inventories of your own game.
 - Missing today:
   - an "add logical entry" operation for the cache;
-  - an install file-swap tool with backup and restore;
+  - a public tool for zip entries (camera, UI textures): the method-21 compression needs a runtime library we cannot distribute, so those edits are documented in [INSTALL_VISUAL_MODS](INSTALL_VISUAL_MODS.md), not shipped;
   - writing the encrypted containers (not planned: physics and economy are
     global and out of scope).

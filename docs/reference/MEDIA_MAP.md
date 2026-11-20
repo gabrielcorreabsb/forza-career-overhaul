@@ -25,7 +25,9 @@ and writable, effect not tested; **closed** = cannot be written today or off-lim
 3. **A zip can be edited in place, a container cannot.** Plain zips (store/deflate) and the method-21 zips of
    the UI textures can be edited by our tools, **in place**: the edited entry stays in its own slot and every other entry keeps its offset and bytes (moving entries took the menu's animated background away, D120); the encrypted containers
    (`physics`, `prizes`, `unlocks`, part of the tunables) and the zips in a compression method the Python
-   `zipfile` cannot open are **closed** to us.
+   `zipfile` cannot open are **closed** to us. Reading a method-21 entry needs Microsoft's `xcompress64.dll`,
+   which this repository does not distribute ([THIRD_PARTY](../project/THIRD_PARTY.md)): without it the
+   published poster tool can only add new entries (Deflate), not read or replace a vanilla one.
 
 ## 2. `media\base` (shared by every platform, ≈ 8.3 GB)
 
