@@ -37,6 +37,14 @@ were read from **Better Photo mode** by **GmSV2** on Nexus Mods
 names and the direction of the changes, as our own recipe, and credit the author; none of the mod's files is
 included. See [docs/reference/INSTALL_VISUAL_MODS.md](docs/reference/INSTALL_VISUAL_MODS.md).
 
+The windscreen rain recipe was guided by reading **FH3 Inspired Rain Effects** (a Forza Horizon 6 mod on Nexus Mods): we kept
+only the idea that the drop should last longer (density = rate x life), tuned in our own test. None of the mod's files is included.
+
+The track-look fields behind the cockpit bloom, cockpit lens flare and water-on-lens recipes were found while reading
+**AtmosphereMax** on Nexus Mods ([Forza Horizon 6 mod 432](https://www.nexusmods.com/forzahorizon6/mods/432)). We keep only
+the field names and, for the water on the lens, the direction; for bloom and flare we go the opposite way, so the cockpit
+is clearer. None of the mod's files is included.
+
 The first-person camera values in the same recipes (field of view, gaze pitch, hood and bumper offsets and
 the camera-physics tuning of the cockpit view and the driver eye position per car) were read from **Better Chaser and First Person Cam REWORKED**
 by **Yar** on Nexus Mods ([Forza Horizon 6 mod 324](https://www.nexusmods.com/forzahorizon6/mods/324)) and

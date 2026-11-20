@@ -57,8 +57,11 @@ ALLOWED = (
     re.compile(r"^pcfamily/tracks/[a-z0-9]+/tracksettings\.xml$"),
     re.compile(r"^base/tracks/basetracksettings\.xml$"),
     re.compile(r"^base/gametunablesettings/userconfigoptions\.xml$"),
+    re.compile(r"^base/cars/_library/globalcarattributes\.xml$"),
 )
 KEY_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+# <Prefix><digits>, the shape of the indexed blocks (CSMSettings0..3, Settings0..7)
+INDEXED_RE = re.compile(r"^(?P<prefix>[A-Za-z_][A-Za-z0-9_]*?)(?P<digits>\d+)$")
 VALUE_RE = re.compile(r'^[A-Za-z0-9_.+ x-]*$')
 
 
@@ -290,12 +293,42 @@ class Env:
             check_xml(rel, data, before[rel])
         return before, after
 
+    def indexed_block(self, edit, exe):
+        """True for a block the game assembles at runtime: <Prefix><digits> or <Word>_<Suffix>.
+
+        The prefix without the trailing digits must be in the executable AND the
+        full name must be a tag of the kit's target file (the file the edit
+        writes). Digits inside the name do not count: CS2MSettings is refused
+        even when CSMSettings is in the exe. A name whose prefix is not in the
+        exe (X4 ProceduralGrass*) is still refused.
+        """
+        key = edit["key"]
+        m = INDEXED_RE.match(key)
+        if m:
+            composed = m.group("prefix").encode("ascii") in exe
+        else:
+            # <Word>_<Suffix> (Interior_RainDropTuningData): the game prefixes
+            # a shared suffix, so the "_Suffix" part must be in the exe
+            composed = "_" in key[1:] and key[key.index("_", 1):].encode("ascii") in exe
+        if not composed:
+            return False
+        path = self.path(self.install, edit["file"])
+        if not os.path.exists(path):
+            raise KitError("%s: file not found, so the indexed block %s cannot "
+                           "be confirmed" % (edit["file"], edit["key"]))
+        masked = mask_comments(read(path).decode("latin-1"))
+        return re.search(r"<%s(?=[\s/>])" % re.escape(edit["key"]),
+                         masked) is not None
+
     def check_exe(self, kit):
         exe = read(os.path.join(self.game, EXE_NAME))
         for edit in kit["edits"]:
-            if edit["key"].encode("ascii") not in exe:
-                raise KitError("key %s is not in the game executable; it would "
-                               "probably be ignored" % edit["key"])
+            if edit["key"].encode("ascii") in exe:
+                continue
+            if self.indexed_block(edit, exe):
+                continue
+            raise KitError("key %s is not in the game executable; it would "
+                           "probably be ignored" % edit["key"])
 
     def dryrun_key(self, raw, before):
         h = hashlib.sha256(raw)
@@ -423,6 +456,9 @@ def self_test():
            '  <Twice value ="1"/>\r\n'
            '  <Twice value="2"/>\r\n'
            '  <Anchor value="0"/>\r\n'
+           '  <CSMSettings2 CSMRadius="1"/>\r\n'
+           '  <ProceduralGrass2 GrassDist="1"/>\r\n'
+           '  <CS2MSettings CSMRadius="1"/>\r\n'
            '</DynamicRenderSettings>\r\n').encode("latin-1")
     results = []
 
@@ -437,6 +473,14 @@ def self_test():
         except KitError:
             check(name, True)
 
+    def passed(name, func):
+        try:
+            func()
+            check(name, True)
+        except KitError as e:
+            print("     %s" % e)
+            check(name, False)
+
     with tempfile.TemporaryDirectory(prefix="apply_kit_test_") as tmp:
         game = os.path.join(tmp, "game")
         graphics = os.path.join(tmp, "graphics")
@@ -445,7 +489,7 @@ def self_test():
         os.makedirs(env.kits_dir)
         write_atomic(env.path(env.install, rel), xml)
         write_atomic(os.path.join(game, EXE_NAME),
-                     b"SSRQuality Twice NewKey Anchor")
+                     b"SSRQuality Twice NewKey Anchor CSMSettings")
         quiet = lambda *_: None
 
         def kit(kit_id, *edits):
@@ -471,6 +515,16 @@ def self_test():
 
         kit("BADEXE", {"key": "NotInExe", "value": "1", "insert_after": "Anchor"})
         refused("refuses a key missing from the exe", lambda: env.dry_run("BADEXE", quiet))
+
+        kit("IDX", {"key": "CSMSettings2", "attr": "CSMRadius", "value": "9"})
+        passed("accepts an indexed block whose prefix is in the exe",
+               lambda: env.dry_run("IDX", quiet))
+        kit("IDXBAD", {"key": "ProceduralGrass2", "attr": "GrassDist", "value": "9"})
+        refused("refuses an indexed name whose prefix is not in the exe",
+                lambda: env.dry_run("IDXBAD", quiet))
+        kit("IDXMID", {"key": "CS2MSettings", "attr": "CSMRadius", "value": "9"})
+        refused("refuses a name with digits in the middle",
+                lambda: env.dry_run("IDXMID", quiet))
 
         env.dry_run("A", quiet)
         check("dry-run writes nothing to the game", read(env.path(env.install, rel)) == xml)

@@ -28,6 +28,13 @@ not define. Status: **approved** = tested in game by the maintainer and approved
 | reflections (ray tracing) | `DXRCockpitTransparentPassEnabled`, `EnvMapMeshSizeLimitScale` | new | approved |
 | car detail | `OpponentCarLiveryResolution`, `DensityCullCutoffValueLevel`, `MaxDynamicTrackLevel`, AI particle detail | up | approved |
 | car detail | `CarDrawRenderedAO`, `DayUltraShaders` | new | approved |
+| rain on the camera lens | `EnableWaterOnCameraLens` (race scene) | new / on | approved |
+| scene reflection (cubemap) on the tracks the first pack missed | faces per frame, far distance, mesh limit, limit per face, mesh size threshold | up, back to the base value | approved |
+| crowd shadows and models | `Crowds.VisibleDistanceFor*` | up, back to the base value | approved |
+| falling rain on screen | `FallingRainParams` opacity and drop width | up, back to the base value | approved |
+| cockpit GPU load | `DXRCockpitTransparentPassEnabled` (race scene) | off | approved |
+| rain drops on the inside of the windscreen | `Interior_RainDropTuningData.RainDropLife` (the drop lasts longer) | up | approved |
+| car texture sharpness | `CarAnisoFilterOverride` (one step, to the top of the menu scale) | up | approved |
 | car level of detail | `CarAnimLODThresholds` (race) | equalled to the global Ultra value | approved |
 | car level of detail | `CarFocusLODMinMax`, `CarNonFocusLODMinMax` (maximum), `CarPlanarLODOverride`, `CarShaderLODBias` | down | approved |
 
@@ -39,6 +46,9 @@ not define. Status: **approved** = tested in game by the maintainer and approved
 | `HeadlightShadows.HeadlightShadowDistance`, `ShadowMapAniso` | up | approved |
 | `ForceEnableGTAO` (base only) | new | approved |
 | `CollidableDropDistance` (16 tracks that lowered it) | up, back to the base value | approved |
+| `cockpitBloomScale` (base and the 9 tracks that define it) | down, x0.75 | approved |
+| `CockpitLensFlareIntensity` (base and the 7 tracks that define it above zero) | down, x0.7 | approved |
+| `WaterOnLens.RefractionScalar`, `WaterOnLens.RefractionIndex` (base and the 15 tracks that define them) | down, x0.75 | approved |
 
 A track is only edited where it already defines the field; a missing attribute inherits the base.
 
