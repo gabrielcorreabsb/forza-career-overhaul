@@ -162,6 +162,45 @@ def do_add(args):
     print("gravado (backup do original: %s)" % ours["backup"])
 
 
+def do_remove(args):
+    """Tira do indice so registros que ESTA ferramenta acrescentou (estado)."""
+    mpath = manifest_path(args.root)
+    buf = open(mpath, "rb").read()
+    st = load_state()
+    ours = st.get(args.root)
+    if not ours:
+        raise HmError("nada escrito por esta ferramenta em %s" % args.root)
+    if sha(buf) != ours["last_sha256"]:
+        raise HmError("o manifest mudou desde a ultima escrita desta ferramenta")
+    mine = {path_hash(a["path"]): a["path"] for a in ours["added"]}
+    drop = {}
+    for rel in args.remove:
+        h = path_hash(rel)
+        if h not in mine:
+            raise HmError("nao e um registro acrescentado por esta ferramenta: %s" % rel)
+        drop[h] = mine[h]
+    recs = read_records(buf)
+    keep = [(h, v) for h, v in recs if h not in drop]
+    if len(keep) != len(recs) - len(drop):
+        raise HmError("conferencia falhou: contagem de registros")
+    out = buf[:HEADER] + b"".join(struct.pack("<QI", h, v) for h, v in keep)
+    for h, rel in drop.items():
+        print("%s: - %s  hash %016x" % (args.root, rel, h))
+    print("registros %d -> %d; sha %s -> %s" % (len(recs), len(keep), sha(buf)[:12], sha(out)[:12]))
+    if not args.apply:
+        print("dry-run: nada gravado (use --apply)")
+        return
+    require_closed()
+    write_in_place(mpath, out)
+    if sha(open(mpath, "rb").read()) != sha(out):
+        raise HmError("gravacao divergente: %s" % mpath)
+    ours["added"] = [a for a in ours["added"] if path_hash(a["path"]) not in drop]
+    ours["last_sha256"] = sha(out)
+    st[args.root] = ours
+    save_state(st)
+    print("removido")
+
+
 def do_restore(args):
     st = load_state()
     ours = st.get(args.root)
@@ -189,6 +228,7 @@ def main():
     g.add_argument("--add", nargs="+", metavar="CAMINHO")
     g.add_argument("--check", nargs="+", metavar="CAMINHO")
     g.add_argument("--restore", action="store_true")
+    g.add_argument("--remove", nargs="+", metavar="CAMINHO")
     p.add_argument("--value", nargs="+", type=int)
     p.add_argument("--root", choices=("base", "pcfamily"), default="base")
     p.add_argument("--apply", action="store_true")
@@ -200,6 +240,8 @@ def main():
             do_add(args)
         elif args.check:
             do_check(args)
+        elif args.remove:
+            do_remove(args)
         else:
             do_restore(args)
     except HmError as exc:

@@ -50,7 +50,7 @@ Not a plan: each line below ran in the game and has its evidence in [DISCOVERIES
   plain Python, shows on the series card; several go in at once, and a lost poster (after a Steam update) only leaves the
   card without art. The archive's layout has to stay as the game wrote it: a rebuilt archive with moved entries crashed
   the game ([SWATCHBIN](docs/reference/SWATCHBIN.md), [DISCOVERIES](docs/project/DISCOVERIES.md) D98 to D104).
-- **An intro video of our own for each series** (19 Nov): a series in full-screen mode plays any Bink 2 video we install, under
+- **An intro video of our own for each series** (19 Nov): a series in full-screen mode plays a Bink 2 video of ours (a 7.9 s clip with sound, from one MP4), under
   its own name, with no 3D scene and no narration. The key was the **install's file index** (`hash.manifest`): the game only
   reads install files listed there, and we now compute its hash, so **new files can be added to the install**, not only
   overwritten ([INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md),
@@ -153,7 +153,7 @@ install it again ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 7). A samp
 Without full screen, a series intro is a 3D scene the game picks by the video's name, with its own music and narration.
 With `PlayIntroVideoFullScreen` the series plays the video file itself, and that file can be ours: install it, add its
 record to the install's file index, point the series at it ([GETTING_STARTED](docs/en/GETTING_STARTED.md), step 8). The
-clip is encoded in Bink 2 with RAD's own tool; no game video ships here.
+clip is encoded in Bink 2 (revision `KB2j`) with a Bink 2 encoder, one command (`encode_intro.py`) from an MP4 to an installed, indexed video ([INTRO_VIDEO](docs/reference/INTRO_VIDEO.md), *Encoding*); no game video ships here.
 
 ## The AI standard
 

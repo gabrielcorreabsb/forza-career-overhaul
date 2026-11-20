@@ -16,8 +16,8 @@
   <!-- encode -->
   <rect class="box" x="24" y="74" width="132" height="64" rx="6" stroke="#D29922" stroke-width="1.5"/>
   <text class="b" x="38" y="96" fill="#D29922">YOUR CLIP</text>
-  <text class="s" x="38" y="114">MP4 → Bink 2</text>
-  <text class="s" x="38" y="130">RAD Video Tools</text>
+  <text class="s" x="38" y="114">MP4 → Bink 2 KB2j</text>
+  <text class="s" x="38" y="130">encode_intro.py</text>
   <path d="M156 106 H180 M174 101 L180 106 L174 111" stroke="#D29922" stroke-width="2" fill="none"/>
 
   <!-- install file -->
@@ -57,5 +57,5 @@
   <text class="s" x="38" y="300">default scene</text>
 
   <text class="s" x="24" y="340">After a Steam update or "verify files": run steps 1 and 2 again; until then the series shows a black screen and keeps working.</text>
-  <text class="s" x="24" y="360">No game video or audio in this project. Findings D105–D113.</text>
+  <text class="s" x="24" y="360">No game video or audio in this project. Findings D105–D118. Sound plays from one side only.</text>
 </svg>

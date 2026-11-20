@@ -9,7 +9,7 @@ not published here: you generate your own kits from your copy of the game.
 - **Own intro videos and the install's file index** (findings D105–D113 in [DISCOVERIES](docs/project/DISCOVERIES.md)): a
   series intro is a 3D scene picked by the video's name, or, with `PlayIntroVideoFullScreen`, the video file itself; the
   game reads only the install files listed in `hash.manifest`, whose path hash is now known and rebuilt for every record;
-  a new video under its own name plays once indexed. New tools `bk2_install.py` and `hash_manifest_edit.py`; new references
+  a new video under its own name plays once indexed, and a clip we encoded to Bink 2 (`KB2j`) ran in game, with sound from one side only (D114, D118); `encode_intro.py` goes from an MP4 to an installed, indexed video in one command, with a standard preset (quantiser 8, audio quality 10), and only creates new files; `hash_manifest_edit.py --remove` drops records it added. New tools `bk2_install.py` and `hash_manifest_edit.py`; new references
   [INTRO_VIDEO](docs/reference/INTRO_VIDEO.md) and [INSTALL_INDEX](docs/reference/INSTALL_INDEX.md); GETTING_STARTED step 8,
   PROGRESS, MOD_TOOLKIT, README and a diagram (`assets/intro_video_pipeline.svg`). The first-car screen fails on our series:
   keep it off. `build_series --round` gains the `set_cup` and `set_series` ops.

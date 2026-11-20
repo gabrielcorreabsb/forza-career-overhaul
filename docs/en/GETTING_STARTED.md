@@ -191,21 +191,18 @@ A series can open with your own video, full screen ([INTRO_VIDEO](../reference/I
 poster, the video lives in the install, and the game only reads install files listed in its file index
 ([INSTALL_INDEX](../reference/INSTALL_INDEX.md)), so there are three moves, game **closed**:
 
-1. Encode the clip in Bink 2 (RAD Video Tools), 1920×1080 or 5600×2000, 30 fps.
-2. Install it and index it:
+1. Get a 16:9 MP4 and an ffmpeg with the `bink2video` encoder ([INTRO_VIDEO](../reference/INTRO_VIDEO.md), *Encoding*).
+2. One command encodes it (Bink 2 revision `KB2j`, 1920×1080 and 3840×2160), installs both files and adds their index records:
 
 ```powershell
-python _tools\bk2_install.py --add FCO_MyIntro --from-file my_1080.bk2 --from-file-2160 my_2160.bk2 --apply
-python _tools\hash_manifest_edit.py --check ui\videos\1080\practicalperformance.bk2 ui\videos\2160\practicalperformance.bk2
-python _tools\hash_manifest_edit.py --add ui\videos\1080\fco_myintro.bk2 ui\videos\2160\fco_myintro.bk2 --value <v1080> <v2160> --apply
+python _tools\encode_intro.py --mp4 my_clip.mp4 --name FCO_MyIntro --ffmpeg C:\path\ffmpeg.exe --apply
 ```
 
 3. In the round spec, give the series `"series_set": {"IntroVideoPath": "FCO_MyIntro.bk2",
    "PlayIntroVideoFullScreen": true, "FirstCarSelectEnabled": false, "FirstCarSelectCars": []}` and apply
    the kit as in step 6.
 
-Use the values `--check` prints for a vanilla video. `hash_manifest_edit.py --restore --apply` puts the
-original index back. After a Steam update the series shows a black screen until you run step 2 again.
+The command only creates new files (a name that exists is refused). `hash_manifest_edit.py --remove <paths> --apply` drops records it added; `--restore --apply` puts the original index back. The sound comes out from one side only. After a Steam update the series shows a black screen until you run step 2 again.
 
 ## If something goes wrong
 

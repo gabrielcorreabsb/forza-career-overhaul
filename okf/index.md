@@ -8,7 +8,7 @@ Tools and docs for a career-mode overhaul of Forza Motorsport (2023): scripts th
 Start with the rules: breaking them can corrupt the cache.
 
 - [Golden rules](/rules/index.md) — 6 rules about editing the cache safely
-- [Tools](/tools/index.md) — 25 pipeline scripts and tests, by role
+- [Tools](/tools/index.md) — 26 pipeline scripts and tests, by role
 - [Specs](/specs/index.md) — 25 declarative inputs for the generators
 - [Docs](/docs/index.md) — 44 documents (guides, project status, data)
 
