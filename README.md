@@ -215,7 +215,8 @@ VRAM. They touch no physics, no online play and no account data, and each one is
 | Render quality | shadow, cubemap and sky resolution; reflection reach and update rate |
 | Car level of detail | LOD of the car in focus and of the field, in mirrors and on a wet track |
 | Track look | cubemap reach, shadow distances, how far cones and tyre walls exist |
-| Camera | a free photo-mode camera, a softer vignette on the race cameras |
+| Rain | windscreen drops that last longer and run off, drops on the camera lens |
+| Camera | a free photo-mode camera, a softer vignette on the race cameras, a first-person view with the driver's eye position per car |
 | Photo-mode watermark | the Forza logo texture shown in photo mode, made transparent |
 
 [`apply_kit.py`](_tools/graphics/apply_kit.py) applies the loose-XML changes with a dry-run, a backup of each original and a
