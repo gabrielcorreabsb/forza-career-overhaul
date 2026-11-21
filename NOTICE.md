@@ -38,7 +38,8 @@ names and the direction of the changes, as our own recipe, and credit the author
 included. See [docs/reference/INSTALL_VISUAL_MODS.md](docs/reference/INSTALL_VISUAL_MODS.md).
 
 The windscreen rain recipe was guided by reading **FH3 Inspired Rain Effects** (a Forza Horizon 6 mod on Nexus Mods): we kept
-only the idea that the drop should last longer (density = rate x life), tuned in our own test. None of the mod's files is included.
+only the direction of its interior drop block (fewer new drops that last longer and run off faster), tested in game.
+None of the mod's files is included.
 
 The track-look fields behind the cockpit bloom, cockpit lens flare and water-on-lens recipes were found while reading
 **AtmosphereMax** on Nexus Mods ([Forza Horizon 6 mod 432](https://www.nexusmods.com/forzahorizon6/mods/432)). We keep only

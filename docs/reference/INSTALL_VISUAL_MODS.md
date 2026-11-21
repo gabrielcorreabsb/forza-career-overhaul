@@ -33,7 +33,7 @@ not define. Status: **approved** = tested in game by the maintainer and approved
 | crowd shadows and models | `Crowds.VisibleDistanceFor*` | up, back to the base value | approved |
 | falling rain on screen | `FallingRainParams` opacity and drop width | up, back to the base value | approved |
 | cockpit GPU load | `DXRCockpitTransparentPassEnabled` (race scene) | off | approved |
-| rain drops on the inside of the windscreen | `Interior_RainDropTuningData.RainDropLife` (the drop lasts longer) | up | approved |
+| rain drops on the inside of the windscreen | `Interior_RainDropTuningData` (rate, life, mass, sizes, edge spawn) | retuned as a block | approved |
 | car texture sharpness | `CarAnisoFilterOverride` (one step, to the top of the menu scale) | up | approved |
 | car level of detail | `CarAnimLODThresholds` (race) | equalled to the global Ultra value | approved |
 | car level of detail | `CarFocusLODMinMax`, `CarNonFocusLODMinMax` (maximum), `CarPlanarLODOverride`, `CarShaderLODBias` | down | approved |
