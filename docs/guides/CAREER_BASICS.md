@@ -32,7 +32,7 @@ Championship 1 is multiplayer and is never touched.
 |---|---|
 | `BuildersCupScheduleDataV4.json` | structure and order, series `AISelectableCars`, per-event `TargetPI`, dates, unlock state |
 | `BCEventOverrides.json` | race rules per event: laps, weather, `ClassRestriction`, `TargetPI`, `AIFileName`, `ParentGeneratorId` |
-| `BCSeriesSelectableCars.xml` | which cars the player may bring (acceptlist) |
+| `BCSeriesSelectableCars.xml` | which cars the player may bring (`Acceptlist` or `Blocklist`/`Blacklist`) |
 | `LocStrings_pt-BR.str` | every displayed name (`IDS_<hash>` keys; new keys of any length work) |
 | `AIField_<n>_Gen.xml` (cache; the game reads it from there) | who the AI drivers are and their PI — see [AI_GRIDS](AI_GRIDS.md) |
 
@@ -40,15 +40,19 @@ Two things that hide real caps (both bit this project):
 
 - The **event's** `TargetPI` and `ClassRestriction` decide what the player may
   enter; the `BCEventOverrides` value was ignored while the BCS value stood.
-  The "A700" cap of series 20004 was `TargetPI = 700` inherited from the donor
-  event (fixed by kit mc59 → 999).
+  Raising the event's `TargetPI` (for example to `999`) opens the series to any class.
 - `AISelectableCars` alone does **not** change the AI grid; the AIField XML does.
 
 ## 3. Rules the game enforces (verified)
 
-- Acceptlist: at most **23** cars per series (a 682-car list left no eligible car).
+- **Acceptlist vs. Blocklist:** an `Acceptlist` holds at most **23** cars per
+  series (a 682-car acceptlist broke eligibility). For open lists or >23 cars,
+  use `Blocklist` (BCS) / `Blacklist` (XML) with `CarClassId: Any` and
+  `CarDivisionId: Open` (optionally excluding disruptive cars such as class X),
+  or combine an empty blocklist with numeric ranges (`YearMin/Max`, `PIMin/Max`,
+  `PowerMin/Max` in hp, `WeightMax` in 100 kg units — D88, D96, D121).
 - The car the game suggests when you own none of the list = the **lowest CarId**
-  of the acceptlist; an empty or invalid list falls back to the MP4/4.
+  of an acceptlist; an empty or invalid list (or an open blocklist) falls back to the MP4/4 (1670).
 - New ids: `ChampionshipSeriesId` ≥ 20000, `EventDataId` 65897900–65899999,
   **never reused** (a reused event id shows as "already completed").
 - A new series needs its `BCSeriesSelectableCars.xml` block (`ArrayLength` + 1).
@@ -58,7 +62,7 @@ Two things that hide real caps (both bit this project):
   the same ([DISCOVERIES](../project/DISCOVERIES.md) D62).
 - A series (or a whole group) can be **gated** on another through its entry criteria; a group stays locked until
   the previous one is done (verified).
-- Poster, banner and intro are inherited from the donor series — replace them.
+- Poster, banner and intro are inherited from the donor series — replace them. Banner and button fields show nothing on screen (D98); own series posters (`swatchbin_edit.py`, [SWATCHBIN](../reference/SWATCHBIN.md)) and full-screen intro videos ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)) are supported.
 
 ## 4. How the vanilla AI is wired
 
@@ -85,7 +89,7 @@ and the cars; the difficulty comes from the player's own car.
 | rename a series/cup/ladder | `str_edit.py` + `bytes` kit | [tutorial 01](../tutorials/01_rename.md) |
 | reorder or unlock | permute `LadderOrderData`/`OrderData`; flip unlock flags | [tutorial 02](../tutorials/02_reorder.md) |
 | new series | spec + `build_series.py` | [tutorial 03](../tutorials/03_new_series.md), [SERIES_CHECKLIST](../reference/SERIES_CHECKLIST.md) |
-| lift an event's PI/class cap | kit on the event's `TargetPI` (mc59 is the model) | [AI_GRIDS](AI_GRIDS.md) |
+| lift an event's PI/class cap | update the event's `TargetPI` (e.g. `999` for open) | [AI_GRIDS](AI_GRIDS.md) |
 | change who the AI is | `AIField` via `fmlib.aifield` + `cache_edit.py` (`build_aifield.py --cache-plan`) | [AI_GRIDS](AI_GRIDS.md) |
 | apply or undo anything | `cache_edit.py` (CmsCache) / `install_edit.py` (install) | [PIPELINE](../en/PIPELINE.md) |
 

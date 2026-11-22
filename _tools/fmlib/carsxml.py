@@ -24,7 +24,7 @@ CLASS_IDS = {"E": 0, "D": 1, "C": 2, "B": 3, "A": 4, "S": 5, "R": 6, "X": 8}
 
 
 def add_entry(raw, donor_series, new_series, car_ids, list_type="Whitelist",
-              class_id=None, severity=None, ranges=None):
+              class_id=None, severity=None, ranges=None, ownership=None):
     """Clones the donor entry with `car_ids`, bumps ArrayLength. Default: a
     Whitelist (donor class/severity kept). list_type="Blacklist" mirrors a
     SelectableCars Blocklist; an empty Blacklist drops the list element and
@@ -70,6 +70,13 @@ def add_entry(raw, donor_series, new_series, car_ids, list_type="Whitelist",
             raise FmError("severity must be None or Strict")
         block = re.sub(r'SeverityType="\w+"',
                        'SeverityType="%s"' % severity, block, count=1)
+    if ownership is not None:
+        if not isinstance(ownership, str) or not re.fullmatch(r"[A-Za-z]{1,24}", ownership):
+            raise FmError("ownership must be a word of 1-24 letters")
+        if re.search(r'Ownership="[^"]*"', block) is None:
+            raise FmError("donor entry has no attribute Ownership")
+        block = re.sub(r'Ownership="[^"]*"', 'Ownership="%s"' % ownership,
+                       block, count=1)
     if ranges is not None:
         if not isinstance(ranges, dict) or not ranges:
             raise FmError("ranges must be a non-empty object")

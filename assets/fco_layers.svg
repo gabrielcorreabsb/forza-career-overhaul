@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 736" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">How a career series is layered — and who wins</title>
+  <desc id="d">Nine layers control a Forza Motorsport career series across the runtime content cache (CmsCache), the install folder, the player preset, and the online server. Cache layers: 1 Series (BuildersCupScheduleDataV4.json) sets name key, gates, car list, AI switches, and poster or intro video; 2 Car Block (BCSeriesSelectableCars.xml) mirrors the player car list and is required to avoid click crashes; 3 Event (ChampionshipEventData) sets track, practice laps, and the effective car PI cap; 4 Event Override (BCEventOverrides.json) wins over event and generator for race laps, start type, weather, clock speed up to x144, AI document, and generator; 5 Session Generator (GameOptions XML) sets class/PI restrictions, mandatory pit stop count, and human grid slot; 6 AI Document (AIField XML) decides the AI roster, PI window, progression band, and 23 AI slots. Install layer: 7 Global AI Tuning (aistatics.zip) narrows driver speed spread and raises off-track recovery. Player layer: 8 Player Preset masks series damage and wear defaults. Server layer: 9 Online Server owns credits, prizes, Car Points, and Challenge Hub progress.</desc>
+  <style>
+    .bg{fill:#0B0E14;stroke:#30363D;stroke-width:1.5}
+    .card{fill:#11161F;stroke:#21262D;stroke-width:1}
+    .sum{fill:#161B22;stroke:#30363D;stroke-width:1}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#9EA7B3}
+    .b{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .n{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .p{font:700 10.5px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .k{font:11.5px Consolas,"Courier New",monospace;fill:#79C0FF}
+    .w{font:700 11.5px "Segoe UI",Helvetica,Arial,sans-serif;fill:#3FB950}
+    .ln{stroke:#484F58;stroke-width:1.5;fill:none}
+  </style>
+  <rect class="bg" x="1" y="1" width="758" height="734" rx="8"/>
+  <text class="h" x="24" y="30">How a career series is layered — and who wins</text>
+  <text class="s" x="24" y="48">Nine layers across runtime cache, install folder, player preset, and server. Higher-precedence layers override lower defaults.</text>
+
+  <!-- Legend -->
+  <g transform="translate(24,60)">
+    <rect x="0" y="0" width="134" height="20" rx="10" fill="#58A6FF"/>
+    <text class="p" x="67" y="14" text-anchor="middle">CACHE (CmsCache)</text>
+    <rect x="144" y="0" width="144" height="20" rx="10" fill="#BC8CFF"/>
+    <text class="p" x="216" y="14" text-anchor="middle">INSTALL (game folder)</text>
+    <rect x="298" y="0" width="128" height="20" rx="10" fill="#D29922"/>
+    <text class="p" x="362" y="14" text-anchor="middle">PLAYER (settings)</text>
+    <rect x="436" y="0" width="154" height="20" rx="10" fill="#F85149"/>
+    <text class="p" x="513" y="14" text-anchor="middle">SERVER (authoritative)</text>
+  </g>
+
+  <!-- 1. Series -->
+  <g transform="translate(24,92)">
+    <rect class="card" width="712" height="52" rx="6"/>
+    <circle cx="26" cy="26" r="13" fill="#58A6FF"/><text class="n" x="26" y="31" text-anchor="middle">1</text>
+    <text class="b" x="50" y="21">Series</text>
+    <text class="k" x="606" y="21" text-anchor="end">BuildersCupScheduleDataV4.json</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#58A6FF"/><text class="p" x="659" y="21" text-anchor="middle">[CACHE]</text>
+    <text class="s" x="50" y="40">Name (IDS_), gates, car list (Blocklist/Acceptlist), AI switches, poster &amp; intro video (verified)</text>
+  </g>
+  <path class="ln" d="M380 144 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 2. Car block -->
+  <g transform="translate(24,156)">
+    <rect class="card" width="712" height="52" rx="6"/>
+    <circle cx="26" cy="26" r="13" fill="#58A6FF"/><text class="n" x="26" y="31" text-anchor="middle">2</text>
+    <text class="b" x="50" y="21">Car Block</text>
+    <text class="k" x="606" y="21" text-anchor="end">BCSeriesSelectableCars.xml</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#58A6FF"/><text class="p" x="659" y="21" text-anchor="middle">[CACHE]</text>
+    <text class="s" x="50" y="40">Mirrors SelectableCars (Acceptlist &lt;=23 or open Blacklist); missing block crashes game (verified)</text>
+  </g>
+  <path class="ln" d="M380 208 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 3. Event -->
+  <g transform="translate(24,220)">
+    <rect class="card" width="712" height="52" rx="6"/>
+    <circle cx="26" cy="26" r="13" fill="#58A6FF"/><text class="n" x="26" y="31" text-anchor="middle">3</text>
+    <text class="b" x="50" y="21">Event</text>
+    <text class="k" x="606" y="21" text-anchor="end">BCS ChampionshipEventData</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#58A6FF"/><text class="p" x="659" y="21" text-anchor="middle">[CACHE]</text>
+    <text class="s" x="50" y="40">Track, practice laps (NumberOfRequiredLaps, observed), and car PI cap (TargetPI wins, verified)</text>
+  </g>
+  <path class="ln" d="M380 272 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 4. Event override -->
+  <g transform="translate(24,284)">
+    <rect class="card" width="712" height="52" rx="6" stroke="#3FB950" stroke-width="1.2"/>
+    <circle cx="26" cy="26" r="13" fill="#58A6FF"/><text class="n" x="26" y="31" text-anchor="middle">4</text>
+    <text class="b" x="50" y="21">Event Override</text>
+    <text class="w" x="158" y="21">WINS: laps, start, clock, weather, AI ref</text>
+    <text class="k" x="606" y="21" text-anchor="end">BCEventOverrides.json</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#58A6FF"/><text class="p" x="659" y="21" text-anchor="middle">[CACHE]</text>
+    <text class="s" x="50" y="40">Race laps, start (_321Type), sky &amp; hour, clock (&lt;=x144), AIFileName, ParentGeneratorId (verified)</text>
+  </g>
+  <path class="ln" d="M380 336 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 5. Session generator -->
+  <g transform="translate(24,348)">
+    <rect class="card" width="712" height="52" rx="6"/>
+    <circle cx="26" cy="26" r="13" fill="#58A6FF"/><text class="n" x="26" y="31" text-anchor="middle">5</text>
+    <text class="b" x="50" y="21">Session Generator</text>
+    <text class="k" x="606" y="21" text-anchor="end">GameOptions_*_{FeaturedRace,Practice}.xml</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#58A6FF"/><text class="p" x="659" y="21" text-anchor="middle">[CACHE]</text>
+    <text class="s" x="50" y="40">Generator CarRestrictions, NumQuickStops (forces pit if &gt;0), human grid slot shape (observed)</text>
+  </g>
+  <path class="ln" d="M380 400 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 6. AI document -->
+  <g transform="translate(24,412)">
+    <rect class="card" width="712" height="52" rx="6" stroke="#3FB950" stroke-width="1.2"/>
+    <circle cx="26" cy="26" r="13" fill="#58A6FF"/><text class="n" x="26" y="31" text-anchor="middle">6</text>
+    <text class="b" x="50" y="21">AI Document</text>
+    <text class="w" x="142" y="21">WINS: AI grid &amp; PI</text>
+    <text class="k" x="606" y="21" text-anchor="end">AIField_&lt;id&gt;_Gen.xml</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#58A6FF"/><text class="p" x="659" y="21" text-anchor="middle">[CACHE]</text>
+    <text class="s" x="50" y="40">Roster, PI window, band (-20..0 or 0..0), 23 slots; MaxAIPlayers &amp; AIDifficulty ignored (verified)</text>
+  </g>
+  <path class="ln" d="M380 464 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 7. Global AI tuning -->
+  <g transform="translate(24,476)">
+    <rect class="card" width="712" height="52" rx="6"/>
+    <circle cx="26" cy="26" r="13" fill="#BC8CFF"/><text class="n" x="26" y="31" text-anchor="middle">7</text>
+    <text class="b" x="50" y="21">Global AI Tuning</text>
+    <text class="k" x="606" y="21" text-anchor="end">media\base\ai\aistatics.zip</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#BC8CFF"/><text class="p" x="659" y="21" text-anchor="middle">[INSTALL]</text>
+    <text class="s" x="50" y="40">Per-driver speed band &amp; off-track recovery in Default.ini + 11 Track_*.ini; Steam resets (verified)</text>
+  </g>
+  <path class="ln" d="M380 528 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 8. Player preset -->
+  <g transform="translate(24,540)">
+    <rect class="card" width="712" height="52" rx="6"/>
+    <circle cx="26" cy="26" r="13" fill="#D29922"/><text class="n" x="26" y="31" text-anchor="middle">8</text>
+    <text class="b" x="50" y="21">Player Preset</text>
+    <text class="k" x="606" y="21" text-anchor="end">In-game difficulty &amp; rules</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#D29922"/><text class="p" x="659" y="21" text-anchor="middle">[PLAYER]</text>
+    <text class="s" x="50" y="40">Masks series DamageDifficulty and decides whether tyre wear is active during play (observed)</text>
+  </g>
+  <path class="ln" d="M380 592 v10 m-4 -4 l4 4 l4 -4"/>
+
+  <!-- 9. Server -->
+  <g transform="translate(24,604)">
+    <rect class="card" width="712" height="52" rx="6" stroke="#F85149" stroke-width="1.2"/>
+    <circle cx="26" cy="26" r="13" fill="#F85149"/><text class="n" x="26" y="31" text-anchor="middle">9</text>
+    <text class="b" x="50" y="21">Online Server</text>
+    <text class="k" x="606" y="21" text-anchor="end">Authoritative live service</text>
+    <rect x="618" y="8" width="82" height="18" rx="9" fill="#F85149"/><text class="p" x="659" y="21" text-anchor="middle">[SERVER]</text>
+    <text class="s" x="50" y="40">CLOSED: credits, prize cars, Car Points (CP), Challenge Hub payouts; no custom server (verified)</text>
+  </g>
+
+  <!-- Summary strip -->
+  <g transform="translate(24,668)">
+    <rect class="sum" width="712" height="36" rx="6"/>
+    <text class="b" x="14" y="22">Precedence:</text>
+    <text class="s" x="98" y="22">Override wins (laps, start) • Event TargetPI gates cars • AI Doc sets grid • Server owns economy</text>
+  </g>
+
+  <text class="s" x="24" y="722">Evidence: docs/guides/HOW_FCO_IS_BUILT.md, docs/en/MOD_TOOLKIT.md. Status: 22 Nov 2026.</text>
+</svg>

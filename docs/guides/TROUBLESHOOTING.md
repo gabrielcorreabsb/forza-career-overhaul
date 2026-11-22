@@ -31,16 +31,16 @@ python _tools\rollback_cache.py
 
 | symptom | cause | fix |
 |---|---|---|
-| Clicking a custom series kills the game (C++ throw `0xe06d7363`) | no `CarSelectCarRestrictions` block for that `SeriesId` in `BCSeriesSelectableCars.xml` (or `ArrayLength` not incremented) | clone a working block, mirror the acceptlist, `ArrayLength`+1, re-apply on both snapshots (mc40) |
+| Clicking a custom series kills the game (C++ throw `0xe06d7363`) | no `CarSelectCarRestrictions` block for that `SeriesId` in `BCSeriesSelectableCars.xml` (or `ArrayLength` not incremented) | clone a working block, mirror the series list (`Acceptlist` or `Blacklist`), `ArrayLength`+1, re-apply on both snapshots |
 | Apply dies with `WinError 5` halfway | game was running; it locks the cache blobs | close the game, verify the cache, roll back, redo dry-run then apply |
 | Cache inconsistent / `cache_verify.py` reports divergences after an interrupted apply | partial write: blob replaced but `prod\<snapshot>` not updated (or the reverse) | `rollback_cache.py`, then a clean dry-run + apply; re-running the same plan may not converge the already-written entry |
 | New series does not appear in the cup, or the cup will not open | expired `StartEndDate.To`/`CloseTime`, `AIFileName` that does not exist, `ParentGeneratorId` with no data, id missing from the ladder `OrderData` | `9999-12-31 23:59:59.999` dates, donor events + AI from the same track, id at the end of `OrderData` |
-| Series shows as "already completed" right after being added | reused `EventDataId`: the save marks completion per event id | allocate fresh ids in 65897900–65899999; check `ids.json` and `ids_retired.json` (in the `patches` folder) (mc50) |
-| Series name is a vanilla name, or the art says another series ("CLASSIC ENDURANCE") | not a `.str` bug — poster/banner/intro were inherited from the donor series | neutral poster + `IntroVideoPath: ""` (mc48, mc32) |
+| Series shows as "already completed" right after being added | reused `EventDataId`: the save marks completion per event id | allocate fresh ids in 65897900–65899999; check your live and retired id lists so no id is reused |
+| Series name is a vanilla name, or the art says another series ("CLASSIC ENDURANCE") | not a `.str` bug — poster/banner/intro were inherited from the donor series | set your own poster (`SWATCHBIN.md`) or a neutral poster, and set `IntroVideoPath: ""` (or your own full-screen intro video) |
 | Title shows a raw `IDS_…` string, or a plain-text title is ignored | `Name` must be an `IDS_` key; the key is missing from `LocStrings_pt-BR.str` | add `IDS_<md5("MC44|label")>` with `str_edit.py` (any length) |
-| "You do not own {0}" names a car you did not expect | without an owned eligible car the game names the **lowest CarId** in the acceptlist, not the cheapest; an empty/invalid list falls back to the MP4/4 (1670) | put a cheap car you own in the acceptlist; ban-check with `denylist.json` |
-| No eligible car at all, though the list looks right | acceptlist larger than the vanilla maximum (23 entries; one block had 682) — the selection layer drops/truncates it | reduce the acceptlist to ≤23 ids in the BCS **and** the XML, on both snapshots |
-| AI grid uses the donor's cars | `AISelectableCars` empty in the BCS, and the field is really pinned by `AIField_117160001_Gen.xml` (a series list never filters it, D66) | write the XML: `build_aifield.py --cache-plan` + `cache_edit.py` (or `install_edit.py` on a cache that lacks the group) — see `AI_GRIDS.md` |
+| "You do not own {0}" names a car you did not expect | without an owned eligible car the game names the **lowest CarId** in the acceptlist, not the cheapest; an empty/invalid list falls back to the MP4/4 (1670) | put a cheap car you own in the acceptlist, or switch to an open `Blocklist`; ban-check with `denylist.json` |
+| No eligible car at all, though the list looks right | acceptlist larger than the vanilla maximum (23 entries; 682 entries broke eligibility) — the selection layer drops/truncates it | reduce the acceptlist to ≤23 ids in the BCS **and** the XML, or switch to `Blocklist` (BCS) / `Blacklist` (XML) for open lists |
+| AI grid uses the donor's cars | `AISelectableCars` empty in the BCS, and the field is really pinned by the event override's `AIFileName` (a series list never filters it, D66) | write the XML: `build_aifield.py --cache-plan` + `cache_edit.py` (or `install_edit.py` on a cache that lacks the group) — see `AI_GRIDS.md` |
 | `install_edit.py` dies with `WinError 5` writing the zip | the install denies DELETE to the user, so a rename-over (`os.replace`) fails | current `install_edit.py` rewrites the file in place; make sure the game is closed and re-run |
 | AI grid went back to the old cars after it worked | Steam "verify files" or a new server snapshot restored the install zip / manifests | re-run `install_edit.py` with the kit's payload |
 | Career menu empty or CMS error after an install edit | zip/manifest/prod checksums out of step, or a payload the game rejects | `install_edit.py --restore _backup\install_<time>`, then re-run `cache_verify.py` |
@@ -60,9 +60,8 @@ The career screen builds its car-selection widget from
 `BCSeriesSelectableCars.xml`. A series that exists in the BCS but has no
 `CarSelectCarRestrictions` block there throws a native C++ exception the moment
 you click it. The vanilla series 11520 had the same gap. Fix = clone the block
-of a working series, keep the acceptlist mirrored with
-`SelectableCars.BlockOrAcceptlist`, and increment `ArrayLength` (mc40; steps in
-`SERIES_CHECKLIST.md` §1 item 6).
+of a working series, keep `Blacklist`/`Acceptlist` mirrored with
+`SelectableCars.BlockOrAcceptlist`, and increment `ArrayLength` (steps in `SERIES_CHECKLIST.md` §1 item 6).
 
 ### 2.2 `WinError 5` during an apply
 
@@ -87,7 +86,7 @@ backup. See [PIPELINE](../en/PIPELINE.md) golden rule 1.
 
 ### 3.1 Series/cup missing from the list
 
-Three independent causes were confirmed (mc25, mc31, mc36):
+Three independent causes were confirmed:
 
 - **Expired dates.** `StartEndDate.To` and `CloseTime` in the past hide the cup.
   Use `9999-12-31 23:59:59.999`.
@@ -102,10 +101,8 @@ Three independent causes were confirmed (mc25, mc31, mc36):
 ### 3.2 "Already completed"
 
 The player profile marks progress per `EventDataId`, so an event id reused from
-an older kit makes the new series look finished. Allocate ids from the custom
-range 65897900–65899999, check `ids.json` (live ids) and
-`ids_retired.json` (in the `patches` folder) (retired), and let `plan_lint.py` reject retired ones
-(mc50 generated 65897910‑12 for series 20003).
+an older build makes the new series look finished. Allocate ids from the custom
+range 65897900–65899999, check your live and retired id lists, and let `plan_lint.py` reject retired ones.
 
 ## 4. Name and art
 
@@ -114,43 +111,40 @@ entry is usually art, not text.
 
 - `Name` is an `IDS_` key resolved through `.str` (game key hash, so any length
   works). A literal string in `Name` is not displayed. New keys go in
-  `LocStrings_pt-BR.str` only; the other 19 locales stay without them.
+  `LocStrings_pt-BR.str` and `LocStrings_en-US.str` first (other locales fall back until release sync).
 - Poster, banner, intro video and intro car colors are copied from the donor
   series. They are **not** localized: a pt-BR game can show "CLASSIC ENDURANCE"
-  while the localized title is correct (lab diagnostics). Fix by pointing
-  `ImagePath`/`BannerImagePath` at a neutral existing poster (mc48) and setting
-  `IntroVideoPath: ""` (precedent mc32). Own art means writing a `.swatchbin`
-  into a method 21 archive; the format is known, but no write has been tested:
-  [SWATCHBIN](../reference/SWATCHBIN.md).
+  while the localized title is correct. Fix by installing your own poster with
+  `swatchbin_edit.py` ([SWATCHBIN](../reference/SWATCHBIN.md)) or pointing `ImagePath`
+  at a neutral existing poster, and setting `IntroVideoPath: ""` (or using your own
+  full-screen intro video via [INTRO_VIDEO](../reference/INTRO_VIDEO.md)). Banner and
+  button fields show nothing in the career (D98).
 
 ## 5. Car eligibility and the suggested car
 
-Confirmed rules (mc49/mc51/mc52, `SERIES_CHECKLIST.md` §4):
+Confirmed rules (`SERIES_CHECKLIST.md` §4):
 
 - The series requires an **owned** eligible car. Without one, the message
   `IDS_BuildersCup_MissingCarForRewardShowcase` names the car with the **lowest
   CarId** in the acceptlist — not the cheapest (Veloster 54k lost to Astra 61k).
-- An empty or invalid acceptlist falls back to the **MP4/4 (1670)**. Vanilla
-  "Open Class" tours (`Blocklist` empty) land there too.
+- An empty or invalid acceptlist falls back to the **MP4/4 (1670)**. Open-list
+  series (`Blocklist` empty) land there too unless blocked.
 - Check every id against the 32 global vetoes in `denylist.json`.
-- Keep the acceptlist at ≤ 23 ids. Series 20004 shipped 682 (the only block in
-  the game above the vanilla maximum of 23, mirrored in the XML) and the layer
-  discarded the list, so the player got "no eligible car" even though the ids
-  were right (lab diagnostics).
+- Keep any `Acceptlist` at ≤ 23 ids (682 broke eligibility — the layer drops/truncates
+  lists above 23). When you want more than 23 cars or an open class, switch to
+  `Blocklist` (BCS) / `Blacklist` (XML) with `CarClassId: Any` and `CarDivisionId: Open`.
 - There is no purchase popup to force: `Ownership`/`Upgrades`/`Tuning` are
-  `None` across all vanilla series and the flow is informational only. Buying
+  `None` across all vanilla series (`Ownership` has no effect in Builders Cup, D126) and the flow is informational only. Buying
   the car is manual.
 
 ## 6. AI grid
 
 `AISelectableCars` in the BCS is only half of the roster. The field is pinned by
-`AIField_117160001_Gen.xml`, a file whose content group is never materialized in
-the CmsCache — the game reads it from the install zip, and `cache_edit.py`
-skips it. That is why the AI still looked like the donor's classics after the
-BCS change, and why the mc58 kit carries two plans (`plan.json` with the
-intention, `plan_bcs.json` with what `cache_edit.py` can actually write); the XML
-is written by `install_edit.py`. **Update (10/11/2026):** on the cache of the clean snapshot of 08/11 the group is
-in the CmsCache and the game reads that copy, so the XML is written with `cache_edit.py`
+the `AIField_<id>_Gen.xml` named in the override's `AIFileName`, not by the
+series' car list (D66). That is why an early change to BCS alone kept the donor's
+classics until the XML itself was written (via `install_edit.py` on older caches
+without the group, or via `cache_edit.py` now). **Update (10/11/2026):** on the clean snapshot cache the group is
+in the CmsCache and the game reads that copy, so the XML is written with `build_aifield.py --cache-plan` + `cache_edit.py`
 ([AI_GRIDS](AI_GRIDS.md) §1). Rules for
 car eligibility, `TargetPI` mapping and `AI_<car>_<pi>.xml` coverage are in
 `AI_GRIDS.md`. Do not duplicate them here.

@@ -58,7 +58,7 @@ vanilla one:
 python _tools\hash_manifest_edit.py --check ui\videos\1080\practicalperformance.bk2
 python _tools\hash_manifest_edit.py --add ui\videos\1080\fco_myintro.bk2 ui\videos\2160\fco_myintro.bk2 --value <v1080> <v2160>
 python _tools\hash_manifest_edit.py --add ... --apply          # game CLOSED
-python _tools\hash_manifest_edit.py --remove uiideos80co_myintro.bk2 --apply   # drops a record this tool added
+python _tools\hash_manifest_edit.py --remove ui\videos\1080\fco_myintro.bk2 --apply   # drops a record this tool added
 python _tools\hash_manifest_edit.py --restore --apply          # puts the original index back
 ```
 

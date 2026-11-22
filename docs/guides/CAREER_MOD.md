@@ -45,9 +45,12 @@ piece is tested in game before it counts.
 | **Start last and overtake** | a forced start at the back of the grid, in fields of 8 and 24 cars | observed (several series; fixed at index 23, [ADR-006](../project/decisions/ADR-006_grid_start_shapes.md)) |
 | **Racers Cup rules in the career** | a class-restricted event; its regulation showed no visible effect in the career | observed (class bucket enforced; regulation ineffective) |
 | **One-make and period series** | one manufacturer, one decade, one country | planned, viable |
-| **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | a mandatory stop is a per-event switch (observed); wear and fuel to test |
-| **Weather and time of day per event** | a set forecast and start hour for the race (heavy rain, a night start) | observed (race only; the practice keeps its own) |
-| **Practice length per event** | 1 to 5 practice laps, apart from the race laps | observed |
+| **Longer races with strategy** | wear, fuel, a pit stop, a tyre compound | a mandatory stop is a per-event switch (observed); tyre wear scalar 1/3/4/6 works when wear is on in the player's preset (observed, D72); fuel and tyre compound to test |
+| **Weather and time of day per event** | a set forecast, timed rain phases (real seconds), start hour/minute, and clock speed up to x144 | observed (race only; practice keeps its own hour, minute and weather block; D73, D74, D83, D87, D90) |
+| **Practice length per event** | 1 to 5 practice laps (or 0 for 1 lap + timed free practice), apart from race laps | observed (D49, D95) |
+| **Open car lists & filters** | open blocklist (>23 cars) and numeric ranges (year, PI, hp, 100 kg) | observed (D88, D96, D121) |
+| **Own poster and intro video** | custom poster art and full-screen Bink 2 intro video per series | verified / observed (D98–D119) |
+| **Base profile & Intro Series** | FCO cup alongside vanilla Builders Cup, built from our documented base profile | verified / observed ([PROGRESS](../en/PROGRESS.md)) |
 | **Prize cars, manufacturer affinity** | — | not possible: they live in the game's account and server |
 | **The end of the car-level grind (Car Points)** | — | tested 14/11/2026, blocked by the server: all upgrade categories are already unlocked at level 1, and the car level on screen follows the edited XP curve, but the Car Points never change (starting CP, CP per level and the CP price are the server's; a bought CP at an edited price is refused) |
 

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 510" width="100%" role="img" aria-labelledby="t d">
+  <title id="t">How an FCO series is built — base profile to game</title>
+  <desc id="d">Three-stage workflow for building Forza Career Overhaul (FCO) series from plain data. Stage 1 Inputs: the FCO base profile (series, event, aifield, and aistatics layers, where every field X carries a sibling X_doc comment) combined with a season spec (diff only: tracks, race laps, weather, clock, gates, art, and localized strings) and a vanilla skeleton for JSON/XML shape only. Stage 2 Build: local tools (snapshot_cache.py, build_season.py, build_aifield.py, and optional swatchbin_edit.py or encode_intro.py) produce a reproducible, snapshot-bound kit without shipping game files. Stage 3 Safe Apply: with the game closed, run plan_lint.py, cache_edit.py --dry-run, automatic backup with apply --verify, and cache_verify.py (0 errors) to add the FCO cup alongside the untouched vanilla Builders Cup, with rollback_cache.py to revert.</desc>
+  <style>
+    .bg{fill:#0B0E14;stroke:#30363D;stroke-width:1.5}
+    .card{fill:#11161F;stroke:#21262D;stroke-width:1}
+    .warn{fill:#1A1215;stroke:#F85149;stroke-width:1.2}
+    .h{font:700 15px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .s{font:11.5px "Segoe UI",Helvetica,Arial,sans-serif;fill:#9EA7B3}
+    .wtxt{font:12px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .b{font:700 13px "Segoe UI",Helvetica,Arial,sans-serif;fill:#E6EDF3}
+    .p{font:700 10px "Segoe UI",Helvetica,Arial,sans-serif;fill:#0B0E14}
+    .k{font:11px Consolas,"Courier New",monospace;fill:#79C0FF}
+    .ln{stroke:#484F58;stroke-width:1.5;fill:none}
+  </style>
+  <rect class="bg" x="1" y="1" width="758" height="508" rx="8"/>
+  <text class="h" x="24" y="30">How an FCO series is built — base profile to game</text>
+  <text class="s" x="24" y="48">Plain-data defaults (every field X carries X_doc) + series spec -&gt; reproducible kit -&gt; safe apply with game closed.</text>
+
+  <!-- Column 1: Inputs -->
+  <g transform="translate(24,66)">
+    <rect class="card" x="0" y="0" width="226" height="168" rx="6" stroke="#58A6FF" stroke-width="1.2"/>
+    <text class="b" x="12" y="22">1. FCO Base Profile</text>
+    <rect x="142" y="8" width="72" height="18" rx="9" fill="#58A6FF"/>
+    <text class="p" x="178" y="20" text-anchor="middle">[X + X_doc]</text>
+    <text class="k" x="12" y="48">series:</text><text class="s" x="66" y="48">Blocklist, AI, media</text>
+    <text class="k" x="12" y="70">event:</text><text class="s" x="66" y="70">practice, gen, start</text>
+    <text class="k" x="12" y="92">aifield:</text><text class="s" x="66" y="92">pool, window, band</text>
+    <text class="k" x="12" y="114">aistatics:</text><text class="s" x="82" y="114">global AI tuning</text>
+    <line x1="12" y1="128" x2="214" y2="128" stroke="#21262D" stroke-width="1"/>
+    <text class="s" x="12" y="145">Every choice documented;</text>
+    <text class="s" x="12" y="159">no silent donor defaults</text>
+
+    <text class="b" x="113" y="183" text-anchor="middle">+</text>
+
+    <rect class="card" x="0" y="190" width="226" height="72" rx="6"/>
+    <text class="b" x="12" y="212">Season Spec (diff only)</text>
+    <text class="s" x="12" y="232">Tracks, race laps, sky, clock</text>
+    <text class="s" x="12" y="250">Gates, poster/video, IDS_ keys</text>
+
+    <text class="b" x="113" y="277" text-anchor="middle">+</text>
+
+    <rect class="card" x="0" y="284" width="226" height="50" rx="6"/>
+    <text class="b" x="12" y="305">Vanilla Skeleton</text>
+    <text class="s" x="12" y="323">JSON/XML container shape only</text>
+  </g>
+
+  <!-- Arrow Col 1 -> Col 2 -->
+  <path class="ln" d="M250 220 h22 m-4 -4 l4 4 l-4 4"/>
+
+  <!-- Column 2: Build -->
+  <g transform="translate(276,66)">
+    <rect class="card" x="0" y="0" width="208" height="202" rx="6" stroke="#BC8CFF" stroke-width="1.2"/>
+    <text class="b" x="12" y="22">2. Build Locally</text>
+    <rect x="134" y="8" width="62" height="18" rx="9" fill="#BC8CFF"/>
+    <text class="p" x="165" y="20" text-anchor="middle">[TOOLS]</text>
+    <text class="k" x="12" y="48">snapshot_cache.py</text>
+    <text class="s" x="12" y="64">Copy live cache state</text>
+    <text class="k" x="12" y="88">build_season.py</text>
+    <text class="s" x="12" y="104">BCS + XML + strings</text>
+    <text class="k" x="12" y="128">build_aifield.py</text>
+    <text class="s" x="12" y="144">--cache-plan AI document</text>
+    <text class="s" x="12" y="168">Optional install media:</text>
+    <text class="k" x="12" y="185">swatchbin_edit / encode</text>
+
+    <path class="ln" d="M104 202 v16 m-4 -4 l4 4 l4 -4"/>
+
+    <rect class="card" x="0" y="220" width="208" height="114" rx="6"/>
+    <text class="b" x="12" y="242">Reproducible Kit</text>
+    <text class="k" x="12" y="264">plan.json + payloads</text>
+    <text class="s" x="12" y="284">Snapshot-bound (Checksum)</text>
+    <text class="s" x="12" y="302">Generated on your PC;</text>
+    <text class="s" x="12" y="318">no game files shipped</text>
+  </g>
+
+  <!-- Arrow Col 2 -> Col 3 -->
+  <path class="ln" d="M484 220 h22 m-4 -4 l4 4 l-4 4"/>
+
+  <!-- Column 3: Safe Apply & Game -->
+  <g transform="translate(510,66)">
+    <rect class="card" x="0" y="0" width="226" height="222" rx="6" stroke="#3FB950" stroke-width="1.2"/>
+    <text class="b" x="12" y="22">3. Safe Apply</text>
+    <rect x="136" y="8" width="78" height="18" rx="9" fill="#3FB950"/>
+    <text class="p" x="175" y="20" text-anchor="middle">[GUARDED]</text>
+    <text class="k" x="12" y="50">1. plan_lint.py</text>
+    <text class="s" x="28" y="66">Rejects unsafe targets</text>
+    <text class="k" x="12" y="90">2. cache_edit.py --dry-run</text>
+    <text class="s" x="28" y="106">Mandatory rehearsal</text>
+    <text class="k" x="12" y="130">3. backup + apply --verify</text>
+    <text class="s" x="28" y="146">Strategy S blob swap</text>
+    <text class="k" x="12" y="170">4. cache_verify.py</text>
+    <text class="s" x="28" y="186">0 errors post-write</text>
+    <text class="s" x="12" y="210">Undo: </text><text class="k" x="48" y="210">rollback_cache.py</text>
+
+    <path class="ln" d="M113 222 v16 m-4 -4 l4 4 l4 -4"/>
+
+    <rect class="card" x="0" y="240" width="226" height="94" rx="6" stroke="#3FB950" stroke-width="1.2"/>
+    <text class="b" x="12" y="262">In Game (FCO Cup)</text>
+    <text class="s" x="12" y="284">FCO cup beside Builders Cup</text>
+    <text class="s" x="12" y="302">Vanilla cups stay untouched</text>
+    <text class="s" x="12" y="320">Verify with test checklist</text>
+  </g>
+
+  <!-- Hard rule banner -->
+  <g transform="translate(24,418)">
+    <rect class="warn" width="712" height="44" rx="6"/>
+    <rect x="12" y="13" width="84" height="18" rx="9" fill="#F85149"/>
+    <text class="p" x="54" y="25" text-anchor="middle">HARD RULE</text>
+    <text class="wtxt" x="108" y="26">Game CLOSED before any write — live apply fails with WinError 5 (verified). Nothing ships pre-built.</text>
+  </g>
+
+  <text class="s" x="24" y="490">Evidence: docs/guides/HOW_FCO_IS_BUILT.md, docs/en/PIPELINE.md. Status: 22 Nov 2026.</text>
+</svg>

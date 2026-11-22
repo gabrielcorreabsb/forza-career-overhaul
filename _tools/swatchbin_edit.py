@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""swatchbin_edit.py - edita e cria entradas .swatchbin nos seriesposters.zip.
+"""swatchbin_edit.py - edita e cria entradas .swatchbin nos seriesposters.zip
+(e, com --archive mainmenu, troca o banner do hub Corrida em mainmenu.zip).
 
 Opera SEMPRE sobre o par coerente no mesmo comando:
   - media\\pcfamily\\ui\\textures\\data_bound\\seriesposters.zip        (424x660)
@@ -98,6 +99,46 @@ TARGET_DIMS = {
     "hires": sb.HIRES_POSTER_SIZE,
 }
 KINDS = ("normal", "hires")
+
+# Arquivos-alvo. `seriesposters` e o padrao (posteres de series). `mainmenu`
+# (banner do hub "Corrida", 1300x480 / 2600x960) so aceita trocar no lugar,
+# com imagem, as entradas da lista fechada `entries` (nunca outro tile do menu).
+ARCHIVES = {
+    "seriesposters": {"zip": "seriesposters.zip",
+                      "dims": {"normal": sb.NORMAL_POSTER_SIZE,
+                               "hires": sb.HIRES_POSTER_SIZE},
+                      "entries": None},
+    # posteres largos (1296x660 / 2592x1320, ex.: Builders_Cup_Intro); mesmo zip
+    # dos posteres normais, entao compartilha estado e backup com ele
+    "seriesposters_wide": {"zip": "seriesposters.zip",
+                           "dims": {"normal": (1296, 660),
+                                    "hires": (2592, 1320)},
+                           "entries": None},
+    "mainmenu": {"zip": "mainmenu.zip",
+                 "dims": {"normal": (1300, 480), "hires": (2600, 960)},
+                 "entries": ("mm_gorace_builderscup.swatchbin",)},
+}
+ARCHIVE = "seriesposters"
+
+
+def set_archive(name):
+    """Aponta ZIPS_REL/TARGET_DIMS para o arquivo escolhido (global do modulo)."""
+    global ARCHIVE
+    if name not in ARCHIVES:
+        raise SeError("arquivo desconhecido: %r (use %s)"
+                      % (name, ", ".join(ARCHIVES)))
+    ARCHIVE = name
+    a = ARCHIVES[name]
+    ZIPS_REL["normal"] = ("media", "pcfamily", "ui", "textures", "data_bound",
+                          a["zip"])
+    ZIPS_REL["hires"] = ("media", "pcfamily", "ui", "textures", "hires",
+                         "data_bound", a["zip"])
+    TARGET_DIMS.update(a["dims"])
+
+
+def _rel_copy():
+    """Caminho de cada zip dentro de uma pasta de backup."""
+    return {k: os.path.join(*ZIPS_REL[k][4:]) for k in KINDS}
 
 WORK = os.environ.get("FM_SWATCHBIN_WORK",
                       os.path.join(ce.ROOT, "_work", "swatchbin_edit"))
@@ -217,8 +258,9 @@ def prepare_targets(args):
             if not os.path.isfile(dst):
                 src = sources[kind]
                 if not os.path.isfile(src):
-                    raise SeError("%s seriesposters.zip nao encontrado no "
-                                  "install: %s" % (kind, src))
+                    raise SeError("%s %s nao encontrado no "
+                                  "install: %s"
+                                  % (kind, ZIPS_REL[kind][-1], src))
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copy2(src, dst)
                 print("copia (%s): %s -> %s" % (kind, src, dst))
@@ -227,8 +269,9 @@ def prepare_targets(args):
         targets = zip_paths_of(root)
         for kind in KINDS:
             if not os.path.isfile(targets[kind]):
-                raise SeError("%s seriesposters.zip nao encontrado: %s"
-                              % (kind, targets[kind]))
+                raise SeError("%s %s nao encontrado: %s"
+                              % (kind, ZIPS_REL[kind][-1],
+                                 targets[kind]))
     return root, targets
 
 
@@ -616,7 +659,9 @@ def check_append(old, new, name, data, packed=None, method=METHOD_DEFLATED):
 # backup / estado por raiz alvo
 # --------------------------------------------------------------------------- #
 def _target_key(root):
-    return os.path.normcase(os.path.abspath(root))
+    key = os.path.normcase(os.path.abspath(root))
+    zname = ARCHIVES[ARCHIVE]["zip"]
+    return key if zname == "seriesposters.zip" else "%s::%s" % (key, zname)
 
 
 def load_state():
@@ -697,10 +742,7 @@ def make_backup(broot, target_root, targets, old_zips):
         n += 1
     os.makedirs(dst)
 
-    rel_copy = {
-        "normal": os.path.join("data_bound", "seriesposters.zip"),
-        "hires": os.path.join("hires", "data_bound", "seriesposters.zip"),
-    }
+    rel_copy = _rel_copy()
     digests = {}
     lines = ["target: %s" % _target_key(target_root)]
     for kind in KINDS:
@@ -746,9 +788,9 @@ def _check_targets_state(args):
             allowed.add(last[kind])
         if allowed and current[kind] not in allowed:
             raise SeError(
-                "%s seriesposters.zip nao e o vanilla nem o ultimo arquivo "
+                "%s %s nao e o vanilla nem o ultimo arquivo "
                 "escrito por esta ferramenta (sha %s...); nada feito"
-                % (kind, current[kind][:12]))
+                % (kind, ZIPS_REL[kind][-1], current[kind][:12]))
     return root, targets, old_zips, current, vid, state, broot
 
 
@@ -1250,10 +1292,7 @@ def verify(r):
 def restore(src, args):
     src = os.path.abspath(src)
     sha_file = os.path.join(src, "SHA256.txt")
-    rel_copy = {
-        "normal": os.path.join("data_bound", "seriesposters.zip"),
-        "hires": os.path.join("hires", "data_bound", "seriesposters.zip"),
-    }
+    rel_copy = _rel_copy()
     if not os.path.isfile(sha_file):
         raise SeError("%s: sem SHA256.txt" % src)
     _tkey, want = _parse_sha_file(sha_file)
@@ -1313,6 +1352,16 @@ def _validate_cli(ap, args):
                 args.image_hires, args.fit, args.dry_run, args.verify]):
             ap.error("--restore nao combina com flags de edicao/dry-run/verify")
         return
+    if ARCHIVES[args.archive]["entries"] is not None:
+        if args.manifest or args.add:
+            ap.error("--archive %s so aceita --replace (nunca --add/--manifest)"
+                     % args.archive)
+        allowed = ARCHIVES[args.archive]["entries"]
+        if args.replace and normalize_entry_name(args.replace) not in allowed:
+            ap.error("--archive %s: entradas permitidas: %s"
+                     % (args.archive, ", ".join(allowed)))
+        if args.from_entry:
+            ap.error("--archive %s so aceita --image" % args.archive)
     if args.manifest:
         if any([args.replace, args.add, args.from_entry, args.image,
                 args.image_hires, args.fit]):
@@ -1345,6 +1394,12 @@ def main(argv=None):
                          "textures/...")
     ap.add_argument("--allow-install", action="store_true",
                     help="habilita escrita no install real (nao use em copia)")
+    ap.add_argument("--archive", choices=tuple(ARCHIVES),
+                    default="seriesposters",
+                    help="zip alvo (padrao seriesposters; mainmenu = banner do "
+                         "hub Corrida, so --replace mm_gorace_builderscup "
+                         "--image; seriesposters_wide = posteres largos "
+                         "1296x660 / 2592x1320, ex. --add FCO_Intro_Series)")
     ap.add_argument("--replace", metavar="NOME",
                     help="substitui entrada existente nos dois zips")
     ap.add_argument("--add", metavar="NOME",
@@ -1372,6 +1427,7 @@ def main(argv=None):
     ap.add_argument("--verify", action="store_true")
     ap.add_argument("--restore", metavar="BACKUP_DIR")
     args = ap.parse_args(argv)
+    set_archive(args.archive)
     _validate_cli(ap, args)
     try:
         if args.restore:

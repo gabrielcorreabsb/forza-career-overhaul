@@ -17,7 +17,7 @@ English-only.
 | Understand the cache, Strategy S and the career model | **[en/CONCEPTS](en/CONCEPTS.md)** ([PT](pt-br/CONCEPTS.md)) | diagrams and glossary |
 | Apply or revert a mod on the CmsCache | **[en/PIPELINE](en/PIPELINE.md)** ([PT](pt-br/PIPELINE.md)) | golden rules (game closed), `--dry-run` then `--verify`, rollback and verification |
 | See what the mod can do today and how sure we are | **[en/MOD_TOOLKIT](en/MOD_TOOLKIT.md)** ([PT](pt-br/MOD_TOOLKIT.md)) | levers by pillar, recipes, what is closed |
-| See how the project has progressed, phase by phase | **[en/PROGRESS](en/PROGRESS.md)** ([PT](pt-br/PROGRESS.md)) | timeline (v0.1 → phase 0.4), findings of the own season, what is next |
+| See how the project has progressed, phase by phase | **[en/PROGRESS](en/PROGRESS.md)** ([PT](pt-br/PROGRESS.md)) | timeline (v0.1 → phase 0.11), findings of the own season, what is next |
 
 ## Tutorials (step by step)
 
@@ -35,6 +35,7 @@ English-only.
 | Common career: model, ids, what to touch with which tool | **[guides/CAREER_BASICS](guides/CAREER_BASICS.md)** | the basics, before touching any series |
 | AI: roster targets, pool or list, PI band, building a grid | **[guides/AI_GRIDS](guides/AI_GRIDS.md)** | the series' AI list **plus** the `AIField` roster document (read from the cache); `build_aifield.py` |
 | What the career mod is, its stages and the series that already run | **[guides/CAREER_MOD](guides/CAREER_MOD.md)** | the vision (FM4 × GT4), stage table, worked examples |
+| How the FCO career is built: layers and who wins, the documented base profile, hard limits, spec → apply, test checklist | **[guides/HOW_FCO_IS_BUILT](guides/HOW_FCO_IS_BUILT.md)** | the architecture of the mod's own career |
 | Symptom → cause → fix | **[guides/TROUBLESHOOTING](guides/TROUBLESHOOTING.md)** | consolidated diagnostics |
 
 ## Reference (the format)
@@ -51,7 +52,7 @@ English-only.
 | Files, counts, id ranges and derived tables | **[reference/DATA_REFERENCE](reference/DATA_REFERENCE.md)** | tree, record sizes, identity rules |
 | A new series — the why of each step | **[reference/SERIES_CHECKLIST](reference/SERIES_CHECKLIST.md)** | ids, series, ladder, events, overrides, car registry, `.str`; the standard path is [`../specs/README.md`](../specs/README.md) + `build_series.py` |
 | The format of series art (poster, banner) | **[reference/SWATCHBIN](reference/SWATCHBIN.md)** | `.swatchbin` layout, counts, what own art still needs |
-| The map of the install's `media\` folder (what exists, format, indexing, who the game reads, status) | **[reference/MEDIA_MAP](reference/MEDIA_MAP.md)** | one table per folder of `mediaase` and `media\pcfamily` |
+| The map of the install's `media\` folder (what exists, format, indexing, who the game reads, status) | **[reference/MEDIA_MAP](reference/MEDIA_MAP.md)** | one table per folder of `media\base` and `media\pcfamily` |
 | Apply visual modifications to the install (render, LOD, camera, photo-mode watermark); the map of `media\` | **[reference/INSTALL_VISUAL_MODS](reference/INSTALL_VISUAL_MODS.md)**, [reference/MEDIA_MAP](reference/MEDIA_MAP.md) | what we changed (fields and direction), the one published tool, the zip layout rule, credits |
 | The AI's global tuning file (`aistatics.zip`): which keys we changed and why | **[reference/AI_STATICS](reference/AI_STATICS.md)** | key names and direction only; the file and its tool are not distributed |
 | Give a series its own intro video; how the game finds install files | **[reference/INTRO_VIDEO](reference/INTRO_VIDEO.md)**, **[reference/INSTALL_INDEX](reference/INSTALL_INDEX.md)** | the two intro modes, the `.bk2` files, the file index (`hash.manifest`) and its hash, the tools |

@@ -199,13 +199,10 @@ per driver, not per car (the same car appeared at several PIs).
 2. **Check it**: `python _tools\build_aifield.py --def specs\aifield\<name>.json --check`
    validates every car (catalogue, denied cars, `AI_` coverage) and writes
    nothing.
-3. **Build it**: the same command without `--check` writes the encrypted
-   payload into a kit folder. The cipher template is the current payload of
-   that entry in the install zip.
-4. **Apply it** with the game closed: `install_edit.py --dry-run`, then with
-   `--verify` ([PIPELINE](../en/PIPELINE.md)). Install writes have no
-   cache-copy rehearsal; the test is the game. Revert with
-   `install_edit.py --restore <backup>`.
+3. **Build it**: `python _tools\build_aifield.py --def specs\aifield\<name>.json --cache-plan`
+   writes the encrypted payload and a `cache_edit.py` plan using the current CmsCache payload as the cipher template.
+4. **Apply it** with the game closed: `cache_edit.py --dry-run --plan ...`, then with
+   `--verify` ([PIPELINE](../en/PIPELINE.md)). Only if a cache lacks the AIField group, fall back to `install_edit.py --dry-run` / `--verify` (undo with `install_edit.py --restore <backup>`).
 5. The library behind it is `_tools/fmlib/aifield.py`;
    `_tools/test_aifield.py` proves it rebuilds a vanilla document byte for byte.
 
@@ -221,24 +218,24 @@ roster per document; any number of events can share a document.
 2. **Pick the destination document.** It must be an existing roster document
    that no reachable series uses: not cited by any override (`AIFileName`) and not
    cited by any session generator (`AIFieldFile`) in the live cache, and present in
-   **both** cache snapshots (the install tool requires it). A **brand-new file name
+   **both** cache snapshots (if using the legacy install route). A **brand-new file name
    does not work**: the game went offline when an event pointed at one, because the
    entry is unknown to the server. Re-read the usage after every new server
    snapshot, since a revived event could start using the document.
 3. **Describe it** (`specs/aifield/<name>.json`, mode `pool`, one car): a window
    whose floor is at or just below the car's lowest tune (so the label matches the
-   tune), a narrow band around the player (−10…+10 gave a spread; try 0…0), and
+   tune), a narrow band around the player (−10…+10 gave a spread; use 0…0 for a levelled grid), and
    optionally the document's own flags through the spec keys `difficulty`,
    `rubber_banding` and `behavior` (per session type: slow-down, catch-up,
    proximity, position spread, slot-car start).
-4. **Check, build and apply** as in §6.
+4. **Check, build and apply** through the cache as in §6.
 5. **Point the event at the document**: the override's `AIFileName` (a one-field
    cache edit). Read the lobby: every car is the model, and the class badge
    matches the PI. Treat the first race after a change as a warm-up.
 
-Caveats: Steam "verify files" reverts the document; a band wider than zero makes
+Caveats: a band wider than zero makes
 the AI cars differ in pace even though they are the same model; whether the
-document's flags or the series' flags win is untested.
+document's flags or the series' flags win is untested (the FCO base profile sets both identically).
 
 ## 6c. A roster per class or per make (the German example)
 
@@ -255,13 +252,14 @@ document's flags or the series' flags win is untested.
   (437–488), B 17, A 30, S 23, R 6, P 6.
 - **recipe** — one document per class, mode `pool`, only cars with a tune file, a window
   whose **floor is at least the highest lowest-tune of the list** (otherwise some cars
-  are faster than their listed PI) and whose **ceiling is the class ceiling**, a band of
-  −10…+10 and the elastic flags off. Specs: `specs/aifield/de_c.json`, `de_b.json`,
-  `de_a.json`, `de_s.json` (and `de_all.json`, the open pool). Give each series the cap
+  are faster than their listed PI) and whose **ceiling is the class ceiling**, a narrow band (such as `-20..0` around the player or `0..0` at the class ceiling, D78) and the FCO AI standard switches (`SlowDown` and `CatchUp` on, `Proximity`, `PosDifficultySpread` and `SlotCarRaceStart` off, D97) paired with global `aistatics.zip` tuning ([AI_STATICS](../reference/AI_STATICS.md), D76). Specs: `specs/aifield/de_c.json`, `de_b.json`,
+  `de_a.json`, `de_s.json` (and `de_all.json`, the open pool), or `flat700_a.json` / `flat800_s.json` for levelled class-ceiling grids. Give each series the cap
   and class of its class and a car list to match (the series' `SelectableCars`), so the
   player is inside the class the AI is in.
 
-## 6d. Chosen models, and freeing a vanilla document
+## 6d. Chosen models, freeing a vanilla document, and one document per grid
+
+- **verified** (data survey) — Vanilla multi-event series repeat the exact same roster, 23 slots and switches in every event and only raise the PI window floor event by event (a difficulty ramp). One `AIField` document per grid (or per ramp step) is enough — never one per event.
 
 - **verified** (G18, D65) — A pool document with **5 hand-picked class-A models** (window 650–700, band
   −10…+10) filled 23 slots with only those 5 cars, 4–5 of each, PI 658–677, class A against a player at 668.

@@ -24,9 +24,12 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="snapshot_cache.py")
     p.add_argument("--dest", default=os.path.join(cache_edit.ROOT, "_work",
                                                    "cachetest"))
+    p.add_argument("--src", default=None,
+                   help="cache copy to read instead of the live CmsCache "
+                        "(frozen bench cache of the tests)")
     args = p.parse_args(argv)
 
-    src = cache_edit.DEFAULT_CACHE
+    src = os.path.abspath(args.src) if args.src else cache_edit.DEFAULT_CACHE
     dest = os.path.abspath(args.dest)
     work = os.path.join(cache_edit.ROOT, "_work") + os.sep
     if not os.path.normcase(dest).startswith(os.path.normcase(work)):
@@ -35,7 +38,8 @@ def main(argv=None):
     if not os.path.isfile(os.path.join(src, "cache-manifest.json")):
         print("ERRO: CmsCache nao encontrado em %s" % src, file=sys.stderr)
         return 1
-    running = cache_edit.forza_processes()
+    # the game only locks the live cache; a frozen copy is safe to read
+    running = [] if args.src else cache_edit.forza_processes()
     if running:
         print("ERRO: jogo aberto (%s); feche antes de copiar"
               % ", ".join(running), file=sys.stderr)

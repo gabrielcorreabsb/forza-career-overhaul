@@ -62,6 +62,7 @@ TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
 
 from fmlib import aifield, crypto                       # noqa: E402
+from fmlib import profile as fmprofile                   # noqa: E402
 from fmlib.cache import Cache                           # noqa: E402
 from fmlib.core import PATCHES, WORK, FmError, b64sha  # noqa: E402
 import inventory    # noqa: E402  (load_live: checksum-resolved cache blobs)
@@ -77,6 +78,9 @@ def check(cond, msg):
 def load_def(path):
     with open(path, encoding="utf-8") as fh:
         d = json.load(fh)
+    # FCO base profile files document every field in a sibling *_doc key
+    d = fmprofile.strip_docs(d, require=d.get("profile") == "fco_base",
+                             label=os.path.basename(path))
     for k in ("name", "logical", "template", "mode"):
         check(isinstance(d.get(k), str) and d[k], "definition: %r is required" % k)
     check(d["mode"] in ("pool", "list"), "definition: mode must be pool or list")
@@ -295,6 +299,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--def", dest="defn", required=True, metavar="FILE")
     ap.add_argument("--out", help="output folder (default patches/<name>)")
+    ap.add_argument("--kit", default=None,
+                    help="kit name overriding the definition's name (for the FCO profile)")
     ap.add_argument("--check", action="store_true",
                     help="build and validate, write nothing")
     ap.add_argument("--cache-plan", action="store_true",
@@ -309,6 +315,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     try:
         d = load_def(a.defn)
+        if a.kit:
+            d["name"] = a.kit
         build(d, a.out or os.path.join(PATCHES, d["name"]),
               write=not a.check, cache_plan=a.cache_plan,
               cache_dir=a.cache_dir)

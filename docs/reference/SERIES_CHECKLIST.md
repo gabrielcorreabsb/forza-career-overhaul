@@ -33,19 +33,24 @@ take the track with an eligible car, finishes and records the result.
 6. **Car registry (the root cause of crashes)**: a
    `CarSelectCarRestrictions SeriesId="<id>"` entry in
    `BCSeriesSelectableCars.xml`, plus `ArrayLength` + 1, mirroring the
-   acceptlist. Without it the game throws a C++ exception (`0xe06d7363`) when you
+   series' `BlockOrAcceptlist` (`Acceptlist` or `Blacklist`). Without it the game throws a C++ exception (`0xe06d7363`) when you
    click the series.
-7. **Eligibility**: `SelectableCars` plus the registry entry with an explicit
-   `Acceptlist` that holds **at least one cheap car**. With no eligible car the
+7. **Eligibility**: `SelectableCars` plus the registry entry either as an explicit
+   `Acceptlist` (≤ 23 cars, with **at least one cheap car**) or as an open
+   `Blocklist` (BCS) / `Blacklist` (XML) with `CarClassId: Any` and `CarDivisionId: Open`
+   (used for >23 cars or open-class series, optionally excluding disruptive cars such as class X). With no owned eligible car in an acceptlist, the
    game suggests buying the car with the **lowest CarId in the list**; an
-   invalid list makes it suggest a fixed fallback car. There is no purchase
+   open/empty list falls back to the MP4/4 (1670). There is no purchase
    pop-up in the flow — buying is manual in the shop. Keep denied cars out of
    the list ([data/CARS](../data/CARS.md) marks them).
-8. **Name**: a new `IDS_` key in the pt-BR `.str` table (pt-BR alone is enough;
-   other locales show the key). Never change vanilla strings. `str_edit.py`
-   writes keys of any length.
-9. **Art**: reuse an existing poster and banner path; new image assets are not
-   supported.
+8. **Name**: a new `IDS_` key in the pt-BR and en-US `.str` tables (other locales
+   are synced before release). Never change vanilla strings. `str_edit.py`
+   writes keys of any length. `Description` is never drawn in the career (D92);
+   for locked series, `EntryCriteria.EntryCriteriaName` supplies the lock text (D94).
+9. **Art & intro video**: reuse an existing poster path or add your own poster
+   (`FCO_*`) via `swatchbin_edit.py` ([SWATCHBIN](SWATCHBIN.md)); banner and button
+   fields show nothing in the career (D98). Full-screen intro videos (`PlayIntroVideoFullScreen: true`,
+   `FirstCarSelectEnabled: false`) are supported via [INTRO_VIDEO](INTRO_VIDEO.md).
 10. **Apply**: the generator reads the current cache (blobs matched by
     Checksum, indices resolved per snapshot), encrypts with the oracle using the
     current payload as template, and writes a kit. Then `--dry-run`, game
@@ -68,15 +73,15 @@ Clone and change only the fields marked ★. `ChampionshipId` = 500 (the career)
 |---|---|
 | `ChampionshipSeriesId` ★ | new, unique |
 | `Name` ★ | a new `IDS_` key (a literal does **not** work here) |
-| `Description` | `""` or an `IDS_` key |
-| `ImagePath` / `BannerImagePath` ★ | reuse an existing `GAME:\…` path |
+| `Description` | `""` (never drawn on career screens, D92) |
+| `ImagePath` ★ | existing `GAME:\…` path or own poster (`FCO_*`) via `swatchbin_edit.py` (`BannerImagePath` / `ButtonImagePath` show nothing, D98) |
 | `ChampionshipEventData[]` ★ | the new events, in the order of `OrderedEventIds` |
 | `OrderedEventIds` ★ | the new ids, same order |
 | `StartEndDate.To`, `CloseTime` ★ | `9999-12-31 23:59:59.999` |
 | `OpenTime`, `StartEndDate.From` | copy from the donor |
-| `EntryCriteria` ★ | zeroed (empty lists, counts 0) |
-| `DefaultEventOverrides` | copy (difficulty, damage, number of players…) |
-| `SelectableCars` ★ | an explicit `Acceptlist` with a cheap car (§4); `CarDivisionId: "Open"` |
+| `EntryCriteria` ★ | zeroed (empty lists, counts 0) or gated (`RequiredSeries` / `RequiredLadders` with `EntryCriteriaName` lock text, D94) |
+| `DefaultEventOverrides` | series defaults (AI difficulty/MaxAIPlayers do not act, D79; wear scalar 1/3/4/6; drafting & dynamic track true) |
+| `SelectableCars` ★ | `Blocklist` (open list, optionally excluding class X) or explicit `Acceptlist` (≤ 23 cars, with a cheap car, §4); `CarDivisionId: "Open"` |
 | `AISelectableCars`, `SeriesOpponentDrivatars`, `AIRaceBehaviors`, `IntroCarColors`, `FirstCarSelect*`, `CarSelectAcceptlist`, the rest | copy from the donor |
 
 Field-by-field meaning: [SCHEMA_REFERENCE](SCHEMA_REFERENCE.md).

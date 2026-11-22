@@ -46,8 +46,9 @@ ROUND_EVENT_KEYS = ("event_id", "track", "laps")
 ROUND_MAX_AIFIELD = 12
 ROUND_RANGE_KEYS = ("PIMin", "PIMax", "PowerMin", "PowerMax", "WeightMin",
                     "WeightMax", "YearMin", "YearMax", "BaseCostMin",
-                    "BaseCostMax")
+                    "BaseCostMax", "CarLevelMin", "CarLevelMax")
 ROUND_RANGE_FLOAT = {"PowerMin", "PowerMax", "WeightMin", "WeightMax"}
+ROUND_RANGE_OFF255 = {"CarLevelMin", "CarLevelMax"}
 
 
 
@@ -203,8 +204,11 @@ def load_round_spec(path):
     for k in ("group", "base", "series"):
         if k not in spec:
             raise FmError("round spec: missing '%s'" % k)
-    if isinstance(spec["group"], dict) and "set" in spec["group"]:
-        group_placement(spec["group"])          # validates group.set
+    if isinstance(spec["group"], dict) and (
+            "set" in spec["group"]
+            or (isinstance(spec["group"].get("cup"), dict)
+                and "set" in spec["group"]["cup"])):
+        group_placement(spec["group"])          # validates group.set and group.cup.set
     if isinstance(spec["group"], dict) and "description" in spec["group"]:
         check_text(spec["group"]["description"],
                    "round spec.group.description")
@@ -306,11 +310,18 @@ def load_round_spec(path):
             c = item["cars"]
             tag = "round spec.series[%d].cars" % i
             unknown = set(c) - {"acceptlist", "blocklist", "class",
-                                "division", "severity", "ranges"}
+                                "division", "severity", "ranges", "ownership"}
             if unknown:
                 raise FmError("%s: unknown key(s) %s (expected "
                               "acceptlist|blocklist/[class]/[division]/"
-                              "[severity]/[ranges])" % (tag, sorted(unknown)))
+                              "[severity]/[ranges]/[ownership])"
+                              % (tag, sorted(unknown)))
+            if "ownership" in c and (
+                    not isinstance(c["ownership"], str)
+                    or not re.fullmatch(r"[A-Za-z]{1,24}", c["ownership"])):
+                raise FmError("%s: 'ownership' must be a word of 1-24 "
+                              "letters (the token the game reads, e.g. None)"
+                              % tag)
             if ("acceptlist" in c) == ("blocklist" in c):
                 raise FmError("%s: exactly one of 'acceptlist' (non-empty) "
                               "or 'blocklist' (may be empty)" % tag)
@@ -355,6 +366,21 @@ def load_round_spec(path):
                             and r[lo] > r[hi]:
                         raise FmError("%s: '%s' (%s) > '%s' (%s)" %
                                       (rtag, lo, r[lo], hi, r[hi]))
+                for key in sorted(ROUND_RANGE_OFF255):
+                    v = r.get(key)
+                    if v is not None and (isinstance(v, bool) or
+                                          not isinstance(v, int) or
+                                          not 0 <= v <= 255):
+                        raise FmError("%s: '%s' must be an integer 0-255 "
+                                      "(255 = off, never bool)"
+                                      % (rtag, key))
+                if "CarLevelMin" in r and "CarLevelMax" in r \
+                        and r["CarLevelMin"] < 255 \
+                        and r["CarLevelMax"] < 255 \
+                        and r["CarLevelMin"] > r["CarLevelMax"]:
+                    raise FmError("%s: 'CarLevelMin' (%s) > 'CarLevelMax' (%s)"
+                                  % (rtag, r["CarLevelMin"],
+                                     r["CarLevelMax"]))
         if "ai_cars" in item:
             a = item["ai_cars"]
             atag = "round spec.series[%d].ai_cars" % i
@@ -486,6 +512,13 @@ def group_placement(group):
         raise FmError("round spec.group: 'id' must be an integer ladder id")
     if "description" in group:
         check_text(group["description"], "round spec.group.description")
+    if isinstance(group["cup"], dict) and "set" in group["cup"]:
+        cs = group["cup"]["set"]
+        if not isinstance(cs, dict) or not cs or any(
+                not isinstance(k, str) or not k or isinstance(v, (dict, list))
+                for k, v in cs.items()):
+            raise FmError("round spec.group.cup.set: a non-empty object of "
+                          "top-level cup fields -> scalar values")
     lad = {"id": group.get("id", "auto"), "donor": group["donor"], "name": group["name"],
            "cup": group["cup"]}
     if "set" in group:
@@ -707,10 +740,15 @@ def round_series_cars(xml, donor_id, item, ns):
                     sc[key] = float(val)
                 else:
                     sc[key] = int(val)
+        if "ownership" in cars:
+            if "Ownership" not in sc:
+                raise FmError("donor SelectableCars has no Ownership field")
+            sc["Ownership"] = cars["ownership"]
         xml_opts = dict(list_type="Blacklist" if blocklist else "Whitelist",
                         class_id=cars.get("class"),
                         severity=cars.get("severity"),
-                        ranges=cars.get("ranges"))
+                        ranges=cars.get("ranges"),
+                        ownership=cars.get("ownership"))
     ai = item.get("ai_cars")
     if ai is not None:
         ns["AISelectableCars"] = {"Acceptlist":
@@ -1042,6 +1080,12 @@ def resolve_placement(bcs, pl, new_ids, snap):
             raise FmError("%s: donor cup %d not found" % (snap, cup_spec["donor"]))
         cup = B.clone_cup(donor_cup, new_ids["cup"],
                           name_key(cup_spec.get("key_label", cup_spec["name"])))
+        for k, v in cup_spec.get("set", {}).items():
+            if k not in cup:
+                raise FmError("%s: group.cup.set field %r is not in donor "
+                              "cup %d (only existing cup fields)"
+                              % (snap, k, cup_spec["donor"]))
+            cup[k] = v
         B.cups(bcs).append(cup)                      # tail, como o mc57
     _c, donor_lad = B.find_ladder(bcs, lad_spec["donor"])
     if donor_lad is None:

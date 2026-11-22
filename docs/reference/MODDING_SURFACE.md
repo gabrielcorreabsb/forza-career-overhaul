@@ -43,11 +43,11 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 |---|---|---|---|---|---|
 | cup → ladder → series → event tree, order, names, art | `BuildersCupScheduleDataV4.json` (cache) | JSON | `_tools/build_series.py` (spec) or a `cache_edit` plan | career | **verified** (new series, reorder, renames) |
 | per-event overrides (track, laps, AI grid file, generator) | `BCEventOverrides.json` (cache) | JSON list keyed by event id | `build_series.py` / `cache_edit` | career | **verified** |
-| car eligibility per series | `BCSeriesSelectableCars.xml` (cache) + `SelectableCars` in the schedule | XML + JSON | `build_series.py` | career | **verified** (acceptlists); numeric limits in `SelectableCars` (PI, year, power, weight, cost) are a **hypothesis** |
-| series defaults: qualifying options, skip-lap flags | `DefaultEventOverrides` in the schedule | JSON | `cache_edit` | career | **observed**: limited practice laps order the **AI's** grid; there is no separate qualifying session; the human's slot comes from the start-position wager when its screen is on, and is a per-event constant otherwise ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 16) |
-| series defaults: damage, wear, time-of-day scale, drafting, dynamic track | same | JSON | `cache_edit` | career | **hypothesis** (bench kit built, no result yet) |
-| entry gates (driver level, required ladders/series/events) | `EntryCriteria` at cup, ladder and series level | JSON | count fields: `cache_edit`; required lists: new schema | career | **hypothesis** |
-| build phase, series type | series fields in the schedule | JSON | `cache_edit` | career | **hypothesis** (bench kits built, results pending) |
+| car eligibility per series | `BCSeriesSelectableCars.xml` (cache) + `SelectableCars` in the schedule | XML + JSON | `build_series.py` | career | **verified** (acceptlists ≤ 23); **observed** (`Blocklist`/`Blacklist` open lists and numeric ranges `YearMin/Max`, `PIMin/Max`, `PowerMin/Max`, `WeightMax`, D88/D96/D121; `BaseCostMin` and `Ownership` ignored, D121/D126) |
+| series defaults: qualifying options, skip-lap flags | `DefaultEventOverrides` in the schedule | JSON | `cache_edit` | career | **observed**: limited practice laps order the **AI's** grid; there is no separate qualifying session; the human's slot comes from the start-position wager when its screen is on, and is a per-event constant otherwise ([OPEN_QUESTIONS](../project/OPEN_QUESTIONS.md) 16); `OpenPracticeInMinutes` and `PracticeSkipLapEnabled` have no effect (D85) |
+| series defaults: damage, wear, time-of-day scale, drafting, dynamic track | same | JSON | `cache_edit` | career | **observed**: `TireFrictionWearScalar` (1/3/4/6) works when wear is on in the player's preset (D72); `TimeOfDayTimeScale` at series level does nothing alone (use the override pair, D73); `DamageDifficulty` is masked by the player's preset (D79); `DraftingEnabled` and `DynamicTrackEnabled` stay `true` in all vanilla career series |
+| entry gates (driver level, required ladders/series/events) | `EntryCriteria` at cup, ladder and series level | JSON | `cache_edit` / `build_series.py` | career | **verified** (`RequiredSeries`, `RequiredLadders`, `RequiredEvents` open on any finishing place, no win gate exists, D84, D123, D127); **observed** (`EntryCriteriaName` custom lock text up to 249 chars, ignored by `MinDriverLevel`, D93, D94) |
+| build phase, series type | series fields in the schedule | JSON | `cache_edit` | career | **verified** (`SkipBuildPhase` skips build screen, D84; `RewardShowcase` requires the prize car in the garage and pays nothing, D84) |
 | intro video, first-car select | series fields in the schedule (`IntroVideoPath`, `PlayIntroVideoFullScreen`, `FirstCarSelectEnabled`) | JSON | `cache_edit` | career | **observed**: full screen plays the `.bk2` itself; the first-car screen fails on our series ([INTRO_VIDEO](INTRO_VIDEO.md)) |
 | own intro video file | `media\base\ui\videos\{1080,2160}` | Bink 2 | `bk2_install.py` | global (by name) | **verified** with a copied video; encoding needs RAD's tool |
 | install file index | `media\base\hash.manifest`, `media\pcfamily\hash.manifest` | binary, path hash | `hash_manifest_edit.py` | global | **verified**: new files need a record ([INSTALL_INDEX](INSTALL_INDEX.md)) |
@@ -66,8 +66,9 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
-| grid / roster (cars, PI band, slots) | `AIField_<id>_Gen.xml`, named by the override's `AIFileName` | XML | `_tools/build_aifield.py` + `install_edit.py` (the group usually has no cache blob) | career (Featured has no AI grid field) | **verified** (`AI_GRIDS.md`) |
-| catch-up / slow-down / proximity per series | `AIRaceBehaviors` (two blocks: race, practice/qualifying) in the schedule | JSON | `cache_edit` | career | **observed** for catch-up and slow-down off in the race: the AI got better (user report, [DISCOVERIES](../project/DISCOVERIES.md) D59); the rest is a **hypothesis** |
+| grid / roster (cars, PI band, slots) | `AIField_<id>_Gen.xml`, named by the override's `AIFileName` | XML | `_tools/build_aifield.py --cache-plan` + `cache_edit.py` (cache holds the group; `install_edit.py` only if absent) | career (Featured has no AI grid field) | **verified** (`AI_GRIDS.md`, D60) |
+| catch-up / slow-down / proximity per series | `AIRaceBehaviors` (two blocks: race, practice/qualifying) in the schedule | JSON | `cache_edit` | career | **observed** one by one for the race block (D97): AI standard uses `SlowDown` and `CatchUp` on, `Proximity`, `PosDifficultySpread` and `SlotCarRaceStart` off; practice switches mirror race (not isolated, D90) |
+| global AI driving & recovery tuning | `media\base\ai\aistatics.zip` (`Default.ini` + 11 `Track_*.ini`) | INI in zip | install edit | **global** | **verified/observed** (D76, D77, D86): narrow per-driver speed band + recovery keys ([AI_STATICS](AI_STATICS.md)) |
 | catch-up flags per grid file | `RaceBehaviorSettings` inside the AIField XML | XML | `install_edit` | career: no Featured, Rivals or Meetup generator cites a career grid; a few grids are shared by several career series | **hypothesis**; which layer wins is open |
 | rubber banding / drivatar training per generator | `GameOptions_<gen>` attributes | XML | `cache_edit` | career | **observed** as already off in the career generators, so it is not the source of the elastic feel |
 | global AI config (career spread, dynamic difficulty, catch-up) | `AIConfig.*` in the client flags | JSON | `cache_edit` | **global** | **hypothesis**, discuss first |
@@ -80,7 +81,7 @@ Payload codec, Size/Checksum model and the Strategy S rule:
 
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
-| credit scalars, per-track car credit scaling, rewards, driver/car level config | `CreditScalars.json`, `CarCreditScalingTable.json`, `Rewards.json`, `LevelConfigurationV3.json`, `DriverLevelConfig.json` (cache) | JSON | `cache_edit` | **global** (account progression) | **hypothesis**, discuss first. Car level (`LevelConfigurationV3.json`) tested 14/11/2026 (kits mc312-mc318): the XP curve is read by the client (a level-31 car reached 32 at an edited threshold), but starting CP, the CP paid per level and `CreditsPerCarPoint` do not change what the account gets (a purchase at an edited price errors out): **server-owned, closed negative**; all part categories are already unlocked at level 1 in the live snapshot. Per-track car credit scaling (the career base cell): doubling it changed the pre-race screen but **not** the credits paid (D56). |
+| credit scalars, per-track car credit scaling, rewards, driver/car level config | `CreditScalars.json`, `CarCreditScalingTable.json`, `Rewards.json`, `LevelConfigurationV3.json`, `DriverLevelConfig.json` (cache) | JSON | `cache_edit` | **global** (account progression) | **hypothesis**, discuss first. Car level (`LevelConfigurationV3.json`) tested 14/11/2026: the XP curve is read by the client (a level-31 car reached 32 at an edited threshold), but starting CP, the CP paid per level and `CreditsPerCarPoint` do not change what the account gets (a purchase at an edited price errors out): **server-owned, closed negative**; all part categories are already unlocked at level 1 in the live snapshot. Per-track car credit scaling (the career base cell): doubling it changed the pre-race screen but **not** the credits paid (D56). |
 | part discount by car level | `AffinityDiscountSettings` (client flags) | JSON | `cache_edit` | global | **hypothesis**; it is not manufacturer affinity |
 | prize packs, unlock rules, level rewards, bonuses, forzathon | `media\base\prizes\`, `media\base\unlocks\`, tunables | encrypted container | **closed** | account / server-side | **closed** |
 | affinity level rewards, legacy level config | `media\base\gametunablesettings\` (readable) | XML/JSON | file swap (no tool) | account | **hypothesis**; prefer the cache copy where one exists |
@@ -103,10 +104,10 @@ out of series-kit reach.
 
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
-| names and descriptions (`IDS_` keys) | LocStrings `.str` tables in the cache | `.str` (hashed keys) | `_tools/str_edit.py` + a `bytes` plan | per key | **verified**: new keys of any length work |
+| names (`IDS_` keys) and lock text | LocStrings `.str` tables in the cache | `.str` (hashed keys) | `_tools/str_edit.py` + a `bytes` plan | per key | **verified**: new keys of any length work; `Description` is never drawn in the career (D92), while `EntryCriteriaName` renders lock text on gated cards (D94) |
 | install string tables | `media\base\stringtables\<lang>.zip` | `.str` | not needed (the cache copy wins) | — | **verified** that the cache is the runtime source |
 | screens behind client flags | client flags (section 11) | JSON | `cache_edit` | depends on the flag | **verified** for one screen (n=1) |
-| art (posters, banners, buttons) | image paths in the schedule | path strings | `build_series.py` (reuse existing paths) | career | **verified** (reuse only); own art: format read, no write tested ([SWATCHBIN](SWATCHBIN.md)) |
+| art (posters, banners, buttons) | image paths in the schedule + install poster zips | path strings / `.swatchbin` | `build_series.py` + `swatchbin_edit.py` | career + install | **observed**: own posters (`FCO_*`) in both `seriesposters.zip` archives show on series cards (D98–D104); `BannerImagePath` and `ButtonImagePath` show nothing in the career (D98) |
 
 ## 7. Tracks
 
@@ -140,8 +141,8 @@ out of series-kit reach.
 
 | what | where the game reads it | format | how to write | scope | status |
 |---|---|---|---|---|---|
-| forecast per event | `WeatherForecastsV2.json` (cache), referenced by the generator and by override forecast ids | JSON | `cache_edit` / `build_series.py` | career (through career generators and overrides) | **hypothesis**; every career event links to a valid forecast |
-| start/mid/end weather and probabilities, time-of-day start and scale | `GameOptions_<gen>` attributes + series `TimeOfDayTimeScale` | XML / JSON | `cache_edit` | career | **hypothesis** |
+| forecast per event & forecast body | `WeatherForecastsV2.json` (cache), referenced by the generator and by override forecast ids | JSON | `cache_edit` / `build_series.py` | career (through career generators and overrides) | **verified** (forecast ids for race and practice, D83); **observed** (existing forecast phase times in real seconds, transitions and sky conditions editable, D74) |
+| time-of-day start and race clock speed | `PracticeAndQualifying` / `FeatureRace` `TimeOfDayHour`, `TimeOfDayMinute`, `TimeOfDayTimeScale` + `...Override` | JSON (event override) | `cache_edit` / `build_series.py` | career (per event) | **verified** (race and practice hours/minutes independent, D81, D87, D90); **observed** (race clock pair works up to x144; series default alone does nothing, D73) |
 | localized weather tables, install forecast copy | `media\base\gametunablesettings\weather-*` | encrypted container | **closed** | global | not needed (the cache path covers the career) |
 
 ## 11. Client feature flags
@@ -158,7 +159,7 @@ out of series-kit reach.
 |---|---|---|
 | cache chain (blob → `prod\<snapshot>` → `cache-manifest.json`) | CmsCache | **verified**: Strategy S plus manifest Size/Checksum updates are accepted; `_tools/cache_verify.py` checks it, `_tools/rollback_cache.py` restores it |
 | install CMS chain (zip → install manifest → snapshot → cache manifest) | install + CmsCache | **verified** through `install_edit.py` (AI grid kits) |
-| `hash.manifest` (base and pcfamily) | install | **observed** as a plain table of fixed-size records (id + number), chained between the two files. The id is an opaque asset id: path and content hashes of every loose file under `media\` match none. Whether loose-file edits are checked is **indeterminate** |
+| `hash.manifest` (base and pcfamily) | install | **verified**: binary table of fixed-size records keyed by a double-DJB2 path hash rebuilt across all 5,188 records; adding a record makes new install files visible to the game ([INSTALL_INDEX](INSTALL_INDEX.md), D110–D113) |
 | `zipmanifest.xml` | install (encrypted container) | **observed**: it lists zips only (path, mount, priority, directory info), with no hashes and no loose files |
 | Steam "verify files" | install | restores any install edit; cache edits are not affected |
 | server snapshot change | CmsCache | a new snapshot drops cache kits; kits are snapshot-bound and must be regenerated |

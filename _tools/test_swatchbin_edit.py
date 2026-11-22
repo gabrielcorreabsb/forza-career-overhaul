@@ -307,6 +307,76 @@ def build_synthetic_pair(copy_root):
     }
 
 
+def mainmenu_tests(root, img_dir):
+    """--archive mainmenu: so troca builderscup, no lugar, com imagem."""
+    print("--archive mainmenu (banner do hub Corrida):")
+    mm_root = os.path.join(root, "_work", "mm_copy")
+    dims = {"normal": (1300, 480), "hires": (2600, 960)}
+    zips = {}
+    for kind in se.KINDS:
+        w, h = dims[kind]
+        mold = make_synthetic_mold(w, h)
+        ents = []
+        for i, name in enumerate(("mm_gorace_builderscup.swatchbin",
+                                  "mm_gorace_rivals.swatchbin")):
+            raw = sb.build_swatchbin(
+                Image.fromarray(make_test_rgba(w, h, seed=40 + i), "RGBA"),
+                mold)
+            ents.append((name, se.METHOD_DEFLATED, raw, 0, 0))
+        zips[kind] = make_synthetic_zip(ents)
+    se.set_archive("mainmenu")
+    paths = se.zip_paths_of(mm_root)
+    se.set_archive("seriesposters")
+    for kind in se.KINDS:
+        expect(os.path.basename(paths[kind]) == "mainmenu.zip",
+               "%s: alvo e mainmenu.zip" % kind)
+        os.makedirs(os.path.dirname(paths[kind]), exist_ok=True)
+        se.put(paths[kind], zips[kind])
+    before = {k: se.sha256(zips[k]) for k in se.KINDS}
+    img_n = os.path.join(img_dir, "mm_1300x480.png")
+    img_h = os.path.join(img_dir, "mm_2600x960.png")
+    Image.fromarray(make_test_rgba(1300, 480, seed=50), "RGBA").save(img_n)
+    Image.fromarray(make_test_rgba(2600, 960, seed=51), "RGBA").save(img_h)
+    base = ("--archive", "mainmenu", "--dest-copy", mm_root)
+    def refused(*a):
+        try:
+            return capture(*a)[0] != 0
+        except SystemExit:      # ap.error
+            return True
+
+    expect(refused(*(base + ("--replace", "mm_gorace_rivals", "--image",
+                             img_n, "--image-hires", img_h, "--dry-run"))),
+           "outro tile do menu (rivals) recusado")
+    expect(refused(*(base + ("--add", "fco_x", "--image", img_n,
+                             "--dry-run"))),
+           "--add recusado com --archive mainmenu")
+    args = base + ("--replace", "mm_gorace_builderscup", "--image", img_n,
+                   "--image-hires", img_h)
+    expect(run(*(args + ("--dry-run",))) == 0, "dry-run builderscup")
+    expect(run(*(args + ("--verify",))) == 0, "apply + verify builderscup")
+    for kind in se.KINDS:
+        new = se.read(paths[kind])
+        a, b = se.raw_slices(zips[kind]), se.raw_slices(new)
+        expect(len(new) == len(zips[kind]) and list(a) == list(b),
+               "%s: zip do mesmo tamanho e mesma lista" % kind)
+        expect(a["mm_gorace_rivals.swatchbin"] ==
+               b["mm_gorace_rivals.swatchbin"],
+               "%s: rivals intacto byte a byte" % kind)
+        expect(a["mm_gorace_builderscup.swatchbin"] !=
+               b["mm_gorace_builderscup.swatchbin"],
+               "%s: builderscup trocado" % kind)
+    van = se.backup_dirs(se._backup_root(mm_root), se.VANILLA_PREFIX)
+    expect(len(van) >= 1 and os.path.isfile(
+        os.path.join(van[-1], "data_bound", "mainmenu.zip")) and
+        os.path.isfile(os.path.join(van[-1], "hires", "data_bound",
+                                    "mainmenu.zip")),
+        "backup vanilla guarda os dois mainmenu.zip")
+    expect(run("--archive", "mainmenu", "--dest-copy", mm_root,
+               "--restore", van[-1]) == 0, "--restore do mainmenu")
+    expect(all(se.sha256(se.read(paths[k])) == before[k] for k in se.KINDS),
+           "restore devolve os shas vanilla do mainmenu")
+
+
 def main():
     unit_swatchbin()
 
@@ -656,6 +726,8 @@ def main():
     expect(all(se.sha256(se.read(targets[k])) == orig_shas[k]
                for k in se.KINDS),
            "shas continuam identicos ao vanilla apos 2o restore")
+
+    mainmenu_tests(root, img_dir)
 
     shutil.rmtree(root, ignore_errors=True)
     os.environ.pop("_SE_TEST_ROOT", None)

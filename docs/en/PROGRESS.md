@@ -24,6 +24,7 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.8 — own art** | 18 Nov | a series can show **a poster of our own**, under its own name, installed by the mod's tool with plain Python; several posters go in at once, and a lost poster (after a Steam update) only leaves the card without art (below) | observed |
 | **Phase 0.9 — intro video, car select and the install's file index** | 19 Nov | a series can play **an intro video of our own, encoded by us, under its own name**: the game reads a new install file once its path is in the install's file index (`hash.manifest`), whose hash we now compute; the first-car selection does not work on our series, so it is switched off (below) | verified / observed |
 | **Phase 0.10 — install-only visual modifications** | 19–20 Nov | the map of the install's `media` folder, and a list of what we changed visually in it (render settings, car level of detail, track look, rain on the windscreen and the lens, camera settings including the first-person view with the driver's eye position per car, the photo-mode watermark), with one published tool for the loose-XML changes ([INSTALL_VISUAL_MODS](../reference/INSTALL_VISUAL_MODS.md)); the rule found the hard way: a rewritten zip must keep every entry at its offset, or the menu loses its animated background (D120); and with the in-game custom camera FOV on, the ini FOV is ignored and the player's slider wins | observed (one machine) |
+| **Phase 0.11 — base profile, Intro Series and mapping closed** | 22 Nov | career mapping is finished. Every Forza Career Overhaul (FCO) series is now built from our own documented **base profile** inside our own FCO cup alongside the vanilla Builders Cup (which stays untouched), starting with the **Intro Series** (open car list, AI following your car, custom poster and full-screen intro video, timed rain at Brands Hatch and a day-to-night cycle at Le Mans) | verified / observed |
 
 ## Phase 0.3, finding by finding
 
@@ -108,6 +109,15 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | A `.bk2` under a **new name** gave a black screen; overwriting a video no game data names played the new content | own content without touching any vanilla series video | observed | D109, D111 |
 | **The install's file index**: `media\base\hash.manifest` lists every file and folder the game may read, keyed by a hash of the path that we rebuilt for all 5,188 records of both indexes; adding a record made the new-name video play | **new files in the install** (videos today; any loose file the game looks up by path) | verified | D110, D112, D113 |
 
+## Phase 0.11, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| **Own base profile**: every FCO series now starts from our own documented defaults (open car list by blocklist, AI standard, session defaults) instead of inheriting hidden values from a vanilla donor series | predictable series without hidden caps or broken grids; ready for a player-facing installer later | verified | — |
+| **Intro Series**: first FCO series built on the base profile inside an FCO cup next to the vanilla Builders Cup — open car list (excluding class X), AI following your PI with the AI standard, custom poster and full-screen intro video, Brands Hatch with a 3-minute timed rain cycle (real seconds), Le Mans with a day-to-night cycle (clock x144), and a dry morning practice separate from the race | a complete, playable opening event showing what the mod delivers | verified / observed | D73, D74, D76, D96, D101, D119 |
+| **One AI document per grid**: vanilla multi-event series repeat the same AI roster across events and only raise the PI floor event by event | one AI document per grid (reusing unused or repointed vanilla copies, since brand-new AIField files cannot be created) | verified (data) | D36, D67 |
+| **Live apply refuted**: writing to the cache while the game is running fails immediately on the first file (`WinError 5`, access denied) because the game locks the cache blobs | always close the game before applying edits; variety in play comes from large AI pools, multi-sky forecasts and progression gates | verified | — |
+
 ## What is next
 
 State labels: **viable** (the mechanism is known), **to test** (plausible, needs a controlled run in game), **not possible**
@@ -125,11 +135,9 @@ State labels: **viable** (the mechanism is known), **to test** (plausible, needs
 | **Own intro video** | proven end to end with a copied video (D113): install the `.bk2`, add its index record, point the series at it in full screen ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)); our own clip, encoded to Bink 2 revision `KB2j`, plays in game with its sound (D114, D118); one command encodes, installs and indexes it; the sound comes out from one side only | observed |
 | **New files in the install** | the file index is solved ([INSTALL_INDEX](../reference/INSTALL_INDEX.md)): other loose files the game reads by path (textures, sounds, scenes) may now be added instead of overwritten; each kind needs its own test | to test |
 | **Own art per series** | proven in game (D99–D104): a poster of our own per series, written by the mod's tool in plain Python; left: the release step for players and the art itself | viable |
-| **Other languages** | new strings go into the pt-BR table only; the other 20 locales have no keys yet. Decided: done at the mod's release, copying the keys of the real content to every language (names translated as a draft, English as the fallback) | at release |
+| **Other languages** | new strings are written in pt-BR and en-US first; the other 19 locales are synced before release (names translated as a draft, English as the fallback) | at release |
 
-**Not possible, do not repeat:** a real Qualifying (D33), prizes of our own and payout edits in the cache or install files
-(the server grants them), manufacturer affinity (a server value; the substitute is the one-make series), physics, the
-account economy and global AI switches that also reach multiplayer.
+**Not possible, do not repeat:** applying edits while the game is open ("live career", fails with file locks), a real Qualifying (D33), prizes of our own and payout edits in the cache or install files (the server grants them), manufacturer affinity (a server value; the substitute is the one-make series), physics, the account economy and global AI switches that also reach multiplayer.
 
 ## How to help
 

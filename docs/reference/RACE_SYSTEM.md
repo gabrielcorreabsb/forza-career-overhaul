@@ -29,7 +29,7 @@ python _tools\audit_career.py
 | `Description` | literal display string |
 | `TrackId` | track identity, GUID form |
 | `SerialTrackId` | track identity, integer form |
-| `NumberOfRequiredLaps` | lap count for the feature race |
+| `NumberOfRequiredLaps` | lap count for the **practice** session (race length comes from the override's `FeatureRace.Laps`) |
 | `OpenPracticeLimitationTimeInSeconds` | practice time budget |
 | `TargetPI` | the effective performance cap for the field |
 | `PointSpread` | points table id for scoring |

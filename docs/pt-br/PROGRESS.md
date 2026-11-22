@@ -24,6 +24,7 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.8 — arte própria** | 18/11 | uma série pode mostrar **um pôster nosso**, com nome próprio, instalado pela ferramenta do mod só com Python; vários pôsteres entram de uma vez, e um pôster perdido (depois de um update do Steam) só deixa o cartão sem arte (abaixo) | observed |
 | **Fase 0.9 — vídeo de introdução, seleção de carro e o índice de arquivos do install** | 19/11 | uma série pode tocar **um vídeo de introdução nosso, com nome próprio**: o jogo lê um arquivo novo do install quando o caminho dele está no índice de arquivos do install (`hash.manifest`), cujo hash agora calculamos; a seleção do primeiro carro não funciona nas nossas séries, então fica desligada (abaixo) | verified / observed |
 | **Fase 0.10 — modificações visuais só no install** | 19–20/11 | o mapa da pasta `media` do install e a lista do que mudamos nela visualmente (configurações de render, nível de detalhe dos carros, aparência das pistas, chuva no vidro e na lente, câmera, inclusive a de primeira pessoa com a posição do olho do motorista por carro, a marca d'água do modo foto), com uma ferramenta publicada para as mudanças em XML solto ([INSTALL_VISUAL_MODS](../reference/INSTALL_VISUAL_MODS.md)); a regra descoberta do jeito difícil: um zip reescrito precisa manter cada entrada no seu offset, senão o menu perde o fundo animado (D120); e com o "FOV da câmera personalizado" ligado no jogo o FOV do ini é ignorado e vale o slider | observed (uma máquina) |
+| **Fase 0.11 — perfil-base, Intro Series e mapeamento fechado** | 22/11 | o mapeamento da carreira está fechado. Toda série do Forza Career Overhaul (FCO) agora nasce do nosso **perfil-base** documentado, dentro de uma cup própria do FCO ao lado da Builders Cup vanilla (que continua intocada), começando pela **Intro Series** (lista aberta de carros, IA seguindo o seu carro, pôster próprio e vídeo de introdução em tela cheia, chuva cronometrada em Brands Hatch e ciclo dia-noite em Le Mans) | verified / observed |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -108,6 +109,15 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | Um `.bk2` com **nome novo** deu tela preta; sobrescrever um vídeo que nenhum dado do jogo cita tocou o conteúdo novo | conteúdo próprio sem mexer no vídeo de nenhuma série vanilla | observed | D109, D111 |
 | **O índice de arquivos do install**: `media\base\hash.manifest` lista cada arquivo e pasta que o jogo pode ler, com um hash do caminho que reconstruímos para os 5.188 registros dos dois índices; acrescentar um registro fez o vídeo de nome novo tocar | **arquivos novos no install** (hoje vídeos; qualquer arquivo solto que o jogo procura pelo caminho) | verified | D110, D112, D113 |
 
+## Fase 0.11, descoberta por descoberta
+
+| descoberta | o que habilita | estado | evidência |
+|---|---|---|---|
+| **Perfil-base próprio**: toda série da FCO passa a partir dos nossos padrões documentados (lista aberta por blocklist, padrão de IA, padrões de sessão) em vez de herdar valores ocultos de uma série doadora vanilla | séries previsíveis, sem tetos escondidos nem grids quebrados; pronto para um instalador voltado ao jogador no futuro | verified | — |
+| **Intro Series**: primeira série da FCO no perfil-base, dentro de uma cup da FCO ao lado da Builders Cup vanilla — lista aberta de carros (excluindo classe X), IA seguindo o seu PI no padrão de IA, pôster próprio e vídeo de introdução em tela cheia, Brands Hatch com ciclo de chuva cronometrado de 3 minutos (segundos reais), Le Mans com ciclo dia-noite (relógio x144) e treino seco pela manhã separado da corrida | uma abertura jogável completa mostrando o que o mod entrega | verified / observed | D73, D74, D76, D96, D101, D119 |
+| **Um documento de IA por grade**: séries vanilla com vários eventos repetem o mesmo elenco de IA entre eventos e só sobem o piso de PI evento a evento | um documento de IA por grade (reaproveitando cópias vanilla livres ou reapontadas, já que não dá para criar arquivo AIField novo) | verified (dados) | D36, D67 |
+| **Aplicar com o jogo aberto refutado**: gravar no cache com o jogo rodando falha imediatamente no primeiro arquivo (`WinError 5`, acesso negado) porque o jogo trava os blobs do cache | feche sempre o jogo antes de aplicar mudanças; variedade em jogo vem de pools grandes de IA, previsões com vários céus e travas de progressão | verified | — |
+
 ## O que vem
 
 Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede uma corrida controlada no jogo), **not possible**
@@ -125,11 +135,9 @@ Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede u
 | **Vídeo de introdução próprio** | provado de ponta a ponta com um vídeo copiado (D113): instalar o `.bk2`, acrescentar o registro no índice, apontar a série em tela cheia ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)); um clipe nosso, codificado em Bink 2 revisão `KB2j`, toca no jogo com o som (D114, D118); um comando codifica, instala e indexa; o som sai de um lado só | observed |
 | **Arquivos novos no install** | o índice de arquivos está resolvido ([INSTALL_INDEX](../reference/INSTALL_INDEX.md)): outros arquivos soltos que o jogo lê pelo caminho (texturas, sons, cenas) podem agora ser acrescentados em vez de sobrescritos; cada tipo pede o próprio teste | to test |
 | **Arte própria por série** | provada no jogo (D99–D104): um pôster nosso por série, gravado pela ferramenta do mod só com Python; falta o passo de instalação para o jogador e a arte em si | viable |
-| **Outros idiomas** | textos novos vão só para a tabela pt-BR; os outros 20 idiomas não têm chaves. Decidido: feito na release do mod, copiando as chaves do conteúdo real para todos os idiomas (nomes traduzidos como rascunho, inglês como texto de reserva) | na release |
+| **Outros idiomas** | textos novos são escritos em pt-BR e en-US primeiro; os outros 19 idiomas são sincronizados antes do lançamento (nomes traduzidos como rascunho, inglês como texto de reserva) | na release |
 
-**Not possible, não repetir:** Qualifying real (D33), prêmios próprios e edição de pagamento no cache ou nos arquivos do
-install (o servidor concede), afinidade com fabricante (valor do servidor; o substituto é a série de uma só marca), física,
-economia da conta e chaves globais de IA que também atingem o multiplayer.
+**Not possible, não repetir:** aplicar edições com o jogo aberto ("carreira ao vivo", falha com trava de arquivo), Qualifying real (D33), prêmios próprios e edição de pagamento no cache ou nos arquivos do install (o servidor concede), afinidade com fabricante (valor do servidor; o substituto é a série de uma só marca), física, economia da conta e chaves globais de IA que também atingem o multiplayer.
 
 ## Como ajudar
 

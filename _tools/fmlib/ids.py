@@ -14,7 +14,11 @@ def is_custom_event(eid):
 
 
 def retired():
-    path = os.path.join(PATCHES, "ids_retired.json")
+    # FM_IDS_RETIRED: test benches only (test_build_series with the frozen
+    # bench cache reads the retired list frozen with that cache). Real kits
+    # never set it, so the guard is unchanged for them.
+    path = os.environ.get("FM_IDS_RETIRED") or os.path.join(
+        PATCHES, "ids_retired.json")
     if not os.path.isfile(path):
         return {}
     with open(path, encoding="utf-8-sig") as fh:
