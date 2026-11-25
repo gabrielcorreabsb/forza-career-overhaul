@@ -91,6 +91,11 @@ off-limits:
   against its own challenge list ([ECONOMY_MAP](docs/reference/ECONOMY_MAP.md)).
   *(Workaround that works today: FCO series built on matching cars/tracks count
   1:1 toward live Challenge Hub challenges, verified.)*
+- **Own tracks pay only behind a track id the server already pays (observed):**
+  a brand-new track id loads but earns 0 credits and 0 XP; the server pays only
+  the track ids of the game's credit/XP tables, and the event's track field picks
+  both the track that loads and the pay. A track of our own therefore earns
+  behind one of those ids, one track per id at a time (D146–D149, in progress).
 - **No offline mode and no custom server (closed):** the client checks a
   cryptographic signature on every response from the online service. This project
   does not support, document, or assist with redirecting traffic or faking
@@ -112,7 +117,9 @@ off-limits:
   below).
 - **Planned (not built yet):** a player-facing **Rust installer/launcher** that
   ships our plain-data base profile and season specs and rebuilds FCO directly
-  against your game's local cache with no game files distributed.
+  against your game's local cache with no game files distributed. It is also
+  meant to fill the paying track ids with the season's own tracks before the
+  game opens and to put the vanilla files back before you play online.
 
 ### Risk & Terms of Use
 
