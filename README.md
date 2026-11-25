@@ -68,6 +68,12 @@ Every feature below has been built and played in game; evidence records live in
   one model, Trackday events, AI pools filtered by class, make, country, or
   decade, progression gates between series and groups, and series that count
   toward live Challenge Hub rewards.
+- **Per-track and per-car settings from the game database (observed):** an
+  edited row of the installed gamedb takes effect: a track's pit-lane speed
+  limit and its rolling-start speed (for long races), and a car's hood-camera
+  position. Part upgrades can cost 0 car points from a cache file. Gamedb edits
+  also reach online play, so the vanilla file goes back before you play online
+  (D128, D132, D133, D140).
 - **Optional visual mods for the install (observed on one machine):** render
   quality, car level of detail, track look, rain drops, camera tweaks (credits
   to **Better Photo mode** by **GmSV2**), and a transparent photo-mode
@@ -96,6 +102,12 @@ off-limits:
   the track ids of the game's credit/XP tables, and the event's track field picks
   both the track that loads and the pay. A track of our own therefore earns
   behind one of those ids, one track per id at a time (D146–D149, in progress).
+- **The career AI is not tuned through the game database (closed):** its pace,
+  mistake, temperament and named-driver tables gave no clear effect on career
+  grids; the AI standard lives in the AI statics file instead (D134, D136–D139,
+  D143–D145). Car prices are not in the gamedb, and the affinity discount and
+  the driver-level milestone credit are checked or paid by the server (D129,
+  D130, D142).
 - **No offline mode and no custom server (closed):** the client checks a
   cryptographic signature on every response from the online service. This project
   does not support, document, or assist with redirecting traffic or faking
