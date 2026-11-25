@@ -114,6 +114,12 @@ ARCHIVES = {
                            "dims": {"normal": (1296, 660),
                                     "hires": (2592, 1320)},
                            "entries": None},
+    # cartao da ladder (440x140 / 880x280); o seriesposters.zip tem entradas
+    # vanilla desse tamanho, usadas como molde
+    "seriesposters_ladder": {"zip": "seriesposters.zip",
+                             "dims": {"normal": (440, 140),
+                                      "hires": (880, 280)},
+                             "entries": None},
     "mainmenu": {"zip": "mainmenu.zip",
                  "dims": {"normal": (1300, 480), "hires": (2600, 960)},
                  "entries": ("mm_gorace_builderscup.swatchbin",)},

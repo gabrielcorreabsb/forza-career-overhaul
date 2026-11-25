@@ -25,6 +25,8 @@ seen in game), **observed** (seen with few runs), **closed** (tested, does not w
 | **Phase 0.9 — intro video, car select and the install's file index** | 19 Nov | a series can play **an intro video of our own, encoded by us, under its own name**: the game reads a new install file once its path is in the install's file index (`hash.manifest`), whose hash we now compute; the first-car selection does not work on our series, so it is switched off (below) | verified / observed |
 | **Phase 0.10 — install-only visual modifications** | 19–20 Nov | the map of the install's `media` folder, and a list of what we changed visually in it (render settings, car level of detail, track look, rain on the windscreen and the lens, camera settings including the first-person view with the driver's eye position per car, the photo-mode watermark), with one published tool for the loose-XML changes ([INSTALL_VISUAL_MODS](../reference/INSTALL_VISUAL_MODS.md)); the rule found the hard way: a rewritten zip must keep every entry at its offset, or the menu loses its animated background (D120); and with the in-game custom camera FOV on, the ini FOV is ignored and the player's slider wins | observed (one machine) |
 | **Phase 0.11 — base profile, Intro Series and mapping closed** | 22 Nov | career mapping is finished. Every Forza Career Overhaul (FCO) series is now built from our own documented **base profile** inside our own FCO cup alongside the vanilla Builders Cup (which stays untouched), starting with the **Intro Series** (open car list, AI following your car, custom poster and full-screen intro video, timed rain at Brands Hatch and a day-to-night cycle at Le Mans) | verified / observed |
+| **Phase 0.12 — the game database** | 22–23 Nov | the install's game database (gamedb) is read by the game: a car's hood camera, a track's pit-lane speed limit and its rolling-start speed follow an edited row, and part prices in car points can be set to 0 from the cache. What does **not** work: the AI tables of the gamedb (pace, mistakes, temperament, named drivers), car prices, the affinity discount and the driver-level milestone credit, which the server checks (below) | verified / closed |
+| **Phase 0.13 — own tracks that pay** | 24–25 Nov | how a track of our own can earn credits and XP: the server pays only the track ids of the game's credit/XP tables, the event's track field picks both the track that loads and the pay, and the data behind a paying id can be swapped. Next: a cloned track folder behind a paying id, and the mod's launcher filling several such "slots" per season (below) | observed |
 
 ## Phase 0.3, finding by finding
 
@@ -118,6 +120,28 @@ Every value the vanilla series use, field by field, is in [SERIES_FIELD_VALUES](
 | **One AI document per grid**: vanilla multi-event series repeat the same AI roster across events and only raise the PI floor event by event | one AI document per grid (reusing unused or repointed vanilla copies, since brand-new AIField files cannot be created) | verified (data) | D36, D67 |
 | **Live apply refuted**: writing to the cache while the game is running fails immediately on the first file (`WinError 5`, access denied) because the game locks the cache blobs | always close the game before applying edits; variety in play comes from large AI pools, multi-sky forecasts and progression gates | verified | — |
 
+## Phase 0.12, finding by finding
+
+Edits to the gamedb also reach online play: restore the vanilla file before going online.
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| **An edited row of the installed gamedb takes effect**: a car's hood camera moved; the `patch` folder of the install does not apply a gamedb in the Steam build | per-car and per-track tuning from the game database | verified | D132, D135 |
+| A track's **pit-lane speed limit** (metres per second) and its **rolling-start speed** come from the gamedb | per-track pit and start settings for long races | observed | D133, D140 |
+| **Part prices in car points** come from a cache file; with every price at 0 the parts are free | an upgrade economy of our own | observed | D128 |
+| The client turns total XP into a level with a cache table; the level shown follows the file | — (display only) | observed | D131 |
+| Car prices are not in the gamedb; the affinity discount and the driver-level milestone credit are checked or paid by the server | do not use them | closed | D129, D130, D142 |
+| The gamedb's **AI tables** (pace prior, learning clamp, mistake means, temperaments, named drivers, the class mistake scale) gave no clear effect on the career AI | the AI standard stays in the AI statics file | closed | D134, D136–D139, D143–D145 |
+| `SeriesSpecDivisionId` is ignored by the car picker | filter cars by list, class, year or PI | closed | D141 |
+
+## Phase 0.13, finding by finding
+
+| finding | what it enables | state | evidence |
+|---|---|---|---|
+| A **new track id** is accepted by the game but earns 0 CR and 0 XP, even with copied rows in the per-track tables | new ids are not a way to pay | closed | D146 |
+| The event's track field (`override.Track`) picks **both the track that loads and the pay**; the track GUID picks neither; the data behind a paying id can point at another track folder and it still pays | a track of our own earns behind a paying id | observed | D147, D148 |
+| The server pays **the ids of the game's credit/XP tables**, even ids with no career event (Yas Marina layout 3 paid); real layouts outside the tables pay nothing, active or not | the pool of "slots" is the table's ids; the least used ones are the candidates | observed | D149 |
+
 ## What is next
 
 State labels: **viable** (the mechanism is known), **to test** (plausible, needs a controlled run in game), **not possible**
@@ -135,9 +159,10 @@ State labels: **viable** (the mechanism is known), **to test** (plausible, needs
 | **Own intro video** | proven end to end with a copied video (D113): install the `.bk2`, add its index record, point the series at it in full screen ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)); our own clip, encoded to Bink 2 revision `KB2j`, plays in game with its sound (D114, D118); one command encodes, installs and indexes it; the sound comes out from one side only | observed |
 | **New files in the install** | the file index is solved ([INSTALL_INDEX](../reference/INSTALL_INDEX.md)): other loose files the game reads by path (textures, sounds, scenes) may now be added instead of overwritten; each kind needs its own test | to test |
 | **Own art per series** | proven in game (D99–D104): a poster of our own per series, written by the mod's tool in plain Python; left: the release step for players and the art itself | viable |
+| **Own tracks that pay** | a cloned or edited track behind a paying id (D146–D149); one id hosts one track at a time, so the launcher fills several slots per season (several layouts can share one folder) and restores the vanilla files before online play | to test |
 | **Other languages** | new strings are written in pt-BR and en-US first; the other 19 locales are synced before release (names translated as a draft, English as the fallback) | at release |
 
-**Not possible, do not repeat:** applying edits while the game is open ("live career", fails with file locks), a real Qualifying (D33), prizes of our own and payout edits in the cache or install files (the server grants them), manufacturer affinity (a server value; the substitute is the one-make series), physics, the account economy and global AI switches that also reach multiplayer.
+**Not possible, do not repeat:** applying edits while the game is open ("live career", fails with file locks), a real Qualifying (D33), prizes of our own and payout edits in the cache or install files (the server grants them), manufacturer affinity (a server value; the substitute is the one-make series), physics, the account economy and global AI switches that also reach multiplayer, the career AI through the gamedb, and pay on track ids outside the credit/XP tables.
 
 ## How to help
 

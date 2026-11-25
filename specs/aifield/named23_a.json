@@ -1,0 +1,78 @@
+{
+    "name":  "named23_a",
+    "description":  "flat700_a (pool, class A 700, 23 slots) with the gamedb AIPlayers ids 1..23 in its slots (PlayerId 1..23 instead of 0). Exception to the no-variant rule (user request, 23/11/2026) after D143 (list grid AIField_9200, PlayerId 1..12, gamertags): this one is a pool/template grid, the same kind as every career grid. Target AIField_109350001_Gen.xml: template mode, cited only by overrides of series no longer live.",
+    "logical":  "AIField_109350001_Gen.xml",
+    "template":  "AIField_80090001_Gen.xml",
+    "mode":  "pool",
+    "roster":  [
+                   2133,
+                   2162,
+                   2181,
+                   2194,
+                   2665,
+                   2993,
+                   3091,
+                   3123,
+                   3453,
+                   3594,
+                   3716
+               ],
+    "window":  [
+                   690,
+                   700,
+                   10
+               ],
+    "slots":  23,
+    "frames":  [
+                   [
+                       0,
+                       0,
+                       0
+                   ],
+                   [
+                       50,
+                       0,
+                       0
+                   ],
+                   [
+                       100,
+                       0,
+                       0
+                   ]
+               ],
+    "difficulty":  "Average",
+    "rubber_banding":  false,
+    "behavior":  {
+                     "FeaturedRace":  {
+                                          "SlowDown":  true,
+                                          "CatchUp":  true,
+                                          "Proximity":  false,
+                                          "PosDifficultySpread":  false
+                                      }
+                 },
+    "player_ids":  [
+                       1,
+                       2,
+                       3,
+                       4,
+                       5,
+                       6,
+                       7,
+                       8,
+                       9,
+                       10,
+                       11,
+                       12,
+                       13,
+                       14,
+                       15,
+                       16,
+                       17,
+                       18,
+                       19,
+                       20,
+                       21,
+                       22,
+                       23
+                   ]
+}

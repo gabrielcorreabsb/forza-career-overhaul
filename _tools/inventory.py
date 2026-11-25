@@ -132,6 +132,19 @@ def load_install(install):
                          "short": vals.get("IDS_ModelShort_%d" % i),
                          "year": r[1], "make": r[2], "class": r[3],
                          "pi": round(r[4] * 999), "price": r[5]})
+        upgrade = {r[0]: {"stock_pi": r[1], "base_pi": r[2],
+                          "upgraded_pi": r[3]}
+                   for r in cur.execute("SELECT CarModelId,StockPI,BasePI,"
+                                        "UpgradedPI FROM DynamicCarUpgradeData")}
+        buyable = {r[0]: bool(r[1])
+                   for r in cur.execute("SELECT Data_CarId,IsInBuyCar "
+                                        "FROM DataCarExtended")}
+        for c in cars:
+            u = upgrade.get(c["id"])
+            c["stock_pi"] = u["stock_pi"] if u else None
+            c["base_pi"] = u["base_pi"] if u else None
+            c["upgraded_pi"] = u["upgraded_pi"] if u else None
+            c["buyable"] = buyable.get(c["id"])
         divs = {}
         for r in cur.execute("SELECT Id,TestName,Name,RestrictionId "
                              "FROM CarDivisions"):

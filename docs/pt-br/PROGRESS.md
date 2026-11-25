@@ -25,6 +25,8 @@ que foi testado no jogo e o que se mostrou fechado. A visão está em
 | **Fase 0.9 — vídeo de introdução, seleção de carro e o índice de arquivos do install** | 19/11 | uma série pode tocar **um vídeo de introdução nosso, com nome próprio**: o jogo lê um arquivo novo do install quando o caminho dele está no índice de arquivos do install (`hash.manifest`), cujo hash agora calculamos; a seleção do primeiro carro não funciona nas nossas séries, então fica desligada (abaixo) | verified / observed |
 | **Fase 0.10 — modificações visuais só no install** | 19–20/11 | o mapa da pasta `media` do install e a lista do que mudamos nela visualmente (configurações de render, nível de detalhe dos carros, aparência das pistas, chuva no vidro e na lente, câmera, inclusive a de primeira pessoa com a posição do olho do motorista por carro, a marca d'água do modo foto), com uma ferramenta publicada para as mudanças em XML solto ([INSTALL_VISUAL_MODS](../reference/INSTALL_VISUAL_MODS.md)); a regra descoberta do jeito difícil: um zip reescrito precisa manter cada entrada no seu offset, senão o menu perde o fundo animado (D120); e com o "FOV da câmera personalizado" ligado no jogo o FOV do ini é ignorado e vale o slider | observed (uma máquina) |
 | **Fase 0.11 — perfil-base, Intro Series e mapeamento fechado** | 22/11 | o mapeamento da carreira está fechado. Toda série do Forza Career Overhaul (FCO) agora nasce do nosso **perfil-base** documentado, dentro de uma cup própria do FCO ao lado da Builders Cup vanilla (que continua intocada), começando pela **Intro Series** (lista aberta de carros, IA seguindo o seu carro, pôster próprio e vídeo de introdução em tela cheia, chuva cronometrada em Brands Hatch e ciclo dia-noite em Le Mans) | verified / observed |
+| **Fase 0.12 — o banco de dados do jogo** | 22–23/11 | o banco de dados do install (gamedb) é lido pelo jogo: a câmera de capô de um carro, o limite de velocidade do pit e a velocidade da largada lançada de uma pista seguem uma linha editada, e os preços de peças em pontos de carro podem ir a 0 pelo cache. O que **não** funciona: as tabelas de IA do gamedb (ritmo, erros, temperamento, pilotos nomeados), o preço dos carros, o desconto de afinidade e o crédito de marco de nível do piloto, que o servidor confere (abaixo) | verified / closed |
+| **Fase 0.13 — pistas próprias que pagam** | 24–25/11 | como uma pista nossa pode render créditos e XP: o servidor só paga os ids de pista das tabelas de crédito/XP do jogo, o campo de pista do evento escolhe a pista que carrega e o pagamento, e os dados atrás de um id pagante podem ser trocados. Próximo: uma pasta de pista clonada atrás de um id pagante, e o launcher do mod preenchendo vários desses "slots" por temporada (abaixo) | observed |
 
 ## Fase 0.3, descoberta por descoberta
 
@@ -118,6 +120,28 @@ Todos os valores que as séries vanilla usam, campo por campo, estão em [SERIES
 | **Um documento de IA por grade**: séries vanilla com vários eventos repetem o mesmo elenco de IA entre eventos e só sobem o piso de PI evento a evento | um documento de IA por grade (reaproveitando cópias vanilla livres ou reapontadas, já que não dá para criar arquivo AIField novo) | verified (dados) | D36, D67 |
 | **Aplicar com o jogo aberto refutado**: gravar no cache com o jogo rodando falha imediatamente no primeiro arquivo (`WinError 5`, acesso negado) porque o jogo trava os blobs do cache | feche sempre o jogo antes de aplicar mudanças; variedade em jogo vem de pools grandes de IA, previsões com vários céus e travas de progressão | verified | — |
 
+## Fase 0.12, descoberta por descoberta
+
+Edições no gamedb também chegam ao jogo online: restaure o arquivo vanilla antes de entrar online.
+
+| descoberta | o que permite | estado | evidência |
+|---|---|---|---|
+| **Uma linha editada do gamedb instalado vale no jogo**: a câmera de capô de um carro mudou; a pasta `patch` do install não aplica gamedb na versão Steam | ajustes por carro e por pista pelo banco de dados do jogo | verified | D132, D135 |
+| O **limite de velocidade do pit** (metros por segundo) e a **velocidade da largada lançada** de uma pista vêm do gamedb | pit e largada por pista para corridas longas | observed | D133, D140 |
+| Os **preços de peças em pontos de carro** vêm de um arquivo do cache; com todo preço em 0 as peças saem de graça | uma economia de upgrades própria | observed | D128 |
+| O cliente converte o XP total em nível com uma tabela do cache; o nível mostrado segue o arquivo | — (só tela) | observed | D131 |
+| O preço dos carros não está no gamedb; o desconto de afinidade e o crédito de marco de nível são conferidos ou pagos pelo servidor | não usar | closed | D129, D130, D142 |
+| As **tabelas de IA** do gamedb (ritmo, limite do aprendizado, médias de erro, temperamentos, pilotos nomeados, escala de erro por classe) não deram efeito claro na IA da carreira | o padrão de IA continua no arquivo de estáticos de IA | closed | D134, D136–D139, D143–D145 |
+| `SeriesSpecDivisionId` é ignorado pelo seletor de carros | filtrar carros por lista, classe, ano ou PI | closed | D141 |
+
+## Fase 0.13, descoberta por descoberta
+
+| descoberta | o que permite | estado | evidência |
+|---|---|---|---|
+| Um **id de pista novo** é aceito pelo jogo mas rende 0 CR e 0 XP, mesmo com linhas copiadas nas tabelas por pista | ids novos não são caminho para pagar | closed | D146 |
+| O campo de pista do evento (`override.Track`) escolhe **a pista que carrega e o pagamento**; o GUID da pista não escolhe nada; os dados atrás de um id pagante podem apontar para outra pasta de pista e ele continua pagando | uma pista nossa rende atrás de um id pagante | observed | D147, D148 |
+| O servidor paga **os ids das tabelas de crédito/XP do jogo**, mesmo ids sem evento na carreira (o layout 3 de Yas Marina pagou); layouts reais fora das tabelas não pagam, ativos ou não | o pool de "slots" são os ids da tabela; os menos usados são os candidatos | observed | D149 |
+
 ## O que vem
 
 Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede uma corrida controlada no jogo), **not possible**
@@ -135,9 +159,10 @@ Rótulos: **viable** (o mecanismo é conhecido), **to test** (plausível, pede u
 | **Vídeo de introdução próprio** | provado de ponta a ponta com um vídeo copiado (D113): instalar o `.bk2`, acrescentar o registro no índice, apontar a série em tela cheia ([INTRO_VIDEO](../reference/INTRO_VIDEO.md)); um clipe nosso, codificado em Bink 2 revisão `KB2j`, toca no jogo com o som (D114, D118); um comando codifica, instala e indexa; o som sai de um lado só | observed |
 | **Arquivos novos no install** | o índice de arquivos está resolvido ([INSTALL_INDEX](../reference/INSTALL_INDEX.md)): outros arquivos soltos que o jogo lê pelo caminho (texturas, sons, cenas) podem agora ser acrescentados em vez de sobrescritos; cada tipo pede o próprio teste | to test |
 | **Arte própria por série** | provada no jogo (D99–D104): um pôster nosso por série, gravado pela ferramenta do mod só com Python; falta o passo de instalação para o jogador e a arte em si | viable |
+| **Pistas próprias que pagam** | uma pista clonada ou editada atrás de um id pagante (D146–D149); um id carrega uma pista por vez, então o launcher preenche vários slots por temporada (vários layouts podem dividir uma pasta) e restaura os arquivos vanilla antes do online | to test |
 | **Outros idiomas** | textos novos são escritos em pt-BR e en-US primeiro; os outros 19 idiomas são sincronizados antes do lançamento (nomes traduzidos como rascunho, inglês como texto de reserva) | na release |
 
-**Not possible, não repetir:** aplicar edições com o jogo aberto ("carreira ao vivo", falha com trava de arquivo), Qualifying real (D33), prêmios próprios e edição de pagamento no cache ou nos arquivos do install (o servidor concede), afinidade com fabricante (valor do servidor; o substituto é a série de uma só marca), física, economia da conta e chaves globais de IA que também atingem o multiplayer.
+**Not possible, não repetir:** aplicar edições com o jogo aberto ("carreira ao vivo", falha com trava de arquivo), Qualifying real (D33), prêmios próprios e edição de pagamento no cache ou nos arquivos do install (o servidor concede), afinidade com fabricante (valor do servidor; o substituto é a série de uma só marca), física, economia da conta e chaves globais de IA que também atingem o multiplayer, a IA da carreira pelo gamedb e pagamento em ids de pista fora das tabelas de crédito/XP.
 
 ## Como ajudar
 

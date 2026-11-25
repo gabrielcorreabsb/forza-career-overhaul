@@ -147,15 +147,22 @@ def render_frames(frames):
         for rel, lo, hi in frames) + FR_TAIL
 
 
-def render_drivatars(cars, indent, participate=True):
-    """AIDrivatar slots; `indent` = spaces before '<AIDrivatar'."""
+def render_drivatars(cars, indent, participate=True, player_ids=None):
+    """AIDrivatar slots; `indent` = spaces before '<AIDrivatar'.
+    `player_ids` (optional, one per car) sets PlayerId; default 0 (drivatar)."""
+    if player_ids is None:
+        player_ids = [0] * len(cars)
+    if len(player_ids) != len(cars):
+        raise FmError("player_ids has %d entries for %d slots"
+                      % (len(player_ids), len(cars)))
     p, q = " " * indent, " " * (indent + 2)
     flag = "True" if participate else "False"
     return "".join(
-        p + "<AIDrivatar" + CRLF + q + 'PlayerId="0"' + CRLF
+        p + "<AIDrivatar" + CRLF + q + 'PlayerId="%d"' % pid + CRLF
         + q + 'Car="%d"' % c + CRLF + q + 'TargetPI="%d"' % (
             -1 if c != -1 else 0) + CRLF
-        + q + 'ParticipateInRace="%s" />' % flag + CRLF for c in cars)
+        + q + 'ParticipateInRace="%s" />' % flag + CRLF
+        for c, pid in zip(cars, player_ids))
 
 
 def manifest_files(cache, snap=None):
@@ -201,7 +208,7 @@ def manifest_rows(roster, by_car, window=None):
 
 def rewrite_template(text, roster, by_car, window=None, drivatars=None,
                      frames=None, difficulty=None, rubber_banding=None,
-                     behavior=None):
+                     behavior=None, player_ids=None):
     """Template-mode document with a new EligibleCars/ContentManifest and,
     optionally, a new PI window, slot count (`drivatars`), progression
     frames (`frames` = [(PlayerPIRelativeToClass, lower, upper), ...]) and the
@@ -226,8 +233,10 @@ def rewrite_template(text, roster, by_car, window=None, drivatars=None,
         for key, val in (("MinimumPI", win[0]), ("MaximumPI", win[1]),
                          ("PIStep", win[2])):
             out = re.sub(r'(%s=")\d+(")' % key, r"\g<1>%d\2" % val, out, 1)
+    if player_ids is not None and drivatars is None:
+        raise FmError("AIField: player_ids needs an explicit slot count")
     if drivatars is not None:
-        out = _set_slots(out, drivatars)
+        out = _set_slots(out, drivatars, player_ids)
     if frames is not None:
         span = parse(out)["frames_span"]
         if span is None:
@@ -287,19 +296,21 @@ def set_behavior(text, behavior):
     return out
 
 
-def _set_slots(text, n):
-    """NumberOfDrivatars + the Car=-1 slot block of a template document."""
+def _set_slots(text, n, player_ids=None):
+    """NumberOfDrivatars + the Car=-1 slot block of a template document
+    (`player_ids`: optional PlayerId per slot, default 0)."""
     i0 = text.find("  <AIDrivatars>" + CRLF)
     i1 = text.find("  </AIDrivatars>" + CRLF)
     if i0 < 0 or i1 < 0:
         raise FmError("AIField: AIDrivatars block not found")
     head = "  <AIDrivatars>" + CRLF
-    slots = render_drivatars([-1] * n, 4, participate=False)
+    slots = render_drivatars([-1] * n, 4, participate=False,
+                             player_ids=player_ids)
     text = text[:i0 + len(head)] + slots + text[i1:]
     return re.sub(r'(NumberOfDrivatars=")\d+(")', r"\g<1>%d\2" % n, text, 1)
 
 
-def rewrite_list(text, lineup, by_car, eligible=None):
+def rewrite_list(text, lineup, by_car, eligible=None, player_ids=None):
     """List-mode document: new lineup (23 slots, repeats weight a car) and one
     ContentManifest row per distinct car. EligibleCars is NOT the lineup in
     vanilla (117150001: 7 of its 15 cars), so it is kept unless `eligible`
@@ -315,7 +326,7 @@ def rewrite_list(text, lineup, by_car, eligible=None):
         raise FmError("AIField: list document layout not recognised")
     head = "  <AIDrivatars>" + CRLF
     c0, c1 = st["cm_span"]
-    top = text[:i0 + len(head)] + render_drivatars(lineup, 4) + \
+    top = text[:i0 + len(head)] + render_drivatars(lineup, 4, player_ids=player_ids) + \
         "  </AIDrivatars>" + CRLF
     mid = render_elig(st["elig"] if eligible is None else eligible) \
         + render_cm(rows)
@@ -325,7 +336,7 @@ def rewrite_list(text, lineup, by_car, eligible=None):
     if j0 < 0 or j1 < 0:
         raise FmError("AIField: nested AIDrivatars not found")
     rest = (rest[:j0 + len("    <AIDrivatars>" + CRLF)]
-            + render_drivatars(lineup, 6) + rest[j1:])
+            + render_drivatars(lineup, 6, player_ids=player_ids) + rest[j1:])
     return top + mid + rest
 
 

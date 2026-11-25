@@ -35,6 +35,10 @@ Definition (JSON, see specs/aifield/):
   lineup       car per slot (repeats weight a car)
   eligible     EligibleCars (optional; default = distinct cars of the lineup)
  both:
+  player_ids   PlayerId per slot (optional; default 0 = drivatar; >0 = the
+               gamedb AIPlayers id, as in AIField_9200/FTUE; pool mode
+               needs 'slots')
+ both:
   difficulty      root AIDifficulty (optional; e.g. "Expert")
   rubber_banding  root AIRubberBandingEnabled (optional; true/false)
   behavior        {SessionType: {SlowDown/CatchUp/Proximity/
@@ -93,6 +97,14 @@ def load_def(path):
             check(isinstance(f, list) and len(f) == 3, "definition: frame = [rel, lower, upper]")
     else:
         check(d.get("lineup"), "definition: list needs 'lineup'")
+    if d.get("player_ids") is not None:
+        pids = d["player_ids"]
+        n = len(d["lineup"]) if d["mode"] == "list" else d.get("slots")
+        check(isinstance(n, int), "definition: player_ids in pool mode needs 'slots'")
+        check(isinstance(pids, list) and len(pids) == n
+              and all(isinstance(p, int) and not isinstance(p, bool)
+                      and 0 <= p <= 255 for p in pids),
+              "definition: player_ids = one integer 0-255 per slot")
     ids = d.get("roster") or d.get("lineup")
     check(all(isinstance(c, int) for c in ids), "definition: car ids must be integers")
     _check_meta(d)
@@ -143,7 +155,8 @@ def build_text(d, template_text, by_car):
                                         drivatars=slots, frames=frames,
                                         difficulty=d.get("difficulty"),
                                         rubber_banding=d.get("rubber_banding"),
-                                        behavior=d.get("behavior"))
+                                        behavior=d.get("behavior"),
+                                        player_ids=d.get("player_ids"))
     check(st["mode"] == "AIDrivatarList",
           "template %s is %s; list mode needs a list-mode document"
           % (d["template"], st["mode"]))
@@ -154,7 +167,8 @@ def build_text(d, template_text, by_car):
     errs, _ = aifield.validate(lineup, by_car)
     check(not errs, "lineup rejected: %s" % errs)
     eligible = d.get("eligible") or list(dict.fromkeys(lineup))
-    return aifield.rewrite_list(template_text, lineup, by_car, eligible=eligible)
+    return aifield.rewrite_list(template_text, lineup, by_car, eligible=eligible,
+                                player_ids=d.get("player_ids"))
 
 
 def _check_written_meta(d, st):

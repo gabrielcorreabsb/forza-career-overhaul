@@ -24,12 +24,15 @@ CLASS_IDS = {"E": 0, "D": 1, "C": 2, "B": 3, "A": 4, "S": 5, "R": 6, "X": 8}
 
 
 def add_entry(raw, donor_series, new_series, car_ids, list_type="Whitelist",
-              class_id=None, severity=None, ranges=None, ownership=None):
+              class_id=None, severity=None, ranges=None, ownership=None,
+              spec_division=None):
     """Clones the donor entry with `car_ids`, bumps ArrayLength. Default: a
     Whitelist (donor class/severity kept). list_type="Blacklist" mirrors a
     SelectableCars Blocklist; an empty Blacklist drops the list element and
     self-closes CarRestrictions, as the 15 vanilla ones do. class_id (letter
     in CLASS_IDS) and severity ("None"/"Strict") overwrite the donor's.
+    spec_division (int 0-255) overwrites CarRestrictions@SeriesSpecDivisionId
+    (the gamedb SeriesSpecDivisions id; 0 = off, as in every career entry).
     Returns the new XML text."""
     if list_type not in ("Whitelist", "Blacklist"):
         raise FmError("list_type must be Whitelist or Blacklist")
@@ -77,6 +80,15 @@ def add_entry(raw, donor_series, new_series, car_ids, list_type="Whitelist",
             raise FmError("donor entry has no attribute Ownership")
         block = re.sub(r'Ownership="[^"]*"', 'Ownership="%s"' % ownership,
                        block, count=1)
+    if spec_division is not None:
+        if (isinstance(spec_division, bool) or not isinstance(spec_division, int)
+                or not 0 <= spec_division <= 255):
+            raise FmError("spec_division must be an integer 0-255")
+        if re.search(r'SeriesSpecDivisionId="\d+"', block) is None:
+            raise FmError("donor entry has no attribute SeriesSpecDivisionId")
+        block = re.sub(r'SeriesSpecDivisionId="\d+"',
+                       'SeriesSpecDivisionId="%d"' % spec_division, block,
+                       count=1)
     if ranges is not None:
         if not isinstance(ranges, dict) or not ranges:
             raise FmError("ranges must be a non-empty object")

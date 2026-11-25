@@ -233,7 +233,7 @@ def load_round_spec(path):
                 raise FmError("round spec.series[%d]: 'event_id' and 'events' "
                               "together are ambiguous (use events[].event_id)"
                               % i)
-            for k in ("track", "donor_event"):
+            for k in ("track", "donor_event", "track_alias_of"):
                 if k in item:
                     raise FmError("round spec.series[%d]: top-level '%s' has "
                                   "no meaning with 'events' (each event "
@@ -279,6 +279,20 @@ def load_round_spec(path):
                 raise FmError("round spec: event %d declared twice"
                               % item["event_id"])
             seen_ev.add(item["event_id"])
+        if "track_alias_of" in item:
+            tag = "round spec.series[%d].track_alias_of" % i
+            a = item["track_alias_of"]
+            if isinstance(a, bool) or not isinstance(a, int) or a < 1:
+                raise FmError("%s: must be a positive integer (the existing "
+                              "SerialTrackId whose event/override are cloned)"
+                              % tag)
+            t = item.get("track")
+            if isinstance(t, bool) or not isinstance(t, int):
+                raise FmError("%s: needs an integer 'track' (the new "
+                              "SerialTrackId the clone runs on)" % tag)
+            if t == a:
+                raise FmError("%s: equals 'track' (an alias of itself is "
+                              "just a normal series)" % tag)
         for k in ("id", "name"):
             if k not in item:
                 raise FmError("round spec.series[%d]: missing '%s'" % (i, k))
@@ -310,11 +324,12 @@ def load_round_spec(path):
             c = item["cars"]
             tag = "round spec.series[%d].cars" % i
             unknown = set(c) - {"acceptlist", "blocklist", "class",
-                                "division", "severity", "ranges", "ownership"}
+                                "division", "severity", "ranges", "ownership",
+                                "spec_division"}
             if unknown:
                 raise FmError("%s: unknown key(s) %s (expected "
                               "acceptlist|blocklist/[class]/[division]/"
-                              "[severity]/[ranges]/[ownership])"
+                              "[severity]/[ranges]/[ownership]/[spec_division])"
                               % (tag, sorted(unknown)))
             if "ownership" in c and (
                     not isinstance(c["ownership"], str)
@@ -333,6 +348,13 @@ def load_round_spec(path):
                            for v in al)):
                 raise FmError("%s: '%s' must be a list of car ids "
                               "(acceptlist: non-empty)" % (tag, lkey))
+            if "spec_division" in c and (
+                    isinstance(c["spec_division"], bool)
+                    or not isinstance(c["spec_division"], int)
+                    or not 0 <= c["spec_division"] <= 255):
+                raise FmError("%s: 'spec_division' must be an integer 0-255 "
+                              "(gamedb SeriesSpecDivisions id; XML only - the "
+                              "BCS SelectableCars has no such field)" % tag)
             if "severity" in c and c["severity"] not in ("None", "Strict"):
                 raise FmError("%s: 'severity' must be None or Strict" % tag)
             if "class" in c and (not isinstance(c["class"], str)
@@ -748,7 +770,8 @@ def round_series_cars(xml, donor_id, item, ns):
                         class_id=cars.get("class"),
                         severity=cars.get("severity"),
                         ranges=cars.get("ranges"),
-                        ownership=cars.get("ownership"))
+                        ownership=cars.get("ownership"),
+                        spec_division=cars.get("spec_division"))
     ai = item.get("ai_cars")
     if ai is not None:
         ns["AISelectableCars"] = {"Acceptlist":
@@ -880,22 +903,27 @@ def edit_round(bcs, ovr, xml, spec, prod_files, new_ids, snap):
                                    prod_files, snap, create)
             continue
         track = item.get("track", base_track)
-        if track == base_track:
+        # track_alias_of: `track` is a SerialTrackId the BCS does not know
+        # (a cloned track, TASK_track_clone); event and override are cloned
+        # from the existing track `alias` and then moved to `track`.
+        alias = item.get("track_alias_of")
+        src_track = track if alias is None else alias
+        if track == base_track and alias is None:
             ev = B.clone_event(base_event, item["event_id"], item["id"])
         else:
             donor_ev = item.get("donor_event")
             if donor_ev is None:
-                de = B.first_event_on_track(bcs, track,
+                de = B.first_event_on_track(bcs, src_track,
                                             exclude=ids.is_custom_event)
             else:
                 _s, de = B.find_event(bcs, donor_ev)
             if de is None:
                 raise FmError("%s: no donor event on track %d"
-                              % (snap, track))
-            if de["SerialTrackId"] != track:
+                              % (snap, src_track))
+            if de["SerialTrackId"] != src_track:
                 raise FmError("%s: donor event %d is on track %d, not %d"
                               % (snap, de["EventDataId"],
-                                 de["SerialTrackId"], track))
+                                 de["SerialTrackId"], src_track))
             ev = B.clone_event(de, item["event_id"], item["id"], serial=track)
         for k, v in item.get("event", {}).items():
             nested.set_path(ev, k, v, create)
@@ -917,13 +945,15 @@ def edit_round(bcs, ovr, xml, spec, prod_files, new_ids, snap):
         if d is None:
             raise FmError("%s: override donor %d not found"
                           % (snap, donor_id))
-        if d.get("Track") != track:
+        if d.get("Track") != src_track:
             raise FmError("%s: override donor %d is on Track %s, not %d; a "
                           "series that changes track needs override.donor on "
                           "the target track" % (snap, donor_id,
-                                                d.get("Track"), track))
+                                                d.get("Track"), src_track))
         new_ov = overrides.clone(ovr, donor_id, item["event_id"], prod_files,
-                                 track=track)
+                                 track=src_track)
+        if alias is not None:
+            new_ov["Track"] = track
         for k, v in ov.items():
             if k == "donor":
                 continue

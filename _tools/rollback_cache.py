@@ -1,5 +1,6 @@
 """Restaura o CmsCache a partir de um backup em _backup\\cache_<timestamp>."""
 import os
+import re
 import shutil
 import sys
 import time
@@ -13,7 +14,11 @@ def main():
     if len(sys.argv) > 1:
         src = sys.argv[1]
     else:
-        cands = [d for d in os.listdir(BACKUP_ROOT) if d.startswith("cache_")]
+        # so backups automaticos do apply (cache_AAAAMMDD_HHMMSS): nomes como
+        # cache_full_* ou cache_before_rollback_* ordenam depois e restauravam
+        # um backup antigo por engano (22/11/2026).
+        cands = [d for d in os.listdir(BACKUP_ROOT)
+                 if re.match(r"^cache_\d{8}_\d{6}$", d)]
         if not cands:
             raise SystemExit("nenhum backup em " + BACKUP_ROOT)
         cands.sort()
